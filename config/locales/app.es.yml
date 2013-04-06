@@ -1,0 +1,31 @@
+# Hobo application translation file for Spanish.
+# Please, add the specific models and attributes for your application.
+
+# Translated by Domizio Demichelis (dd.nexus@gmail.com)
+# Corrections by Ricardo Pacheco
+
+# This file might be used for other Latin America Spanish Countries without any change
+# It might be ok also for Spain. If you find any error, or if you have any more specific translation,
+# please post it to http://hobousers.googlegroups.com. Thank you!
+
+es:
+
+  attributes:
+    created_at: Creado el
+    updated_at: Actualizado el
+
+  activerecord:
+    models:
+      user:
+        one: Usuario
+        other: Usuarios
+    attributes:
+      user:
+        name: Nombre
+        password: Contraseña
+        current_password: Contraseña Actual
+        password_confirmation: Confirmación Contraseña
+        email_address: Correo Electrónico
+#    attribute_help:
+#      user:
+#        email_address:
