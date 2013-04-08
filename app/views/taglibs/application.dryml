@@ -1,3 +1,28 @@
 <!-- this file is included by front_site.dryml, admin_site.dryml et al, so
 you can place common code in this file. -->
 
+
+<extend tag="show-page" for="SubSystem">
+  <old-show-page merge>
+
+    <field-list: fields="parent, root, full_name" param/>
+
+    <append-children-collection-section:>
+      <%= link_to "New Sub System in #{@sub_system.name}", :controller => :sub_systems, :action => :new, :super_system => @sub_system %>
+      <a:children action="new" if="&can_create?(@sub_system.children)" param="new-link">
+        <ht key="sub_system.actions.new" count="1">
+          New Child
+        </ht>
+      </a:children>
+    </append-children-collection-section:>
+  </old-show-page>
+</extend>
+
+<extend tag="card" for="SubSystemFlow">
+  <old-card merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+      <view:connector/>:<view:position/>
+    </header:>
+  </old-card>
+</extend>

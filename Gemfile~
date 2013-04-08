@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -46,4 +46,3 @@ gem "hobo_bootstrap", "2.0.0"
 gem "hobo_jquery_ui", "2.0.0"
 gem "hobo_bootstrap_ui", "2.0.0"
 gem "jquery-ui-themes", "~> 0.0.4"
-gem "hobo_clean_admin", "2.0.0"
