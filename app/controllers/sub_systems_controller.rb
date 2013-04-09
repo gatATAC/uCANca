@@ -21,4 +21,16 @@ class SubSystemsController < ApplicationController
     end
   end
 
+  def show
+    respond_to do |format|
+      format.svg {
+        render :inline => find_instance.to_svg
+      }
+      format.html {
+        hobo_show
+      }
+    end
+  end
+
+
 end

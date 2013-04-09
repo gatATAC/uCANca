@@ -3,6 +3,7 @@ class SubSystemFlow < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
+    outdir :boolean
     timestamps
   end
   attr_accessible :flow, :connector, :connector_id, :flow_id, :position
@@ -16,7 +17,7 @@ class SubSystemFlow < ActiveRecord::Base
   acts_as_list :scope => :connector
 
   def name
-    ret=connector.sub_system.name+"_"+flow.name
+    ret=connector.sub_system.full_name+"_"+flow.name
   end
 
   # --- Permissions --- #

@@ -15,14 +15,52 @@ you can place common code in this file. -->
         </ht>
       </a:children>
     </append-children-collection-section:>
+    <append-aside:>
+      <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
+      <iframe src="./#{this.id}.svg" seamless="true"/>
+    </append-aside:>
   </old-show-page>
 </extend>
 
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
     <header: param>
-      <h4 param="heading"><a><name/></a></h4>
-      <view:connector/>:<view:position/>
+      <view:connector/>:<view:position/><h5 param="heading"><a><name/></a></h5>
     </header:>
   </old-card>
+</extend>
+
+<extend tag="form" for="SubSystemFlow">
+  <old-form merge param="default">
+    <field-list: fields="outdir, connector, flow" param/>
+  </old-form>
+</extend>
+
+<extend tag="show-page" for="Connector">
+  <old-show-page merge>
+    <prepend-collection-section:>
+      <if test="&this.possible_connectors">
+        <form merge param="default" web-method="copy_flows">
+          <div param="connector">
+            <select-menu options="&this.possible_connectors.collect {|p| [ p.name, p.id ] }" name="connector"/>
+            <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos de un conector del subsistema padre en este conector']}" param/><or-cancel param="cancel"/>
+          </div>
+        </form>
+      </if>
+      <if test="&this.sub_system.parent">
+        <form merge param="default" web-method="copy_all_subsystem_flows">
+          <div param="sub_system">
+            <input type="hidden" name="sub_system" value="&this.sub_system.parent.id"/>
+            <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos del subsistema padre en este conector']}" param/><or-cancel param="cancel"/>
+          </div>
+        </form>
+      </if>
+    </prepend-collection-section:>
+
+        <aside: replace>
+        <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :connectors, :action => :show, :format => 'svg' %>
+          <iframe src="./#{this.id}.svg" seamless="true"/>
+        </aside:>
+
+  </old-show-page>
 </extend>

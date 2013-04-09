@@ -14,6 +14,8 @@ class Flow < ActiveRecord::Base
   has_many :sub_system_flows
   has_many :sub_systems, :through => :sub_system_flows
 
+  children :sub_system_flows
+
   # --- Permissions --- #
 
   def create_permitted?
