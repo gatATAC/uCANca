@@ -10,7 +10,7 @@ class Connector < ActiveRecord::Base
   attr_accessible :name, :sub_system_flows
 
   belongs_to :sub_system
-  has_many :sub_system_flows, :order => :position
+  has_many :sub_system_flows, :order => :position, :inverse_of => :connector
   has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
   has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
 
@@ -20,8 +20,13 @@ class Connector < ActiveRecord::Base
   children :sub_system_flows,:input_flows
 
   validates :sub_system, :presence => :true
+
   def full_name
-    sub_system.name+"_"+name
+    sub_system.name+":"+name
+  end
+
+  def full_path
+    sub_system.full_name+":"+name
   end
 
   def copy_flows(c)
@@ -135,7 +140,7 @@ class Connector < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/sub_system_flows/#{f.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
   <text
        x=\"#{xoffsetcaja-anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -158,7 +163,7 @@ class Connector < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/sub_system_flows/#{f.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
     <text
        x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"

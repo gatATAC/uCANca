@@ -11,6 +11,7 @@ class FrontController < ApplicationController
   end
 
   def index
+=begin
     # Generates a image using DYI
     require 'dyi'
 
@@ -24,7 +25,8 @@ class FrontController < ApplicationController
 
     canvas.save('image.svg')
     @canvas=canvas
-  end
+=end
+    end
 
   def search
     if params[:query]

@@ -25,8 +25,14 @@ you can place common code in this file. -->
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
     <header: param>
-      <view:connector/>:<view:position/><h5 param="heading"><a><name/></a></h5>
+        <a with="&this.connector"><%=  this.full_path %></a>:<view:position/><h5 param="heading"><a><name/></a></h5>
     </header:>
+    <append-body:>
+          <div param="actions">
+        <delete-button label="X" param/>
+      </div>
+    </append-body:>
+
   </old-card>
 </extend>
 
