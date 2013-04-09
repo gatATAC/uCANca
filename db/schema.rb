@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130408140055) do
+ActiveRecord::Schema.define(:version => 20130409023159) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -54,14 +54,13 @@ ActiveRecord::Schema.define(:version => 20130408140055) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "flow_id"
-    t.integer  "sub_system_id"
     t.integer  "connector_id"
     t.integer  "position"
+    t.boolean  "outdir"
   end
 
   add_index "sub_system_flows", ["connector_id"], :name => "index_sub_system_flows_on_connector_id"
   add_index "sub_system_flows", ["flow_id"], :name => "index_sub_system_flows_on_flow_id"
-  add_index "sub_system_flows", ["sub_system_id"], :name => "index_sub_system_flows_on_sub_system_id"
 
   create_table "sub_systems", :force => true do |t|
     t.string   "name"

@@ -48,3 +48,6 @@ gem "hobo_bootstrap_ui", "2.0.0"
 gem "jquery-ui-themes", "~> 0.0.4"
 
 gem 'acts_as_list'
+
+gem "dyi"        # add gem of DYI
+gem "dyi_rails"  # add gem of DYI for Rails
