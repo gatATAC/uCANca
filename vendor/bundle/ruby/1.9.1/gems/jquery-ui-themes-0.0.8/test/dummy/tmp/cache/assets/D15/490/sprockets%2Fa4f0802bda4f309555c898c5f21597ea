@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132449.5159538:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%28316b6fd894f26ef260c4ab031cee2fI"logical_path;
+FI"3jquery-ui/humanity/ui-icons_ff7519_256x240.png;
+TI"pathname;
+F"n/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/humanity/ui-icons_ff7519_256x240.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	4369;
+FI"digest;
+F"%7853abac8a539406cb0fe2c5d9a4fe75I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

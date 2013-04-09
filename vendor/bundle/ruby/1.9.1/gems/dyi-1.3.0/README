@@ -1,0 +1,32 @@
+= DYI: A Library to Create Vector-Images.
+
+DYI is a 2D graphics library, very rich and expressive.
+DYI have been optimized for SVG format, but it is also possible
+to output other format; for example, EPS.
+
+== License
+
+Copyright (c) 2009-2012 Sound-F Co., Ltd. All rights reserved.
+
+DYI is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+DYI is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with DYI.  If not, see <http://www.gnu.org/licenses/>.
+
+== Support
+
+We support DYI using SourceForge.net.  URL of DYI Project is
+"http://sourceforge.net/projects/dyi/".  This page has a tracker
+and forums.
+
+We are also preparing the Japanese mailing list.  More infomation
+about the mailing list is indicated to 
+<http://open-dyi.org/community.html>, including how to join it.

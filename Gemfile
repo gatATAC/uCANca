@@ -51,3 +51,6 @@ gem 'acts_as_list'
 
 gem "dyi"        # add gem of DYI
 gem "dyi_rails"  # add gem of DYI for Rails
+
+gem 'passenger'
+

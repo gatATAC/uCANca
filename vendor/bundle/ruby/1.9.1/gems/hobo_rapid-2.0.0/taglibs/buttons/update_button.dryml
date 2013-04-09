@@ -1,0 +1,16 @@
+<!-- This tag is no longer supported in Hobo 1.4.
+
+You can replace it with something like:
+
+    <form without-cancel update="...">
+      <field-list: replace>
+        <hidden-input:foo value="17"/>
+        <hidden-input:bar value="92"/>
+      </field-list:>
+    </form>
+
+  -->
+<def tag="update-button" attrs="label, update, fields, params"><%
+   raise Hobo::Error.new("unsupported")
+%>
+</def>

@@ -1,0 +1,8 @@
+source "http://rubygems.org"
+
+gem 'rubydoctest', :git => 'git://github.com/bryanlarsen/rubydoctest.git'
+
+gemspec
+
+gem 'yard'
+

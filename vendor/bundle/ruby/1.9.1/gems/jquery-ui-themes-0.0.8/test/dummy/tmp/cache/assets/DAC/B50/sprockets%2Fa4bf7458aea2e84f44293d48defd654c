@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1326664891.9806476:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%2d699734a567658639a90eddc536d41bI"logical_path;
+FI"9jquery-ui/dot-luv/ui-bg_dots-small_20_333333_2x2.png;
+TI"pathname;
+F"t/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/dot-luv/ui-bg_dots-small_20_333333_2x2.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2011-10-08T20:17:45+01:00;
+FI"length;
+FI"83;
+FI"digest;
+F"%110bbecd4ac521f5f961d5a12460f4cfI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

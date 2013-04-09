@@ -1,0 +1,92 @@
+= DYI Changelog
+
+== Version 1.3.0 / 2012-06-01
+* Major Enhancement
+  * Can draw a predefined shape.
+  * Radial gradient support.
+* Minor Enhancement
+  * Adds options to LineChart.
+  * Changes project URL.
+  * Adds method that draws logomark of DYI.
+* Bug Fixes
+  * Revises spell-miss in DYI::Element#add_css_class.
+
+== Version 1.2.1 / 2012-05-01
+* Bug Fixes
+  * A name of marker-option of LineChart is wrong.
+  * A create option name of Text is wrong.
+  * An operation of the link element.
+
+== Version 1.2.0 / 2012-04-02
+* Minor Enhancement
+  * Marker support.
+  * LineChart support markers.
+* Bug Fixes
+  * Factory method of Animation is invalid.
+  * Event handers are not attached properly.
+
+== Version 1.1.2 / 2012-03-01
+* Bug Fixes
+  * Calls data_label_format property instead of baloon_format when it draws the baloon of PieChart.
+  * Changes the order of overlapping charts of LineChart.
+  * Calcuration of second-axis settings of LineChart.
+
+== Version 1.1.1 / 2012-02-02
+* Minor Enhancements
+  * Adds a String parsing to CsvReader.
+  * Spports metadata.
+  * Adds 'title' and 'description' attribute to DYI::Element.
+
+== Version 1.1.0 / 2012-01-06
+* Major Enhancements
+  * Adds DYI::Util module
+  * Can draw a toroid.
+  * Adds properties of PieChart.
+  * Supports namespace on XML output.
+  * Supports Inline-XML mode.
+
+== Version 1.0.3 / 2011-11-27
+* Bug Fixes
+  * DataReader is not working properly in Ruby 1.9.
+  * A ECMAScript function dose not work properly.
+
+== Version 1.0.2 / 2011-09-30
+* Bug Fixes
+  * Initialization script can not register more than one.
+
+== Version 1.0.1 / 2011-09-28
+* Bug Fixes
+  * A event listeners dose not work properly.
+  * CSS class name is not outputed properly.
+
+== Version 1.0.0 / 2011-09-05
+
+* Major Enhancements
+  * Supports events on SVG.
+  * Supports animations on SVG.
+  * Supports scripts (ex. ECMAScript) on SVG.
+  * Supports hyperlinks on SVG.
+  * Supports a SVG file that includes style-sheet (ex. CSS, XLST).
+  * Supports PNG output. (Needs rsvg-convert)
+  * Supports raster image handling (ex. PNG, JPEG) on SVG.
+  * Adds Pie-Chart options.
+  * Modifies the handling of Reader classes.
+
+== Version 0.0.2 / 2011-09-05
+
+* Minor Enhancements
+  * Modifies header comments of output file.
+
+* Bug Fixes
+  * A path is not drawn correctly.
+  * Miter length is not set corrently.
+
+== Version 0.0.1 / 2011-07-15
+
+* Bug Fixes
+  * Clipping is not possible for a shape object.
+  * A path is not drawn correctly.
+
+== Version 0.0.0 / 2011-06-30
+
+* First public release

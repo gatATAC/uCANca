@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132462.8547971:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%de98363e414190add5c09f9548d5410bI"logical_path;
+FI"Bjquery-ui/pepper-grinder/ui-bg_fine-grain_15_f7f3de_60x60.png;
+TI"pathname;
+F"}/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/pepper-grinder/ui-bg_fine-grain_15_f7f3de_60x60.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	4645;
+FI"digest;
+F"%dfd6fe9f6a11482aea7f60e063d8f79fI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

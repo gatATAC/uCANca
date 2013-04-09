@@ -1,0 +1,44 @@
+# HoboSupport - XSS helpers
+
+    >> require 'active_support'
+    >> $:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '../../../hobo_support/lib')
+    >> require 'hobo_support'
+
+## safe_join
+
+Version of Array#join that preserves html\_safe:
+
+    >> $,=nil
+    >> ["<a>", "<b>"].safe_join
+    => "&lt;a&gt;&lt;b&gt;"
+
+    >> ["<a>", "<b>"].safe_join.html_safe?
+    => true
+
+    >> ["<a>".html_safe, "<b>"].safe_join
+    => "<a>&lt;b&gt;"
+
+    >> ["<a>".html_safe, "<b>"].safe_join.html_safe?
+    => true
+
+    >> ["<a>".html_safe, "<b>".html_safe].safe_join
+    => "<a><b>"
+
+    >> ["<a>".html_safe, "<b>".html_safe].safe_join.html_safe?
+    => true
+
+
+    >> ["<a>", "<b>"].safe_join("<br>")
+    => "&lt;a&gt;&lt;br&gt;&lt;b&gt;"
+
+    >> ["<a>", "<b>"].safe_join("<br>").html_safe?
+    => true
+
+    >> ["<a>".html_safe, "<b>".html_safe].safe_join("<br>")
+    => "<a>&lt;br&gt;<b>"
+
+    >> ["<a>".html_safe, "<b>".html_safe].safe_join("<br>".html_safe)
+    => "<a><br><b>"
+
+
+

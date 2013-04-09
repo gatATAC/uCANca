@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1326664891.9895346:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%4c14306087d4b275f6581b44179d6d89I"logical_path;
+FI"2jquery-ui/dot-luv/ui-icons_00498f_256x240.png;
+TI"pathname;
+F"m/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/dot-luv/ui-icons_00498f_256x240.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2011-10-08T20:17:45+01:00;
+FI"length;
+FI"	5355;
+FI"digest;
+F"%56222d6a1fb452c9fa5126a16cd9ef19I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

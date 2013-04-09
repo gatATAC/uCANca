@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132490.197705:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%df8d264451ca766f2a32dc316ec5f52eI"logical_path;
+FI"8jquery-ui/trontastic/ui-bg_flat_0_4c4c4c_40x100.png;
+TI"pathname;
+F"s/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/trontastic/ui-bg_flat_0_4c4c4c_40x100.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"211;
+FI"digest;
+F"%d8bb73d2e2cf0a28e84d37c7e90bb108I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

@@ -1,0 +1,14 @@
+<!-- This comment shouldn't appear in the cookbook -->
+
+<include src="buttons/*"/>
+<include src="cache/*"/>
+<include src="cards/*"/>
+<include src="editors/*"/>
+<include src="forms/*"/>
+<include src="html/*"/>
+<include src="i18n/*"/>
+<include src="inputs/*"/>
+<include src="lists/*"/>
+<include src="pages/*"/>
+<include src="plus/*"/>
+<include src="views/*"/>

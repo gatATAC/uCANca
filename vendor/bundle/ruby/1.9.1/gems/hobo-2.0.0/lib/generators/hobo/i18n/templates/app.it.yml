@@ -1,0 +1,28 @@
+# Hobo application translation file for Italian.
+# Please, add the specific models and attributes for your application.
+
+# If you find any error, or if you have any more specific translation,
+# please post it to http://hobousers.googlegroups.com. Thank you!
+
+it:
+
+  attributes:
+    created_at: Creato il
+    updated_at: Aggiornato il
+
+  activerecord:
+    models:
+      user:
+        one: Utente
+        other: Utenti
+    attributes:
+      user:
+        name: Nome
+        password: Parola Chiave
+        current_password: Parola Chiave Attuale
+        password_confirmation: Conferma Parola Chiave
+        email_address: Indirizzo Elettronico
+#    attribute_help:
+#      user:
+#        email_address:
+

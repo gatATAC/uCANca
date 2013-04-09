@@ -1,0 +1,5 @@
+user_resource_name = 'User'
+eval_file '../partials/_subsite_taglib_variables.rb'
+
+invoke 'hobo:subsite_taglib', %w[ subs -q]
+eval_file '../partials/_subsite_taglib_noopt.rb'

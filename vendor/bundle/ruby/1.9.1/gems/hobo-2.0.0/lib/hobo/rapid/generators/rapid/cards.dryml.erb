@@ -1,0 +1,73 @@
+<% # routing's not available yet, so we just guess based on presence
+# of methods
+ def linkable?(model, action)
+  action = action.to_s if RUBY_VERSION < "1.9"
+  model.hobo_controller[subsite] && model.hobo_controller[subsite].public_instance_methods.include?(action)
+end
+
+%>
+<% each_model do -%>
+<%
+name_attribute        = model.name_attribute
+description_attribute = model.primary_content_attribute
+creator_attribute     = model.creator_attribute
+primary_collection    = model.view_hints.primary_children
+
+if creator_attribute
+  creator_refl = model.reflections[creator_attribute]
+  creator_link = creator_refl && linkable?(creator_refl.klass, :show)
+end
+
+show_link     = linkable?(model, :show)
+edit_link     = !show_link && linkable?(model, :edit)
+delete_button = !show_link && !edit_link && linkable?(model, :destroy)
+
+has_actions = edit_link || delete_button
+has_body    = (!show_link && description_attribute) || creator_link || creator_attribute || primary_collection
+
+show_title = !show_link && (name_attribute || !has_body)
+
+model_key = model.to_s.underscore
+-%>
+<def tag="card" for="<%= model.name %>">
+  <card class="<%= model_class %>" param="default" merge>
+<% if name_attribute || show_link || has_actions || !has_body -%>
+    <header: param>
+<% if show_link || show_title -%>
+      <h4 param="heading"><% if show_link %><a><name/></a><% else %><name/><% end %></h4>
+<% end -%>
+<% if has_actions -%>
+      <div param="actions">
+<% if edit_link -%>
+        <a action="edit" if="&can_edit?" param="edit-link">
+          <ht key="<%= model_key %>.actions.edit">Edit</ht>
+        </a>
+<% end -%>
+<% if delete_button -%>
+        <delete-button label="X" param/>
+<% end -%>
+      </div>
+<% end -%>
+    </header:>
+<% end -%>
+<% if has_body -%>
+    <body: param>
+<% if !show_link && description_attribute -%>
+      <view:<%= description_attribute %> param="description"/>
+<% end -%>
+<% if creator_link -%>
+      <a:<%= creator_attribute %> param="creator-link"/>
+<% elsif creator_attribute -%>
+      <view:<%= creator_attribute %> param="creator"/>
+<% end -%>
+<% if primary_collection -%>
+      <ht key="<%= model.reflect_on_association(primary_collection).klass.to_s.underscore %>.collection.count" count="&this.<%= primary_collection %>.size">
+         <count:<%= primary_collection%> param/>
+      </ht>
+<% end -%>
+    </body:>
+<% end -%>
+  </card>
+</def>
+
+<% end -%>
