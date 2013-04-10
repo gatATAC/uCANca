@@ -104,6 +104,7 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     multi_xml (0.5.3)
+    pg (0.15.1)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
@@ -169,6 +170,7 @@ DEPENDENCIES
   hobo_jquery_ui (= 2.0.0)
   jquery-rails
   jquery-ui-themes (~> 0.0.4)
+  pg
   quiet_assets
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)

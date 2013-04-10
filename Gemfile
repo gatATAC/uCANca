@@ -52,3 +52,10 @@ gem 'acts_as_list'
 gem "dyi"        # add gem of DYI
 gem "dyi_rails"  # add gem of DYI for Rails
 
+
+group :production do
+  gem 'pg'
+end
+group :development, :test do
+  gem 'sqlite3'
+end
