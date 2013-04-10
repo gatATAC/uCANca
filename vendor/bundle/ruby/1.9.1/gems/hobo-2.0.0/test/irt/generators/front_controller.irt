@@ -1,0 +1,23 @@
+invoke 'hobo:front_controller', %w[ -q ]
+desc "All files exist"
+files_exist? %w( app/controllers/front_controller.rb app/helpers/front_helper.rb app/views/front/index.dryml )
+test_value_eql? true
+
+desc "public/index.html removed"
+File.exists? 'public/index.html'
+test_value_eql? false
+
+
+desc "front_controller.rb content matches"
+file_include? 'app/controllers/front_controller.rb',
+              'hobo_controller',
+              'def index',
+              'def search'
+test_value_eql? true
+
+
+desc "Routes added"
+file_include? 'config/routes.rb',
+              %(match 'search' => 'front#search', :as => 'site_search'),
+              %(root :to => 'front#index')
+test_value_eql? true

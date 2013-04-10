@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132478.0933502:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%d2e9a7bdddb9c3973b147049a5ea46c4I"logical_path;
+FI"9jquery-ui/sunny/ui-bg_inset-soft_30_ffffff_1x100.png;
+TI"pathname;
+F"t/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/sunny/ui-bg_inset-soft_30_ffffff_1x100.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"100;
+FI"digest;
+F"%d774ed70d4ec6ec98729f94eebd1c881I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

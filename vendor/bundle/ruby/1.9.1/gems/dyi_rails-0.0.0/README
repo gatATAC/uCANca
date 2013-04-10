@@ -1,0 +1,208 @@
+= DYI for Rails: A Library to Use DYI on Rails.
+
+"DYI for Rails" is a library for use DYI on Rails. "DYI for Rails"
+provides some helpers and module for drawing a image of DYI.
+
+== Installing
+
+To install "DYI for Rails", use the following command.
+
+  $ gem install dyi-rails
+
+(Add sudo if you're installing under a POSIX system as root)
+
+== How to Use
+
+=== Configuration
+
+You add the following expression to <tt>RAILS_ROOT/config/environment.rb</tt>
+so that you can use this library on your Rails application.
+
+  # in RAILS_ROOT/config/environment.rb
+  
+  # Specify gems that this application depends on and have them installed with rake gems:install
+  # config.gem "bj"
+  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+  # config.gem "sqlite3-ruby", :lib => "sqlite3"
+  # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem "dyi"        # add gem of DYI
+  config.gem "dyi_rails"  # add gem of DYI for Rails
+
+=== Usage in View
+
+You add the following expression to <tt>RAILS_ROOT/app/controllers/application_controller.rb</tt>
+so that you can use {DyiRails::DyiHelper} on your Rails application.
+
+  # in RAILS_ROOT/app/controllers/application_controller.rb
+  
+  class ApplicationController < ActionController::Base
+    helper :all # include all helpers, all the time
+    protect_from_forgery # See ActionController::RequestForgeryProtection for details
+
+    helper DyiRails::DyiHelper # add this expression, then you can use helper-methods provided by DyiHelper
+
+    # Scrub sensitive parameters from your log
+    # filter_parameter_logging :password
+  end
+
+You create the image object using DYI as follows:
+
+  # in RAILS_ROOT/app/controllers/test_controller.rb
+  
+  class TestController < ApplicationController
+    def index
+      # Creates image using DYI
+      @canvas = DYI::Canvas.new(200, 150)
+      brush = DYI::Drawing::Brush.blue_brush
+      brush.draw_rectangle(@canvas, [20, 20], 160, 110)
+    end
+  end
+
+You can use helper-methods of {DyiRails::DyiHelper} in any view file, using inline
+SVG in HTML5.
+
+  # in RAILS_ROOT/app/views/test/index.html.erb
+  
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Useage of DYI for Rails</title>
+  </head>
+  <body>
+    <div>
+      <h1>SVG Image created by DYI</h1>
+      <%= dyi_inline_image_tag @canvas, :alt => 'SVG Image' %>
+    </div>
+  </body>
+  </html>
+
+In this sample, the output is as follows:
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <title>Useage of DYI for Rails</title>
+  </head>
+  <body>
+    <div>
+      <h1>SVG Image created by DYI</h1>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+           width="200" height="150" viewBox="0 0 200 150"
+           preserveAspectRatio="none">
+        <desc>SVG Image</desc>
+        <rect x="20" y="20" width="160" height="110" fill="#0000FF"/>
+      </svg>
+    </div>
+  </body>
+  </html>
+
+In XML (e.g. XHTML, XSL-FO, etc...), you can use XML namespace.
+
+  # in RAILS_ROOT/app/views/test/index.html.erb
+  #
+  # NOTE: You must use "application/xhtml+xml" as content-type,
+  #       when using XHTML include XML namespace.
+  #       See http://www.w3.org/TR/xhtml-media-types/
+  
+  <?xml version="1.0" encoding="utf-8"?>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>Useage of DYI for Rails</title>
+  </head>
+  <body>
+    <div>
+      <h1>SVG Image created by DYI</h1>
+      <%= dyi_inline_image_tag @canvas, :alt => 'SVG Image', :namespace => 'svg' %>
+    </div>
+  </body>
+  </html>
+
+In this sample, the output is as follows:
+
+  <?xml version="1.0" encoding="utf-8"?>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>Useage of DYI for Rails</title>
+  </head>
+  <body>
+    <div>
+      <h1>SVG Image created by DYI</h1>
+      <svg:svg xmlns:svg="http://www.w3.org/2000/svg" version="1.1"
+               width="200" height="150" viewBox="0 0 200 150"
+               preserveAspectRatio="none">
+        <svg:desc>SVG Image</svg:desc>
+        <svg:rect x="20" y="20" width="160" height="110" fill="#0000FF"/>
+      </svg:svg>
+    </div>
+  </body>
+  </html>
+
+For more information, see the document of {DyiRails::DyiHelper}.
+
+=== Usage in Controller
+
+A method to send a DYI image to the client is defined in {DyiRails::Streaming}.
+You can use the method to include {DyiRails::Streaming}, as follows:
+
+  # in RAILS_ROOT/app/controllers/test_controller.rb
+  
+  class TestController < ApplicationController
+    include DyiRails::Streaming
+
+    def index
+      # Creates image using DYI
+      canvas = DYI::Canvas.new(200, 150)
+      brush = DYI::Drawing::Brush.blue_brush
+      brush.draw_rectangle(canvas, [20, 20], 160, 110)
+
+      # Sends image to the client
+      send_dyi_image(canvas)
+    end
+  end
+
+In this sample, the response body is as follows:
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+      "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+       width="200" height="150" viewBox="0 0 200 150"
+       preserveAspectRatio="none">
+    <rect x="20" y="20" width="160" height="110" fill="#0000FF"/>
+  </svg>
+
+You can also use graphics formats other than SVG (e.g. PNG, EPS, etc...).
+See examples of {DyiRails::Streaming#send_dyi_image}.
+
+== License
+
+Copyright (c) 2012 Sound-F Co., Ltd. All rights reserved.
+
+"DYI for Rails" is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+"DYI for Rails" is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with "DYI for Rails".  If not, see <http://www.gnu.org/licenses/>.
+
+== Support
+
+We support "DYI for Rails" using SourceForge.net.  URL of "DYI for Rails"
+Project is "http://sourceforge.net/projects/dyi-rails/".  This page has
+a tracker and forums.
+
+We are also preparing the Japanese mailing list.  More infomation
+about the mailing list is indicated to 
+<http://open-dyi.org/contents.html#community> in Japanese,
+including how to join it.

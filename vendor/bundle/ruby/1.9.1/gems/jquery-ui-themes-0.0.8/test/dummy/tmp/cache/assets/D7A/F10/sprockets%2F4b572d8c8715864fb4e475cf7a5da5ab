@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132463.0071447:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%c6a905c0d25cfcd30261f4ee7f023df0I"logical_path;
+FI"9jquery-ui/pepper-grinder/ui-icons_8c291d_256x240.png;
+TI"pathname;
+F"t/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/pepper-grinder/ui-icons_8c291d_256x240.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	4369;
+FI"digest;
+F"%b40d5ac8d04340af72e429577f8fe524I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

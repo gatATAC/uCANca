@@ -1,0 +1,55 @@
+<% # routing's not available yet, so we just guess based on presence
+# of methods
+def linkable?(model, action)
+  action = action.to_s if RUBY_VERSION < "1.9"
+  model.hobo_controller[subsite] && model.hobo_controller[subsite].public_instance_methods.include?(action)
+end
+
+%>
+<% each_controller do -%>
+<%
+next unless @controller < Hobo::Controller::Model
+form_fields = standard_fields :belongs_to, :has_many
+
+cancel_to_show_page  = linkable?(model, :show)
+cancel_to_index_page = !cancel_to_index_page && linkable?(model, :index)
+model_key = model.to_s.underscore
+-%>
+<def tag="form" for="<%= model.name %>">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="<%= form_fields * ', ' %>" param/>
+    <div param="actions">
+      <submit label="#{ht '<%= model_key %>.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<% creators.each do |creator| -%>
+<def tag="<%= creator.name.to_s.dasherize %>-form" polymorphic/>
+<def tag="<%= creator.name.to_s.dasherize %>-form" for="<%= model.name %>">
+  <form lifecycle="<%= creator.name %>" merge param="default">
+    <error-messages param/>
+    <field-list fields="<%= creator.parameters * ', ' %>" param/>
+    <div param="actions">
+      <submit label="#{ht '<%= model_key %>.actions.<%= creator.name.to_s %>', :default=>['<%= creator.name.to_s.titleize %>']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<% end -%>
+
+<% transitions.uniq{|s| s.name}.each do |transition| -%>
+<def tag="<%= transition.name.to_s.dasherize %>-form" polymorphic/>
+<def tag="<%= transition.name.to_s.dasherize %>-form" for="<%= model.name %>">
+  <form lifecycle="<%= transition.name %>" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="<%= transition.parameters * ', ' %>" param/>
+    <div param="actions">
+      <submit label="#{t 'activerecord.attributes.<%= model_key %>.lifecycle.transitions.<%= transition.name.to_s %>', :default=>['<%= transition.name.to_s.titleize %>']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<% end -%>
+
+<% end # of each_model do -%>

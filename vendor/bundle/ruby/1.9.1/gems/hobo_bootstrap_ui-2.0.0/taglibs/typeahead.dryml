@@ -1,0 +1,50 @@
+<!--
+This is the [Bootstrap typeahead](http://twitter.github.com/bootstrap/javascript.html#typeahead).
+
+If you do not provide a `source` option, this tag will essentially provide a default similar to this:
+
+    <typeahead:project source="&Project.find(:all, :limit => 5000).map {|p| p.name}" />
+
+The javascript options supported by Bootstrap typeahead may be provided either as a function name or a javascript snippet.   For example, case sensitive match:
+
+    <typeahead matcher="arguments[0].indexOf(this.query)>=0"/>
+
+### Attributes
+
+You may only supply one of `data-source`, `source`, or `completer-path`
+
+- `source`: the list of items that may be matched, as a Ruby array.
+- `source-function`: a Javascript function that returns the list of items for a query.  See the Bootstrap typeahead documentation for more details
+- `completer-path`: the path to a hobo autocomplete action.  See `<name-one>` for more information.  In fact, you're better off using `<name-one>` directly.
+
+Other attributes:
+
+- `items`: The max number of items to display in the dropdown.
+- `minLength`: The minimum character length needed before triggering autocomplete suggestions
+- `placeholder`: the placeholder to display when the input has no value
+- `matcher`, `sorter`, `updater`, `highlighter`: javascript functions
+
+-->
+<def tag="typeahead" attrs="nil-value, completer-path, source-function">
+<%
+  options, attributes = attributes.partition_hash(%w(minLength items source))
+  events, attributes = attributes.partition_hash(%w(source matcher sorter updater highlighter))
+
+  if !completer_path
+    options['source'] ||= source_function || begin
+                          complete_target = this_field_reflection.klass
+                          complete_target.find(:all, :limit => 5000).*.send(complete_target.name_attribute)
+                        end
+  end
+
+
+  attributes["name"] ||= param_name_for_this
+  attributes["value"] ||= name(:no_wrapper => true, :if_present => true)
+
+  attributes["placeholder"] ||= nil_value
+  add_data_rapid!(attributes, "typeahead", :options => options, :events => events, :completer_path => completer_path)
+ %>
+  <wrap tag="span" class="field-with-errors" when="&!this_parent.errors[this_field].empty?">
+    <input type="text" data-provide="typeahead" merge-attrs/>
+  </wrap>
+</def>

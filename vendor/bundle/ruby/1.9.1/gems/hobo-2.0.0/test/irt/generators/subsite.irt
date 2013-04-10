@@ -1,0 +1,35 @@
+invoke 'hobo:subsite', %w[ subs -q]
+desc "Subsite files exist"
+files_exist? %w( app/controllers/subs/subs_site_controller.rb app/views/taglibs/subs_site.dryml )
+test_value_eql? true
+
+desc "SiteController matches"
+file_include? "app/controllers/subs/subs_site_controller.rb",
+             'class Subs::SubsSiteController < ApplicationController',
+             'hobo_controller'
+test_value_eql? true
+
+
+user_resource_name = 'User'
+eval_file '../partials/_subsite_taglib_variables.rb'
+eval_file '../partials/_subsite_taglib_noopt.rb'
+
+git_reset_app
+
+invoke 'hobo:assets', %w[ -q ]
+invoke 'hobo:admin_subsite', %w[ subs -q]
+eval_file '../partials/_subsite_taglib_admin.rb'
+
+git_reset_app
+invoke 'hobo:assets', %w[ -q ]
+invoke 'hobo:admin_subsite', %w[ subs -q --invite-only]
+eval_file '../partials/_subsite_taglib_admin_invite_only.rb'
+
+git_reset_app
+invoke 'hobo:assets', %w[ -q ]
+invoke 'hobo:admin_subsite', %w[ subs --user-resource-name=account -q --invite-only]
+user_resource_name = 'Account'
+eval_file '../partials/_subsite_taglib_variables.rb'
+eval_file '../partials/_subsite_taglib_admin_invite_only.rb'
+
+

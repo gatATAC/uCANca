@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132490.2227106:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%598e7c7ca4324a0a31735b135efc7a58I"logical_path;
+FI"5jquery-ui/trontastic/ui-icons_b8ec79_256x240.png;
+TI"pathname;
+F"p/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/trontastic/ui-icons_b8ec79_256x240.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	4369;
+FI"digest;
+F"%e823a41e1d49a921885afe6271762e6fI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132449.5490735:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%d7692f1a04afd4beb243ba797593ba29I"logical_path;
+FI"7jquery-ui/humanity/ui-bg_glass_70_ede4d4_1x400.png;
+TI"pathname;
+F"r/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/humanity/ui-bg_glass_70_ede4d4_1x400.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"125;
+FI"digest;
+F"%378765683b21156d1f521f9099dbd522I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

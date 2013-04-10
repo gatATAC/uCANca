@@ -1,0 +1,180 @@
+<!-- Core DRYML tags. These are included implicitly and are always available. Contains mainly control-flow tags. -->
+
+<!-- Call the tag given by the `tag` attribute. This lets you call tags dynamically based on some runtime value.
+  It's the DRYML equivalent of Ruby's `send` method.
+-->
+<def tag="call-tag" attrs="tag">
+  <%= Dryml.static_tags.include?(tag) ?
+      content_tag(tag, parameters.default, deunderscore_attributes(attributes)) :
+      send(tag.gsub('-', '_'), attributes, parameters) %>
+</def>
+
+
+<!-- Wrap the body in the tag specified by the `tag` attribute, iff `when` is true.
+
+Using regular DRYML conditional logic it is rather akward to conditionally wrap some tag in another tag. This tag makes it easy to do that.
+
+### Usage
+
+For example, you might want to wrap an `<img>` tag in an `<a>` tag but only under certain conditions. Say the current context has an `href` attribute that may or may not be nil. We want to wrap the img in `<a>` if `href` is not nil:
+
+    <wrap when="&this.href.present?" tag="a" href="&this.href"><img src="&this.img_filename"/></wrap>
+{: .dryml}
+-->
+<def tag="wrap" attrs="tag, when, parameter">
+  <% parameter ||= :default %>
+  <%= if when_
+        if Dryml.static_tags.include?(tag)
+          content_tag(tag, parameters.default, deunderscore_attributes(attributes))
+        else
+          send(tag.gsub('-', '_'), attributes, { parameter.to_sym => parameters[:default] })
+        end
+      else
+        parameters.default
+      end %>
+</def>
+
+
+<!-- DRYML version of `render(:partial => 'my_partial')`
+
+### Usage
+
+    <partial name="my-partial" locals="&{:x => 10, :y => 20}"/>
+-->
+<def tag="partial" attrs="name, locals"><%=
+   locals ||= {}
+   render(:partial => name, :locals => locals.merge(:this => this)).html_safe
+%></def>
+
+
+<!-- Repeat a section of mark-up. The context should be a collection (anything that responds to `each`). The content of the call to `<repeat>` will be repeated for each item in the collection, and the context will be set to each item in turn.
+
+### Attributes
+
+ - join: The value of this attribute, if given, will be inserted between each of the items (e.g. `join=", "` is very common).
+-->
+<def tag="repeat" attrs="join"><if><%=
+  raise ArgumentError, "Cannot <repeat> on #{this.inspect}" unless this.respond_to? :each
+  context_map do
+    parameters.default
+  end.safe_join(join)
+%></if></def>
+
+
+<!-- The 'do nothing' tag. Used to add parameters or change context without adding any markup -->
+<def tag="do"><%= parameters.default %></def>
+
+<!-- Alias of `do` -->
+<def tag="with" alias-of="do"/>
+
+<!-- DRYML's 'if' test
+
+### Usage
+
+    <if test="&current_user.administrator?">Logged in as administrator</if>
+    <else>Logged in as normal user</else>
+    
+**IMPORTANT NOTE**: `<if>` tests for non-blank vs. blank (as defined by ActiveSupport), not true vs. false. 
+
+If you do not give the `test` attribute, uses the current context instead. This allows a nice trick like this:
+
+    <if:comments>...</if>
+
+This has the double effect of changing the context to the `this.comments`, and only evaluating the body if there are comments (because an empty
+collection is considered blank)
+-->
+<def tag="if" attrs="test"><%=
+  test = all_attributes.fetch(:test, this)
+  res = (cond = !test.blank?) ? parameters.default : ""
+  Dryml.last_if = cond
+  res
+%></def>
+
+<!-- General purpose `else` clause.
+
+`<else>` works with various tags such as `<if>` and `<repeat>` (the else clause will be output if the collection was empty). It simply outputs its content if `Dryml.last_if` is false. This is pretty much a crazy hack which violates many good principles of language design, but it's very useful : )
+-->
+<def tag="else"><%= parameters.default unless Dryml.last_if %></def>
+
+
+<!-- Same behaviour as `<if>`, except the test is negated. -->
+<def tag="unless" attrs="test"><%=
+  test = all_attributes.fetch(:test, this)
+  res = (cond = test.blank?) ? parameters.default : ""
+  Dryml.last_if = cond
+  res
+%></def>
+
+
+<!-- nodoc. -->
+<def tag="fake-field-context" attrs="fake-field, context"><%=
+  res = ""
+  new_field_context(fake_field, context) { res << parameters.default }
+  raw res
+%></def>
+
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="html"><%=raw "<html#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</html>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="table"><%=raw "<table#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</table>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="a"><%=raw "<a#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</a>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="section"><%=raw "<section#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</section>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="header"><%=raw "<header#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</header>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="footer"><%=raw "<footer#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</footer>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="form"><%=raw "<form#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</form>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="submit"><%=raw "<submit#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</submit>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="input"><%=raw "<input#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</input>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="link"><%=raw "<link#{tag_options(deunderscore_attributes(attributes), true)}>" -%><do param="default"/><%= raw "</link>" -%></def>
+
+<!-- nodoc.  Define core HTML tags defined in Rapid so that DRYML can be used without Rapid. -->
+<def tag="img"><%=raw "<img#{tag_options(attributes, true)} />" -%></def>
+
+<!-- nodoc: used to provide documentation for a tag without actually defining the tag -->
+<def tag="fakedef">
+</def>
+
+<!-- Set local variables.
+
+    <set foo="yo" bar="&17"/>
+
+is equivalent to
+
+    <% foo="yo"; bar=17; %>
+-->
+<fakedef tag="set"></fakedef>
+
+
+<!-- Set a "scoped" variable.   See [the corresponding section in The DRYML Guide](/manual/dryml-guide#scoped_variables__#) for more details -->
+<fakedef tag="set-scoped"></fakedef>
+
+
+<!-- Define a DRYML tag.   See [The DRYML Guide](/manual/dryml-guide) for more details -->
+<fakedef tag="def"></fakedef>
+
+<!-- Extend a DRYML tag.   See [The DRYML Guide](/manual/dryml-guide) for more details -->
+<fakedef tag="extend"></fakedef>
+
+
+<!-- Include a taglib.   See [the Taglibs section in The DRYML Guide](/manual/dryml-guide#taglibs) for more details -->
+<fakedef tag="include"></fakedef>
+
+<!-- Define a part.   See [the Ajax manual](/manual/ajax) for more information. -->
+<fakedef tag="part"></fakedef>

@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132490.1668763:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%a814d9636cf37cc8ee13263b3b25bb61I"logical_path;
+FI"@jquery-ui/trontastic/ui-bg_gloss-wave_55_000000_500x100.png;
+TI"pathname;
+F"{/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/trontastic/ui-bg_gloss-wave_55_000000_500x100.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	3153;
+FI"digest;
+F"%bbf7f6e71fc08525e579e746d9300d1aI"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

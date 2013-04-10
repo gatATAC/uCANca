@@ -1,0 +1,89 @@
+<!--
+The Bootstrap dialog box, aka [modal](http://twitter.github.com/bootstrap/javascript.html#modals).
+
+All bootstrap options are supported.  Use the `data-` form to adjust the options.  Use a blank string for `false` and a non-blank string for true.
+
+    <modal data-backdrop="" data-keyboard="" data-show="1" data-remote="&foo_path">
+
+The default for data-show has been changed to false.   To display the dialog, set data-show="1", use a `<modal-open-button>` or use javascript (`$('#foo-modal').modal('show')`)
+
+If you want to use `modal` as an alert box, just add content to the default param:
+
+    <modal>Warning!  Foo monsters!</modal>
+
+To use modal to contain a form, you generally want to put the buttons into the footer, requiring you to override the `modal` parameter instead.
+
+      <modal id="new-story-modal">
+        <modal:>
+          <formlet owner="project" with="&this.stories.new" update="stories" success="$('#new-story-modal').modal('hide');">
+            <modal-header>New Story</modal-header>
+            <div class="modal-body">
+              <field-list size="0" fields="title, body, status" />
+            </div>
+            <modal-form-footer/>
+          </formlet>
+        </modal:>
+      </modal>
+      <modal-open-button modal="new-story-modal">New Story</modal-open-button>
+
+### Attributes
+
+- `data-show`, `data-backdrop`, `data-keyboard`, `data-remote`: see [Bootstrap documentation](http://twitter.github.com/bootstrap/javascript.html#modals)
+- `title`: the title.  You may also adjust the title via the `modal-header` param.
+
+-->
+<def tag="modal" attrs="title">
+<%
+  attributes['data_show'] ||= false
+  attributes['data_rapid'] = data_rapid('modal')
+%>
+  <div class="modal hide" tabindex="-1" role="dialog" merge-attrs param="modal">
+    <modal-header param><%= title %></modal-header>
+    <div class="modal-body" param="default"/>
+    <div class="modal-footer" param="modal-footer"/>
+  </div>
+</def>
+
+<!-- Bootstrap modal header.   See `<modal>` -->
+<def tag="modal-header">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" param="close-button">×</button>
+    <h3 param="default"/>
+  </div>
+</def>
+
+<!-- Bootstrap modal footer containing submit and cancel buttons.   See `<modal>` -->
+<def tag="modal-form-footer">
+  <div class="modal-footer" param="default">
+    <submit param label="&t('hobo.actions.submit', :default => 'Submit')"/>
+    <input type="button" param="cancel" class="btn" data-dismiss="modal" aria-hidden="true" value="&t('hobo.actions.cancel', :default => 'Cancel')"/>
+  </div>
+</def>
+
+<!--
+When pressed, will toggle a `<modal>`.
+
+### Attributes
+ * `modal` (required): the id of a modal
+ * supports all button attributes
+
+### Example
+    <modal id="hello-modal">Hello!</modal>
+    <modal-open-button modal="hello-modal">Press Me!</modal-open-button>
+-->
+<def tag="modal-open-button" attrs="modal">
+  <a href="##{modal}" role="button" class="btn" data-toggle="modal" merge param="default"/>
+</def>
+
+
+<!--
+Defines an `<modal>` and a `<modal-open-button>` and links the two together.
+
+### Attributes
+ * `id` (optional): the DOM id to use for the modal
+-->
+<def tag="modal-and-button">
+  <% attributes["id"]="modal-#{(rand*1000000000).to_i}" unless attributes.has_key?("id") %>
+  <modal-open-button modal="#{attributes['id']}" param />
+  <modal param merge />
+</def>

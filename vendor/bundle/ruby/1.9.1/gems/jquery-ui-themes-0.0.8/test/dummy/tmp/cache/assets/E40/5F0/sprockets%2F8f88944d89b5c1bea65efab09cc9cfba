@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132502.1402664:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%3d038d88c0f42cff5ffa8bce0de8f6a5I"logical_path;
+FI"=jquery-ui/dot-luv/ui-bg_gloss-wave_20_111111_500x100.png;
+TI"pathname;
+F"x/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/dot-luv/ui-bg_gloss-wave_20_111111_500x100.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"	2103;
+FI"digest;
+F"%5a22ebbeaa04a350ff0851b2071e8457I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5

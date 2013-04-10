@@ -1,0 +1,17 @@
+<!--
+hobo_jquery
+-->
+
+
+<%#  This tag must be placed at the bottom of the page.   This is
+  typically done for you by the theme.
+%>
+<def tag="page-scripts">
+  <do param="default">
+ <% attrs = deunderscore_attributes(attributes).reverse_merge( 'form_auth_token' => { 'name' => request_forgery_protection_token, 'value' => form_authenticity_token},
+                               'hobo_parts' => part_contexts_storage_uncoded
+                              ) %>
+    <%= tag("span", "data-rapid-page-data" => attrs.to_json, :style => "display: none;") %>
+  </do>
+</def>
+

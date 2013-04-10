@@ -1,0 +1,16 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1334132430.9203107:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%7001ad0cb56736c778dfaf87a5ce109aI"logical_path;
+FI"Djquery-ui/excite-bike/ui-bg_diagonals-thick_20_e69700_40x40.png;
+TI"pathname;
+F"/home/mark/dev/personal/jquery-ui-themes/app/assets/images/jquery-ui/excite-bike/ui-bg_diagonals-thick_20_e69700_40x40.pngI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-02-24T19:19:21+00:00;
+FI"length;
+FI"257;
+FI"digest;
+F"%fe265fb0363cb1f29715ef0cbe1fb090I"_version;
+F"%46dde6621c301f4928e3b34efee9e3b5
