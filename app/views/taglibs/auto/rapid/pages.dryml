@@ -11,6 +11,7 @@
     <nav-item with="&Function"><ht key="function.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&SubSystemFlow"><ht key="sub_system_flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
 </def>
 
@@ -491,6 +492,7 @@
     <body: class="show-page function-sub-system" param/>
 
     <content-header: param>
+      <a:function param="parent-link">&laquo; <ht key="function_sub_system.actions.back_to_parent" parent="Function" name="&this">Back to <name/></ht></a:function>
       <h2 param="heading">
         <ht key="function_sub_system.show.heading" name="#{name(:no_wrapper => true)}">
           Function sub system <name/>
@@ -501,7 +503,7 @@
     </content-header:>
 
     <content-body: param>
-      <field-list fields="function, sub_system" param/>
+      <field-list fields="sub_system" param/>
     </content-body:>
 
   </page>
@@ -909,6 +911,9 @@
     </content-header:>
 
     <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="sub_system_flow.actions.new">New Sub system flow</ht>
+      </a>
 
       <page-nav param="top-page-nav"/>
 
@@ -916,13 +921,6 @@
 
       <page-nav param="bottom-page-nav"/>
 
-
-      <div param="new-form">
-        <h3 param="new-form-heading">
-          <ht key="sub_system_flow.form.new.heading">New Sub system flow</ht>
-        </h3>
-        <form with="&@invalid_record || new_for_current_user(SubSystemFlow)" param/>
-      </div>
 
     </content-body:>
   </page>
@@ -964,6 +962,12 @@
       </h2>
 
       <record-flags fields="outdir" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="sub_system_flow.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Sub system flow
+        </ht>
+      </a>
     </content-header:>
 
     <content-body: param>

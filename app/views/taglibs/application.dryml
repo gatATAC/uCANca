@@ -23,7 +23,7 @@ you can place common code in this file. -->
         </a:children>
       </section>
 
-      
+
       <!--section param="connectors-collection-section">
       <h3 param="connectors-collection-heading">
         <ht key="connector.collection.heading" count="&this.connectors.count" >
@@ -39,7 +39,7 @@ you can place common code in this file. -->
       </a:connectors>
       </section-->
 
-          <section param="functions-collection-section">
+      <section param="functions-collection-section">
         <h3 param="functions-collection-heading">
           <ht key="function.collection.heading" count="&this.functions.count" >
             <human-collection-name collection="functions" your/>
@@ -47,11 +47,11 @@ you can place common code in this file. -->
         </h3>
 
         <collection:functions param="functions-collection"/>
-      <a:functions action="new" if="&can_create?(@sub_system.functions)" param="new-link">
-        <ht key="functions.actions.new" count="1">
-          New Function
-        </ht>
-      </a:functions>
+        <a:functions action="new" if="&can_create?(@sub_system.functions)" param="new-link">
+          <ht key="functions.actions.new" count="1">
+            New Function
+          </ht>
+        </a:functions>
       </section>
 
 
@@ -60,7 +60,7 @@ you can place common code in this file. -->
 
     <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
-      <iframe src="./#{this.id}.svg" seamless="true"/>
+      <embed src="./#{this.id}.svg" type="image/svg+xml" />
     </aside:>
   </old-show-page>
 </extend>
@@ -79,15 +79,12 @@ you can place common code in this file. -->
 
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
-    <header: param>
+    <heading: replace>
       <a with="&this.connector"><%=  this.full_path %></a>:<view:position/><h5 param="heading"><a><name/></a></h5>
-    </header:>
-    <append-body:>
-      <div param="actions">
-        <delete-button label="X" param/>
-      </div>
-    </append-body:>
-
+    </heading:>
+    <append-actions:>
+      <delete-button label="X" param/>
+    </append-actions:>
   </old-card>
 </extend>
 
@@ -138,9 +135,9 @@ you can place common code in this file. -->
       </div>
     </prepend-collection-section:>
 
-    <aside: replace>
+    <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :connectors, :action => :show, :format => 'svg' %>
-      <iframe src="./#{this.id}.svg" seamless="true"/>
+      <embed src="./#{this.id}.svg" type="image/svg+xml" />
     </aside:>
 
   </old-show-page>
@@ -156,9 +153,9 @@ you can place common code in this file. -->
 <extend tag="card" for="Connector">
   <old-card merge>
     <body: param>
-    <div class="flows">
-      <repeat:sub_system_flows join=", "><view:position/>:<a:flow/></repeat><else>None</else>
-    </div>
+      <div class="flows">
+        <repeat:sub_system_flows join=", "><view:position/>:<a:flow/></repeat><else>None</else>
+      </div>
     </body:>
   </old-card>
 </extend>

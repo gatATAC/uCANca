@@ -94,10 +94,7 @@
 <def tag="card" for="SubSystemFlow">
   <card class="sub-system-flow" param="default" merge>
     <header: param>
-      <h4 param="heading"><name/></h4>
-      <div param="actions">
-        <delete-button label="X" param/>
-      </div>
+      <h4 param="heading"><a><name/></a></h4>
     </header:>
   </card>
 </def>

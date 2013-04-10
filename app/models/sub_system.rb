@@ -175,7 +175,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
        id=\"text_#{f.flow.name}\"
        xml:space=\"preserve\"
-       style=\"font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
+       style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja-anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -226,7 +226,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
        id=\"text_#{f.flow.name}\"
        xml:space=\"preserve\"
-       style=\"font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
+       style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"

@@ -7,14 +7,16 @@ class Connector < ActiveRecord::Base
     timestamps
   end
 
-  attr_accessible :name, :sub_system_flows
+  attr_accessible :name, :sub_system_flows,:position
 
   belongs_to :sub_system, :inverse_of => :connectors
-  has_many :sub_system_flows, :order => :position, :inverse_of => :connector
-  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
-  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
-
   acts_as_list :scope => :sub_system
+
+
+  has_many :sub_system_flows, :dependent => :destroy,:order => :position, :inverse_of => :connector
+  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => true},:order => :position
+  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => false},:order => :position
+
 
   children :sub_system_flows,:input_flows
 
@@ -157,7 +159,7 @@ class Connector < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
        id=\"text_#{f.flow.name}\"
        xml:space=\"preserve\"
-       style=\"font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
+       style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja-anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -180,7 +182,7 @@ class Connector < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
        id=\"text_#{f.flow.name}\"
        xml:space=\"preserve\"
-       style=\"font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
+       style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"

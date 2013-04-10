@@ -78,7 +78,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller sub_system_flows
-  resources :sub_system_flows, :only => [:create, :update, :destroy] do
+  resources :sub_system_flows do
     collection do
       post 'reorder'
     end
