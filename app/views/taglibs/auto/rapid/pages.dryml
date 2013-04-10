@@ -1,0 +1,1351 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+
+<!-- ====== Main Navigation ====== -->
+
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs param="default">
+    <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Flow"><ht key="flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Function"><ht key="function.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+  </navigation>
+</def>
+
+
+
+
+<!-- ====== Connector Pages ====== -->
+
+<def tag="index-page" for="Connector">
+  <page merge title="#{ht 'connector.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page connector" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="connector.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="connector.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="connector.actions.new">New Connector</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Connector">
+  <page merge title="#{ht 'connector.new.title', :default=>[' New Connector'] }">
+    <body: class="new-page connector" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="connector.new.heading">
+          New Connector
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'connector.actions.create', :default=>['Create Connector']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Connector">
+  <page merge title="#{ht 'connector.show.title', :default=>['Connector'], :name => name(:no_wrapper => true) }" >
+
+    <body: class="show-page connector" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="connector.show.heading" name="#{name(:no_wrapper => true)}">
+          Connector <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="connector.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Connector
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="position, sub_system" param/>
+      <section param="collection-section">
+        <h3 param="collection-heading">
+          <ht key="sub_system_flow.collection.heading" count="&this.sub_system_flows.count" >
+            <human-collection-name collection="sub_system_flows" your/>
+          </ht>
+        </h3>
+
+        <sortable-collection:sub_system_flows param="collection"/>
+
+        <section param="add-to-collection" if="&can_create?(@connector.sub_system_flows)">
+          <h3 param="add-form-heading">
+            <ht key="sub_system_flow.collection.add_form_heading" count="1">
+              Add a Sub System Flow
+            </ht>
+          </h3>
+          <form with="&@sub_system_flow || new_for_current_user(@connector.sub_system_flows)" owner="connector" without-cancel param>
+            <field-list: skip="connector"/>
+            <submit: label="#{ht 'sub_system_flow.actions.add', :default=>['Add'] }"/>
+          </form>
+        </section>
+      </section>
+    </content-body:>
+
+    <aside: param>
+      <section param="input_flows-collection-section">
+        <h3 param="input_flows-collection-heading">
+          <ht key="sub_system_flow.collection.heading" count="&this.input_flows.count" >
+            <human-collection-name collection="input_flows" your/>
+          </ht>
+        </h3>
+        <collection:input_flows  param="input_flows-collection"/>
+      </section>
+    </aside:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Connector">
+  <page merge title="#{ht 'connector.edit.title', :default=>['Edit Connector'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page connector" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="connector.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Connector
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'connector.actions.delete', :default=>['Remove This Connector']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-sub-system-page" polymorphic/>
+<def tag="new-for-sub-system-page" for="Connector">
+  <page merge title="#{ht 'connector.new_for_owner.title', :default=>['New Connector for']} #{name :with => @sub_system}">
+    <body: class="new-for-owner-page  connector" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="connector.new_for_owner.heading">
+          New Connector
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="connector.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@sub_system"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="sub_system" method="post" param>
+        <field-list: skip="sub_system"/>
+        <submit: label="#{ht 'connector.actions.create', :default=>['Create Connector']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== FlowType Pages ====== -->
+
+<def tag="index-page" for="FlowType">
+  <page merge title="#{ht 'flow_type.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page flow-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_type.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="flow_type.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="flow_type.actions.new">New Flow type</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="FlowType">
+  <page merge title="#{ht 'flow_type.new.title', :default=>[' New Flow type'] }">
+    <body: class="new-page flow-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_type.new.heading">
+          New Flow type
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'flow_type.actions.create', :default=>['Create Flow type']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="FlowType">
+  <page merge title="#{ht 'flow_type.show.title', :default=>['Flow type'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page flow-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_type.show.heading" name="#{name(:no_wrapper => true)}">
+          Flow type <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="flow_type.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Flow type
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="FlowType">
+  <page merge title="#{ht 'flow_type.edit.title', :default=>['Edit Flow type'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page flow-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_type.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Flow type
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'flow_type.actions.delete', :default=>['Remove This Flow type']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== Flow Pages ====== -->
+
+<def tag="index-page" for="Flow">
+  <page merge title="#{ht 'flow.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="flow.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="flow.actions.new">New Flow</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Flow">
+  <page merge title="#{ht 'flow.new.title', :default=>[' New Flow'] }">
+    <body: class="new-page flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow.new.heading">
+          New Flow
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'flow.actions.create', :default=>['Create Flow']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Flow">
+  <page merge title="#{ht 'flow.show.title', :default=>['Flow'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow.show.heading" name="#{name(:no_wrapper => true)}">
+          Flow <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="flow.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Flow
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="flow_type" param/>
+      <section param="collection-section">
+        <h3 param="collection-heading">
+          <ht key="sub_system_flow.collection.heading" count="&this.sub_system_flows.count" >
+            <human-collection-name collection="sub_system_flows" your/>
+          </ht>
+        </h3>
+
+        <collection:sub_system_flows param/>
+      </section>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Flow">
+  <page merge title="#{ht 'flow.edit.title', :default=>['Edit Flow'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Flow
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'flow.actions.delete', :default=>['Remove This Flow']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== FunctionSubSystem Pages ====== -->
+
+<def tag="index-page" for="FunctionSubSystem">
+  <page merge title="#{ht 'function_sub_system.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page function-sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_sub_system.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="function_sub_system.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+      <div param="new-form">
+        <h3 param="new-form-heading">
+          <ht key="function_sub_system.form.new.heading">New Function sub system</ht>
+        </h3>
+        <form with="&@invalid_record || new_for_current_user(FunctionSubSystem)" param/>
+      </div>
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="FunctionSubSystem">
+  <page merge title="#{ht 'function_sub_system.new.title', :default=>[' New Function sub system'] }">
+    <body: class="new-page function-sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_sub_system.new.heading">
+          New Function sub system
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'function_sub_system.actions.create', :default=>['Create Function sub system']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="FunctionSubSystem">
+  <page merge title="#{ht 'function_sub_system.show.title', :default=>['Function sub system'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page function-sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_sub_system.show.heading" name="#{name(:no_wrapper => true)}">
+          Function sub system <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="function, sub_system" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="FunctionSubSystem">
+  <page merge title="#{ht 'function_sub_system.edit.title', :default=>['Edit Function sub system'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page function-sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_sub_system.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Function sub system
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'function_sub_system.actions.delete', :default=>['Remove This Function sub system']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+
+
+
+<!-- ====== FunctionType Pages ====== -->
+
+<def tag="index-page" for="FunctionType">
+  <page merge title="#{ht 'function_type.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page function-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_type.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="function_type.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="function_type.actions.new">New Function type</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="FunctionType">
+  <page merge title="#{ht 'function_type.new.title', :default=>[' New Function type'] }">
+    <body: class="new-page function-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_type.new.heading">
+          New Function type
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'function_type.actions.create', :default=>['Create Function type']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="FunctionType">
+  <page merge title="#{ht 'function_type.show.title', :default=>['Function type'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page function-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_type.show.heading" name="#{name(:no_wrapper => true)}">
+          Function type <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="function_type.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Function type
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <view:description param="description" />
+      <field-list fields="estimated_days" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="FunctionType">
+  <page merge title="#{ht 'function_type.edit.title', :default=>['Edit Function type'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page function-type" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function_type.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Function type
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'function_type.actions.delete', :default=>['Remove This Function type']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== Function Pages ====== -->
+
+<def tag="index-page" for="Function">
+  <page merge title="#{ht 'function.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page function" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="function.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="function.actions.new">New Function</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Function">
+  <page merge title="#{ht 'function.new.title', :default=>[' New Function'] }">
+    <body: class="new-page function" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function.new.heading">
+          New Function
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'function.actions.create', :default=>['Create Function']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Function">
+  <page merge title="#{ht 'function.show.title', :default=>['Function'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page function" param/>
+
+    <content-header: param>
+      <a:sub_systems param="parent-link">&laquo; <ht key="function.actions.back_to_parent" parent="Sub system" name="&this">Back to <name/></ht></a:sub_systems>
+      <h2 param="heading">
+        <ht key="function.show.heading" name="#{name(:no_wrapper => true)}">
+          Function <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="function.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Function
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <view:description param="description" />
+      <field-list fields="ident, function_type" param/>
+      <section param="collection-section">
+        <h3 param="collection-heading">
+          <ht key="function_sub_system.collection.heading" count="&this.function_sub_systems.count" >
+            <human-collection-name collection="function_sub_systems" your/>
+          </ht>
+        </h3>
+
+        <collection:function_sub_systems param/>
+
+        <section param="add-to-collection" if="&can_create?(@function.function_sub_systems)">
+          <h3 param="add-form-heading">
+            <ht key="function_sub_system.collection.add_form_heading" count="1">
+              Add a Function Sub System
+            </ht>
+          </h3>
+          <form with="&@function_sub_system || new_for_current_user(@function.function_sub_systems)" owner="function" without-cancel param>
+            <field-list: skip="function"/>
+            <submit: label="#{ht 'function_sub_system.actions.add', :default=>['Add'] }"/>
+          </form>
+        </section>
+      </section>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Function">
+  <page merge title="#{ht 'function.edit.title', :default=>['Edit Function'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page function" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="function.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Function
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'function.actions.delete', :default=>['Remove This Function']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== NodeEdge Pages ====== -->
+
+<def tag="index-page" for="NodeEdge">
+  <page merge title="#{ht 'node_edge.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page node-edge" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="node_edge.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="node_edge.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="NodeEdge">
+  <page merge title="#{ht 'node_edge.new.title', :default=>[' New Node edge'] }">
+    <body: class="new-page node-edge" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="node_edge.new.heading">
+          New Node edge
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'node_edge.actions.create', :default=>['Create Node edge']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="NodeEdge">
+  <page merge title="#{ht 'node_edge.show.title', :default=>['Node edge'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page node-edge" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="node_edge.show.heading" name="#{name(:no_wrapper => true)}">
+          Node edge <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a:source param="creator-link"/>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="position, destination" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="NodeEdge">
+  <page merge title="#{ht 'node_edge.edit.title', :default=>['Edit Node edge'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page node-edge" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="node_edge.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Node edge
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'node_edge.actions.delete', :default=>['Remove This Node edge']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== SubSystemFlow Pages ====== -->
+
+<def tag="index-page" for="SubSystemFlow">
+  <page merge title="#{ht 'sub_system_flow.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page sub-system-flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system_flow.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="sub_system_flow.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+      <div param="new-form">
+        <h3 param="new-form-heading">
+          <ht key="sub_system_flow.form.new.heading">New Sub system flow</ht>
+        </h3>
+        <form with="&@invalid_record || new_for_current_user(SubSystemFlow)" param/>
+      </div>
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="SubSystemFlow">
+  <page merge title="#{ht 'sub_system_flow.new.title', :default=>[' New Sub system flow'] }">
+    <body: class="new-page sub-system-flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system_flow.new.heading">
+          New Sub system flow
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'sub_system_flow.actions.create', :default=>['Create Sub system flow']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="SubSystemFlow">
+  <page merge title="#{ht 'sub_system_flow.show.title', :default=>['Sub system flow'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page sub-system-flow" param/>
+
+    <content-header: param>
+      <a:connector param="parent-link">&laquo; <ht key="sub_system_flow.actions.back_to_parent" parent="Connector" name="&this">Back to <name/></ht></a:connector>
+      <h2 param="heading">
+        <ht key="sub_system_flow.show.heading" name="#{name(:no_wrapper => true)}">
+          Sub system flow <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="outdir" param/>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="position, flow" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="SubSystemFlow">
+  <page merge title="#{ht 'sub_system_flow.edit.title', :default=>['Edit Sub system flow'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page sub-system-flow" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system_flow.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Sub system flow
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'sub_system_flow.actions.delete', :default=>['Remove This Sub system flow']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+
+
+
+<!-- ====== SubSystem Pages ====== -->
+
+<def tag="index-page" for="SubSystem">
+  <page merge title="#{ht 'sub_system.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="sub_system.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="sub_system.actions.new">New Sub system</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="SubSystem">
+  <page merge title="#{ht 'sub_system.new.title', :default=>[' New Sub system'] }">
+    <body: class="new-page sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system.new.heading">
+          New Sub system
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'sub_system.actions.create', :default=>['Create Sub system']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="SubSystem">
+  <page merge title="#{ht 'sub_system.show.title', :default=>['Sub system'], :name => name(:no_wrapper => true) }" >
+
+    <body: class="show-page sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system.show.heading" name="#{name(:no_wrapper => true)}">
+          Sub system <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="sub_system.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Sub system
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="position, parent, root" param/>
+      <section param="collection-section">
+        <h3 param="collection-heading">
+          <ht key="connector.collection.heading" count="&this.connectors.count" >
+            <human-collection-name collection="connectors" your/>
+          </ht>
+        </h3>
+
+        <sortable-collection:connectors param="collection"/>
+
+        <a:connectors action="new" if="&can_create?(@sub_system.connectors)" param="new-link">
+          <ht key="connector.actions.new" count="1">
+            New Connector
+          </ht>
+        </a:connectors>
+      </section>
+    </content-body:>
+
+    <aside: param>
+      <section param="children-collection-section">
+        <h3 param="children-collection-heading">
+          <ht key="sub_system.collection.heading" count="&this.children.count" >
+            <human-collection-name collection="children" your/>
+          </ht>
+        </h3>
+        <collection:children  param="children-collection"/>
+      </section>
+    </aside:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="SubSystem">
+  <page merge title="#{ht 'sub_system.edit.title', :default=>['Edit Sub system'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Sub system
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'sub_system.actions.delete', :default=>['Remove This Sub system']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-parent-page" polymorphic/>
+<def tag="new-for-parent-page" for="SubSystem">
+  <page merge title="#{ht 'sub_system.new_for_owner.title', :default=>['New Sub system for']} #{name :with => @parent}">
+    <body: class="new-for-owner-page  sub-system" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="sub_system.new_for_owner.heading">
+          New Child
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="sub_system.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@parent"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="parent" method="post" param>
+        <field-list: skip="parent"/>
+        <submit: label="#{ht 'sub_system.actions.create', :default=>['Create Sub system']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== User Pages ====== -->
+
+<def tag="index-page" for="User">
+  <page merge title="#{ht 'user.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page user" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="user.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+      <div param="new-form">
+        <h3 param="new-form-heading">
+          <ht key="user.form.new.heading">New User</ht>
+        </h3>
+        <form with="&@invalid_record || new_for_current_user(User)" param/>
+      </div>
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="User">
+  <page merge title="#{ht 'user.new.title', :default=>[' New User'] }">
+    <body: class="new-page user" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.new.heading">
+          New User
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'user.actions.create', :default=>['Create User']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="User">
+  <page merge title="#{ht 'user.show.title', :default=>['User'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page user" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.show.heading" name="#{name(:no_wrapper => true)}">
+          User <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="administrator" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="user.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit User
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="email_address, state" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="User">
+  <page merge title="#{ht 'user.edit.title', :default=>['Edit User'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page user" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit User
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'user.actions.delete', :default=>['Remove This User']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="signup-page" polymorphic/>
+<def tag="signup-page" for="User">
+
+  <page title="#{ht 'user.signup.title', :default=>['Signup']}" merge>
+
+    <body: class="lifecycle-start-page signup-page" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.signup.heading">
+          Signup
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <signup-form param="form"/>
+    </content-body:>
+
+  </page>
+</def>
+
+<def tag="activate-page" polymorphic/>
+<def tag="activate-page" for="User">
+  <page title="#{ht 'user.activate.title', :default=>['Activate']}" merge>
+
+    <body: class="lifecycle-transition-page activate-page" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.activate.heading">
+          Activate
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <activate-form param="form"/>
+    </content-body:>
+
+  </page>
+</def>
+
+<def tag="reset-password-page" polymorphic/>
+<def tag="reset-password-page" for="User">
+  <page title="#{ht 'user.reset_password.title', :default=>['Reset Password']}" merge>
+
+    <body: class="lifecycle-transition-page reset-password-page" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="user.reset_password.heading">
+          Reset Password
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <reset-password-form param="form"/>
+    </content-body:>
+
+  </page>
+</def>
+
+
