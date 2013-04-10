@@ -713,7 +713,6 @@
     <body: class="show-page function" param/>
 
     <content-header: param>
-      <a:sub_systems param="parent-link">&laquo; <ht key="function.actions.back_to_parent" parent="Sub system" name="&this">Back to <name/></ht></a:sub_systems>
       <h2 param="heading">
         <ht key="function.show.heading" name="#{name(:no_wrapper => true)}">
           Function <name/>

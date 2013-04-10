@@ -5,6 +5,10 @@
 Blocks::Application.routes.draw do
 
 
+  # Resource routes for controller functions
+  resources :functions
+
+
   # Resource routes for controller sub_systems
   resources :sub_systems do
     collection do
@@ -21,6 +25,10 @@ Blocks::Application.routes.draw do
       end
     end
   end
+
+
+  # Resource routes for controller function_types
+  resources :function_types
 
 
   # Resource routes for controller users
@@ -52,6 +60,19 @@ Blocks::Application.routes.draw do
   resources :flows do
     collection do
       get 'complete_name'
+    end
+  end
+
+
+  # Resource routes for controller function_sub_systems
+  resources :function_sub_systems, :only => [:create, :update, :destroy]
+
+  # Owner routes for controller function_sub_systems
+  resources :functions, :as => :function, :only => [] do
+    resources :function_sub_systems, :only => [] do
+      collection do
+        post 'create', :action => 'create_for_function'
+      end
     end
   end
 
@@ -95,27 +116,6 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_sub_system'
       collection do
         post 'create', :action => 'create_for_sub_system'
-      end
-    end
-  end
-
-
-  # Resource routes for controller functions
-  resources :functions
-
-
-  # Resource routes for controller function_types
-  resources :function_types
-
-
-  # Resource routes for controller function_sub_systems
-  resources :function_sub_systems, :only => [:create, :update, :destroy]
-
-  # Owner routes for controller function_sub_systems
-  resources :functions, :as => :function, :only => [] do
-    resources :function_sub_systems, :only => [] do
-      collection do
-        post 'create', :action => 'create_for_function'
       end
     end
   end
