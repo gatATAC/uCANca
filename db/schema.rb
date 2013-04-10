@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409023159) do
+ActiveRecord::Schema.define(:version => 20130410021542) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -31,13 +31,41 @@ ActiveRecord::Schema.define(:version => 20130409023159) do
 
   create_table "flows", :force => true do |t|
     t.string   "name"
-    t.boolean  "outdir"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "flow_type_id"
   end
 
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"
+
+  create_table "function_sub_systems", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sub_system_id"
+    t.integer  "function_id"
+  end
+
+  add_index "function_sub_systems", ["function_id"], :name => "index_function_sub_systems_on_function_id"
+  add_index "function_sub_systems", ["sub_system_id"], :name => "index_function_sub_systems_on_sub_system_id"
+
+  create_table "function_types", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.float    "estimated_days"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "functions", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "function_type_id"
+  end
+
+  add_index "functions", ["function_type_id"], :name => "index_functions_on_function_type_id"
 
   create_table "node_edges", :force => true do |t|
     t.datetime "created_at"

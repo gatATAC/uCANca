@@ -5,11 +5,16 @@ class ConnectorsController < ApplicationController
   auto_actions :all,:except => :index
   auto_actions_for :sub_system, [:new,:create]
 
-  web_method :copy_flows do
-    @connector.copy_flows Connector.find_by_id(params['connector'])
+  web_method :copy_connector_flows do
+    @connector.copy_connector_flows Connector.find_by_id(params['connector'])
     redirect_to this
   end
-  
+
+  web_method :copy_flow do
+    @connector.copy_flow SubSystemFlow.find_by_id(params['sub_system_flow'])
+    redirect_to this
+  end
+
   web_method :copy_all_subsystem_flows do
     @connector.copy_all_subsystem_flows SubSystem.find_by_id(params['sub_system'])
     redirect_to this

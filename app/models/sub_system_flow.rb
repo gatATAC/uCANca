@@ -6,7 +6,7 @@ class SubSystemFlow < ActiveRecord::Base
     outdir :boolean
     timestamps
   end
-  attr_accessible :flow, :connector, :connector_id, :flow_id, :position
+  attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :outdir
 
   belongs_to :flow
   belongs_to :connector, :inverse_of => :sub_system_flows

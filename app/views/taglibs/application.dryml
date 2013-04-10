@@ -6,29 +6,84 @@ you can place common code in this file. -->
   <old-show-page merge>
 
     <field-list: fields="parent, root, full_name" param/>
+    <append-collection-section:>
+      <section param="children-collection-section">
+        <h3 param="children-collection-heading">
+          <ht key="sub_system.collection.heading" count="&this.children.count" >
+            <human-collection-name collection="children" your/>
+          </ht>
+        </h3>
 
-    <append-children-collection-section:>
-      <%= link_to "New Sub System in #{@sub_system.name}", :controller => :sub_systems, :action => :new, :super_system => @sub_system %>
-      <a:children action="new" if="&can_create?(@sub_system.children)" param="new-link">
-        <ht key="sub_system.actions.new" count="1">
-          New Child
+        <sortable-collection:children param="children-collection"/>
+
+        <a:children action="new" if="&can_create?(@sub_system.children)" param="new-link">
+          <ht key="sub_system.actions.new" count="1">
+            Nuevo SubSistema
+          </ht>
+        </a:children>
+      </section>
+
+      
+      <!--section param="connectors-collection-section">
+      <h3 param="connectors-collection-heading">
+        <ht key="connector.collection.heading" count="&this.connectors.count" >
+          <human-collection-name collection="connectors" your/>
         </ht>
-      </a:children>
-    </append-children-collection-section:>
-    <append-aside:>
+      </h3>
+      <sortable-collection:connectors param="collection"/>
+
+      <a:connectors action="new" if="&can_create?(@sub_system.connectors)" param="new-link">
+        <ht key="connector.actions.new" count="1">
+          New Connector
+        </ht>
+      </a:connectors>
+      </section-->
+
+          <section param="functions-collection-section">
+        <h3 param="functions-collection-heading">
+          <ht key="function.collection.heading" count="&this.functions.count" >
+            <human-collection-name collection="functions" your/>
+          </ht>
+        </h3>
+
+        <collection:functions param="functions-collection"/>
+      <a:functions action="new" if="&can_create?(@sub_system.functions)" param="new-link">
+        <ht key="functions.actions.new" count="1">
+          New Function
+        </ht>
+      </a:functions>
+      </section>
+
+
+    </append-collection-section:>
+
+
+    <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <iframe src="./#{this.id}.svg" seamless="true"/>
-    </append-aside:>
+    </aside:>
   </old-show-page>
 </extend>
+<!--
+      <section param="connectors-collection-section">
+        <h3 param="connectors-collection-heading">
+          <ht key="connector.collection.heading" count="&this.connectors.count" >
+            <human-collection-name collection="connectors" your/>
+          </ht>
+        </h3>
+        <collection:connectors  param="connectors-collection"/>
+      </section>
+-->
+
+
 
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
     <header: param>
-        <a with="&this.connector"><%=  this.full_path %></a>:<view:position/><h5 param="heading"><a><name/></a></h5>
+      <a with="&this.connector"><%=  this.full_path %></a>:<view:position/><h5 param="heading"><a><name/></a></h5>
     </header:>
     <append-body:>
-          <div param="actions">
+      <div param="actions">
         <delete-button label="X" param/>
       </div>
     </append-body:>
@@ -38,35 +93,72 @@ you can place common code in this file. -->
 
 <extend tag="form" for="SubSystemFlow">
   <old-form merge param="default">
-    <field-list: fields="outdir, connector, flow" param/>
+    <field-list: fields="outdir, connector,flow" param/>
+  </old-form>
+</extend>
+
+<extend tag="form" for="SubSystemFlow">
+  <old-form merge param="default">
+    <field-list:>
+      <flow-view:>
+        <name-one/>
+      </flow-view:>
+    </field-list:>
   </old-form>
 </extend>
 
 <extend tag="show-page" for="Connector">
   <old-show-page merge>
     <prepend-collection-section:>
-      <if test="&this.possible_connectors">
-        <form merge param="default" web-method="copy_flows">
-          <div param="connector">
-            <select-menu options="&this.possible_connectors.collect {|p| [ p.name, p.id ] }" name="connector"/>
-            <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos de un conector del subsistema padre en este conector']}" param/><or-cancel param="cancel"/>
-          </div>
-        </form>
-      </if>
-      <if test="&this.sub_system.parent">
-        <form merge param="default" web-method="copy_all_subsystem_flows">
-          <div param="sub_system">
-            <input type="hidden" name="sub_system" value="&this.sub_system.parent.id"/>
-            <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos del subsistema padre en este conector']}" param/><or-cancel param="cancel"/>
-          </div>
-        </form>
-      </if>
+      <div if="&can_create?(@connector.sub_system_flows)">
+        <if test="&this.possible_individual_flows">
+          <form merge param="default" web-method="copy_flow">
+            <div param="sub_system_flow">
+              <select-menu options="&this.possible_individual_flows.collect {|p| [ p.name, p.id ] }" name="sub_system_flow"/>
+              <submit label="#{ht 'connector.actions.copy_flow', :default=>['Copia un flujo del padre en este conector']}" param/>
+            </div>
+          </form>
+        </if>
+        <if test="&this.possible_connectors">
+          <form merge param="default" web-method="copy_connector_flows">
+            <div param="connector">
+              <select-menu options="&this.possible_connectors.collect {|p| [ p.name, p.id ] }" name="connector"/>
+              <submit label="#{ht 'connector.actions.copy_connector', :default=>['Copia un conector del padre en este conector']}" param/>
+            </div>
+          </form>
+        </if>
+        <if test="&this.sub_system.parent">
+          <form merge param="default" web-method="copy_all_subsystem_flows">
+            <div param="sub_system">
+              <input type="hidden" name="sub_system" value="&this.sub_system.parent.id"/>
+              <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos del padre en este conector']}" param/>
+            </div>
+          </form>
+        </if>
+      </div>
     </prepend-collection-section:>
 
-        <aside: replace>
-        <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :connectors, :action => :show, :format => 'svg' %>
-          <iframe src="./#{this.id}.svg" seamless="true"/>
-        </aside:>
+    <aside: replace>
+      <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :connectors, :action => :show, :format => 'svg' %>
+      <iframe src="./#{this.id}.svg" seamless="true"/>
+    </aside:>
 
   </old-show-page>
+</extend>
+
+<extend tag="card" for="Function">
+  <old-card merge>
+    <heading:>
+      <a><view:ident/>:<name/></a>
+    </heading:>
+  </old-card>
+</extend>
+<extend tag="card" for="Connector">
+  <old-card merge>
+    <body: param>
+    <div class="flows">
+      <repeat:sub_system_flows join=", "><view:position/>:<a:flow/></repeat><else>None</else>
+    </div>
+    </body:>
+  </old-card>
 </extend>

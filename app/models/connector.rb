@@ -9,11 +9,10 @@ class Connector < ActiveRecord::Base
 
   attr_accessible :name, :sub_system_flows
 
-  belongs_to :sub_system
+  belongs_to :sub_system, :inverse_of => :connectors
   has_many :sub_system_flows, :order => :position, :inverse_of => :connector
   has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
   has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
-
 
   acts_as_list :scope => :sub_system
 
@@ -29,14 +28,18 @@ class Connector < ActiveRecord::Base
     sub_system.full_name+":"+name
   end
 
-  def copy_flows(c)
+  def copy_connector_flows(c)
     cc=c.sub_system_flows.sort_by{|i| i.position}
     cc.each {|f|
+      self.copy_flow(f)
+    }
+  end
+
+  def copy_flow(f)
       newf=f.dup
       newf.position=find_first_free_position
       self.sub_system_flows << newf
       newf.save
-    }
   end
 
   def copy_all_subsystem_flows(s)
@@ -70,6 +73,14 @@ class Connector < ActiveRecord::Base
     return ret
   end
 
+  def possible_individual_flows
+    ret=[]
+    p=possible_connectors
+    p.each { |c|
+      ret+= c.sub_system_flows
+    }
+    return ret
+  end
   def to_svg
     yporflujo=40
     alturacaracter=10
@@ -200,7 +211,11 @@ class Connector < ActiveRecord::Base
     true
   end
 
-  def copy_flows_permitted?
+  def copy_connector_flows_permitted?
+    acting_user.administrator?
+  end
+
+  def copy_flow_permitted?
     acting_user.administrator?
   end
 

@@ -13,17 +13,21 @@ class SubSystem < ActiveRecord::Base
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
   belongs_to :root, :class_name => 'SubSystem'
 
+=begin
   has_many :edges_as_source, :class_name => 'NodeEdge', :foreign_key => 'source_id', :dependent => :destroy, :order => :position
   has_many :edges_as_destination, :class_name => 'NodeEdge', :foreign_key => 'destination_id'
   has_many :sources, :through => :edges_as_destination , :accessible => true
   has_many :destinations, :through => :edges_as_source ,  :order => 'node_edges.position',:accessible => true
-  
+=end
   has_many :connectors, :order => :position
 
   has_many :output_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
   has_many :input_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
 
-  children :connectors, :children
+  has_many :function_sub_systems
+  has_many :functions, :through => :function_sub_systems
+
+  children :connectors,:children
 
   acts_as_list :scope => :parent, :psition => :position
 
@@ -78,7 +82,7 @@ class SubSystem < ActiveRecord::Base
       newc=c.clone
       newc.sub_system=self
       newc.save
-      newc.copy_flows(c)
+      newc.copy_connector_flows(c)
       newc.save
     }
   end
@@ -165,7 +169,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/sub_system_flows/#{f.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
   <text
        x=\"#{xoffsetcaja-anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -216,7 +220,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/sub_system_flows/#{f.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
     <text
        x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"

@@ -1,0 +1,12 @@
+<index-page>
+  <collection: replace>
+  <table-plus with="&@functions" fields="ident,this,function_type,sub_systems">
+    <prepend-header:>
+      <div class="filter">
+        Display by function_type: <filter-menu param-name="function_type" options="&FunctionType.all"/>
+      </div>
+    </prepend-header:>
+    <empty-message:>No functions match your criteria</empty-message:>
+  </table-plus>
+  </collection:>
+</index-page>

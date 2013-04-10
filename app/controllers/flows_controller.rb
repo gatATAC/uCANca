@@ -4,4 +4,6 @@ class FlowsController < ApplicationController
 
   auto_actions :all
 
+  autocomplete
+
 end
