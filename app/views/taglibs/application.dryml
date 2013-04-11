@@ -1,11 +1,18 @@
 <!-- this file is included by front_site.dryml, admin_site.dryml et al, so
 you can place common code in this file. -->
 
-
 <extend tag="show-page" for="SubSystem">
   <old-show-page merge>
 
     <field-list: fields="parent, root, full_name" param/>
+    <collection: replace>
+      <if test="&can_edit?(this.position_column)">
+        <sortable-collection:connectors param="collection"/>
+      </if>
+      <else>
+        <collection:connectors param="collection"/>
+      </else>
+    </collection:>
     <append-collection-section:>
       <section param="children-collection-section">
         <h3 param="children-collection-heading">
@@ -14,8 +21,13 @@ you can place common code in this file. -->
           </ht>
         </h3>
 
-        <sortable-collection:children param="children-collection"/>
-
+        <if test="&can_edit?(this.position_column)">
+          <sortable-collection:children param="children-collection"/>
+        </if>
+        <else>
+          <collection:children param="children-collection"/>
+        </else>
+        <%= link_to "New Sub System in #{@sub_system.name}", :controller => :sub_systems, :action => :new, :super_system => @sub_system %>
         <a:children action="new" if="&can_create?(@sub_system.children)" param="new-link">
           <ht key="sub_system.actions.new" count="1">
             Nuevo SubSistema
@@ -39,19 +51,25 @@ you can place common code in this file. -->
       </a:connectors>
       </section-->
 
-      <section param="functions-collection-section">
-        <h3 param="functions-collection-heading">
-          <ht key="function.collection.heading" count="&this.functions.count" >
-            <human-collection-name collection="functions" your/>
+      <section param="function_sub_systems-collection-section">
+        <h3 param="function_sub_systems-collection-heading">
+          <ht key="function_sub_system.collection.heading" count="&this.function_sub_systems.count" >
+            <human-collection-name collection="function_sub_systems" your/>
           </ht>
         </h3>
 
-        <collection:functions param="functions-collection"/>
-        <a:functions action="new" if="&can_create?(@sub_system.functions)" param="new-link">
-          <ht key="functions.actions.new" count="1">
-            New Function
-          </ht>
-        </a:functions>
+        <collection:function_sub_systems param="function_sub_systems-collection"/>
+        <section param="add-to-function_sub_systems-collection" if="&can_create?(@sub_system.function_sub_systems)">
+          <h3 param="add-function_sub_systems-form-heading">
+            <ht key="function_sub_system.collection.add_form_heading" count="1">
+              Add a Function Sub System
+            </ht>
+          </h3>
+          <form with="&@function_sub_system || new_for_current_user(@sub_system.function_sub_systems)" owner="sub_system" without-cancel param="function_sub_systems-form">
+            <field-list: skip="sub_system"/>
+            <submit: label="#{ht 'function_sub_system.actions.add', :default=>['Add'] }"/>
+          </form>
+        </section>
       </section>
 
 
@@ -80,11 +98,12 @@ you can place common code in this file. -->
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
     <heading: replace>
-      <a with="&this.connector"><%=  this.full_path %></a>:<view:position/><h5 param="heading"><a><name/></a></h5>
+      <a with="&this.connector"><%=  this.full_path %></a>:<view:position/>
+      <h5 param="heading"><a><name/></a></h5>
     </heading:>
-    <append-actions:>
+    <append-header:>
       <delete-button label="X" param/>
-    </append-actions:>
+    </append-header:>
   </old-card>
 </extend>
 
@@ -104,6 +123,15 @@ you can place common code in this file. -->
   </old-form>
 </extend>
 
+<extend tag="form" for="FunctionSubSystem">
+  <old-form merge param="default">
+    <field-list:>
+      <function-view:>
+        <name-one/>
+      </function-view:>
+    </field-list:>
+  </old-form>
+</extend>
 <extend tag="show-page" for="Connector">
   <old-show-page merge>
     <prepend-collection-section:>
@@ -134,7 +162,14 @@ you can place common code in this file. -->
         </if>
       </div>
     </prepend-collection-section:>
-
+    <collection: replace>
+      <if test="&can_edit?(this.position_column)">
+        <sortable-collection:sub_system_flows param="collection"/>
+      </if>
+      <else>
+        <collection:sub_system_flows param="collection"/>
+      </else>
+    </collection:>
     <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :connectors, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
@@ -158,4 +193,53 @@ you can place common code in this file. -->
       </div>
     </body:>
   </old-card>
+</extend>
+
+<extend tag="card" for="FunctionSubSystem">
+  <old-card merge>
+    <append-header:>
+      <delete-button label="X" param/>
+    </append-header:>
+  </old-card>
+</extend>
+
+<extend tag="show-page" for="Flow">
+  <old-show-page>
+    <append-collection-section:>
+      <%= link_to "Codigo en C #{@flow.name}", :controller => :flows, :action => :show, :format => 'c' %>
+      <embed src="./#{this.id}.c" type="text/x-c" width="100%"/>
+    </append-collection-section:>
+  </old-show-page>
+</extend>
+
+
+<extend tag="index-page" for="Flow">
+  <old-index-page>
+
+    <collection: replace>
+      <table-plus with="&@flows" fields="this,flow_type,sub_system_flows">
+        <prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:>
+        <page-nav: replace/>
+      </table-plus>
+    </collection:>
+    <append-content-body:>
+      <%= link_to "Header del DRE", :controller => :flows, :action => :index, :format => 'h' %>
+      <embed src="/flows.h" type="text/x-c" width="100%" height="auto"/>
+      <%= link_to "Rutinas IO del DRE", :controller => :flows, :action => :index, :format => 'c' %>
+      <embed src="/flows.c" type="text/x-c" width="100%" height="auto"/>
+    </append-content-body:>
+  </old-index-page>
+</extend>
+
+<extend tag="index-page" for="FlowType">
+  <old-index-page merge>
+    <collection: fields="this, c_type, actions">
+      <this-view:>My <view/></this-view>
+    </collection:>
+  </old-index-page>
 </extend>

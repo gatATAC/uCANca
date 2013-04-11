@@ -53,7 +53,9 @@
     <header: param>
       <h4 param="heading"><name/></h4>
       <div param="actions">
-        <delete-button label="X" param/>
+        <a action="edit" if="&can_edit?" param="edit-link">
+          <ht key="function_sub_system.actions.edit">Edit</ht>
+        </a>
       </div>
     </header:>
   </card>

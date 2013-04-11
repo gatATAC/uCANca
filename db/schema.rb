@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410021542) do
+ActiveRecord::Schema.define(:version => 20130410231644) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(:version => 20130410021542) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "c_type"
+    t.text     "c_input_patron"
+    t.text     "c_output_patron"
+    t.boolean  "enable_input",        :default => true
+    t.boolean  "enable_output",       :default => true
+    t.boolean  "paso_por_referencia", :default => false
+    t.boolean  "tipo_propio",         :default => false
   end
 
   create_table "flows", :force => true do |t|

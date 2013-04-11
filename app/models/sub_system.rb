@@ -9,9 +9,9 @@ class SubSystem < ActiveRecord::Base
   attr_accessible :name, :parent, :root, :parent_id, :root_id
 
 
+  belongs_to :root, :class_name => 'SubSystem'
   belongs_to :parent, :foreign_key => :parent_id, :class_name => 'SubSystem'
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
-  belongs_to :root, :class_name => 'SubSystem'
 
 =begin
   has_many :edges_as_source, :class_name => 'NodeEdge', :foreign_key => 'source_id', :dependent => :destroy, :order => :position
@@ -29,7 +29,7 @@ class SubSystem < ActiveRecord::Base
 
   children :connectors,:children
 
-  acts_as_list :scope => :parent, :psition => :position
+  acts_as_list :scope => :parent
 
   def full_name
     ret=name

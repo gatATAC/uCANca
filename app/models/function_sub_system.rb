@@ -11,7 +11,14 @@ class FunctionSubSystem < ActiveRecord::Base
   belongs_to :function
 
   def name
-    ret="["+sub_system.name+"]"+function.name
+    ret=""
+    if (sub_system) then
+    ret+="["+sub_system.name+"]"
+    end
+    if (function) then
+      ret+=function.name
+    end
+    
   end
 
   # --- Permissions --- #

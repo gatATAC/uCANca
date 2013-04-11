@@ -16,7 +16,6 @@ class SubSystemsController < ApplicationController
           @this.root=@this.parent
         end
       end
-      this.attributes = params[:mode] || {}
       hobo_ajax_response if request.xhr?
     end
   end

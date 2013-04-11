@@ -4,6 +4,8 @@ class FunctionsController < ApplicationController
 
   auto_actions :all
 
+  autocomplete
+  
   def index
     @functions=Function.search(params[:search], :name).order_by(parse_sort_param(:name, :function_type)).paginate(:page => params[:page])
     if (params[:function_type]) then

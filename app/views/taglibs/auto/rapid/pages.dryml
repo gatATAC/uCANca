@@ -262,7 +262,7 @@
         </ht>
       </h2>
 
-      <record-flags fields="" param/>
+      <record-flags fields="enable_input, enable_output, paso_por_referencia, tipo_propio" param/>
 
       <a action="edit" if="&can_edit?" param="edit-link">
         <ht key="flow_type.actions.edit" name="#{name(:no_wrapper => true)}">
@@ -272,6 +272,7 @@
     </content-header:>
 
     <content-body: param>
+      <field-list fields="c_type, c_input_patron, c_output_patron" param/>
     </content-body:>
 
   </page>
@@ -500,6 +501,12 @@
       </h2>
 
       <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="function_sub_system.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Function sub system
+        </ht>
+      </a>
     </content-header:>
 
     <content-body: param>
@@ -530,6 +537,9 @@
 
   </page>
 </def>
+
+
+
 
 
 

@@ -38,10 +38,10 @@ class Connector < ActiveRecord::Base
   end
 
   def copy_flow(f)
-      newf=f.dup
-      newf.position=find_first_free_position
-      self.sub_system_flows << newf
-      newf.save
+    newf=f.dup
+    newf.position=find_first_free_position
+    self.sub_system_flows << newf
+    newf.save
   end
 
   def copy_all_subsystem_flows(s)
@@ -145,7 +145,7 @@ class Connector < ActiveRecord::Base
 
     contador=1;
     self.input_flows.each {|f|
-    ret+="
+      ret+="
     <rect
        width=\"#{anchuracaracter*(f.flow.name.length+2)}\"
        height=\"1\"
@@ -168,7 +168,7 @@ class Connector < ActiveRecord::Base
     }
     contador=1;
     self.output_flows.each {|f|
-    ret+="
+      ret+="
     <rect
        width=\"#{anchuracaracter*(f.flow.name.length+2)}\"
        height=\"1\"
@@ -192,7 +192,7 @@ class Connector < ActiveRecord::Base
     ret+="
   </g>
 </svg>"
-
+    return ret
   end
 
   # --- Permissions --- #
