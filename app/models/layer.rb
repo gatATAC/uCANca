@@ -1,20 +1,19 @@
-class FunctionType < ActiveRecord::Base
+class Layer < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
   fields do
-    name           :string
-    description    :text
-    estimated_days :float
+    name  :string
+    level :integer
     timestamps
   end
-  attr_accessible :name, :description, :estimated_days
+  attr_accessible :name, :level
 
   validates :name, :presence => :true
-  validates :estimated_days, :presence => :true
-
-  has_many :functions, :inverse_of => :function_type
-
+  validates :level, :presence => :true
+  
+  has_many :sub_systems
+  
   # --- Permissions --- #
 
   def create_permitted?
@@ -30,7 +29,7 @@ class FunctionType < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    acting_user.signed_up?
+    true
   end
 
 end

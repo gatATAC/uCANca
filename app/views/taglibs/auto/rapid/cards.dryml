@@ -69,6 +69,14 @@
   </card>
 </def>
 
+<def tag="card" for="Layer">
+  <card class="layer" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="NodeEdge">
   <card class="node-edge" param="default" merge>
     <header: param>
@@ -80,12 +88,38 @@
   </card>
 </def>
 
+<def tag="card" for="Project">
+  <card class="project" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:owner param="creator-link"/>
+      <ht key="flow.collection.count" count="&this.flows.size">
+         <count:flows param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="ProjectMembership">
+  <card class="project-membership" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+      <div param="actions">
+        <delete-button label="X" param/>
+      </div>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="SubSystem">
   <card class="sub-system" param="default" merge>
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
     <body: param>
+      <a:parent param="creator-link"/>
       <ht key="connector.collection.count" count="&this.connectors.size">
          <count:connectors param/>
       </ht>

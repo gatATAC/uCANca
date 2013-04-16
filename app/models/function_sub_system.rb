@@ -10,10 +10,13 @@ class FunctionSubSystem < ActiveRecord::Base
   belongs_to :sub_system
   belongs_to :function
 
+  validates :sub_system, :presence => :true
+  validates :function, :presence => :true
+
   def name
     ret=""
     if (sub_system) then
-    ret+="["+sub_system.name+"]"
+      ret+="["+sub_system.name+"]"
     end
     if (function) then
       ret+=function.name
@@ -21,22 +24,27 @@ class FunctionSubSystem < ActiveRecord::Base
     
   end
 
+  def parent_project
+    function.parent_project
+  end
+
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    sub_system.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    true
+    sub_system.viewable_by? (acting_user)
   end
+
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410231644) do
+ActiveRecord::Schema.define(:version => 20130416145913) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -41,9 +41,11 @@ ActiveRecord::Schema.define(:version => 20130410231644) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "flow_type_id"
+    t.integer  "project_id"
   end
 
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"
+  add_index "flows", ["project_id"], :name => "index_flows_on_project_id"
 
   create_table "function_sub_systems", :force => true do |t|
     t.datetime "created_at"
@@ -70,9 +72,18 @@ ActiveRecord::Schema.define(:version => 20130410231644) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "function_type_id"
+    t.integer  "project_id"
   end
 
   add_index "functions", ["function_type_id"], :name => "index_functions_on_function_type_id"
+  add_index "functions", ["project_id"], :name => "index_functions_on_project_id"
+
+  create_table "layers", :force => true do |t|
+    t.string   "name"
+    t.integer  "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "node_edges", :force => true do |t|
     t.datetime "created_at"
@@ -84,6 +95,27 @@ ActiveRecord::Schema.define(:version => 20130410231644) do
 
   add_index "node_edges", ["destination_id"], :name => "index_node_edges_on_destination_id"
   add_index "node_edges", ["source_id"], :name => "index_node_edges_on_source_id"
+
+  create_table "project_memberships", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.boolean  "contributor",   :default => false
+    t.integer  "maximum_layer", :default => 0
+  end
+
+  add_index "project_memberships", ["project_id"], :name => "index_project_memberships_on_project_id"
+  add_index "project_memberships", ["user_id"], :name => "index_project_memberships_on_user_id"
+
+  create_table "projects", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "owner_id"
+  end
+
+  add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
 
   create_table "sub_system_flows", :force => true do |t|
     t.datetime "created_at"
@@ -104,9 +136,13 @@ ActiveRecord::Schema.define(:version => 20130410231644) do
     t.integer  "parent_id"
     t.integer  "root_id"
     t.integer  "position"
+    t.integer  "project_id"
+    t.integer  "layer_id"
   end
 
+  add_index "sub_systems", ["layer_id"], :name => "index_sub_systems_on_layer_id"
   add_index "sub_systems", ["parent_id"], :name => "index_sub_systems_on_parent_id"
+  add_index "sub_systems", ["project_id"], :name => "index_sub_systems_on_project_id"
   add_index "sub_systems", ["root_id"], :name => "index_sub_systems_on_root_id"
 
   create_table "users", :force => true do |t|

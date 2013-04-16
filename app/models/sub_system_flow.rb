@@ -20,22 +20,26 @@ class SubSystemFlow < ActiveRecord::Base
     ret=connector.sub_system.full_name+"_"+flow.name
   end
 
+  def parent_project
+    flow.parent_project
+  end
+
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    connector.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator?
+    connector.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    connector.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    true
+    true # connector.viewable_by? (acting_user)
   end
 
 end

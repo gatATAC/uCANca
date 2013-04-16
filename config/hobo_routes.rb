@@ -6,15 +6,39 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller functions
-  resources :functions do
+  resources :functions, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
       get 'complete_name'
     end
   end
 
+  # Owner routes for controller functions
+  resources :projects, :as => :project, :only => [] do
+    resources :functions, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_project'
+      collection do
+        post 'create', :action => 'create_for_project'
+      end
+    end
+  end
+
+
+  # Resource routes for controller projects
+  resources :projects, :only => [:edit, :show, :update, :destroy]
+
+  # Owner routes for controller projects
+  resources :users, :as => :owner, :only => [] do
+    resources :projects, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_owner'
+      collection do
+        post 'create', :action => 'create_for_owner'
+      end
+    end
+  end
+
 
   # Resource routes for controller sub_systems
-  resources :sub_systems do
+  resources :sub_systems, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
       post 'reorder'
     end
@@ -30,14 +54,29 @@ Blocks::Application.routes.draw do
     end
   end
 
+  # Owner routes for controller sub_systems
+  resources :projects, :as => :project, :only => [] do
+    resources :sub_systems, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_project'
+      collection do
+        post 'create', :action => 'create_for_project'
+      end
+    end
+  end
+
 
   # Resource routes for controller function_types
   resources :function_types
 
 
+  # Resource routes for controller project_memberships
+  resources :project_memberships, :only => [:create, :update, :destroy]
+
+
   # Resource routes for controller users
   resources :users, :only => [:edit, :show, :create, :update, :destroy] do
     collection do
+      get 'complete_name'
       post 'signup', :action => 'do_signup'
       get 'signup'
     end
@@ -61,9 +100,19 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller flows
-  resources :flows do
+  resources :flows, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
       get 'complete_name'
+    end
+  end
+
+  # Owner routes for controller flows
+  resources :projects, :as => :project, :only => [] do
+    resources :flows, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_project'
+      collection do
+        post 'create', :action => 'create_for_project'
+      end
     end
   end
 
@@ -91,7 +140,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller sub_system_flows
-  resources :sub_system_flows do
+  resources :sub_system_flows, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
       post 'reorder'
     end
@@ -109,6 +158,10 @@ Blocks::Application.routes.draw do
 
   # Resource routes for controller node_edges
   resources :node_edges, :only => [:show]
+
+
+  # Resource routes for controller layers
+  resources :layers
 
 
   # Resource routes for controller connectors

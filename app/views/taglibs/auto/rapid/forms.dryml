@@ -28,7 +28,7 @@
 <def tag="form" for="Flow">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, flow_type" param/>
+    <field-list fields="name, flow_type, project" param/>
     <div param="actions">
       <submit label="#{ht 'flow.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -64,9 +64,21 @@
 <def tag="form" for="Function">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="ident, name, description, function_type" param/>
+    <field-list fields="ident, name, description, function_type, project" param/>
     <div param="actions">
       <submit label="#{ht 'function.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Layer">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, level" param/>
+    <div param="actions">
+      <submit label="#{ht 'layer.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -79,6 +91,30 @@
     <field-list fields="position, destination, source" param/>
     <div param="actions">
       <submit label="#{ht 'node_edge.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="ProjectMembership">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="contributor, maximum_layer, project, user" param/>
+    <div param="actions">
+      <submit label="#{ht 'project_membership.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Project">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, owner" param/>
+    <div param="actions">
+      <submit label="#{ht 'project.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -100,7 +136,7 @@
 <def tag="form" for="SubSystem">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, position, parent, root" param/>
+    <field-list fields="name, position, layer, parent, project, root" param/>
     <div param="actions">
       <submit label="#{ht 'sub_system.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

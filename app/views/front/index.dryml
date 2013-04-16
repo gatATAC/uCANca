@@ -23,9 +23,16 @@
       </section>
     </header>
 
-    <section class="content-body">
+    <section with="&current_user" class="content-body" if="&logged_in?">
+      <h3>Your Projects</h3>
+      <collection:projects><card without-creator-link/></collection>
 
+      <a:projects action="new">New Project</a>
+
+      <h3>Projects you have joined</h3>
+      <collection:joined-projects><card without-creator-link/></collection>
     </section>
+
   </content:>
 
 </page>

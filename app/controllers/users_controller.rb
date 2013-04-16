@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   auto_actions :all, :except => [ :index, :new, :create ]
 
+  autocomplete
+
   # Normally, users should be created via the user lifecycle, except
   #  for the initial user created via the form on the front screen on
   #  first run.  This method creates the initial user.

@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   end
   attr_accessible :name, :email_address, :password, :password_confirmation, :current_password
 
+  has_many :projects, :class_name => "Project", :foreign_key => "owner_id", :inverse_of => :owner
+  has_many :project_memberships, :dependent => :destroy, :inverse_of => :user
+  has_many :joined_projects, :through => :project_memberships, :source => :project
+
   # This gives admin rights and an :active state to the first sign-up.
   # Just remove it if you don't want that
   before_create do |user|
@@ -56,19 +60,19 @@ class User < ActiveRecord::Base
 
   def create_permitted?
     # Only the initial admin user can be created
-    self.class.count == 0
+    (self.class.count == 0)
   end
 
   def update_permitted?
-    acting_user.administrator? ||
+    (acting_user.administrator? ||
       (acting_user == self && only_changed?(:email_address, :crypted_password,
-                                            :current_password, :password, :password_confirmation))
+                                            :current_password, :password, :password_confirmation)))
     # Note: crypted_password has attr_protected so although it is permitted to change, it cannot be changed
     # directly from a form submission.
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    (acting_user.administrator?)
   end
 
   def view_permitted?(field)

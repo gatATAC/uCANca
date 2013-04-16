@@ -6,8 +6,9 @@ class Flow < ActiveRecord::Base
     name   :string
     timestamps
   end
-  attr_accessible :name, :flow_type_id, :flow_type
+  attr_accessible :name, :flow_type_id, :flow_type, :project, :project_id
 
+  belongs_to :project, :inverse_of => :flows, :counter_cache => true
   belongs_to :flow_type
 
   has_many :sub_system_flows
@@ -17,6 +18,7 @@ class Flow < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :flow_type, :presence => true
+  validates :project, :presence => true
 
   def self.to_h
     ret="#ifndef _DRE_H\n#define _DRE_H\n\n"
@@ -98,23 +100,27 @@ class Flow < ActiveRecord::Base
     return ret
   end
 
+  def parent_project
+    project
+  end
 
   # --- Permissions --- #
 
+
   def create_permitted?
-    acting_user.administrator?
+    parent_project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator?
+    parent_project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    parent_project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end

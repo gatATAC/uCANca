@@ -21,6 +21,7 @@ class Connector < ActiveRecord::Base
   children :sub_system_flows,:input_flows
 
   validates :sub_system, :presence => :true
+  validates :name, :presence => :true
 
   def full_name
     sub_system.name+":"+name
@@ -28,6 +29,10 @@ class Connector < ActiveRecord::Base
 
   def full_path
     sub_system.full_name+":"+name
+  end
+
+  def parent_project
+    sub_system.parent_project
   end
 
   def copy_connector_flows(c)
@@ -197,20 +202,21 @@ class Connector < ActiveRecord::Base
 
   # --- Permissions --- #
 
+
   def create_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    sub_system.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    true
+    sub_system.viewable_by? (acting_user)
   end
 
   def copy_connector_flows_permitted?

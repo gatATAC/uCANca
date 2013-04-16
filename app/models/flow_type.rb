@@ -7,10 +7,10 @@ class FlowType < ActiveRecord::Base
     c_type :string
     c_input_patron :text
     c_output_patron :text
-    enable_input :boolean, :default => :true
-    enable_output :boolean, :default => :true
-    paso_por_referencia :boolean, :default => :false
-    tipo_propio :boolean, :default => :false
+    enable_input :boolean, :default => true
+    enable_output :boolean, :default => true
+    paso_por_referencia :boolean, :default => false
+    tipo_propio :boolean, :default => false
     timestamps
   end
   attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :paso_por_referencia, :tipo_propio
@@ -121,7 +121,7 @@ class FlowType < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end

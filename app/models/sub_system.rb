@@ -6,11 +6,13 @@ class SubSystem < ActiveRecord::Base
     name :string
     timestamps
   end
-  attr_accessible :name, :parent, :root, :parent_id, :root_id
+  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id
 
 
+  belongs_to :project
+  belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
-  belongs_to :parent, :foreign_key => :parent_id, :class_name => 'SubSystem'
+  belongs_to :parent,  :creator => true, :foreign_key => :parent_id, :class_name => 'SubSystem'
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
 
 =begin
@@ -27,9 +29,26 @@ class SubSystem < ActiveRecord::Base
   has_many :function_sub_systems
   has_many :functions, :through => :function_sub_systems
 
+  validates :layer, :presence => :true
+
   children :connectors,:children
 
   acts_as_list :scope => :parent
+
+  def parent_project
+    ret = nil
+    if root then
+      ret=root.parent_project
+    else
+      if parent then
+        ret=parent.parent_project
+      else
+        ret=project
+      end
+    end
+    print "miro: "+ret.to_s+"\n"
+    return ret
+  end
 
   def full_name
     ret=name
@@ -267,23 +286,38 @@ class SubSystem < ActiveRecord::Base
   end
 
 
+  def layer_visible_by?(u)
+    ret=false
+    parent_project.project_memberships.each  {|mb|
+      if (mb.user==u) then
+        if (mb.maximum_layer == 0 || mb.maximum_layer>=self.layer.level) then
+          ret=true
+        end
+      end
+    }
+    return ret
+  end
 
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    parent_project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    acting_user.administrator?
+    parent_project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    acting_user.administrator?
+    parent_project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    true
+    if parent_project then
+      parent_project.viewable_by?(acting_user) && self.layer_visible_by?(acting_user)
+    else
+      true
+    end
   end
 
 end
