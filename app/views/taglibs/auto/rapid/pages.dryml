@@ -520,7 +520,6 @@
     <body: class="show-page function-sub-system" param/>
 
     <content-header: param>
-      <a:function param="parent-link">&laquo; <ht key="function_sub_system.actions.back_to_parent" parent="Function" name="&this">Back to <name/></ht></a:function>
       <h2 param="heading">
         <ht key="function_sub_system.show.heading" name="#{name(:no_wrapper => true)}">
           Function sub system <name/>
@@ -537,7 +536,7 @@
     </content-header:>
 
     <content-body: param>
-      <field-list fields="sub_system" param/>
+      <field-list fields="function, sub_system" param/>
     </content-body:>
 
   </page>
@@ -1559,7 +1558,7 @@
     </content-header:>
 
     <content-body: param>
-      <field-list fields="position, layer, project, root" param/>
+      <field-list fields="abbrev, position, layer, project, root" param/>
       <section param="collection-section">
         <h3 param="collection-heading">
           <ht key="connector.collection.heading" count="&this.connectors.count" >

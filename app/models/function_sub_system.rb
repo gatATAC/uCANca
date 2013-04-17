@@ -10,7 +10,7 @@ class FunctionSubSystem < ActiveRecord::Base
 
   belongs_to :sub_system, :inverse_of => :function_sub_systems
   belongs_to :function, :inverse_of => :function_sub_systems
-=begin
+
   validates :sub_system, :presence => :true
   validates :function, :presence => :true
 
@@ -28,20 +28,11 @@ class FunctionSubSystem < ActiveRecord::Base
   def parent_project
     function.parent_project
   end
-=end
+
   # --- Permissions --- #
 
   def create_permitted?
-    if (function) then
-      function.updatable_by?(acting_user)
-    else
-      if (sub_system) then
         sub_system.updatable_by?(acting_user)
-      else
-        true
-      end
-    end
-    true
   end
 
   def update_permitted?
