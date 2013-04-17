@@ -5,11 +5,12 @@ class FunctionSubSystem < ActiveRecord::Base
   fields do
     timestamps
   end
+  
   attr_accessible :sub_system, :function, :sub_system_id, :function_id
 
-  belongs_to :sub_system
-  belongs_to :function
-
+  belongs_to :sub_system, :inverse_of => :function_sub_systems
+  belongs_to :function, :inverse_of => :function_sub_systems
+=begin
   validates :sub_system, :presence => :true
   validates :function, :presence => :true
 
@@ -27,23 +28,43 @@ class FunctionSubSystem < ActiveRecord::Base
   def parent_project
     function.parent_project
   end
-
+=end
   # --- Permissions --- #
 
   def create_permitted?
-    sub_system.updatable_by?(acting_user)
+    if (function) then
+      function.updatable_by?(acting_user)
+    else
+      if (sub_system) then
+        sub_system.updatable_by?(acting_user)
+      else
+        true
+      end
+    end
+    true
   end
 
   def update_permitted?
     sub_system.updatable_by?(acting_user)
+    true
   end
 
   def destroy_permitted?
-    sub_system.destroyable_by?(acting_user)
+    sub_system.updatable_by?(acting_user)
+    true
   end
 
   def view_permitted?(field)
-    sub_system.viewable_by? (acting_user)
+    if (function) then
+      function.viewable_by?(acting_user)
+    else
+      if (sub_system) then
+        sub_system.viewable_by?(acting_user)
+      else
+        true
+      end
+    end
+    true
   end
 
 

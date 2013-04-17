@@ -13,7 +13,6 @@ class Project < ActiveRecord::Base
   validates :name, :presence => :true
   validates :owner, :presence => :true
 
-
   has_many :project_memberships, :dependent => :destroy, :inverse_of => :project
   has_many :members, :through => :project_memberships, :source => :user
   has_many :sub_systems

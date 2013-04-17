@@ -8,7 +8,7 @@ class Flow < ActiveRecord::Base
   end
   attr_accessible :name, :flow_type_id, :flow_type, :project, :project_id
 
-  belongs_to :project, :inverse_of => :flows, :counter_cache => true
+  belongs_to :project, :inverse_of => :flows
   belongs_to :flow_type
 
   has_many :sub_system_flows

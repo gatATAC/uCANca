@@ -4,7 +4,7 @@ you can place common code in this file. -->
 <extend tag="show-page" for="SubSystem">
   <old-show-page merge>
 
-    <field-list: fields="parent, root, project, layer, full_name" param/>
+    <field-list: fields="abbrev, parent, root, parent_project, layer, full_name" param/>
     <collection: replace>
       <if test="&can_edit?(this.position_column)">
         <sortable-collection:connectors param="collection"/>
@@ -98,12 +98,12 @@ you can place common code in this file. -->
       <a with="&this.connector"><%=  this.full_path %></a>:<view:position/>
       <h5 param="heading"><a><name/></a></h5>
     </heading:>
-    <append-header:>
+    <!--append-header:>
       <delete-button label="X" param/>
-    </append-header:>
-    <append-body:>
+    </append-header:-->
+    <append-header:>
       <editor:outdir/> Salida?
-    </append-body:>
+    </append-header:>
   </old-card>
 </extend>
 
@@ -132,6 +132,7 @@ you can place common code in this file. -->
     </field-list:>
   </old-form>
 </extend>
+
 <extend tag="show-page" for="Connector">
   <old-show-page merge>
     <prepend-collection-section:>
@@ -185,6 +186,7 @@ you can place common code in this file. -->
     </heading:>
   </old-card>
 </extend>
+
 <extend tag="card" for="Connector">
   <old-card merge>
     <body: param>

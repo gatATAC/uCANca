@@ -136,7 +136,7 @@
 <def tag="form" for="SubSystem">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, position, layer, parent, project, root" param/>
+    <field-list fields="name, abbrev, position, layer, parent, project, root" param/>
     <div param="actions">
       <submit label="#{ht 'sub_system.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416145913) do
+ActiveRecord::Schema.define(:version => 20130416191618) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20130416145913) do
     t.integer  "position"
     t.integer  "project_id"
     t.integer  "layer_id"
+    t.string   "abbrev"
   end
 
   add_index "sub_systems", ["layer_id"], :name => "index_sub_systems_on_layer_id"

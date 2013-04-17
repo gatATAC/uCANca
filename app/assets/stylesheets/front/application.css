@@ -1,26 +1,13 @@
-/* 
-    Document   : application
-    Created on : 09-abr-2013, 6:46:01
-    Author     : txinto
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
 .span3 {
-width: 700px;
+    width:700px
 }
 .span9 {
-width: 30%;
+    width:30%
 }
 .container {
-width: 90%;
+    width:90%
+}
+.well {
+    padding:5px
 }
 
-.well {
-    padding: 5px;
-}

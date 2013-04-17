@@ -11,8 +11,8 @@ class SubSystemFlow < ActiveRecord::Base
   belongs_to :flow, :inverse_of => :sub_system_flows
   belongs_to :connector, :inverse_of => :sub_system_flows
 
-  validates :flow, :presence => true
-  validates :connector, :presence => true
+  validates :flow, :presence => :true
+  validates :connector, :presence => :true
 
   acts_as_list :scope => :connector
 

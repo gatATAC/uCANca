@@ -13,7 +13,7 @@ class Function < ActiveRecord::Base
   belongs_to :project
   belongs_to :function_type, :inverse_of => :functions
 
-  has_many :function_sub_systems
+  has_many :function_sub_systems, :dependent => :destroy, :inverse_of => :function
   has_many :sub_systems, :through => :function_sub_systems
 
   validates :name, :presence => :true

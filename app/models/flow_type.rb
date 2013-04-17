@@ -17,18 +17,7 @@ class FlowType < ActiveRecord::Base
 
   has_many :flows
 
-=begin
-  DIO
-  ADC
-  PWM
-  CAN signal
-  Status
-  Timer
-  Variable
-  Bus
-  NC
-  Power
-=end
+  validates :name, :presence => :true
 
   def to_c_type(f)
     ret=""

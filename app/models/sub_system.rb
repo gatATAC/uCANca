@@ -4,15 +4,20 @@ class SubSystem < ActiveRecord::Base
 
   fields do
     name :string
+    abbrev :string
     timestamps
   end
-  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id
+  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev
 
 
   belongs_to :project
   belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
   belongs_to :parent,  :creator => true, :foreign_key => :parent_id, :class_name => 'SubSystem'
+
+  validates :name, :presence => :true
+  validates :abbrev, :presence => :true
+
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
 
 =begin
@@ -26,7 +31,7 @@ class SubSystem < ActiveRecord::Base
   has_many :output_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
   has_many :input_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
 
-  has_many :function_sub_systems
+  has_many :function_sub_systems, :dependent => :destroy, :inverse_of => :sub_system
   has_many :functions, :through => :function_sub_systems
 
   validates :layer, :presence => :true
@@ -46,7 +51,6 @@ class SubSystem < ActiveRecord::Base
         ret=project
       end
     end
-    print "miro: "+ret.to_s+"\n"
     return ret
   end
 
@@ -54,7 +58,17 @@ class SubSystem < ActiveRecord::Base
     ret=name
     p=self
     while (p.parent) do
-      ret=p.parent.name+"_"+ret
+      ret=p.parent.abbrev+"_"+ret
+      p=p.parent
+    end
+    return ret
+  end
+
+  def full_abbrev
+    ret=abbrev
+    p=self
+    while (p.parent) do
+      ret=p.parent.abbrev+"_"+ret
       p=p.parent
     end
     return ret

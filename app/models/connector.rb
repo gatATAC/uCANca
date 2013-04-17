@@ -220,15 +220,15 @@ class Connector < ActiveRecord::Base
   end
 
   def copy_connector_flows_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def copy_flow_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
   def copy_all_subsystem_flows_permitted?
-    acting_user.administrator?
+    sub_system.updatable_by?(acting_user)
   end
 
 end
