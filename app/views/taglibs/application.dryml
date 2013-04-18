@@ -54,8 +54,12 @@ you can place common code in this file. -->
             <human-collection-name collection="function_sub_systems" your/>
           </ht>
         </h3>
-
-        <collection:function_sub_systems param="function_sub_systems-collection"/>
+        <if test="&can_edit?(this.position_column)">
+          <sortable-collection:function_sub_systems param="function_sub_systems-collection"/>
+        </if>
+        <else>
+          <collection:function_sub_systems param="function_sub_systems-collection"/>
+        </else>
         <section param="add-to-function_sub_systems-collection" if="&can_create?(@sub_system.function_sub_systems)">
           <h3 param="add-function_sub_systems-form-heading">
             <ht key="function_sub_system.collection.add_form_heading" count="1">
@@ -63,7 +67,7 @@ you can place common code in this file. -->
             </ht>
           </h3>
           <form with="&@function_sub_system || new_for_current_user(@sub_system.function_sub_systems)" owner="sub_system" without-cancel param="function_sub_systems-form">
-            <field-list: skip="sub_system"/>
+            <!--field-list: skip="sub_system"/-->
             <submit: label="#{ht 'function_sub_system.actions.add', :default=>['Add'] }"/>
           </form>
         </section>
@@ -77,6 +81,12 @@ you can place common code in this file. -->
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
     </aside:>
+    <append-main-row:>
+      <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
+      <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="2" background="#ff00ff"/>
+      <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
+      <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="2" background="blue"/>
+    </append-main-row:>
   </old-show-page>
 </extend>
 <!--
@@ -130,6 +140,12 @@ you can place common code in this file. -->
         <name-one/>
       </function-view:>
     </field-list:>
+  </old-form>
+</extend>
+
+<extend tag="form" for="FunctionSubSystem">
+  <old-form merge param="default">
+    <field-list: fields="name, function, sub_system, implementacion"/>
   </old-form>
 </extend>
 
@@ -199,9 +215,15 @@ you can place common code in this file. -->
 
 <extend tag="card" for="FunctionSubSystem">
   <old-card merge>
-    <append-header:>
+    <append-heading:>
+      <!--a:name/>
+      [<a:sub_system/>]
+      <view:function.abbrev/>: <a:function/-->
+    </append-heading:>
+    <append-body:>
+      <p>Implementacion? <editor:implementacion/></p>
       <delete-button label="X" param/>
-    </append-header:>
+    </append-body:>
   </old-card>
 </extend>
 
@@ -229,12 +251,6 @@ you can place common code in this file. -->
         <page-nav: replace/>
       </table-plus>
     </collection:>
-    <append-content-body:>
-      <%= link_to "Header del DRE", :controller => :flows, :action => :index, :format => 'h' %>
-      <embed src="/flows.h" type="text/x-c" width="100%" height="auto"/>
-      <%= link_to "Rutinas IO del DRE", :controller => :flows, :action => :index, :format => 'c' %>
-      <embed src="/flows.c" type="text/x-c" width="100%" height="auto"/>
-    </append-content-body:>
   </old-index-page>
 </extend>
 
@@ -296,6 +312,15 @@ you can place common code in this file. -->
         </div>
         </form>
     </project_memberships-collection-section:>
+    <append-main-row:>
+      <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
+      <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/>
+      <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
+      <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/>
+      <%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :show, :format => 'cdp' %>
+    </append-main-row:>
+
+
   </old-show-page>
 </extend>
 
@@ -304,6 +329,15 @@ you can place common code in this file. -->
     <body:>
       <span>Contributor?</span><view:contributor/><editor:contributor/>
       <span>Max layer?</span><editor:maximum_layer/>
+    </body:>
+  </old-card>
+</extend>
+
+
+<extend tag="card" for="StateMachineTransition">
+  <old-card merge>
+    <body:>
+      <span>Destination:</span> <editor:destination_state/>
     </body:>
   </old-card>
 </extend>

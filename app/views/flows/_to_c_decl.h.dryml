@@ -1,0 +1,4 @@
+<% if (to_c_decl.flow_type) then %>
+  <%=h to_c_decl.flow_type.to_c_type(to_c_decl).+" "+to_c_decl.name+";\n" %>
+<% else %>
+// (null) <% to_c_decl.name %><% end %>

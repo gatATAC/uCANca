@@ -20,53 +20,33 @@ class Flow < ActiveRecord::Base
   validates :flow_type, :presence => true
   validates :project, :presence => true
 
-  def self.to_h
-    ret="#ifndef _DRE_H\n#define _DRE_H\n\n"
-    ret+=self.to_c_decl
-    ret+=self.to_c_io_decl
-    ret+="\n#endif /* _DRE_H */\n"
-  end
-
-  def self.to_c
-    ret="#include \"DRE.h\"\n\n"
-    ret+="// --- Declaracion de la estructura de datos del DRE ---\nt_dre dre;\n"
-    ret+="\n\n// --- Funciones de adquisicion y sintesis del DRE ---\n\n"
-    ret+=self.to_c_io
-  end
-
-  def self.to_c_decl
-    ret="typedef struct {\n"
-    self.find(:all).each{ |f|
-      ret+="\t"+f.to_c_decl+"\n"
-    }
-    ret+="} t_dre;\n\n"
-  end
-
-  def self.to_c_io
-    ret="// Funciones de entrada y salida\n"
-    ret=""
-    self.find(:all).each{ |f|
-      ret+=f.to_c_io;
-    }
-    ret+="\n\n"
-  end
-
-  def self.to_c_io_decl
-    ret="// Funciones de entrada y salida\n"
-    ret=""
-    self.find(:all).each{ |f|
-      ret+=f.to_c_io_decl;
-    }
-    ret+="\n\n"
+  def to_define
+    if (self.flow_type) then
+      return self.flow_type.to_define(self)
+    else
+      return "// (null) "+self.name
+    end
   end
 
   def to_c_decl
-    #ret="// Declaracion de la variable\n"
+    if (self.flow_type) then
+      ret="\t"
+      ret+=self.flow_type.to_c_type(self).+" "+self.name+";\n"
+      return ret
+    else
+      return "// (null) "+self.name+"\n"
+    end
+  end
+
+  def to_diag_c_decl
     ret=""
     if (self.flow_type) then
-      ret+=self.flow_type.to_c_type(self)+" "+self.name+";"
+      if (!self.flow_type.tipo_fantasma) then
+        ret="\tBOOL enable_"+self.name+";\n\t"
+        ret+=self.flow_type.to_c_type(self).+" "+self.name+";\n"
+      end
     else
-      ret+="// (null) "+self.name
+      return "// (null) "+self.name+"\n"
     end
   end
 
@@ -84,9 +64,9 @@ class Flow < ActiveRecord::Base
 
   def to_c_io
     if (self.flow_type) then
-      ret="\n\n// Adquisicion de la variable "+self.name+"\n"
+      ret="\n// Adquisicion de la variable "+self.name+"\n"
       ret+=flow_type.to_c_input(self)
-      ret+="\n// Sintesis de la variable "+self.name+"\n"
+      ret+="\n\n// Sintesis de la variable "+self.name+"\n"
       ret+=flow_type.to_c_output(self)
     else
       ret="// (null)"

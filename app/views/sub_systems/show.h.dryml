@@ -1,0 +1,12 @@
+#ifndef _<%= @sub_system.name.upcase%>_H
+#define _<%= @sub_system.name.upcase%>_H
+
+#include "DRE.h"
+
+// Declaracion de las funciones del subsistema
+<% @sub_system.function_sub_systems.each {|f| %>
+// <%= f.function.ident %>: <%= f.function.name %>
+void <%= f.to_func_name %>();
+<%  } %>
+
+#endif /* _<%= @sub_system.name.upcase%>_H */

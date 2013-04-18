@@ -30,6 +30,15 @@ class Project < ActiveRecord::Base
 
   children :flows, :project_memberships, :sub_systems, :functions
 
+  def sub_system_tree
+    ret = []
+    sub_systems.each {|ss|
+      ret+=[ss]
+      ret+=ss.subtree
+    }
+    return ret
+  end
+
   # --- Permissions --- #
 
   def create_permitted?

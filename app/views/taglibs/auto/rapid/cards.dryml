@@ -51,13 +51,13 @@
 <def tag="card" for="FunctionSubSystem">
   <card class="function-sub-system" param="default" merge>
     <header: param>
-      <h4 param="heading"><name/></h4>
-      <div param="actions">
-        <a action="edit" if="&can_edit?" param="edit-link">
-          <ht key="function_sub_system.actions.edit">Edit</ht>
-        </a>
-      </div>
+      <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="state_machine.collection.count" count="&this.state_machines.size">
+         <count:state_machines param/>
+      </ht>
+    </body:>
   </card>
 </def>
 
@@ -109,6 +109,40 @@
       <div param="actions">
         <delete-button label="X" param/>
       </div>
+    </header:>
+  </card>
+</def>
+
+<def tag="card" for="StateMachine">
+  <card class="state-machine" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <ht key="state_machine_state.collection.count" count="&this.state_machine_states.size">
+         <count:state_machine_states param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="StateMachineState">
+  <card class="state-machine-state" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <ht key="state_machine_transition.collection.count" count="&this.state_machine_transitions.size">
+         <count:state_machine_transitions param/>
+      </ht>
+    </body:>
+  </card>
+</def>
+
+<def tag="card" for="StateMachineTransition">
+  <card class="state-machine-transition" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
     </header:>
   </card>
 </def>

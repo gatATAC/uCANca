@@ -1,0 +1,11 @@
+#ifndef _<%= @sub_system.name.upcase%>_INNER_H
+#define _<%= @sub_system.name.upcase%>_INNER_H
+
+#include "<%= @sub_system.name %>.h"
+
+// --- Definiciones para acceder a los flujos con sintaxis local ---
+<% @sub_system.connectors.each {|c| %>
+// Conector <%=c.name%>
+<% c.sub_system_flows.find(:all).each{ |f| %><%=f.flow.to_define %><% } } %>
+
+#endif /* _<%= @sub_system.name.upcase%>_INNER_H */

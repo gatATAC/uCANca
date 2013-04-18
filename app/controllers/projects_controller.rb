@@ -8,6 +8,18 @@ class ProjectsController < ApplicationController
 
 
   def show
+    @project=find_instance
+    respond_to do |format|
+      format.c #{
+#        render :inline => find_instance.to_c
+#      }
+      format.h #{
+#        render :inline => find_instance.to_h
+#      }
+      format.cdp# {
+#        render :inline => @project.to_cdp
+#      }
+      format.html {
         @flows=find_instance.flows.search(params[:search], :name).order_by(parse_sort_param(:name, :flow_type)).paginate(:page => params[:page])
         if (params[:flow_type]) then
           if (params[:flow_type]!="") then
@@ -24,6 +36,7 @@ class ProjectsController < ApplicationController
     end
 =end
         hobo_show
-
+      }
+    end
   end
 end

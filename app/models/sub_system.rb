@@ -20,23 +20,17 @@ class SubSystem < ActiveRecord::Base
 
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
 
-=begin
-  has_many :edges_as_source, :class_name => 'NodeEdge', :foreign_key => 'source_id', :dependent => :destroy, :order => :position
-  has_many :edges_as_destination, :class_name => 'NodeEdge', :foreign_key => 'destination_id'
-  has_many :sources, :through => :edges_as_destination , :accessible => true
-  has_many :destinations, :through => :edges_as_source ,  :order => 'node_edges.position',:accessible => true
-=end
   has_many :connectors, :order => :position
 
   has_many :output_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
   has_many :input_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
 
-  has_many :function_sub_systems, :dependent => :destroy, :inverse_of => :sub_system
+  has_many :function_sub_systems, :inverse_of => :sub_system, :order => :position
   has_many :functions, :through => :function_sub_systems
 
   validates :layer, :presence => :true
 
-  children :connectors,:children
+  children :connectors,:children, :function_sub_systems
 
   acts_as_list :scope => :parent
 
@@ -86,17 +80,15 @@ class SubSystem < ActiveRecord::Base
 
   def pretree
     ret = []
-    ret += sources
-    sources.each { |s|
-      ret += s.pretree
-    }
+    ret += parent
+    ret += parent.pretree
     return ret
   end
 
   def subtree
     ret = []
-    ret += destinations
-    destinations.each { |s|
+    ret += children
+    children.each { |s|
       ret += s.subtree
     }
     return ret
@@ -107,7 +99,7 @@ class SubSystem < ActiveRecord::Base
   end
 
 	def has_children?
-	  return destinations.size > 0
+	  return children.size > 0
 	end
 
   def copy_connectors(s)

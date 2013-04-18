@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416191618) do
+ActiveRecord::Schema.define(:version => 20130418154029) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130416191618) do
     t.boolean  "enable_output",       :default => true
     t.boolean  "paso_por_referencia", :default => false
     t.boolean  "tipo_propio",         :default => false
+    t.boolean  "tipo_fantasma",       :default => false
   end
 
   create_table "flows", :force => true do |t|
@@ -52,6 +53,9 @@ ActiveRecord::Schema.define(:version => 20130416191618) do
     t.datetime "updated_at"
     t.integer  "sub_system_id"
     t.integer  "function_id"
+    t.integer  "position"
+    t.boolean  "implementacion", :default => false
+    t.string   "name"
   end
 
   add_index "function_sub_systems", ["function_id"], :name => "index_function_sub_systems_on_function_id"
@@ -116,6 +120,42 @@ ActiveRecord::Schema.define(:version => 20130416191618) do
   end
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
+
+  create_table "state_machine_states", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.boolean  "initial"
+    t.boolean  "final"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "state_machine_id"
+  end
+
+  add_index "state_machine_states", ["state_machine_id"], :name => "index_state_machine_states_on_state_machine_id"
+
+  create_table "state_machine_transitions", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "priority"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "state_machine_state_id"
+    t.integer  "destination_state_id"
+  end
+
+  add_index "state_machine_transitions", ["destination_state_id"], :name => "index_state_machine_transitions_on_destination_state_id"
+  add_index "state_machine_transitions", ["state_machine_state_id"], :name => "index_state_machine_transitions_on_state_machine_state_id"
+
+  create_table "state_machines", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "function_sub_system_id"
+    t.integer  "super_state_id"
+  end
+
+  add_index "state_machines", ["function_sub_system_id"], :name => "index_state_machines_on_function_sub_system_id"
+  add_index "state_machines", ["super_state_id"], :name => "index_state_machines_on_super_state_id"
 
   create_table "sub_system_flows", :force => true do |t|
     t.datetime "created_at"

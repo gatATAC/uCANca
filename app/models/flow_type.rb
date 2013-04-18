@@ -11,23 +11,36 @@ class FlowType < ActiveRecord::Base
     enable_output :boolean, :default => true
     paso_por_referencia :boolean, :default => false
     tipo_propio :boolean, :default => false
+    tipo_fantasma :boolean, :default => false
     timestamps
   end
-  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :paso_por_referencia, :tipo_propio
+  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :paso_por_referencia, :tipo_propio, :tipo_fantasma
 
   has_many :flows
 
   validates :name, :presence => :true
 
-  def to_c_type(f)
-    ret=""
-    if (!c_type || c_type.size<=0) then
-      ret+="t_"+name.downcase
+  def to_define(f)
+    if (!tipo_fantasma) then
+      return "#define "+f.name+" dre."+f.name+"\n"
     else
-      ret=c_type
+      return ""
     end
-    if (tipo_propio) then
-      ret="t_"+f.name.downcase
+  end
+
+  def to_c_type(f)
+    if (tipo_fantasma) then
+      ret="// "+name+" -- No necesita declaracion"
+    else
+      ret=""
+      if (!c_type || c_type.size<=0) then
+        ret+="t_"+name.downcase
+      else
+        ret=c_type
+      end
+      if (tipo_propio) then
+        ret="t_"+f.name.downcase
+      end
     end
     return ret
   end
@@ -35,6 +48,7 @@ class FlowType < ActiveRecord::Base
   def to_c_input_decl(f)
     ret=to_c_input(f).split("{")[0]+";"
   end
+  
   def to_c_output_decl(f)
     ret=to_c_output(f).split("{")[0]+";"
   end

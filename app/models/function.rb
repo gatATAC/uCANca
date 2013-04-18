@@ -27,6 +27,10 @@ class Function < ActiveRecord::Base
     project
   end
 
+  def abbrev
+    ident.gsub(/\s+/, "_").camelize
+  end
+
   # --- Permissions --- #
 
 
