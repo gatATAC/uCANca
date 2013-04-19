@@ -88,12 +88,11 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machine_transitions
-  resources :state_machine_transitions, :only => [:edit, :show, :update, :destroy]
+  resources :state_machine_transitions, :only => [:create, :update, :destroy]
 
   # Owner routes for controller state_machine_transitions
   resources :state_machine_states, :as => :state_machine_state, :only => [] do
     resources :state_machine_transitions, :only => [] do
-      get 'new', :on => :new, :action => 'new_for_state_machine_state'
       collection do
         post 'create', :action => 'create_for_state_machine_state'
       end
@@ -203,6 +202,16 @@ Blocks::Application.routes.draw do
     end
   end
 
+  # Owner routes for controller state_machines
+  resources :state_machine_states, :as => :super_state, :only => [] do
+    resources :sub_machines, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_super_state'
+      collection do
+        post 'create', :action => 'create_for_super_state'
+      end
+    end
+  end
+
 
   # Resource routes for controller node_edges
   resources :node_edges, :only => [:show]
@@ -230,6 +239,20 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_sub_system'
       collection do
         post 'create', :action => 'create_for_sub_system'
+      end
+    end
+  end
+
+
+  # Resource routes for controller state_machine_conditions
+  resources :state_machine_conditions, :only => [:edit, :show, :update, :destroy]
+
+  # Owner routes for controller state_machine_conditions
+  resources :function_sub_systems, :as => :function_sub_system, :only => [] do
+    resources :state_machine_conditions, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_function_sub_system'
+      collection do
+        post 'create', :action => 'create_for_function_sub_system'
       end
     end
   end

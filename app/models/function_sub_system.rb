@@ -17,8 +17,9 @@ class FunctionSubSystem < ActiveRecord::Base
   validates :function, :presence => :true
 
   has_many :state_machines, :inverse_of => :function_sub_system
+  has_many :state_machine_conditions, :inverse_of => :function_sub_system
 
-  children :state_machines
+  children :state_machines, :state_machine_conditions
   
   acts_as_list :scope => :sub_system
   

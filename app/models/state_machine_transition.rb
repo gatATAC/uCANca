@@ -8,10 +8,11 @@ class StateMachineTransition < ActiveRecord::Base
     priority    :integer
     timestamps
   end
-  attr_accessible :name, :description, :priority, :destination_state, :destination_state_id
+  attr_accessible :name, :description, :priority, :destination_state, :destination_state_id, :state_machine_condition_id, :state_machine_condition
 
   belongs_to :state_machine_state, :inverse_of => :state_machine_transitions
   belongs_to :destination_state, :class_name => 'StateMachineState', :inverse_of => :incoming_transitions
+  belongs_to :state_machine_condition, :inverse_of => :state_machine_transitions
 
   validates :state_machine_state, :presence => :true
 

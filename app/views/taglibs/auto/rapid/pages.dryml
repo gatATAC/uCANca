@@ -509,7 +509,7 @@
 
 
 <def tag="show-page" for="FunctionSubSystem">
-  <page merge title="#{ht 'function_sub_system.show.title', :default=>['Function sub system'], :name => name(:no_wrapper => true) }" without-aside >
+  <page merge title="#{ht 'function_sub_system.show.title', :default=>['Function sub system'], :name => name(:no_wrapper => true) }" >
 
     <body: class="show-page function-sub-system" param/>
 
@@ -547,6 +547,17 @@
         </a:state_machines>
       </section>
     </content-body:>
+
+    <aside: param>
+      <section param="state_machine_conditions-collection-section">
+        <h3 param="state_machine_conditions-collection-heading">
+          <ht key="state_machine_condition.collection.heading" count="&this.state_machine_conditions.count" >
+            <human-collection-name collection="state_machine_conditions" your/>
+          </ht>
+        </h3>
+        <collection:state_machine_conditions  param="state_machine_conditions-collection"/>
+      </section>
+    </aside:>
 
   </page>
 </def>
@@ -1417,6 +1428,146 @@
 
 
 
+<!-- ====== StateMachineCondition Pages ====== -->
+
+<def tag="index-page" for="StateMachineCondition">
+  <page merge title="#{ht 'state_machine_condition.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page state-machine-condition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_condition.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="state_machine_condition.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="StateMachineCondition">
+  <page merge title="#{ht 'state_machine_condition.new.title', :default=>[' New State machine condition'] }">
+    <body: class="new-page state-machine-condition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_condition.new.heading">
+          New State machine condition
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'state_machine_condition.actions.create', :default=>['Create State machine condition']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="StateMachineCondition">
+  <page merge title="#{ht 'state_machine_condition.show.title', :default=>['State machine condition'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page state-machine-condition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_condition.show.heading" name="#{name(:no_wrapper => true)}">
+          State machine condition <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="state_machine_condition.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit State machine condition
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <view:description param="description" />
+      <field-list fields="implementation, function_sub_system" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="StateMachineCondition">
+  <page merge title="#{ht 'state_machine_condition.edit.title', :default=>['Edit State machine condition'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page state-machine-condition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_condition.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit State machine condition
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'state_machine_condition.actions.delete', :default=>['Remove This State machine condition']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-function-sub-system-page" polymorphic/>
+<def tag="new-for-function-sub-system-page" for="StateMachineCondition">
+  <page merge title="#{ht 'state_machine_condition.new_for_owner.title', :default=>['New State machine condition for']} #{name :with => @function_sub_system}">
+    <body: class="new-for-owner-page  state-machine-condition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_condition.new_for_owner.heading">
+          New State Machine Condition
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="state_machine_condition.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@function_sub_system"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="function_sub_system" method="post" param>
+        <field-list: skip="function_sub_system"/>
+        <submit: label="#{ht 'state_machine_condition.actions.create', :default=>['Create State machine condition']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== StateMachineState Pages ====== -->
 
 <def tag="index-page" for="StateMachineState">
@@ -1473,7 +1624,7 @@
 
 
 <def tag="show-page" for="StateMachineState">
-  <page merge title="#{ht 'state_machine_state.show.title', :default=>['State machine state'], :name => name(:no_wrapper => true) }" without-aside >
+  <page merge title="#{ht 'state_machine_state.show.title', :default=>['State machine state'], :name => name(:no_wrapper => true) }" >
 
     <body: class="show-page state-machine-state" param/>
 
@@ -1505,13 +1656,30 @@
 
         <collection:state_machine_transitions param/>
 
-        <a:state_machine_transitions action="new" if="&can_create?(@state_machine_state.state_machine_transitions)" param="new-link">
-          <ht key="state_machine_transition.actions.new" count="1">
-            New State Machine Transition
-          </ht>
-        </a:state_machine_transitions>
+        <section param="add-to-collection" if="&can_create?(@state_machine_state.state_machine_transitions)">
+          <h3 param="add-form-heading">
+            <ht key="state_machine_transition.collection.add_form_heading" count="1">
+              Add a State Machine Transition
+            </ht>
+          </h3>
+          <form with="&@state_machine_transition || new_for_current_user(@state_machine_state.state_machine_transitions)" owner="state_machine_state" without-cancel param>
+            <field-list: skip="state_machine_state"/>
+            <submit: label="#{ht 'state_machine_transition.actions.add', :default=>['Add'] }"/>
+          </form>
+        </section>
       </section>
     </content-body:>
+
+    <aside: param>
+      <section param="sub_machines-collection-section">
+        <h3 param="sub_machines-collection-heading">
+          <ht key="state_machine.collection.heading" count="&this.sub_machines.count" >
+            <human-collection-name collection="sub_machines" your/>
+          </ht>
+        </h3>
+        <collection:sub_machines  param="sub_machines-collection"/>
+      </section>
+    </aside:>
 
   </page>
 </def>
@@ -1601,6 +1769,13 @@
       <page-nav param="bottom-page-nav"/>
 
 
+      <div param="new-form">
+        <h3 param="new-form-heading">
+          <ht key="state_machine_transition.form.new.heading">New State machine transition</ht>
+        </h3>
+        <form with="&@invalid_record || new_for_current_user(StateMachineTransition)" param/>
+      </div>
+
     </content-body:>
   </page>
 </def>
@@ -1641,17 +1816,11 @@
       </h2>
 
       <record-flags fields="" param/>
-
-      <a action="edit" if="&can_edit?" param="edit-link">
-        <ht key="state_machine_transition.actions.edit" name="#{name(:no_wrapper => true)}">
-          Edit State machine transition
-        </ht>
-      </a>
     </content-header:>
 
     <content-body: param>
       <view:description param="description" />
-      <field-list fields="priority, destination_state" param/>
+      <field-list fields="priority, destination_state, state_machine_condition" param/>
     </content-body:>
 
   </page>
@@ -1681,33 +1850,6 @@
 
 
 
-<def tag="new-for-state-machine-state-page" polymorphic/>
-<def tag="new-for-state-machine-state-page" for="StateMachineTransition">
-  <page merge title="#{ht 'state_machine_transition.new_for_owner.title', :default=>['New State machine transition for']} #{name :with => @state_machine_state}">
-    <body: class="new-for-owner-page  state-machine-transition" param/>
-
-    <content-header: param>
-      <h2 param="heading">
-        <ht key="state_machine_transition.new_for_owner.heading">
-          New State Machine Transition
-        </ht>
-      </h2>
-      <h3 param="subheading">
-        <ht key="state_machine_transition.new_for_owner.subheading">
-          For:
-        </ht>
-        <a with="&@state_machine_state"/>
-      </h3>
-    </content-header:>
-
-    <content-body: param>
-      <form owner="state_machine_state" method="post" param>
-        <field-list: skip="state_machine_state"/>
-        <submit: label="#{ht 'state_machine_transition.actions.create', :default=>['Create State machine transition']}"/>
-      </form>
-    </content-body:>
-  </page>
-</def>
 
 
 
@@ -1772,7 +1914,7 @@
 
 
 <def tag="show-page" for="StateMachine">
-  <page merge title="#{ht 'state_machine.show.title', :default=>['State machine'], :name => name(:no_wrapper => true) }" without-aside >
+  <page merge title="#{ht 'state_machine.show.title', :default=>['State machine'], :name => name(:no_wrapper => true) }" >
 
     <body: class="show-page state-machine" param/>
 
@@ -1811,6 +1953,17 @@
         </a:state_machine_states>
       </section>
     </content-body:>
+
+    <aside: param>
+      <section param="sub_machines-collection-section">
+        <h3 param="sub_machines-collection-heading">
+          <ht key="state_machine.collection.heading" count="&this.sub_machines.count" >
+            <human-collection-name collection="sub_machines" your/>
+          </ht>
+        </h3>
+        <collection:sub_machines  param="sub_machines-collection"/>
+      </section>
+    </aside:>
 
   </page>
 </def>
@@ -1861,6 +2014,36 @@
     <content-body: param>
       <form owner="function_sub_system" method="post" param>
         <field-list: skip="function_sub_system"/>
+        <submit: label="#{ht 'state_machine.actions.create', :default=>['Create State machine']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+<def tag="new-for-super-state-page" polymorphic/>
+<def tag="new-for-super-state-page" for="StateMachine">
+  <page merge title="#{ht 'state_machine.new_for_owner.title', :default=>['New State machine for']} #{name :with => @super_state}">
+    <body: class="new-for-owner-page  state-machine" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine.new_for_owner.heading">
+          New Sub Machine
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="state_machine.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@super_state"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="super_state" method="post" param>
+        <field-list: skip="super_state"/>
         <submit: label="#{ht 'state_machine.actions.create', :default=>['Create State machine']}"/>
       </form>
     </content-body:>

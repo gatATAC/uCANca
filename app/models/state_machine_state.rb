@@ -9,14 +9,14 @@ class StateMachineState < ActiveRecord::Base
     final       :boolean
     timestamps
   end
-  attr_accessible :name, :description, :state_machine, :state_machine_id, :initial, :final
+  attr_accessible :name, :description, :state_machine, :state_machine_id, :initial, :final, :sub_machines
 
   belongs_to :state_machine, :inverse_of => :state_machine_states
   has_many :sub_machines, :class_name => 'StateMachine', :limit => 1, :inverse_of => :super_state, :foreign_key => :super_state_id
   has_many :state_machine_transitions, :inverse_of => :state_machine_state
   has_many :incoming_transitions, :inverse_of => :destination_state
 
-  children :state_machine_transitions
+  children :state_machine_transitions,:sub_machines
 
   validates :state_machine, :presence => :true
   # --- Permissions --- #

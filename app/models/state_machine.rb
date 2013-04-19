@@ -13,10 +13,9 @@ class StateMachine < ActiveRecord::Base
 
   has_many :state_machine_states, :inverse_of => :state_machine
   belongs_to :super_state, :class_name => 'StateMachineState', :inverse_of => :sub_machines, :foreign_key => :super_state_id
+  has_many :sub_machines, :through => :state_machine_states, :class_name => 'StateMachine', :foreign_key => :super_state_id
 
-  validates :function_sub_system, :presence => :true
-
-  children :state_machine_states
+  children :state_machine_states, :sub_machines
 
   def to_func_name
     ret=function_sub_system.to_func_name+"_"+name.to_s
@@ -34,11 +33,19 @@ class StateMachine < ActiveRecord::Base
   end
 
   def update_permitted?
-    function_sub_system.updatable_by?(acting_user)
+    if (function_sub_system) then
+      return function_sub_system.updatable_by?(acting_user)
+    else
+      true
+    end
   end
 
   def destroy_permitted?
-    function_sub_system.updatable_by?(acting_user)
+    if (function_sub_system) then
+      return function_sub_system.updatable_by?(acting_user)
+    else
+      true
+    end
   end
 
   def view_permitted?(field)

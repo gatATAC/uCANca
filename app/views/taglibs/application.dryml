@@ -336,8 +336,33 @@ you can place common code in this file. -->
 
 <extend tag="card" for="StateMachineTransition">
   <old-card merge>
+    <heading:>
+      <editor:name/>
+    </heading:>
     <body:>
-      <span>Destination:</span> <editor:destination_state/>
+      <editor:description/>
+      <span>Destination:<editor:destination_state/> Condition: <editor:state_machine_condition/></span>
     </body:>
   </old-card>
 </extend>
+
+<extend tag="show-page" for="FunctionSubSystem">
+  <old-show-page:>
+    <append-state_machine_conditions-collection-section:>
+            <a:state_machine_conditions action="new" if="&can_create?(@function_sub_system.state_machine_conditions)" param="new-link">
+          <ht key="state_machine_condition.actions.new" count="1">
+            New State Machine Condition
+          </ht>
+        </a:state_machine_conditions>
+    </append-state_machine_conditions-collection-section:>
+  </old-show-page:>
+</extend>
+
+<extend tag="card" for="StateMachineState">
+  <old-card merge>
+    <body:>
+      <collection:state_machine_transitions/>
+    </body:>
+  </old-card>
+</extend>
+
