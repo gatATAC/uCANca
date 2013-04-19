@@ -1,5 +1,7 @@
 <% contador=50000
-conditions_lib=[] %>
+conditions_lib=[]
+actions_lib=[]
+%>
 <%= raw("<?xml version=\"1.0\" encoding=\"utf-8\"?>") %>
 <%= raw("<project owner=\"CodeDesigner\" version=\"1.0\">") %>
     <%= raw("<project_properties>") %>
@@ -220,20 +222,40 @@ conditions_lib=[] %>
                                         <%= raw("<property name=\"id\" type=\"long\">#{(60000+smt.id).to_s}</property>") %>
                                         <%= raw("<property name=\"name\" type=\"string\">#{smt.diagram_name}</property>") %>
                                         <%= raw("<property name=\"description\" type=\"string\">#{smt.diagram_description}</property>") %>
-                                <% if smt.state_machine_condition then
+                                <%
+                                cond_act_str=""
+                                if smt.state_machine_condition then
                                   if !conditions_lib.include?(smt.state_machine_condition) then
                                     conditions_lib << smt.state_machine_condition
                                   end
+                                  cond_act_str=smt.state_machine_condition.name+"() / ["
                                 %>
                                 <%= raw("<object type=\"udConditionLinkItem\">") %>
                                     <%= raw("<property name=\"id\" type=\"long\">-1</property>") %>
                                     <%= raw("<property name=\"name\" type=\"string\">#{smt.state_machine_condition.name}</property>") %>
-                                    <%= raw("<property name=\"description\" type=\"string\">Link description...</property>") %>
+                                    <%= raw("<property name=\"description\" type=\"string\">")+smt.state_machine_condition.description+raw("</property>") %>
                                     <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{smt.state_machine_condition.name}</property>") %>
                                     <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
                                 <%= raw("</object>") %>
                                 <% end %>
 
+                                <% act_vector=[]
+                                  smt.state_machine_transition_actions.each{|act|
+                                  if !actions_lib.include?(act.state_machine_action) then
+                                    actions_lib << act.state_machine_action
+                                  end
+                                  act_vector << act.state_machine_action.name+"()"
+                                %>
+                                <%= raw("<object type=\"udActionLinkItem\">") %>
+                                    <%= raw("<property name=\"id\" type=\"long\">-1</property>") %>
+                                    <%= raw("<property name=\"name\" type=\"string\">#{act.state_machine_action.name}</property>") %>
+                                    <%= raw("<property name=\"description\" type=\"string\">")+act.state_machine_action.description+raw("</property>") %>
+                                    <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{act.state_machine_action.name}</property>") %>
+                                    <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
+                                <%= raw("</object>") %>
+                                <% }
+                                cond_act_str+=act_vector.to_s+"]"
+                                %>
 
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
@@ -245,7 +267,7 @@ conditions_lib=[] %>
                                         <%= raw("<property name=\"id\" type=\"long\">#{(60000-smt.id).to_s}</property>") %>
                                         <%= raw("<property name=\"relative_position\" type=\"realpoint\">-42.000000,-9.000000</property>") %>
                                         <%= raw("<property name=\"size\" type=\"realpoint\">89.000000,18.000000</property>") %>
-                                        <%= raw("<property name=\"text\" type=\"string\">&lt;&lt;  / [] &gt;&gt;</property>") %>
+                                        <%= raw("<property name=\"text\" type=\"string\">&lt;&lt;#{cond_act_str} &gt;&gt;</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">3</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
@@ -279,8 +301,8 @@ conditions_lib=[] %>
             <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">#{cond.name}</property>") %>
-            <%= raw("<property name=\"description\" type=\"string\">")+cond.description.to_s+raw("</property>") %>
-            <%= raw("<property name=\"code\" type=\"string\">")+cond.implementation.to_s+raw("</property>") %>
+            <%= raw("<property name=\"description\" type=\"string\">")+cond.description+raw("</property>") %>
+            <%= raw("<property name=\"code\" type=\"string\">")+cond.implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
             <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{cond.name}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>
@@ -292,19 +314,22 @@ conditions_lib=[] %>
         <%= raw("</object>") %>
         <%  } %>
     <%= raw("</object>") %>
+
+
     <%= raw("<object type=\"udCodePackageItem\">") %>
         <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Action functions</property>") %>
+        <%
+        actions_lib.each {|act| %>
         <%= raw("<object type=\"udActionItem\">") %>
             <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
 <% contador=contador+1 %>
-            <%= raw("<property name=\"name\" type=\"string\">action_subtask</property>") %>
-            <%= raw("<property name=\"description\" type=\"string\">action_subtask_description</property>") %>
-            <%= raw("<property name=\"code\" type=\"string\">action_subtask_function();
-output_a=input_a+input_b;</property>") %>
+            <%= raw("<property name=\"name\" type=\"string\">#{act.name}</property>") %>
+            <%= raw("<property name=\"description\" type=\"string\">")+act.description+raw("</property>") %>
+            <%= raw("<property name=\"code\" type=\"string\">")+act.implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
-            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::action_subtask</property>") %>
+            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{act.name}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>
             <%= raw("<property name=\"retval_data_type\" type=\"int\">10</property>") %>
             <%= raw("<property name=\"retval_value_type\" type=\"int\">0</property>") %>
@@ -312,8 +337,11 @@ output_a=input_a+input_b;</property>") %>
             <%= raw("<property name=\"user_retval_decl_place\" type=\"int\">0</property>") %>
             <%= raw("<property name=\"function_modifier\" type=\"int\">0</property>") %>
         <%= raw("</object>") %>
+        <%  } %>
     <%= raw("</object>") %>
-    <%= raw("<object type=\"udCodePackageItem\">") %>
+
+
+<%= raw("<object type=\"udCodePackageItem\">") %>
         <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Generic functions</property>") %>

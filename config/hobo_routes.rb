@@ -5,6 +5,20 @@
 Blocks::Application.routes.draw do
 
 
+  # Resource routes for controller state_machine_conditions
+  resources :state_machine_conditions, :only => [:edit, :show, :update, :destroy]
+
+  # Owner routes for controller state_machine_conditions
+  resources :function_sub_systems, :as => :function_sub_system, :only => [] do
+    resources :state_machine_conditions, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_function_sub_system'
+      collection do
+        post 'create', :action => 'create_for_function_sub_system'
+      end
+    end
+  end
+
+
   # Resource routes for controller functions
   resources :functions, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
@@ -32,6 +46,19 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_state_machine'
       collection do
         post 'create', :action => 'create_for_state_machine'
+      end
+    end
+  end
+
+
+  # Resource routes for controller state_machine_transition_actions
+  resources :state_machine_transition_actions, :only => [:create, :update, :destroy]
+
+  # Owner routes for controller state_machine_transition_actions
+  resources :state_machine_transitions, :as => :state_machine_transition, :only => [] do
+    resources :state_machine_transition_actions, :only => [] do
+      collection do
+        post 'create', :action => 'create_for_state_machine_transition'
       end
     end
   end
@@ -88,7 +115,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machine_transitions
-  resources :state_machine_transitions, :only => [:create, :update, :destroy]
+  resources :state_machine_transitions
 
   # Owner routes for controller state_machine_transitions
   resources :state_machine_states, :as => :state_machine_state, :only => [] do
@@ -172,6 +199,20 @@ Blocks::Application.routes.draw do
   end
 
 
+  # Resource routes for controller state_machine_actions
+  resources :state_machine_actions, :only => [:edit, :show, :update, :destroy]
+
+  # Owner routes for controller state_machine_actions
+  resources :function_sub_systems, :as => :function_sub_system, :only => [] do
+    resources :state_machine_actions, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_function_sub_system'
+      collection do
+        post 'create', :action => 'create_for_function_sub_system'
+      end
+    end
+  end
+
+
   # Resource routes for controller sub_system_flows
   resources :sub_system_flows, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
@@ -239,20 +280,6 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_sub_system'
       collection do
         post 'create', :action => 'create_for_sub_system'
-      end
-    end
-  end
-
-
-  # Resource routes for controller state_machine_conditions
-  resources :state_machine_conditions, :only => [:edit, :show, :update, :destroy]
-
-  # Owner routes for controller state_machine_conditions
-  resources :function_sub_systems, :as => :function_sub_system, :only => [] do
-    resources :state_machine_conditions, :only => [] do
-      get 'new', :on => :new, :action => 'new_for_function_sub_system'
-      collection do
-        post 'create', :action => 'create_for_function_sub_system'
       end
     end
   end

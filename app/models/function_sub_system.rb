@@ -18,8 +18,9 @@ class FunctionSubSystem < ActiveRecord::Base
 
   has_many :state_machines, :inverse_of => :function_sub_system
   has_many :state_machine_conditions, :inverse_of => :function_sub_system
+  has_many :state_machine_actions, :inverse_of => :function_sub_system
 
-  children :state_machines, :state_machine_conditions
+  children :state_machines, :state_machine_conditions, :state_machine_actions
   
   acts_as_list :scope => :sub_system
   

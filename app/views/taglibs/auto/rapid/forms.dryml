@@ -121,6 +121,18 @@
 
 
 
+<def tag="form" for="StateMachineAction">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, implementation, function_sub_system" param/>
+    <div param="actions">
+      <submit label="#{ht 'state_machine_action.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="StateMachineCondition">
   <form merge param="default">
     <error-messages param/>
@@ -145,10 +157,22 @@
 
 
 
+<def tag="form" for="StateMachineTransitionAction">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="state_machine_action, state_machine_transition" param/>
+    <div param="actions">
+      <submit label="#{ht 'state_machine_transition_action.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="StateMachineTransition">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, description, priority, destination_state, state_machine_condition, state_machine_state" param/>
+    <field-list fields="name, description, priority, destination_state, state_machine_condition, state_machine_state, state_machine_transition_actions" param/>
     <div param="actions">
       <submit label="#{ht 'state_machine_transition.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

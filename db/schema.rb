@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418232334) do
+ActiveRecord::Schema.define(:version => 20130419161347) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -121,6 +121,17 @@ ActiveRecord::Schema.define(:version => 20130418232334) do
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
 
+  create_table "state_machine_actions", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "implementation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "function_sub_system_id"
+  end
+
+  add_index "state_machine_actions", ["function_sub_system_id"], :name => "index_state_machine_actions_on_function_sub_system_id"
+
   create_table "state_machine_conditions", :force => true do |t|
     t.string   "name"
     t.text     "description"
@@ -143,6 +154,16 @@ ActiveRecord::Schema.define(:version => 20130418232334) do
   end
 
   add_index "state_machine_states", ["state_machine_id"], :name => "index_state_machine_states_on_state_machine_id"
+
+  create_table "state_machine_transition_actions", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "state_machine_transition_id"
+    t.integer  "state_machine_action_id"
+  end
+
+  add_index "state_machine_transition_actions", ["state_machine_action_id"], :name => "index_state_machine_transition_actions_on_state_machine_action_i"
+  add_index "state_machine_transition_actions", ["state_machine_transition_id"], :name => "index_state_machine_transition_actions_on_state_machine_transiti"
 
   create_table "state_machine_transitions", :force => true do |t|
     t.string   "name"

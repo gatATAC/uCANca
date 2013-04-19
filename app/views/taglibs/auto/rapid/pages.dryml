@@ -10,6 +10,7 @@
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&StateMachine"><ht key="state_machine.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&StateMachineTransition"><ht key="state_machine_transition.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
 </def>
 
@@ -556,6 +557,14 @@
           </ht>
         </h3>
         <collection:state_machine_conditions  param="state_machine_conditions-collection"/>
+      </section>
+      <section param="state_machine_actions-collection-section">
+        <h3 param="state_machine_actions-collection-heading">
+          <ht key="state_machine_action.collection.heading" count="&this.state_machine_actions.count" >
+            <human-collection-name collection="state_machine_actions" your/>
+          </ht>
+        </h3>
+        <collection:state_machine_actions  param="state_machine_actions-collection"/>
       </section>
     </aside:>
 
@@ -1428,6 +1437,146 @@
 
 
 
+<!-- ====== StateMachineAction Pages ====== -->
+
+<def tag="index-page" for="StateMachineAction">
+  <page merge title="#{ht 'state_machine_action.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page state-machine-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_action.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="state_machine_action.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="StateMachineAction">
+  <page merge title="#{ht 'state_machine_action.new.title', :default=>[' New State machine action'] }">
+    <body: class="new-page state-machine-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_action.new.heading">
+          New State machine action
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'state_machine_action.actions.create', :default=>['Create State machine action']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="StateMachineAction">
+  <page merge title="#{ht 'state_machine_action.show.title', :default=>['State machine action'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page state-machine-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_action.show.heading" name="#{name(:no_wrapper => true)}">
+          State machine action <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="state_machine_action.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit State machine action
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <view:description param="description" />
+      <field-list fields="implementation, function_sub_system" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="StateMachineAction">
+  <page merge title="#{ht 'state_machine_action.edit.title', :default=>['Edit State machine action'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page state-machine-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_action.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit State machine action
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'state_machine_action.actions.delete', :default=>['Remove This State machine action']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-function-sub-system-page" polymorphic/>
+<def tag="new-for-function-sub-system-page" for="StateMachineAction">
+  <page merge title="#{ht 'state_machine_action.new_for_owner.title', :default=>['New State machine action for']} #{name :with => @function_sub_system}">
+    <body: class="new-for-owner-page  state-machine-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_action.new_for_owner.heading">
+          New State Machine Action
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="state_machine_action.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@function_sub_system"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="function_sub_system" method="post" param>
+        <field-list: skip="function_sub_system"/>
+        <submit: label="#{ht 'state_machine_action.actions.create', :default=>['Create State machine action']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== StateMachineCondition Pages ====== -->
 
 <def tag="index-page" for="StateMachineCondition">
@@ -1740,6 +1889,122 @@
 
 
 
+<!-- ====== StateMachineTransitionAction Pages ====== -->
+
+<def tag="index-page" for="StateMachineTransitionAction">
+  <page merge title="#{ht 'state_machine_transition_action.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page state-machine-transition-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_transition_action.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="state_machine_transition_action.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+      <div param="new-form">
+        <h3 param="new-form-heading">
+          <ht key="state_machine_transition_action.form.new.heading">New State machine transition action</ht>
+        </h3>
+        <form with="&@invalid_record || new_for_current_user(StateMachineTransitionAction)" param/>
+      </div>
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="StateMachineTransitionAction">
+  <page merge title="#{ht 'state_machine_transition_action.new.title', :default=>[' New State machine transition action'] }">
+    <body: class="new-page state-machine-transition-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_transition_action.new.heading">
+          New State machine transition action
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'state_machine_transition_action.actions.create', :default=>['Create State machine transition action']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="StateMachineTransitionAction">
+  <page merge title="#{ht 'state_machine_transition_action.show.title', :default=>['State machine transition action'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page state-machine-transition-action" param/>
+
+    <content-header: param>
+      <a:state_machine_transition param="parent-link">&laquo; <ht key="state_machine_transition_action.actions.back_to_parent" parent="State machine transition" name="&this">Back to <name/></ht></a:state_machine_transition>
+      <h2 param="heading">
+        <ht key="state_machine_transition_action.show.heading" name="#{name(:no_wrapper => true)}">
+          State machine transition action <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a:state_machine_transition param="creator-link"/>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="state_machine_action" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="StateMachineTransitionAction">
+  <page merge title="#{ht 'state_machine_transition_action.edit.title', :default=>['Edit State machine transition action'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page state-machine-transition-action" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_transition_action.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit State machine transition action
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'state_machine_transition_action.actions.delete', :default=>['Remove This State machine transition action']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+
+
+
+
+
 <!-- ====== StateMachineTransition Pages ====== -->
 
 <def tag="index-page" for="StateMachineTransition">
@@ -1761,6 +2026,9 @@
     </content-header:>
 
     <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="state_machine_transition.actions.new">New State machine transition</ht>
+      </a>
 
       <page-nav param="top-page-nav"/>
 
@@ -1768,13 +2036,6 @@
 
       <page-nav param="bottom-page-nav"/>
 
-
-      <div param="new-form">
-        <h3 param="new-form-heading">
-          <ht key="state_machine_transition.form.new.heading">New State machine transition</ht>
-        </h3>
-        <form with="&@invalid_record || new_for_current_user(StateMachineTransition)" param/>
-      </div>
 
     </content-body:>
   </page>
@@ -1816,11 +2077,38 @@
       </h2>
 
       <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="state_machine_transition.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit State machine transition
+        </ht>
+      </a>
     </content-header:>
 
     <content-body: param>
       <view:description param="description" />
       <field-list fields="priority, destination_state, state_machine_condition" param/>
+      <section param="collection-section">
+        <h3 param="collection-heading">
+          <ht key="state_machine_transition_action.collection.heading" count="&this.state_machine_transition_actions.count" >
+            <human-collection-name collection="state_machine_transition_actions" your/>
+          </ht>
+        </h3>
+
+        <collection:state_machine_transition_actions param/>
+
+        <section param="add-to-collection" if="&can_create?(@state_machine_transition.state_machine_transition_actions)">
+          <h3 param="add-form-heading">
+            <ht key="state_machine_transition_action.collection.add_form_heading" count="1">
+              Add a State Machine Transition Action
+            </ht>
+          </h3>
+          <form with="&@state_machine_transition_action || new_for_current_user(@state_machine_transition.state_machine_transition_actions)" owner="state_machine_transition" without-cancel param>
+            <field-list: skip="state_machine_transition"/>
+            <submit: label="#{ht 'state_machine_transition_action.actions.add', :default=>['Add'] }"/>
+          </form>
+        </section>
+      </section>
     </content-body:>
 
   </page>

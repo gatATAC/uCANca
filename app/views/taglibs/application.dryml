@@ -341,7 +341,7 @@ you can place common code in this file. -->
     </heading:>
     <body:>
       <editor:description/>
-      <span>Destination:<editor:destination_state/> Condition: <editor:state_machine_condition/></span>
+      <span>Destination:<editor:destination_state/> Condition: <editor:state_machine_condition/>Actions:<editor:state_machine_transition_actions/></span>
     </body:>
   </old-card>
 </extend>
@@ -355,6 +355,13 @@ you can place common code in this file. -->
           </ht>
         </a:state_machine_conditions>
     </append-state_machine_conditions-collection-section:>
+    <append-state_machine_actions-collection-section:>
+            <a:state_machine_actions action="new" if="&can_create?(@function_sub_system.state_machine_actions)" param="new-link">
+          <ht key="state_machine_action.actions.new" count="1">
+            New State Machine Action
+          </ht>
+        </a:state_machine_actions>
+    </append-state_machine_actions-collection-section:>
   </old-show-page:>
 </extend>
 
