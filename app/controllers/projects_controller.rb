@@ -19,6 +19,7 @@ class ProjectsController < ApplicationController
       format.cdp# {
 #        render :inline => @project.to_cdp
 #      }
+      format.xcos
       format.html {
         @flows=find_instance.flows.search(params[:search], :name).order_by(parse_sort_param(:name, :flow_type)).paginate(:page => params[:page])
         if (params[:flow_type]) then

@@ -313,11 +313,15 @@ you can place common code in this file. -->
         </form>
     </project_memberships-collection-section:>
     <append-main-row:>
+      <p>
       <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
-      <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/>
+      </p><embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/><p>
       <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
-      <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/>
+      </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
       <%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :show, :format => 'cdp' %>
+      </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
+      <%= link_to "Esqueleto de XCos", :action => :show, :format => 'xcos' %>
+      </p>
     </append-main-row:>
 
 
