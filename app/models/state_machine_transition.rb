@@ -37,6 +37,21 @@ class StateMachineTransition < ActiveRecord::Base
     end
   end
 
+  def condition_name
+    if state_machine_condition then
+      state_machine_condition.diagram_name
+    else
+      ""
+    end
+  end
+
+  def state_machine_action_short_names
+    ret=[]
+    self.state_machine_actions.each {|a|
+      ret << a.diagram_name
+    }
+    return ret
+  end
 
   # --- Permissions --- #
 

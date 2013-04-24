@@ -19,6 +19,8 @@ class StateMachineState < ActiveRecord::Base
   children :state_machine_transitions,:sub_machines
 
   validates :state_machine, :presence => :true
+
+  scope :initial, where(:initial => true)
   # --- Permissions --- #
 
   def create_permitted?

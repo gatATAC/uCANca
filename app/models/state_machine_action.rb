@@ -4,11 +4,12 @@ class StateMachineAction < ActiveRecord::Base
 
   fields do
     name           :string
+    short_name        :string
     description    :text
     implementation :text
     timestamps
   end
-  attr_accessible :name, :description, :implementation, :function_sub_system, :function_sub_system_id
+  attr_accessible :name, :description, :implementation, :function_sub_system, :function_sub_system_id, :short_name
 
   belongs_to :function_sub_system, :inverse_of => :state_machine_actions
   has_many :state_machine_transition_actions, :inverse_of => :state_machine_action
@@ -16,6 +17,15 @@ class StateMachineAction < ActiveRecord::Base
   validates :implementation, :presence => :true
   validates :name, :presence => :true
   validates :function_sub_system, :presence => :true
+
+  def diagram_name
+    if self.short_name then
+      ret=self.short_name
+    else
+      ret=self.name
+    end
+    return ret
+  end
 
   # --- Permissions --- #
 

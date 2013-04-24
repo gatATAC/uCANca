@@ -373,7 +373,7 @@
         </ht>
       </h2>
 
-      <record-flags fields="" param/>
+      <record-flags fields="puntero" param/>
 
       <a action="edit" if="&can_edit?" param="edit-link">
         <ht key="flow.actions.edit" name="#{name(:no_wrapper => true)}">
@@ -1515,7 +1515,7 @@
 
     <content-body: param>
       <view:description param="description" />
-      <field-list fields="implementation, function_sub_system" param/>
+      <field-list fields="short_name, implementation, function_sub_system" param/>
     </content-body:>
 
   </page>
@@ -1655,7 +1655,7 @@
 
     <content-body: param>
       <view:description param="description" />
-      <field-list fields="implementation, function_sub_system" param/>
+      <field-list fields="short_name, implementation, function_sub_system" param/>
     </content-body:>
 
   </page>

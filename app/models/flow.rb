@@ -4,6 +4,7 @@ class Flow < ActiveRecord::Base
 
   fields do
     name   :string
+    puntero :boolean, :default => false
     timestamps
   end
   attr_accessible :name, :flow_type_id, :flow_type, :project, :project_id

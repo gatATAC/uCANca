@@ -12,6 +12,7 @@ class StateMachine < ActiveRecord::Base
   belongs_to :function_sub_system
 
   has_many :state_machine_states, :inverse_of => :state_machine
+  has_many :state_machine_transitions, :through => :state_machine_states
   belongs_to :super_state, :class_name => 'StateMachineState', :inverse_of => :sub_machines, :foreign_key => :super_state_id
   has_many :sub_machines, :through => :state_machine_states, :class_name => 'StateMachine', :foreign_key => :super_state_id
 
@@ -20,6 +21,33 @@ class StateMachine < ActiveRecord::Base
   def to_func_name
     ret=function_sub_system.to_func_name+"_"+name.to_s
     return ret
+  end
+
+  def to_graphviz
+    ret="https://chart.googleapis.com/chart?cht=gv:neato&amp;chl=digraph{edge[fontsize=7];fontsize=11;nodesep=1;ranksep=1;sep=3;overlap=scale;";
+    added=false
+    self.state_machine_states.initial.each {|i|
+      if (!added) then
+        ret+="node[shape=point;width=0.2];"
+        added=true
+      end
+      ret+="#{i.name};"
+    }
+    ret+="node[shape=ellipse];"
+    tailp=["n","e","w","ne","se","sw","nw","s"]
+    tailpcont=0
+    self.state_machine_transitions.each{|t|
+      ret+="#{t.state_machine_state.name}->#{t.destination_state.name}[label=&quot;[#{t.condition_name}]"
+      ret+=t.state_machine_action_short_names.join("(),")+"()"
+      ret+="&quot;"
+      if (t.destination_state==t.state_machine_state) then
+        ret+=",tailport=#{tailp[tailpcont%tailp.size]},headport=#{tailp[tailpcont%tailp.size]}"
+        tailpcont=tailpcont+1
+      end
+      ret+="];"
+    }
+    #ret+=";Counting->Counting[label=&quot;[equal]reset()&quot;];Counting->Counting[label=&quot;[diff]increment()&quot;];Counting->Counting[label=&quot;[expired]copy();reset()&quot;]}&amp;chs=500x500"
+    return ret+"; }&amp;chs=500x500"
   end
 
   # --- Permissions --- #

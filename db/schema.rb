@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130419161347) do
+ActiveRecord::Schema.define(:version => 20130424005838) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130419161347) do
     t.datetime "updated_at"
     t.integer  "flow_type_id"
     t.integer  "project_id"
+    t.boolean  "puntero",      :default => false
   end
 
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"
@@ -128,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20130419161347) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "function_sub_system_id"
+    t.string   "short_name"
   end
 
   add_index "state_machine_actions", ["function_sub_system_id"], :name => "index_state_machine_actions_on_function_sub_system_id"
@@ -139,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20130419161347) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "function_sub_system_id"
+    t.string   "short_name"
   end
 
   add_index "state_machine_conditions", ["function_sub_system_id"], :name => "index_state_machine_conditions_on_function_sub_system_id"

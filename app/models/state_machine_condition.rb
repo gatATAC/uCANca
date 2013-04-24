@@ -4,11 +4,12 @@ class StateMachineCondition < ActiveRecord::Base
 
   fields do
     name              :string
+    short_name        :string
     description       :text
     implementation    :text
     timestamps
   end
-  attr_accessible :name, :description, :implementation
+  attr_accessible :name, :description, :implementation, :short_name
 
   belongs_to :function_sub_system, :inverse_of => :state_machine_conditions
   has_many :state_machine_transitions, :inverse_of => :state_machine_condition
@@ -16,6 +17,15 @@ class StateMachineCondition < ActiveRecord::Base
   validates :implementation, :presence => :true
   validates :name, :presence => :true
   validates :function_sub_system, :presence => :true
+
+  def diagram_name
+    if short_name then
+      return short_name
+    else
+      return name
+    end
+  end
+  
 
   # --- Permissions --- #
 

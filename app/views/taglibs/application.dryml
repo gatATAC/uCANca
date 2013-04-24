@@ -377,3 +377,10 @@ you can place common code in this file. -->
   </old-card>
 </extend>
 
+<extend tag="show-page" for="StateMachine">
+  <old-show-page merge>
+    <prepend-aside:>
+      <img src="#{@this.to_graphviz}" alt="Maquina SM"/><br/>
+    </prepend-aside:>
+  </old-show-page>
+</extend>

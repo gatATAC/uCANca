@@ -294,13 +294,17 @@ class SubSystem < ActiveRecord::Base
 
   def layer_visible_by?(u)
     ret=false
-    parent_project.project_memberships.each  {|mb|
-      if (mb.user==u) then
-        if (mb.maximum_layer == 0 || mb.maximum_layer>=self.layer.level) then
-          ret=true
+    if parent_project.owner==u then
+      ret=true
+    else
+      parent_project.project_memberships.each  {|mb|
+        if (mb.user==u) then
+          if (mb.maximum_layer == 0 || mb.maximum_layer>=self.layer.level) then
+            ret=true
+          end
         end
-      end
-    }
+      }
+    end
     return ret
   end
 
