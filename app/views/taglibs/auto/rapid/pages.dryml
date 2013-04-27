@@ -383,7 +383,7 @@
     </content-header:>
 
     <content-body: param>
-      <field-list fields="flow_type, project" param/>
+      <field-list fields="alternate_name, flow_type, project" param/>
       <section param="collection-section">
         <h3 param="collection-heading">
           <ht key="sub_system_flow.collection.heading" count="&this.sub_system_flows.count" >

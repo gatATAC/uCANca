@@ -28,7 +28,7 @@
 <def tag="form" for="Flow">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, puntero, flow_type, project" param/>
+    <field-list fields="name, alternate_name, puntero, flow_type, project" param/>
     <div param="actions">
       <submit label="#{ht 'flow.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

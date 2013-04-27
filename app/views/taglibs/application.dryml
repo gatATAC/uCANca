@@ -108,10 +108,8 @@ you can place common code in this file. -->
       <a with="&this.connector"><%=  this.full_path %></a>:<view:position/>
       <h5 param="heading"><a><name/></a></h5>
     </heading:>
-    <!--append-header:>
-      <delete-button label="X" param/>
-    </append-header:-->
     <append-header:>
+      <delete-button label="X" param/>
       <editor:outdir/> Salida?
     </append-header:>
   </old-card>

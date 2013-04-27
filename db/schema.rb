@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424005838) do
+ActiveRecord::Schema.define(:version => 20130427001210) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -43,7 +43,8 @@ ActiveRecord::Schema.define(:version => 20130424005838) do
     t.datetime "updated_at"
     t.integer  "flow_type_id"
     t.integer  "project_id"
-    t.boolean  "puntero",      :default => false
+    t.boolean  "puntero",        :default => false
+    t.string   "alternate_name"
   end
 
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"

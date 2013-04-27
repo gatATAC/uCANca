@@ -4,6 +4,7 @@ class Flow < ActiveRecord::Base
 
   fields do
     name   :string
+    alternate_name :string
     puntero :boolean, :default => false
     timestamps
   end
