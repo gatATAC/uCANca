@@ -4,9 +4,11 @@ class StateMachine < ActiveRecord::Base
 
   fields do
     name :string
+    graphviz_link :string, :default => "?cht=gv:neato&amp;chl=digraph{edge[fontsize=7];fontsize=11;nodesep=1;ranksep=1;sep=3;overlap=scale;"
+    graphviz_size :string, :default => "&amp;chs=500x500"
     timestamps
   end
-  attr_accessible :name, :function_sub_system, :function_sub_system_id
+  attr_accessible :name, :function_sub_system, :function_sub_system_id, :graphviz_link, :graphviz_size
 
 
   belongs_to :function_sub_system
@@ -18,13 +20,15 @@ class StateMachine < ActiveRecord::Base
 
   children :state_machine_states, :sub_machines
 
+  validates :function_sub_system, :presence => :true
+
   def to_func_name
     ret=function_sub_system.to_func_name+"_"+name.to_s
     return ret
   end
 
   def to_graphviz
-    ret="https://chart.googleapis.com/chart?cht=gv:neato&amp;chl=digraph{edge[fontsize=7];fontsize=11;nodesep=1;ranksep=1;sep=3;overlap=scale;";
+    ret="https://chart.googleapis.com/chart"+self.graphviz_link;
     added=false
     self.state_machine_states.initial.each {|i|
       if (!added) then
@@ -38,7 +42,7 @@ class StateMachine < ActiveRecord::Base
     tailpcont=0
     self.state_machine_transitions.each{|t|
       ret+="#{t.state_machine_state.name}->#{t.destination_state.name}[label=&quot;[#{t.condition_name}]"
-      ret+=t.state_machine_action_short_names.join("(),")+"()"
+      ret+=t.action_short_names.join("(),")+"()"
       ret+="&quot;"
       if (t.destination_state==t.state_machine_state) then
         ret+=",tailport=#{tailp[tailpcont%tailp.size]},headport=#{tailp[tailpcont%tailp.size]}"
@@ -47,7 +51,7 @@ class StateMachine < ActiveRecord::Base
       ret+="];"
     }
     #ret+=";Counting->Counting[label=&quot;[equal]reset()&quot;];Counting->Counting[label=&quot;[diff]increment()&quot;];Counting->Counting[label=&quot;[expired]copy();reset()&quot;]}&amp;chs=500x500"
-    return ret+"; }&amp;chs=500x500"
+    return ret+"; }"+self.graphviz_size
   end
 
   # --- Permissions --- #
@@ -77,11 +81,14 @@ class StateMachine < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    if (function_sub_system) then
-      function_sub_system.viewable_by?(acting_user)
+    ret=false
+    if (field != :graphviz_link &&
+          field != :graphviz_size) then
+      ret=function_sub_system.viewable_by?(acting_user)
     else
-      true
+      ret=function_sub_system.updatable_by?(acting_user)
     end
+    return ret
   end
 
 end

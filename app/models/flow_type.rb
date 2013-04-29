@@ -124,7 +124,21 @@ class FlowType < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    acting_user.signed_up?
+    ret=false
+    if (field==:c_type ||
+          field==:c_input_patron ||
+          field==:c_output_patron ||
+          field==:enable_input ||
+          field==:enable_output ||
+          field==:paso_por_referencia ||
+          field==:tipo_propio ||
+          field==:tipo_fantasma
+        ) then
+      ret=acting_user.developer?
+    else
+      ret=acting_user.signed_up?
+    end
+    return ret
   end
 
 end

@@ -102,7 +102,7 @@ class Flow < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    acting_user.signed_up?
+    parent_project.viewable_by?(acting_user)
   end
 
 end

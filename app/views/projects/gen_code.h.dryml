@@ -1,0 +1,21 @@
+#ifndef _DRE_H
+#define _DRE_H
+
+
+typedef struct {
+<%  @project.flows.find(:all).each{ |f|
+#  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
+%><%= f.to_c_decl%><% } %>
+} t_dre;
+
+typedef struct {
+<%  @project.flows.find(:all).each{ |f|
+#  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
+%><%= f.to_diag_c_decl%><% } %>
+} t_diag;
+
+// Funciones de entrada y salida
+<%  @project.flows.find(:all).each{ |f| %>
+  <%= f.to_c_io_decl%><% } %>
+
+#endif /* _DRE_H */

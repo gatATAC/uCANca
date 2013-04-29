@@ -15,17 +15,14 @@ class Function < ActiveRecord::Base
 
   has_many :function_sub_systems, :dependent => :destroy, :inverse_of => :function
   has_many :sub_systems, :through => :function_sub_systems
+  has_many :function_tests, :dependent => :destroy, :inverse_of => :function, :order => :position
 
   validates :name, :presence => :true
   validates :ident, :presence => :true
   validates :project, :presence => :true
   validates :function_type, :presence => :true
 
-  children :function_sub_systems
-
-  def parent_project
-    project
-  end
+  children :function_sub_systems, :function_tests
 
   def abbrev
     ident.gsub(/\s+/, "_").camelize
@@ -35,19 +32,19 @@ class Function < ActiveRecord::Base
 
 
   def create_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    parent_project.destroyable_by?(acting_user)
+    project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    acting_user.signed_up?
+    project.viewable_by?(acting_user)
   end
 
 end

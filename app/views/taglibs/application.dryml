@@ -28,7 +28,7 @@ you can place common code in this file. -->
           <collection:children param="children-collection"/>
         </else>
         <div if="&can_create?(@sub_system.children)">
-        <%= link_to "New Sub System in #{@sub_system.name}", :controller => :sub_systems, :action => :new, :super_system => @sub_system %>
+          <%= link_to "New Sub System in #{@sub_system.name}", :controller => :sub_systems, :action => :new, :super_system => @sub_system %>
         </div>
       </section>
 
@@ -80,13 +80,13 @@ you can place common code in this file. -->
     <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
+      <div class="code-section" if="&can_update?(@sub_system)">
+        <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
+        <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="2" background="#ff00ff"/>
+        <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
+        <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="2" background="blue"/>
+      </div>
     </aside:>
-    <append-main-row:>
-      <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
-      <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="2" background="#ff00ff"/>
-      <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
-      <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="2" background="blue"/>
-    </append-main-row:>
   </old-show-page>
 </extend>
 <!--
@@ -110,7 +110,7 @@ you can place common code in this file. -->
     </heading:>
     <append-header:>
       <delete-button label="X" param/>
-      <editor:outdir/> Salida?
+      Salida? <view:outdir/> <editor:outdir/>
     </append-header:>
   </old-card>
 </extend>
@@ -219,7 +219,7 @@ you can place common code in this file. -->
       <view:function.abbrev/>: <a:function/-->
     </append-heading:>
     <append-body:>
-      <p>Implementacion? <editor:implementacion/></p>
+      <p>Implementacion? <view:implementacion/><editor:implementacion/></p>
       <delete-button label="X" param/>
     </append-body:>
   </old-card>
@@ -299,86 +299,108 @@ you can place common code in this file. -->
     </append-functions-collection-section:>
     <project_memberships-collection-section:>
       <h2>Project Members</h2>
-    <collection:project_memberships part="members">
-      <card><heading:><a:user/></heading:></card>
-    </collection>
+      <collection:project_memberships part="members">
+        <card><heading:><a:user/></heading:></card>
+        </collection>
 
-      <form:project_memberships.new update="members" reset-form refocus-form>
-        <div>
-          Add a member:
-          <name-one:user/>
-        </div>
-        </form>
-    </project_memberships-collection-section:>
-    <append-main-row:>
-      <p>
-      <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
-      </p><embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-      <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
-      </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-      <%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :show, :format => 'cdp' %>
-      </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-      <%= link_to "Esqueleto de XCos", :action => :show, :format => 'xcos' %>
-      </p>
-    </append-main-row:>
-
-
-  </old-show-page>
-</extend>
-
-<extend tag="card" for="ProjectMembership">
-  <old-card merge>
-    <body:>
-      <span>Contributor?</span><view:contributor/><editor:contributor/>
-      <span>Max layer?</span><editor:maximum_layer/>
-    </body:>
-  </old-card>
-</extend>
+        <form:project_memberships.new update="members" reset-form refocus-form>
+          <div>
+            Add a member:
+            <name-one:user/>
+          </div>
+          </form>
+          </project_memberships-collection-section:>
+          <append-aside:>
+      <div class="code-section" if="&can_update?(@project)">
+            <p>
+              <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
+            </p><embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/><p>
+              <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
+            </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
+              <%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :show, :format => 'cdp' %>
+            </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
+              <%= link_to "Esqueleto de XCos", :action => :show, :format => 'xcos' %>
+            </p>
+      </div>
+          </append-aside:>
 
 
-<extend tag="card" for="StateMachineTransition">
-  <old-card merge>
-    <heading:>
-      <editor:name/>
-    </heading:>
-    <body:>
-      <editor:description/>
-      <span>Destination:<editor:destination_state/> Condition: <editor:state_machine_condition/>Actions:<editor:state_machine_transition_actions/></span>
-    </body:>
-  </old-card>
-</extend>
+          </old-show-page>
+          </extend>
 
-<extend tag="show-page" for="FunctionSubSystem">
-  <old-show-page:>
-    <append-state_machine_conditions-collection-section:>
-            <a:state_machine_conditions action="new" if="&can_create?(@function_sub_system.state_machine_conditions)" param="new-link">
-          <ht key="state_machine_condition.actions.new" count="1">
-            New State Machine Condition
-          </ht>
-        </a:state_machine_conditions>
-    </append-state_machine_conditions-collection-section:>
-    <append-state_machine_actions-collection-section:>
-            <a:state_machine_actions action="new" if="&can_create?(@function_sub_system.state_machine_actions)" param="new-link">
-          <ht key="state_machine_action.actions.new" count="1">
-            New State Machine Action
-          </ht>
-        </a:state_machine_actions>
-    </append-state_machine_actions-collection-section:>
-  </old-show-page:>
-</extend>
+          <extend tag="card" for="ProjectMembership">
+            <old-card merge>
+              <body:>
+                <span>Contributor?</span><view:contributor/><editor:contributor/>
+                <span>Max layer?</span><view:maximum_layer/><editor:maximum_layer/>
+              </body:>
+            </old-card>
+          </extend>
 
-<extend tag="card" for="StateMachineState">
-  <old-card merge>
-    <body:>
-      <collection:state_machine_transitions/>
-    </body:>
-  </old-card>
-</extend>
 
-<extend tag="show-page" for="StateMachine">
-  <old-show-page merge>
-    <prepend-aside:>
-      <img src="#{@this.to_graphviz}" alt="Maquina SM"/><br/>
-    </prepend-aside:>
-  </old-show-page>
-</extend>
+          <extend tag="card" for="StateMachineTransition">
+            <old-card merge>
+              <!--heading:>
+                <editor:name/>
+              </heading:-->
+              <body:>
+                <!--editor:description/>
+                <span>Destination:<editor:destination_state/> Condition: <editor:state_machine_condition/>Actions:<editor:transition_actions/></span-->
+                <view:description/>
+                <span>
+                  <ul>
+                    <li>Destination:<view:destination_state/> </li>
+                    <li>Condition: <view:state_machine_condition/></li>
+                    <li>Actions:<view:transition_actions/></li>
+                  </ul>
+                </span>
+              </body:>
+            </old-card>
+          </extend>
+
+          <extend tag="show-page" for="FunctionSubSystem">
+            <old-show-page:>
+              <append-state_machine_conditions-collection-section:>
+                <a:state_machine_conditions action="new" if="&can_create?(@function_sub_system.state_machine_conditions)" param="new-link">
+                  <ht key="state_machine_condition.actions.new" count="1">
+                    New State Machine Condition
+                  </ht>
+                </a:state_machine_conditions>
+              </append-state_machine_conditions-collection-section:>
+              <append-state_machine_actions-collection-section:>
+                <a:state_machine_actions action="new" if="&can_create?(@function_sub_system.state_machine_actions)" param="new-link">
+                  <ht key="state_machine_action.actions.new" count="1">
+                    New State Machine Action
+                  </ht>
+                </a:state_machine_actions>
+              </append-state_machine_actions-collection-section:>
+            </old-show-page:>
+          </extend>
+
+          <extend tag="card" for="StateMachineState">
+            <old-card merge>
+              <body:>
+                <collection:state_machine_transitions/>
+              </body:>
+            </old-card>
+          </extend>
+
+          <extend tag="show-page" for="StateMachine">
+            <old-show-page merge>
+              <prepend-aside:>
+                <img src="#{@this.to_graphviz}" alt="Maquina SM"/><br/>
+              </prepend-aside:>
+            </old-show-page>
+          </extend>
+
+          <extend tag="show-page" for="Function">
+            <old-show-page merge>
+              <append-function_tests-collection-section:>
+                <a:function_tests action="new" if="&can_create?(@function.function_tests)" param="new-link">
+                  <ht key="function_test.actions.new" count="1">
+                    New Function Test
+                  </ht>
+                </a:function_tests>
+              </append-function_tests-collection-section:>
+            </old-show-page>
+          </extend>

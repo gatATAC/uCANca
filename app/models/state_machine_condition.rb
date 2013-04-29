@@ -46,11 +46,7 @@ class StateMachineCondition < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    if (function_sub_system) then
       function_sub_system.viewable_by?(acting_user)
-    else
-      true
-    end
   end
 
 end

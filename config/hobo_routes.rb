@@ -55,17 +55,21 @@ Blocks::Application.routes.draw do
   resources :state_machine_transition_actions, :only => [:create, :update, :destroy]
 
   # Owner routes for controller state_machine_transition_actions
-  resources :state_machine_transitions, :as => :state_machine_transition, :only => [] do
-    resources :state_machine_transition_actions, :only => [] do
+  resources :state_machine_transitions, :as => :transition, :only => [] do
+    resources :transition_actions, :only => [] do
       collection do
-        post 'create', :action => 'create_for_state_machine_transition'
+        post 'create', :action => 'create_for_transition'
       end
     end
   end
 
 
   # Resource routes for controller projects
-  resources :projects, :only => [:edit, :show, :update, :destroy]
+  resources :projects, :only => [:edit, :show, :update, :destroy] do
+    member do
+      get 'gen_code'
+    end
+  end
 
   # Owner routes for controller projects
   resources :users, :as => :owner, :only => [] do
@@ -73,6 +77,24 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_owner'
       collection do
         post 'create', :action => 'create_for_owner'
+      end
+    end
+  end
+
+
+  # Resource routes for controller function_tests
+  resources :function_tests, :only => [:edit, :show, :update, :destroy] do
+    collection do
+      post 'reorder'
+    end
+  end
+
+  # Owner routes for controller function_tests
+  resources :functions, :as => :function, :only => [] do
+    resources :function_tests, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_function'
+      collection do
+        post 'create', :action => 'create_for_function'
       end
     end
   end
@@ -115,7 +137,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machine_transitions
-  resources :state_machine_transitions
+  resources :state_machine_transitions, :only => [:create, :update, :destroy]
 
   # Owner routes for controller state_machine_transitions
   resources :state_machine_states, :as => :state_machine_state, :only => [] do
@@ -231,7 +253,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machines
-  resources :state_machines
+  resources :state_machines, :only => [:edit, :show, :update, :destroy]
 
   # Owner routes for controller state_machines
   resources :function_sub_systems, :as => :function_sub_system, :only => [] do

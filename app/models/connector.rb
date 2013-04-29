@@ -219,6 +219,9 @@ class Connector < ActiveRecord::Base
     sub_system.viewable_by? (acting_user)
   end
 
+
+
+
   def copy_connector_flows_permitted?
     sub_system.updatable_by?(acting_user)
   end

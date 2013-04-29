@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130427001210) do
+ActiveRecord::Schema.define(:version => 20130428200048) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -62,6 +62,19 @@ ActiveRecord::Schema.define(:version => 20130427001210) do
 
   add_index "function_sub_systems", ["function_id"], :name => "index_function_sub_systems_on_function_id"
   add_index "function_sub_systems", ["sub_system_id"], :name => "index_function_sub_systems_on_sub_system_id"
+
+  create_table "function_tests", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "stimulus"
+    t.text     "expected_results"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "function_id"
+    t.integer  "position"
+  end
+
+  add_index "function_tests", ["function_id"], :name => "index_function_tests_on_function_id"
 
   create_table "function_types", :force => true do |t|
     t.string   "name"
@@ -162,12 +175,12 @@ ActiveRecord::Schema.define(:version => 20130427001210) do
   create_table "state_machine_transition_actions", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state_machine_transition_id"
-    t.integer  "state_machine_action_id"
+    t.integer  "transition_id"
+    t.integer  "action_id"
   end
 
-  add_index "state_machine_transition_actions", ["state_machine_action_id"], :name => "index_state_machine_transition_actions_on_state_machine_action_i"
-  add_index "state_machine_transition_actions", ["state_machine_transition_id"], :name => "index_state_machine_transition_actions_on_state_machine_transiti"
+  add_index "state_machine_transition_actions", ["action_id"], :name => "index_state_machine_transition_actions_on_action_id"
+  add_index "state_machine_transition_actions", ["transition_id"], :name => "index_state_machine_transition_actions_on_transition_id"
 
   create_table "state_machine_transitions", :force => true do |t|
     t.string   "name"
@@ -190,6 +203,8 @@ ActiveRecord::Schema.define(:version => 20130427001210) do
     t.datetime "updated_at"
     t.integer  "function_sub_system_id"
     t.integer  "super_state_id"
+    t.string   "graphviz_link",          :default => "?cht=gv:neato&amp;chl=digraph{edge[fontsize=7];fontsize=11;nodesep=1;ranksep=1;sep=3;overlap=scale;"
+    t.string   "graphviz_size",          :default => "&amp;chs=500x500"
   end
 
   add_index "state_machines", ["function_sub_system_id"], :name => "index_state_machines_on_function_sub_system_id"
@@ -236,6 +251,7 @@ ActiveRecord::Schema.define(:version => 20130427001210) do
     t.datetime "updated_at"
     t.string   "state",                                   :default => "inactive"
     t.datetime "key_timestamp"
+    t.boolean  "developer",                               :default => false
   end
 
   add_index "users", ["state"], :name => "index_users_on_state"

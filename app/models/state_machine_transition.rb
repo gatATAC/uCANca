@@ -8,18 +8,18 @@ class StateMachineTransition < ActiveRecord::Base
     priority    :integer
     timestamps
   end
-  attr_accessible :name, :description, :priority, :destination_state, :destination_state_id, :state_machine_condition_id, :state_machine_condition, :state_machine_transition_actions
+  attr_accessible :name, :description, :priority, :destination_state, :destination_state_id, :state_machine_condition_id, :state_machine_condition, :transition_actions, :actions
 
   belongs_to :state_machine_state, :inverse_of => :state_machine_transitions
   belongs_to :destination_state, :class_name => 'StateMachineState', :inverse_of => :incoming_transitions
   belongs_to :state_machine_condition, :inverse_of => :state_machine_transitions
-  has_many :state_machine_transition_actions, :inverse_of => :state_machine_transition, :accessible => :true
+  has_many :transition_actions, :class_name => 'StateMachineTransitionAction', :foreign_key => 'transition_id', :inverse_of => :transition, :accessible => :true
+  has_many :actions, :class_name => 'StateMachineAction', :through => :transition_actions, :dependent => :destroy, :accessible => :true
 
   validates :state_machine_state, :presence => :true
 
-  has_many :state_machine_actions, :through => :state_machine_transition_actions, :dependent => :destroy
 
-  children :state_machine_transition_actions
+  children :actions
 
   def diagram_name
     if (name) then
@@ -45,9 +45,9 @@ class StateMachineTransition < ActiveRecord::Base
     end
   end
 
-  def state_machine_action_short_names
+  def action_short_names
     ret=[]
-    self.state_machine_actions.each {|a|
+    self.actions.each {|a|
       ret << a.diagram_name
     }
     return ret

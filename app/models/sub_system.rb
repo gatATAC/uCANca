@@ -323,11 +323,13 @@ class SubSystem < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    if parent_project then
-      parent_project.viewable_by?(acting_user) && self.layer_visible_by?(acting_user)
-    else
-      true
+    ret=false
+    if (parent_project.viewable_by?(acting_user)) then
+      if (self.try.layer) then
+        ret =self.layer_visible_by?(acting_user)
+      end
     end
+    return ret
   end
 
 end

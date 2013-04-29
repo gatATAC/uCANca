@@ -5,31 +5,34 @@ class StateMachineTransitionAction < ActiveRecord::Base
   fields do
     timestamps
   end
-  attr_accessible :state_machine_transition, :state_machine_transition_id, :state_machine_action, :state_machine_action_id
+  attr_accessible :transition, :transition_id, :action, :action_id
 
-  belongs_to :state_machine_transition, :inverse_of => :state_machine_transition_actions, :creator => :true
-  belongs_to :state_machine_action, :inverse_of => :state_machine_transition_actions
+  belongs_to :transition, :class_name => 'StateMachineTransition', :inverse_of => :transition_actions, :creator => :true
+  belongs_to :action, :class_name => 'StateMachineAction', :inverse_of => :transition_actions
+
+  validates :transition, :presence => :true
+  validates :action, :presence => :true
+
+  def name
+    action.name
+  end
 
   # --- Permissions --- #
 
   def create_permitted?
-    state_machine_transition.updatable_by?(acting_user)
+    transition.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    state_machine_transition.updatable_by?(acting_user)
+    transition.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    state_machine_transition.updatable_by?(acting_user)
+    transition.updatable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    if state_machine_transition then
-      state_machine_transition.viewable_by?(acting_user)
-    else
-      true
-    end
+    transition.viewable_by?(acting_user)
   end
 
 end

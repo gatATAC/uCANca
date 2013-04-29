@@ -1,0 +1,809 @@
+<%
+s=@project.sub_systems.find(:first)
+%>
+<%= raw("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") %>
+<%= raw("<XcosDiagram background=\"-1\" title=\"#{@project.name}\"><!--Xcos - 1.0 - scilab-branch-5.4-1363295645 - 20130315 0027-->") %>
+    <%= raw("<mxGraphModel as=\"model\">") %>
+        <%= raw("<root>") %>
+            <%= raw("<mxCell id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p0\"/>") %>
+            <%= raw("<mxCell id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p1\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p0\"/>") %>
+            <%= raw("<SuperBlock id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p1\" simulationFunctionType=\"DEFAULT\" style=\"SUPER_f;flip=false;mirror=false\" value=\"#{s.name}\">") %>
+                <%= raw("<SuperBlockDiagram as=\"child\" background=\"-1\" title=\"#{s.name}\"><!--Xcos - 1.0 - scilab-branch-5.4-1363295645 - 20130315 0027-->") %>
+                    <%= raw("<Array as=\"context\" scilabClass=\"String[]\">") %>
+                        <%= raw("<add value=\"\"/>") %>
+                    <%= raw("</Array>") %>
+                    <%= raw("<mxGraphModel as=\"model\">") %>
+                        <%= raw("<root>") %>
+                            <%= raw("<mxCell id=\"#{@project.name+"file:"+s.name+"Block:"}iop0\"/>") %>
+                            <%= raw("<mxCell id=\"#{@project.name+"file:"+s.name+"Block:"}iop1\" parent=\"#{@project.name+"file:"+s.name+"Block:"}iop0\"/>") %>
+
+<%= raw("                            <!-- Puertos 	 (dentro) -->") %>
+<%
+contop=0
+contip=0
+c=s.connectors.find(:first)
+c.sub_system_flows.each{|f|
+  op=f.flow
+  if (f.flow.flow_type.name="DIO") then
+    if (f.outdir) then
+      contop=contop+1
+%>
+<%= raw("<ExplicitOutBlock id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" ordering=\"#{contop}\" parent=\"#{@project.name+"file:"+s.name+"Block:"}iop1\" simulationFunctionType=\"DEFAULT\" style=\"OUT_f;flip=false;mirror=false\" value=\"1\"><ScilabString as=\"exprs\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" value=\"#{contop}\"/></ScilabString><ScilabDouble as=\"integerParameters\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" realPart=\"#{contop}.0\"/></ScilabDouble><Array as=\"objectsParameters\" scilabClass=\"ScilabList\"/><Array as=\"equations\" scilabClass=\"ScilabList\"/><mxGeometry as=\"geometry\" height=\"20.0\" width=\"20.0\" x=\"240.0\" y=\"#{40*contop}.0\"/></ExplicitOutBlock><ExplicitInputPort dataType=\"UNKNOW_TYPE\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}1aux\" ordering=\"1\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"6.0\"/></ExplicitInputPort><mxCell connectable=\"0\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}#identifier\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"noLabel=0;opacity=0\" value=\"#{op.name}\" vertex=\"1\"><mxGeometry as=\"geometry\" relative=\"1\" x=\"0.5\" y=\"1.4\"/></mxCell>") %>
+<%  else
+      contip=contip+1
+%>
+<%= raw("<ExplicitInBlock id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" ordering=\"#{contip}\" parent=\"#{@project.name+"file:"+s.name+"Block:"}iop1\" simulationFunctionType=\"DEFAULT\" style=\"IN_f;flip=false;mirror=false\"><ScilabString as=\"exprs\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" value=\"#{contip}\"/></ScilabString><ScilabDouble as=\"integerParameters\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" realPart=\"#{contip}.0\"/></ScilabDouble><Array as=\"objectsParameters\" scilabClass=\"ScilabList\"/><Array as=\"equations\" scilabClass=\"ScilabList\"/><mxGeometry as=\"geometry\" height=\"20.0\" width=\"20.0\" x=\"40.0\" y=\"#{40*contip}.0\"/></ExplicitInBlock><ExplicitOutputPort dataType=\"UNKNOW_TYPE\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}aux\" ordering=\"1\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"20.0\" y=\"6.0\"/></ExplicitOutputPort><mxCell connectable=\"0\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}#identifier\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"noLabel=0;opacity=0\" value=\"#{op.name}\" vertex=\"1\"><mxGeometry as=\"geometry\" relative=\"1\" x=\"0.5\" y=\"1.4\"/></mxCell>") %>
+<%  end
+  end
+  }
+%>
+                        <%= raw("</root>") %>
+                    <%= raw("</mxGraphModel>") %>
+                    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.name+"file:"+s.name+"Block:"}iop1\" parent=\"#{@project.name+"file:"+s.name+"Block:"}iop0\"/>") %>
+                <%= raw("</SuperBlockDiagram>") %>
+                <%= raw("<Array as=\"realParameters\" scilabClass=\"ScilabMList\">") %>
+                    <%= raw("<ScilabString height=\"1\" width=\"5\">") %>
+                        <%= raw("<data column=\"0\" line=\"0\" value=\"diagram\"/>") %>
+                        <%= raw("<data column=\"1\" line=\"0\" value=\"props\"/>") %>
+                        <%= raw("<data column=\"2\" line=\"0\" value=\"objs\"/>") %>
+                        <%= raw("<data column=\"3\" line=\"0\" value=\"version\"/>") %>
+                        <%= raw("<data column=\"4\" line=\"0\" value=\"contrib\"/>") %>
+                    <%= raw("</ScilabString>") %>
+                    <%= raw("<Array scilabClass=\"ScilabTList\">") %>
+                        <%= raw("<ScilabString height=\"1\" width=\"11\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" value=\"params\"/>") %>
+                            <%= raw("<data column=\"1\" line=\"0\" value=\"wpar\"/>") %>
+                            <%= raw("<data column=\"2\" line=\"0\" value=\"title\"/>") %>
+                            <%= raw("<data column=\"3\" line=\"0\" value=\"tol\"/>") %>
+                            <%= raw("<data column=\"4\" line=\"0\" value=\"tf\"/>") %>
+                            <%= raw("<data column=\"5\" line=\"0\" value=\"context\"/>") %>
+                            <%= raw("<data column=\"6\" line=\"0\" value=\"void1\"/>") %>
+                            <%= raw("<data column=\"7\" line=\"0\" value=\"options\"/>") %>
+                            <%= raw("<data column=\"8\" line=\"0\" value=\"void2\"/>") %>
+                            <%= raw("<data column=\"9\" line=\"0\" value=\"void3\"/>") %>
+                            <%= raw("<data column=\"10\" line=\"0\" value=\"doc\"/>") %>
+                        <%= raw("</ScilabString>") %>
+                        <%= raw("<ScilabDouble height=\"1\" width=\"6\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" realPart=\"600.0\"/>") %>
+                            <%= raw("<data column=\"1\" line=\"0\" realPart=\"450.0\"/>") %>
+                            <%= raw("<data column=\"2\" line=\"0\" realPart=\"0.0\"/>") %>
+                            <%= raw("<data column=\"3\" line=\"0\" realPart=\"0.0\"/>") %>
+                            <%= raw("<data column=\"4\" line=\"0\" realPart=\"600.0\"/>") %>
+                            <%= raw("<data column=\"5\" line=\"0\" realPart=\"450.0\"/>") %>
+                        <%= raw("</ScilabDouble>") %>
+                        <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" value=\"#{s.name}\"/>") %>
+                        <%= raw("</ScilabString>") %>
+                        <%= raw("<ScilabDouble height=\"7\" width=\"1\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" realPart=\"1.0E-6\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"1\" realPart=\"1.0E-6\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"2\" realPart=\"1.0E-10\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"3\" realPart=\"100001.0\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"4\" realPart=\"0.0\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"5\" realPart=\"1.0\"/>") %>
+                            <%= raw("<data column=\"0\" line=\"6\" realPart=\"0.0\"/>") %>
+                        <%= raw("</ScilabDouble>") %>
+                        <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" realPart=\"100000.0\"/>") %>
+                        <%= raw("</ScilabDouble>") %>
+                        <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                            <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                        <%= raw("</ScilabString>") %>
+                        <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                        <%= raw("<Array scilabClass=\"ScilabTList\">") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"6\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"scsopt\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" value=\"3D\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" value=\"Background\"/>") %>
+                                <%= raw("<data column=\"3\" line=\"0\" value=\"Link\"/>") %>
+                                <%= raw("<data column=\"4\" line=\"0\" value=\"ID\"/>") %>
+                                <%= raw("<data column=\"5\" line=\"0\" value=\"Cmap\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"true\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"33.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" realPart=\"8.0\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" realPart=\"1.0\"/>") %>
+                            <%= raw("</ScilabDouble>") %>
+                            <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" realPart=\"1.0\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" realPart=\"5.0\"/>") %>
+                            <%= raw("</ScilabDouble>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"5.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"4.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<ScilabDouble height=\"1\" width=\"3\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.8\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" realPart=\"0.8\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" realPart=\"0.8\"/>") %>
+                            <%= raw("</ScilabDouble>") %>
+                        <%= raw("</Array>") %>
+                        <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                        <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                        <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                    <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                        <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"5\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"Block\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" value=\"graphics\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" value=\"model\"/>") %>
+                                <%= raw("<data column=\"3\" line=\"0\" value=\"gui\"/>") %>
+                                <%= raw("<data column=\"4\" line=\"0\" value=\"doc\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"19\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"graphics\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"orig\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"sz\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"flip\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"theta\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"exprs\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"pin\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"pout\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"pein\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"peout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"gr_i\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"id\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"in_implicit\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"out_implicit\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"in_style\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"out_style\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"in_label\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"out_label\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"style\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"-40.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"20.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"true\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                    <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" value=\"xstringb(orig(1),orig(2),&quot;IN_f&quot;,sz(1),sz(2));\"/>") %>
+                                    <%= raw("</ScilabString>") %>
+                                    <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" realPart=\"8.0\"/>") %>
+                                    <%= raw("</ScilabDouble>") %>
+                                <%= raw("</Array>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"input1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"E\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"IN_f;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"23\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"model\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"sim\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"in\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"in2\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"intyp\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"out\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"out2\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"outtyp\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"evtin\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"evtout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"state\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"dstate\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"odstate\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"rpar\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"ipar\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"opar\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"blocktype\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"firing\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"dep_ut\"/>") %>
+                                    <%= raw("<data column=\"19\" line=\"0\" value=\"label\"/>") %>
+                                    <%= raw("<data column=\"20\" line=\"0\" value=\"nzcross\"/>") %>
+                                    <%= raw("<data column=\"21\" line=\"0\" value=\"nmode\"/>") %>
+                                    <%= raw("<data column=\"22\" line=\"0\" value=\"equations\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"input\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"c\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"false\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"false\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}input1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"IN_f\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}input1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                        <%= raw("</Array>") %>
+                        <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"5\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"Block\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" value=\"graphics\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" value=\"model\"/>") %>
+                                <%= raw("<data column=\"3\" line=\"0\" value=\"gui\"/>") %>
+                                <%= raw("<data column=\"4\" line=\"0\" value=\"doc\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"19\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"graphics\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"orig\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"sz\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"flip\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"theta\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"exprs\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"pin\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"pout\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"pein\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"peout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"gr_i\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"id\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"in_implicit\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"out_implicit\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"in_style\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"out_style\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"in_label\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"out_label\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"style\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"220.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"-40.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"20.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"true\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                    <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" value=\"xstringb(orig(1),orig(2),&quot;OUT_f&quot;,sz(1),sz(2));\"/>") %>
+                                    <%= raw("</ScilabString>") %>
+                                    <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" realPart=\"8.0\"/>") %>
+                                    <%= raw("</ScilabDouble>") %>
+                                <%= raw("</Array>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"output1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"E\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"OUT_f;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"23\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"model\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"sim\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"in\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"in2\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"intyp\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"out\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"out2\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"outtyp\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"evtin\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"evtout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"state\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"dstate\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"odstate\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"rpar\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"ipar\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"opar\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"blocktype\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"firing\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"dep_ut\"/>") %>
+                                    <%= raw("<data column=\"19\" line=\"0\" value=\"label\"/>") %>
+                                    <%= raw("<data column=\"20\" line=\"0\" value=\"nzcross\"/>") %>
+                                    <%= raw("<data column=\"21\" line=\"0\" value=\"nmode\"/>") %>
+                                    <%= raw("<data column=\"22\" line=\"0\" value=\"equations\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"output\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"c\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"false\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"false\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}output1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"OUT_f\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}output1\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                        <%= raw("</Array>") %>
+                        <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"5\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"Block\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" value=\"graphics\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" value=\"model\"/>") %>
+                                <%= raw("<data column=\"3\" line=\"0\" value=\"gui\"/>") %>
+                                <%= raw("<data column=\"4\" line=\"0\" value=\"doc\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"19\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"graphics\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"orig\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"sz\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"flip\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"theta\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"exprs\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"pin\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"pout\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"pein\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"peout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"gr_i\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"id\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"in_implicit\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"out_implicit\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"in_style\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"out_style\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"in_label\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"out_label\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"style\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"-80.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"20.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"true\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                    <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" value=\"xstringb(orig(1),orig(2),&quot;IN_f&quot;,sz(1),sz(2));\"/>") %>
+                                    <%= raw("</ScilabString>") %>
+                                    <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" realPart=\"8.0\"/>") %>
+                                    <%= raw("</ScilabDouble>") %>
+                                <%= raw("</Array>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"input2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"E\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"IN_f;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"23\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"model\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"sim\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"in\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"in2\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"intyp\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"out\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"out2\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"outtyp\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"evtin\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"evtout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"state\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"dstate\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"odstate\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"rpar\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"ipar\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"opar\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"blocktype\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"firing\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"dep_ut\"/>") %>
+                                    <%= raw("<data column=\"19\" line=\"0\" value=\"label\"/>") %>
+                                    <%= raw("<data column=\"20\" line=\"0\" value=\"nzcross\"/>") %>
+                                    <%= raw("<data column=\"21\" line=\"0\" value=\"nmode\"/>") %>
+                                    <%= raw("<data column=\"22\" line=\"0\" value=\"equations\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"input\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"c\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"false\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"false\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}input2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"IN_f\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}input2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                        <%= raw("</Array>") %>
+                        <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"5\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"Block\"/>") %>
+                                <%= raw("<data column=\"1\" line=\"0\" value=\"graphics\"/>") %>
+                                <%= raw("<data column=\"2\" line=\"0\" value=\"model\"/>") %>
+                                <%= raw("<data column=\"3\" line=\"0\" value=\"gui\"/>") %>
+                                <%= raw("<data column=\"4\" line=\"0\" value=\"doc\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"19\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"graphics\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"orig\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"sz\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"flip\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"theta\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"exprs\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"pin\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"pout\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"pein\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"peout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"gr_i\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"id\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"in_implicit\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"out_implicit\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"in_style\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"out_style\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"in_label\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"out_label\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"style\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"220.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"-100.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"20.0\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" realPart=\"20.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"true\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                    <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" value=\"xstringb(orig(1),orig(2),&quot;OUT_f&quot;,sz(1),sz(2));\"/>") %>
+                                    <%= raw("</ScilabString>") %>
+                                    <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                        <%= raw("<data column=\"0\" line=\"0\" realPart=\"8.0\"/>") %>
+                                    <%= raw("</ScilabDouble>") %>
+                                <%= raw("</Array>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"output2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"E\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"OUT_f;flip=false;mirror=false\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                            <%= raw("<Array scilabClass=\"ScilabMList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"23\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"model\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"sim\"/>") %>
+                                    <%= raw("<data column=\"2\" line=\"0\" value=\"in\"/>") %>
+                                    <%= raw("<data column=\"3\" line=\"0\" value=\"in2\"/>") %>
+                                    <%= raw("<data column=\"4\" line=\"0\" value=\"intyp\"/>") %>
+                                    <%= raw("<data column=\"5\" line=\"0\" value=\"out\"/>") %>
+                                    <%= raw("<data column=\"6\" line=\"0\" value=\"out2\"/>") %>
+                                    <%= raw("<data column=\"7\" line=\"0\" value=\"outtyp\"/>") %>
+                                    <%= raw("<data column=\"8\" line=\"0\" value=\"evtin\"/>") %>
+                                    <%= raw("<data column=\"9\" line=\"0\" value=\"evtout\"/>") %>
+                                    <%= raw("<data column=\"10\" line=\"0\" value=\"state\"/>") %>
+                                    <%= raw("<data column=\"11\" line=\"0\" value=\"dstate\"/>") %>
+                                    <%= raw("<data column=\"12\" line=\"0\" value=\"odstate\"/>") %>
+                                    <%= raw("<data column=\"13\" line=\"0\" value=\"rpar\"/>") %>
+                                    <%= raw("<data column=\"14\" line=\"0\" value=\"ipar\"/>") %>
+                                    <%= raw("<data column=\"15\" line=\"0\" value=\"opar\"/>") %>
+                                    <%= raw("<data column=\"16\" line=\"0\" value=\"blocktype\"/>") %>
+                                    <%= raw("<data column=\"17\" line=\"0\" value=\"firing\"/>") %>
+                                    <%= raw("<data column=\"18\" line=\"0\" value=\"dep_ut\"/>") %>
+                                    <%= raw("<data column=\"19\" line=\"0\" value=\"label\"/>") %>
+                                    <%= raw("<data column=\"20\" line=\"0\" value=\"nzcross\"/>") %>
+                                    <%= raw("<data column=\"21\" line=\"0\" value=\"nmode\"/>") %>
+                                    <%= raw("<data column=\"22\" line=\"0\" value=\"equations\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"output\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"-1.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"2.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"c\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"0\" width=\"0\"/>") %>
+                                <%= raw("<ScilabBoolean height=\"1\" width=\"2\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"false\"/>") %>
+                                    <%= raw("<data column=\"1\" line=\"0\" value=\"false\"/>") %>
+                                <%= raw("</ScilabBoolean>") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}output2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<ScilabDouble height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" realPart=\"0.0\"/>") %>
+                                <%= raw("</ScilabDouble>") %>
+                                <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                            <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                <%= raw("<data column=\"0\" line=\"0\" value=\"OUT_f\"/>") %>
+                            <%= raw("</ScilabString>") %>
+                            <%= raw("<Array scilabClass=\"ScilabList\">") %>
+                                <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                                    <%= raw("<data column=\"0\" line=\"0\" value=\"#{@project.name+"file:"+s.name+"Block:"}output2\"/>") %>
+                                <%= raw("</ScilabString>") %>
+                            <%= raw("</Array>") %>
+                        <%= raw("</Array>") %>
+                    <%= raw("</Array>") %>
+                    <%= raw("<ScilabString height=\"1\" width=\"1\">") %>
+                        <%= raw("<data column=\"0\" line=\"0\" value=\"\"/>") %>
+                    <%= raw("</ScilabString>") %>
+                    <%= raw("<Array scilabClass=\"ScilabList\"/></Array>") %>
+                <%= raw("<Array as=\"oDState\" scilabClass=\"ScilabList\"/>") %>
+                <%= raw("<Array as=\"equations\" scilabClass=\"ScilabList\"/>") %>
+                <%= raw("<mxGeometry as=\"geometry\" height=\"#{(contip*40)+(36)}.0\" width=\"260.0\" x=\"230.0\" y=\"80.0\"/>") %>
+            <%= raw("</SuperBlock>") %>
+
+
+<%= raw("<!-- Puertos 	 (fuera) -->") %>
+<%
+contop=0
+contip=0
+s=@project.sub_systems.find(:first)
+c=s.connectors.find(:first)
+c.sub_system_flows.each{|f|
+  op=f.flow
+  if (f.flow.flow_type.name="DIO") then
+    if (f.outdir) then
+      contop=contop+1
+%>
+<%= raw("<ExplicitOutputPort dataColumns=\"1\" dataLines=\"1\" dataType=\"REAL_MATRIX\" id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}#{op.name}\" ordering=\"#{contop}\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{op.name}\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/></ExplicitOutputPort>") %>
+<%  else
+      contip=contip+1
+%>
+<%= raw("<ExplicitInputPort dataColumns=\"1\" dataLines=\"1\" dataType=\"REAL_MATRIX\" id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}#{op.name}\" ordering=\"#{contip}\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{op.name}\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"#{((40*(contip-1))+36)}.0\"/></ExplicitInputPort>") %>
+<%  end
+  end
+  }
+%>
+
+            <%= raw("<mxCell connectable=\"0\" id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}#identifier\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}\" style=\"noLabel=0;opacity=0\" value=\"#{s.name}\" vertex=\"1\">") %>
+                <%= raw("<mxGeometry as=\"geometry\" x=\"130.0\" y=\"#{((contip*40)+(36*2))/2}.0\"/>") %>
+            <%= raw("</mxCell>") %>
+        <%= raw("</root>") %>
+    <%= raw("</mxGraphModel>") %>
+    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p1\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}p0\"/>") %>
+<%= raw("</XcosDiagram>") %>

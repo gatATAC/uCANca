@@ -23,9 +23,28 @@ class FunctionSubSystem < ActiveRecord::Base
   children :state_machines, :state_machine_conditions, :state_machine_actions
   
   acts_as_list :scope => :sub_system
+
+  before_save :remove_project_temp
   
+  attr_accessor :project_temp # atributo temporal para conseguir añadir nuevas instancias desde cualquiera de sus dos "padres": subsistema o funcion
+
   def parent_project
-    function.parent_project
+    if project_temp then
+      ret=project_temp
+    else
+      if sub_system then
+        ret=sub_system.parent_project
+      else
+        if function then
+          ret=function.project
+        end
+      end
+    end
+    return ret
+  end
+
+  def remove_project_temp
+    self.project_temp = nil
   end
 
   def to_func_name
@@ -35,47 +54,19 @@ class FunctionSubSystem < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    if (sub_system) then
-      return sub_system.updatable_by?(acting_user)
-    else
-      if (function) then
-        return function.updatable_by?(acting_user)
-      else
-        true
-      end
-    end
+    parent_project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    if (sub_system) then
-      return sub_system.updatable_by?(acting_user)
-    else
-      if (function) then
-        return function.updatable_by?(acting_user)
-      end
-    end
+    parent_project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    if (sub_system) then
-      return sub_system.updatable_by?(acting_user)
-    else
-      if (function) then
-        return function.updatable_by?(acting_user)
-      end
-    end
+    parent_project.updatable_by?(acting_user)
   end
 
   def view_permitted?(field)
-      if (function) then
-        function.viewable_by?(acting_user)
-      else
-        if (sub_system) then
-          sub_system.viewable_by?(acting_user)
-        else
-          true
-        end
-      end
-    end
+    parent_project.viewable_by?(acting_user)
+  end
 
 end

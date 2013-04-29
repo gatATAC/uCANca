@@ -17,6 +17,7 @@ class Project < ActiveRecord::Base
   has_many :members, :through => :project_memberships, :source => :user
   has_many :sub_systems
   has_many :flows
+
   has_many :functions
 
   has_many :contributor_memberships, :class_name => "ProjectMembership", :conditions => {:contributor => true}
@@ -30,6 +31,10 @@ class Project < ActiveRecord::Base
 
   children :flows, :project_memberships, :sub_systems, :functions
 
+  def c_code
+    
+  end
+
   def sub_system_tree
     ret = []
     sub_systems.each {|ss|
@@ -42,7 +47,7 @@ class Project < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    (owner_is? acting_user)
+    (owner_is? acting_user) && acting_user.developer
   end
 
   def update_permitted?

@@ -39,7 +39,7 @@ class SubSystemFlow < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true # connector.viewable_by? (acting_user)
+    connector.viewable_by? (acting_user)
   end
 
 end

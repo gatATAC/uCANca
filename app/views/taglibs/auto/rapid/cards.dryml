@@ -61,6 +61,14 @@
   </card>
 </def>
 
+<def tag="card" for="FunctionTest">
+  <card class="function-test" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="FunctionType">
   <card class="function-type" param="default" merge>
     <header: param>
@@ -158,11 +166,15 @@
 <def tag="card" for="StateMachineTransition">
   <card class="state-machine-transition" param="default" merge>
     <header: param>
-      <h4 param="heading"><a><name/></a></h4>
+      <h4 param="heading"><name/></h4>
+      <div param="actions">
+        <delete-button label="X" param/>
+      </div>
     </header:>
     <body: param>
-      <ht key="state_machine_transition_action.collection.count" count="&this.state_machine_transition_actions.size">
-         <count:state_machine_transition_actions param/>
+      <view:description param="description"/>
+      <ht key="state_machine_action.collection.count" count="&this.actions.size">
+         <count:actions param/>
       </ht>
     </body:>
   </card>
@@ -171,12 +183,13 @@
 <def tag="card" for="StateMachineTransitionAction">
   <card class="state-machine-transition-action" param="default" merge>
     <header: param>
+      <h4 param="heading"><name/></h4>
       <div param="actions">
         <delete-button label="X" param/>
       </div>
     </header:>
     <body: param>
-      <a:state_machine_transition param="creator-link"/>
+      <view:transition param="creator"/>
     </body:>
   </card>
 </def>

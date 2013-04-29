@@ -49,6 +49,18 @@
 
 
 
+<def tag="form" for="FunctionTest">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, stimulus, expected_results, position, function" param/>
+    <div param="actions">
+      <submit label="#{ht 'function_test.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="FunctionType">
   <form merge param="default">
     <error-messages param/>
@@ -160,7 +172,7 @@
 <def tag="form" for="StateMachineTransitionAction">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="state_machine_action, state_machine_transition" param/>
+    <field-list fields="action, transition" param/>
     <div param="actions">
       <submit label="#{ht 'state_machine_transition_action.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -172,7 +184,7 @@
 <def tag="form" for="StateMachineTransition">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, description, priority, destination_state, state_machine_condition, state_machine_state, state_machine_transition_actions" param/>
+    <field-list fields="name, description, priority, actions, destination_state, state_machine_condition, state_machine_state, transition_actions" param/>
     <div param="actions">
       <submit label="#{ht 'state_machine_transition.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -184,7 +196,7 @@
 <def tag="form" for="StateMachine">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, function_sub_system, super_state" param/>
+    <field-list fields="name, graphviz_link, graphviz_size, function_sub_system, super_state" param/>
     <div param="actions">
       <submit label="#{ht 'state_machine.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -220,7 +232,7 @@
 <def tag="form" for="User">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, email_address, administrator, state" param/>
+    <field-list fields="name, email_address, administrator, developer, state" param/>
     <div param="actions">
       <submit label="#{ht 'user.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

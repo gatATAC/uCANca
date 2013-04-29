@@ -12,7 +12,8 @@ class StateMachineAction < ActiveRecord::Base
   attr_accessible :name, :description, :implementation, :function_sub_system, :function_sub_system_id, :short_name
 
   belongs_to :function_sub_system, :inverse_of => :state_machine_actions
-  has_many :state_machine_transition_actions, :inverse_of => :state_machine_action
+  has_many :transition_actions,:class_name => 'StateMachineTransitionAction', :foreign_key => 'action_id' ,:inverse_of => :action
+  has_many :transitions, :class_name => 'StateMachineTransition', :through => :transition_actions, :dependent => :destroy
 
   validates :implementation, :presence => :true
   validates :name, :presence => :true
@@ -46,11 +47,11 @@ class StateMachineAction < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    if (function_sub_system) then
-      function_sub_system.viewable_by?(acting_user)
-    else
-      true
+    ret=false
+    if function_sub_system then
+      ret=function_sub_system.viewable_by?(acting_user)
     end
+    return ret
   end
 
 end
