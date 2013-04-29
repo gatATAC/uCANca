@@ -1647,7 +1647,6 @@
     <body: class="show-page state-machine-action" param/>
 
     <content-header: param>
-      <a:transitions param="parent-link">&laquo; <ht key="state_machine_action.actions.back_to_parent" parent="State machine transition" name="&this">Back to <name/></ht></a:transitions>
       <h2 param="heading">
         <ht key="state_machine_action.show.heading" name="#{name(:no_wrapper => true)}">
           State machine action <name/>
@@ -2566,6 +2565,8 @@
       </h2>
 
       <record-flags fields="outdir" param/>
+
+      <a:connector param="creator-link"/>
 
       <a action="edit" if="&can_edit?" param="edit-link">
         <ht key="sub_system_flow.actions.edit" name="#{name(:no_wrapper => true)}">

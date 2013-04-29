@@ -8,8 +8,8 @@ class SubSystemFlow < ActiveRecord::Base
   end
   attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :outdir
 
-  belongs_to :flow, :inverse_of => :sub_system_flows
-  belongs_to :connector, :inverse_of => :sub_system_flows
+  belongs_to :flow, :inverse_of => :sub_system_flows, :creator => :true
+  belongs_to :connector, :inverse_of => :sub_system_flows, :creator => :true
 
   validates :flow, :presence => :true
   validates :connector, :presence => :true

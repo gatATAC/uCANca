@@ -209,6 +209,9 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <a:connector param="creator-link"/>
+    </body:>
   </card>
 </def>
 

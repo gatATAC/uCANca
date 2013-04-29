@@ -19,6 +19,9 @@ es:
       user:
         one: Usuario
         other: Usuarios
+      flow_type:
+        one: Tipo de Flujo
+        other: Tipos de Flujo
     attributes:
       user:
         name: Nombre
@@ -26,6 +29,11 @@ es:
         current_password: Contraseña Actual
         password_confirmation: Confirmación Contraseña
         email_address: Correo Electrónico
-#    attribute_help:
-#      user:
-#        email_address:
+    attribute_help:
+      user:
+        email_address:  Nunca compartiremos tu direccion electronica con nadie mas.
+
+  flow_type:
+    actions:
+      new: Nuevo Tipo de Flujo
+      index: Tipos de Flujo

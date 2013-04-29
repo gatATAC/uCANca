@@ -13,7 +13,7 @@ class Flow < ActiveRecord::Base
   belongs_to :project, :inverse_of => :flows
   belongs_to :flow_type
 
-  has_many :sub_system_flows
+  has_many :sub_system_flows, :dependent => :destroy
   has_many :connectors, :through => :sub_system_flows
 
   children :sub_system_flows
