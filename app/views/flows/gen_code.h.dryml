@@ -1,0 +1,4 @@
+<% if (@flow.flow_type) then %>
+  <%=h @flow.flow_type.to_c_type(@flow).+" "+@flow.name+";\n" %>
+<% else %>
+// (null) <% @flow.name %><% end %>

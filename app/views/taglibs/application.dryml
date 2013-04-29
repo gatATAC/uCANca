@@ -228,8 +228,12 @@ you can place common code in this file. -->
 <extend tag="show-page" for="Flow">
   <old-show-page>
     <append-collection-section:>
-      <%= link_to "Codigo en C #{@flow.name}", :controller => :flows, :action => :show, :format => 'c' %>
-      <embed src="./#{this.id}.c" type="text/x-c" width="100%"/>
+    <div class="code-section" if="&can_update?(@flow)">
+      <%= link_to "Declaracion en C #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'h' %>
+      <embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%"/>
+      <%= link_to "Codigo I/O en C #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
+      <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
+    </div>
     </append-collection-section:>
   </old-show-page>
 </extend>
@@ -351,7 +355,7 @@ you can place common code in this file. -->
                   <ul>
                     <li>Destination:<view:destination_state/> </li>
                     <li>Condition: <view:state_machine_condition/></li>
-                    <li>Actions:<view:transition_actions/></li>
+                    <li>Actions:<collection:actions/></li>
                   </ul>
                 </span>
               </body:>
@@ -404,3 +408,16 @@ you can place common code in this file. -->
               </append-function_tests-collection-section:>
             </old-show-page>
           </extend>
+
+
+<extend tag="card" for="StateMachineAction">
+  <old-card merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <append-body:>
+      <view:description/>
+      <view:implementation/>
+    </append-body:>
+  </old-card>
+</extend>

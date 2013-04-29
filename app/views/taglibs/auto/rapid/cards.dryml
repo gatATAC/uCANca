@@ -166,13 +166,9 @@
 <def tag="card" for="StateMachineTransition">
   <card class="state-machine-transition" param="default" merge>
     <header: param>
-      <h4 param="heading"><name/></h4>
-      <div param="actions">
-        <delete-button label="X" param/>
-      </div>
+      <h4 param="heading"><a><name/></a></h4>
     </header:>
     <body: param>
-      <view:description param="description"/>
       <ht key="state_machine_action.collection.count" count="&this.actions.size">
          <count:actions param/>
       </ht>
@@ -189,7 +185,7 @@
       </div>
     </header:>
     <body: param>
-      <view:transition param="creator"/>
+      <a:transition param="creator-link"/>
     </body:>
   </card>
 </def>

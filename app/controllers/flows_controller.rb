@@ -6,15 +6,16 @@ class FlowsController < ApplicationController
   auto_actions_for :project, [:new, :create]
 
   autocomplete
-  
-  def show
+
+  show_action :gen_code
+
+  def gen_code
+    @flow=find_instance
     respond_to do |format|
-      format.c {
-        render :inline => find_instance.to_c
-      }
-      format.html {
-        hobo_show
-      }
+      format.c
+      format.h
+      format.xcos
+      format.cdp
     end
   end
 

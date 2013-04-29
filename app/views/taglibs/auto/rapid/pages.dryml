@@ -1955,17 +1955,11 @@
 
         <collection:state_machine_transitions param/>
 
-        <section param="add-to-collection" if="&can_create?(@state_machine_state.state_machine_transitions)">
-          <h3 param="add-form-heading">
-            <ht key="state_machine_transition.collection.add_form_heading" count="1">
-              Add a State Machine Transition
-            </ht>
-          </h3>
-          <form with="&@state_machine_transition || new_for_current_user(@state_machine_state.state_machine_transitions)" owner="state_machine_state" without-cancel param>
-            <field-list: skip="state_machine_state"/>
-            <submit: label="#{ht 'state_machine_transition.actions.add', :default=>['Add'] }"/>
-          </form>
-        </section>
+        <a:state_machine_transitions action="new" if="&can_create?(@state_machine_state.state_machine_transitions)" param="new-link">
+          <ht key="state_machine_transition.actions.new" count="1">
+            New State Machine Transition
+          </ht>
+        </a:state_machine_transitions>
       </section>
     </content-body:>
 
@@ -2115,7 +2109,7 @@
 
       <record-flags fields="" param/>
 
-      <view:get-creator param="creator-name"/>
+      <a:transition param="creator-link"/>
     </content-header:>
 
     <content-body: param>
@@ -2183,13 +2177,6 @@
       <page-nav param="bottom-page-nav"/>
 
 
-      <div param="new-form">
-        <h3 param="new-form-heading">
-          <ht key="state_machine_transition.form.new.heading">New State machine transition</ht>
-        </h3>
-        <form with="&@invalid_record || new_for_current_user(StateMachineTransition)" param/>
-      </div>
-
     </content-body:>
   </page>
 </def>
@@ -2230,6 +2217,12 @@
       </h2>
 
       <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="state_machine_transition.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit State machine transition
+        </ht>
+      </a>
     </content-header:>
 
     <content-body: param>
@@ -2273,6 +2266,33 @@
 
 
 
+<def tag="new-for-state-machine-state-page" polymorphic/>
+<def tag="new-for-state-machine-state-page" for="StateMachineTransition">
+  <page merge title="#{ht 'state_machine_transition.new_for_owner.title', :default=>['New State machine transition for']} #{name :with => @state_machine_state}">
+    <body: class="new-for-owner-page  state-machine-transition" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="state_machine_transition.new_for_owner.heading">
+          New State Machine Transition
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="state_machine_transition.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@state_machine_state"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="state_machine_state" method="post" param>
+        <field-list: skip="state_machine_state"/>
+        <submit: label="#{ht 'state_machine_transition.actions.create', :default=>['Create State machine transition']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
 
 
 

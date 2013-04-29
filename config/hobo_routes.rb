@@ -137,11 +137,12 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machine_transitions
-  resources :state_machine_transitions, :only => [:create, :update, :destroy]
+  resources :state_machine_transitions, :only => [:edit, :show, :update, :destroy]
 
   # Owner routes for controller state_machine_transitions
   resources :state_machine_states, :as => :state_machine_state, :only => [] do
     resources :state_machine_transitions, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_state_machine_state'
       collection do
         post 'create', :action => 'create_for_state_machine_state'
       end
@@ -179,6 +180,9 @@ Blocks::Application.routes.draw do
   resources :flows, :only => [:new, :edit, :show, :create, :update, :destroy] do
     collection do
       get 'complete_name'
+    end
+    member do
+      get 'gen_code'
     end
   end
 
