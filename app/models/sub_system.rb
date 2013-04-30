@@ -7,7 +7,7 @@ class SubSystem < ActiveRecord::Base
     abbrev :string
     timestamps
   end
-  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id
+  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id, :functions
 
 
   belongs_to :project
@@ -27,26 +27,14 @@ class SubSystem < ActiveRecord::Base
 
   has_many :function_sub_systems, :inverse_of => :sub_system, :order => :position
   has_many :functions, :through => :function_sub_systems
+  has_many :state_machines, :through => :function_sub_systems
 
   validates :layer, :presence => :true
+  validates :project, :presence => :true
 
   children :connectors,:children, :function_sub_systems
 
   acts_as_list :scope => :parent
-
-  def parent_project
-    ret = nil
-    if root then
-      ret=root.parent_project
-    else
-      if parent then
-        ret=parent.parent_project
-      else
-        ret=project
-      end
-    end
-    return ret
-  end
 
   def full_name
     ret=name
@@ -294,16 +282,20 @@ class SubSystem < ActiveRecord::Base
 
   def layer_visible_by?(u)
     ret=false
-    if parent_project.owner==u then
-      ret=true
-    else
-      parent_project.project_memberships.each  {|mb|
-        if (mb.user==u) then
-          if (mb.maximum_layer == 0 || mb.maximum_layer>=self.layer.level) then
-            ret=true
+    if self.layer
+      if self.project.owner==u then
+        ret=true
+      else
+        self.project.project_memberships.each  {|mb|
+          if (mb.user==u) then
+            if (mb.maximum_layer == 0 || mb.maximum_layer>=self.layer.level) then
+              ret=true
+            end
           end
-        end
-      }
+        }
+      end
+    else
+      ret=false
     end
     return ret
   end
@@ -311,23 +303,25 @@ class SubSystem < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    parent_project.updatable_by?(acting_user)
+    if (project) then
+      project.updatable_by?(acting_user)
+    else
+      false
+    end
   end
 
   def update_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    parent_project.destroyable_by?(acting_user)
+    project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    ret=false
-    if (parent_project.viewable_by?(acting_user)) then
-      if (self.try.layer) then
-        ret =self.layer_visible_by?(acting_user)
-      end
+    ret=self.project.viewable_by?(acting_user)
+    if (!(acting_user.developer? || acting_user.administrator?)) then
+      ret=self.layer_visible_by?(acting_user)
     end
     return ret
   end

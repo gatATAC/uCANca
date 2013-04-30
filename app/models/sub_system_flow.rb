@@ -20,8 +20,8 @@ class SubSystemFlow < ActiveRecord::Base
     ret=connector.sub_system.full_name+"_"+flow.name
   end
 
-  def parent_project
-    flow.parent_project
+  def project
+    flow.project
   end
 
   # --- Permissions --- #

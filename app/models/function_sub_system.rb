@@ -28,12 +28,12 @@ class FunctionSubSystem < ActiveRecord::Base
   
   attr_accessor :project_temp # atributo temporal para conseguir añadir nuevas instancias desde cualquiera de sus dos "padres": subsistema o funcion
 
-  def parent_project
+  def project
     if project_temp then
       ret=project_temp
     else
       if sub_system then
-        ret=sub_system.parent_project
+        ret=sub_system.project
       else
         if function then
           ret=function.project
@@ -54,19 +54,19 @@ class FunctionSubSystem < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    parent_project.viewable_by?(acting_user)
+    project.viewable_by?(acting_user)
   end
 
 end

@@ -1,10 +1,23 @@
 <!-- this file is included by front_site.dryml, admin_site.dryml et al, so
 you can place common code in this file. -->
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs param="default">
+    <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&FlowType" if="&current_user.administrator? || current_user.developer?"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&FunctionType" if="&current_user.administrator? || current_user.developer?"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Layer" if="&current_user.administrator? || current_user.developer?"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Function"><ht key="function.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Flow"><ht key="flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&StateMachine"><ht key="state_machine.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+  </navigation>
+</def>
 
 <extend tag="show-page" for="SubSystem">
   <old-show-page merge>
 
-    <field-list: fields="abbrev, parent, root, parent_project, layer, full_name" param/>
+    <field-list: fields="abbrev, parent, root, project, layer, full_name" param/>
     <collection: replace>
       <if test="&can_edit?(this.position_column)">
         <sortable-collection:connectors param="collection"/>
@@ -99,8 +112,6 @@ you can place common code in this file. -->
         <collection:connectors  param="connectors-collection"/>
       </section>
 -->
-
-
 
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
@@ -243,7 +254,7 @@ you can place common code in this file. -->
   <old-index-page>
 
     <collection: replace>
-      <table-plus with="&@flows" fields="this,project,flow_type,sub_system_flows">
+      <table-plus with="&@flows" fields="this,project,flow_type">
         <prepend-header:>
           <div class="filter">
             Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
@@ -369,7 +380,9 @@ you can place common code in this file. -->
                 <span>
                   <ul>
                     <li>Destination:<view:destination_state/> </li>
-                    <li>Condition: <view:state_machine_condition/></li>
+                    <li>Condition: <view:state_machine_condition/>
+<% if (this.state_machine_condition) then %><br/><%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:state_machine_condition.implementation/></div><% end %>
+                    </li>
                     <li>Actions:<collection:actions/></li>
                   </ul>
                 </span>
@@ -432,7 +445,17 @@ you can place common code in this file. -->
     </header:>
     <append-body:>
       <view:description/>
-      <view:implementation/>
+      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:implementation/></div>
     </append-body:>
+  </old-card>
+</extend>
+
+<extend tag="card" for="FunctionTest">
+  <old-card merge>
+    <body: param>
+      <view:description/>
+      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Estimulos<div style="display:none"><view:stimulus/></div><br/>
+      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Resultados esperados<div style="display:none"><view:expected_results/></div>
+    </body:>
   </old-card>
 </extend>

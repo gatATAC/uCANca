@@ -2,7 +2,7 @@ class SubSystemsController < ApplicationController
 
   hobo_model_controller
 
-  auto_actions :all, :except => :index
+  auto_actions :all, :except => [:new, :create]
   auto_actions_for :parent, [:new,:create]
   auto_actions_for :project, [:new,:create]
 
@@ -11,6 +11,7 @@ class SubSystemsController < ApplicationController
       if (params[:super_system]) then
         ss = SubSystem.find(params[:super_system])
         @this.parent=ss
+        @this.project=ss.project
         if (@this.parent.root) then
           @this.root=@this.parent.root
         else

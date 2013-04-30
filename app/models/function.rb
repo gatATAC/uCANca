@@ -36,15 +36,19 @@ class Function < ActiveRecord::Base
   end
 
   def update_permitted?
-    project.updatable_by?(acting_user)
+    self.project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    project.destroyable_by?(acting_user)
+    self.project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    project.viewable_by?(acting_user)
+    if self.project then
+      self.project.viewable_by?(acting_user)
+    else
+      false
+    end
   end
 
 end

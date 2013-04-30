@@ -20,7 +20,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller functions
-  resources :functions, :only => [:new, :edit, :show, :create, :update, :destroy] do
+  resources :functions, :only => [:index, :edit, :show, :update, :destroy] do
     collection do
       get 'complete_name'
     end
@@ -65,7 +65,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller projects
-  resources :projects, :only => [:index, :edit, :show, :update, :destroy] do
+  resources :projects do
     member do
       get 'gen_code'
     end
@@ -101,7 +101,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller sub_systems
-  resources :sub_systems, :only => [:new, :edit, :show, :create, :update, :destroy] do
+  resources :sub_systems, :only => [:index, :new, :edit, :show, :update, :destroy] do
     collection do
       post 'reorder'
     end
@@ -177,7 +177,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller flows
-  resources :flows, :only => [:new, :edit, :show, :create, :update, :destroy] do
+  resources :flows, :only => [:index, :edit, :show, :update, :destroy] do
     collection do
       get 'complete_name'
     end
@@ -257,7 +257,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller state_machines
-  resources :state_machines, :only => [:edit, :show, :update, :destroy]
+  resources :state_machines, :only => [:index, :edit, :show, :update, :destroy]
 
   # Owner routes for controller state_machines
   resources :function_sub_systems, :as => :function_sub_system, :only => [] do

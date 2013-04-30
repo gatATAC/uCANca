@@ -1,6 +1,6 @@
 <index-page>
   <collection: replace>
-  <table-plus with="&@functions" fields="ident,this,function_type,sub_systems">
+  <table-plus with="&@functions" fields="ident,this,project,function_type">
     <prepend-header:>
       <div class="filter">
         Display by function_type: <filter-menu param-name="function_type" options="&FunctionType.all"/>

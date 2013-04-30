@@ -2,16 +2,17 @@ class ProjectsController < ApplicationController
 
   hobo_model_controller
 
-  auto_actions :show, :edit, :update, :destroy
+  auto_actions :all
 
   auto_actions_for :owner, [:new, :create]
 
   show_action :gen_code
 
-def index
-  self.this = Project.find_all_by_member(current_user).paginate(:page => params[:page] || 1, :per_page => 10)
-  hobo_index
-end
+  def new
+    hobo_new do
+      @this.owner=current_user
+    end
+  end
 
   def gen_code
     @project=find_instance

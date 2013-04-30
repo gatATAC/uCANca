@@ -82,27 +82,23 @@ class Flow < ActiveRecord::Base
     return ret
   end
 
-  def parent_project
-    project
-  end
-
   # --- Permissions --- #
 
 
   def create_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def update_permitted?
-    parent_project.updatable_by?(acting_user)
+    project.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    parent_project.destroyable_by?(acting_user)
+    project.destroyable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    parent_project.viewable_by?(acting_user)
+    project.viewable_by?(acting_user)
   end
 
 end

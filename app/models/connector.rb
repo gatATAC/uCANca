@@ -33,8 +33,8 @@ class Connector < ActiveRecord::Base
     sub_system.full_name+":"+name
   end
 
-  def parent_project
-    sub_system.parent_project
+  def project
+    sub_system.project
   end
 
   def copy_connector_flows(c)

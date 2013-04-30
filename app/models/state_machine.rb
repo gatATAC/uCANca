@@ -82,11 +82,16 @@ class StateMachine < ActiveRecord::Base
 
   def view_permitted?(field)
     ret=false
-    if (field != :graphviz_link &&
-          field != :graphviz_size) then
-      ret=function_sub_system.viewable_by?(acting_user)
+    if (function_sub_system) then
+      if (field != :graphviz_link &&
+            field != :graphviz_size) then
+        ret=function_sub_system.viewable_by?(acting_user)
+      else
+        ret=function_sub_system.updatable_by?(acting_user)
+      end
     else
-      ret=function_sub_system.updatable_by?(acting_user)
+      ret=(field != :graphviz_link &&
+          field != :graphviz_size) || acting_user.developer? || acting_user.administrator?
     end
     return ret
   end

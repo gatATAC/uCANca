@@ -6,10 +6,14 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Flow"><ht key="flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Function"><ht key="function.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&StateMachine"><ht key="state_machine.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
 </def>
 
@@ -323,9 +327,6 @@
     </content-header:>
 
     <content-body: param>
-      <a action="new" to="&model" param="new-link">
-        <ht key="flow.actions.new">New Flow</ht>
-      </a>
 
       <page-nav param="top-page-nav"/>
 
@@ -930,9 +931,6 @@
     </content-header:>
 
     <content-body: param>
-      <a action="new" to="&model" param="new-link">
-        <ht key="function.actions.new">New Function</ht>
-      </a>
 
       <page-nav param="top-page-nav"/>
 
@@ -1426,6 +1424,9 @@
     </content-header:>
 
     <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="project.actions.new">New Project</ht>
+      </a>
 
       <page-nav param="top-page-nav"/>
 
