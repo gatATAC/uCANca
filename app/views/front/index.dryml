@@ -26,13 +26,13 @@
 
     <section with="&current_user" class="content-body" if="&logged_in?">
       <div if="developer?">
-        <h3>Your Projects</h3>
+        <h3>Tus proyectos</h3>
         <collection:projects><card without-creator-link/></collection>
 
-        <a:projects action="new">New Project</a>
+        <a:projects action="new">Nuevo Proyecto</a>
       </div>
-      <h3>Projects you have joined</h3>
-      <collection:joined-projects><card without-creator-link/></collection>
+      <h3>Projects de los que eres miembro</h3>
+      <collection:project_memberships><card without-creator-link/></collection>
     </section>
 
   </content:>

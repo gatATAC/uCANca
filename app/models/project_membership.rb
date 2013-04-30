@@ -18,6 +18,10 @@ class ProjectMembership < ActiveRecord::Base
   validates :user, :presence => :true
   validates :maximum_layer, :presence => :true
 
+  def name
+    project.name
+  end
+
   # --- Permissions --- #
 
   def create_permitted?

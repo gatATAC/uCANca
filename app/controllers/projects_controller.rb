@@ -8,6 +8,11 @@ class ProjectsController < ApplicationController
 
   show_action :gen_code
 
+def index
+  self.this = Project.find_all_by_member(current_user).paginate(:page => params[:page] || 1, :per_page => 10)
+  hobo_index
+end
+
   def gen_code
     @project=find_instance
     respond_to do |format|
@@ -17,7 +22,6 @@ class ProjectsController < ApplicationController
       format.cdp
     end
   end
-
 
   def show
     @project=find_instance

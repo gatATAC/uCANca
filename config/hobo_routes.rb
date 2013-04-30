@@ -65,7 +65,7 @@ Blocks::Application.routes.draw do
 
 
   # Resource routes for controller projects
-  resources :projects, :only => [:edit, :show, :update, :destroy] do
+  resources :projects, :only => [:index, :edit, :show, :update, :destroy] do
     member do
       get 'gen_code'
     end

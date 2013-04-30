@@ -110,7 +110,7 @@ you can place common code in this file. -->
     </heading:>
     <append-header:>
       <delete-button label="X" param/>
-      Salida? <view:outdir/> <editor:outdir/>
+      Salida? <view:outdir if="&!can_edit?"/> <editor:outdir/>
     </append-header:>
   </old-card>
 </extend>
@@ -219,7 +219,7 @@ you can place common code in this file. -->
       <view:function.abbrev/>: <a:function/-->
     </append-heading:>
     <append-body:>
-      <p>Implementacion? <view:implementacion/><editor:implementacion/></p>
+      <p>Implementacion? <view:implementacion  if="&!can_edit?"/><editor:implementacion/></p>
       <delete-button label="X" param/>
     </append-body:>
   </old-card>
@@ -334,13 +334,28 @@ you can place common code in this file. -->
 
           <extend tag="card" for="ProjectMembership">
             <old-card merge>
+              <heading: replace>
+                 <h4 param="heading"><view:project/></h4>
+              </heading:>
               <body:>
-                <span>Contributor?</span><view:contributor/><editor:contributor/>
-                <span>Max layer?</span><view:maximum_layer/><editor:maximum_layer/>
+                <ul>
+                  <li>Contributor?<view:contributor  if="&!can_edit?"/><editor:contributor if="&can_edit?"/></li>
+                  <li>Max layer?<view:maximum_layer if="&!can_edit?"/><editor:maximum_layer if="&can_edit?"/></li>
+                  <li>Members: <view:project.members/></li>
+                </ul>
               </body:>
             </old-card>
           </extend>
 
+          <extend tag="card" for="Project">
+            <old-card merge>
+              <body:>
+                <ul>
+                  <li>Members: <view:members/></li>
+                </ul>
+              </body:>
+            </old-card>
+          </extend>
 
           <extend tag="card" for="StateMachineTransition">
             <old-card merge>

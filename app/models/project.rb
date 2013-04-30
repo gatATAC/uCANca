@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
     name :string
     timestamps
   end
-  attr_accessible :name
+  attr_accessible :name, :owner
 
   belongs_to :owner, :class_name => "User", :creator => true, :inverse_of => :projects
 
@@ -33,6 +33,10 @@ class Project < ActiveRecord::Base
 
   def c_code
     
+  end
+
+  def self.find_all_by_member(m)
+    ret = Project.includes(:project_memberships).where("project_memberships.user_id" => m)
   end
 
   def sub_system_tree

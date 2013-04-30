@@ -9,6 +9,7 @@
     <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
 </def>
 
@@ -1647,6 +1648,7 @@
     <body: class="show-page state-machine-action" param/>
 
     <content-header: param>
+      <a:transitions param="parent-link">&laquo; <ht key="state_machine_action.actions.back_to_parent" parent="State machine transition" name="&this">Back to <name/></ht></a:transitions>
       <h2 param="heading">
         <ht key="state_machine_action.show.heading" name="#{name(:no_wrapper => true)}">
           State machine action <name/>
