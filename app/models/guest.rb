@@ -4,4 +4,7 @@ class Guest < Hobo::Model::Guest
     false
   end
 
+  def developer?
+    false
+  end
 end
