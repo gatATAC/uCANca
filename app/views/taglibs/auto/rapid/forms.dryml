@@ -133,6 +133,18 @@
 
 
 
+<def tag="form" for="StMachSysMap">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="implementation, state_machine, sub_system" param/>
+    <div param="actions">
+      <submit label="#{ht 'st_mach_sys_map.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="StateMachineAction">
   <form merge param="default">
     <error-messages param/>

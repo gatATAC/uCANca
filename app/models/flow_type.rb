@@ -56,7 +56,7 @@ class FlowType < ActiveRecord::Base
   def to_c_output(f)
     if (enable_output) then
       if (c_output_patron) then
-        ret=c_output_patron.gsub("%FLOW%", f.name)
+        ret=c_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
         if (paso_por_referencia) then
           ret=ret.gsub("%REF%","*")
@@ -75,7 +75,7 @@ class FlowType < ActiveRecord::Base
   def to_c_input(f)
     if (enable_input) then
       if (c_input_patron) then
-        ret=c_input_patron.gsub("%FLOW%", f.name)
+        ret=c_input_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
         if (paso_por_referencia) then
           ret=ret.gsub("%REF%","*")
@@ -94,7 +94,7 @@ class FlowType < ActiveRecord::Base
   def to_c_output(f)
     if (enable_output) then
       if (c_output_patron) then
-        ret=c_output_patron.gsub("%FLOW%", f.name)
+        ret=c_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
         if (paso_por_referencia) then
           ret=ret.gsub("%REF%","*")

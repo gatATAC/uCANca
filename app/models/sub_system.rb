@@ -29,10 +29,12 @@ class SubSystem < ActiveRecord::Base
   has_many :functions, :through => :function_sub_systems
   has_many :state_machines, :through => :function_sub_systems
 
+  has_many :st_mach_sys_maps, :dependent => :destroy, :inverse_of => :sub_system
+
   validates :layer, :presence => :true
   validates :project, :presence => :true
 
-  children :connectors,:children, :function_sub_systems
+  children :connectors,:children, :function_sub_systems, :st_mach_sys_maps
 
   acts_as_list :scope => :parent
 

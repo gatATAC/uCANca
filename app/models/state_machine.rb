@@ -10,7 +10,6 @@ class StateMachine < ActiveRecord::Base
   end
   attr_accessible :name, :function_sub_system, :function_sub_system_id, :graphviz_link, :graphviz_size
 
-
   belongs_to :function_sub_system
 
   has_many :state_machine_states, :inverse_of => :state_machine
@@ -18,7 +17,9 @@ class StateMachine < ActiveRecord::Base
   belongs_to :super_state, :class_name => 'StateMachineState', :inverse_of => :sub_machines, :foreign_key => :super_state_id
   has_many :sub_machines, :through => :state_machine_states, :class_name => 'StateMachine', :foreign_key => :super_state_id
 
-  children :state_machine_states, :sub_machines
+  has_many :st_mach_sys_maps, :dependent => :destroy, :inverse_of => :state_machine
+
+  children :state_machine_states, :sub_machines, :st_mach_sys_maps
 
   validates :function_sub_system, :presence => :true
 

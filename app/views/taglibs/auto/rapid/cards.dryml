@@ -121,6 +121,17 @@
   </card>
 </def>
 
+<def tag="card" for="StMachSysMap">
+  <card class="st-mach-sys-map" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+    <body: param>
+      <a:sub_system param="creator-link"/>
+    </body:>
+  </card>
+</def>
+
 <def tag="card" for="StateMachine">
   <card class="state-machine" param="default" merge>
     <header: param>

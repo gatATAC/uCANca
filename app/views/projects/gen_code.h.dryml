@@ -1,6 +1,7 @@
 #ifndef _DRE_H
 #define _DRE_H
 
+#include <%= raw("<Project/ProjectTypes.h>") %>
 
 typedef struct {
 <%  @project.flows.find(:all).each{ |f|

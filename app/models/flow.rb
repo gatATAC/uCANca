@@ -30,10 +30,15 @@ class Flow < ActiveRecord::Base
     end
   end
 
+  def c_name
+    ret=self.name.gsub("+", "_pos")
+    ret=ret.gsub("-", "_neg")
+  end
+
   def to_c_decl
     if (self.flow_type) then
       ret="\t"
-      ret+=self.flow_type.to_c_type(self).+" "+self.name+";\n"
+      ret+=self.flow_type.to_c_type(self).+" "+self.c_name+";\n"
       return ret
     else
       return "// (null) "+self.name+"\n"
@@ -44,35 +49,35 @@ class Flow < ActiveRecord::Base
     ret=""
     if (self.flow_type) then
       if (!self.flow_type.tipo_fantasma) then
-        ret="\tBOOL enable_"+self.name+";\n\t"
-        ret+=self.flow_type.to_c_type(self).+" "+self.name+";\n"
+        ret="\tBOOL enable_"+self.c_name+";\n\t"
+        ret+=self.flow_type.to_c_type(self).+" "+self.c_name+";\n"
       end
     else
-      return "// (null) "+self.name+"\n"
+      return "// (null) "+self.c_name+"\n"
     end
   end
 
   def to_c_io_decl
     if (self.flow_type) then
-      ret="\n\n// Adquisicion de la variable "+self.name+"\n"
+      ret="\n\n// Adquisicion de la variable "+self.c_name+"\n"
       ret+=flow_type.to_c_input_decl(self)
-      ret+="\n// Sintesis de la variable "+self.name+"\n"
+      ret+="\n// Sintesis de la variable "+self.c_name+"\n"
       ret+=flow_type.to_c_output_decl(self)
     else
       ret="// (null)"
-      ret+=" "+self.name+";\n"
+      ret+=" "+self.c_name+";\n"
     end
   end
 
   def to_c_io
     if (self.flow_type) then
-      ret="\n// Adquisicion de la variable "+self.name+"\n"
+      ret="\n// Adquisicion de la variable "+self.c_name+"\n"
       ret+=flow_type.to_c_input(self)
-      ret+="\n\n// Sintesis de la variable "+self.name+"\n"
+      ret+="\n\n// Sintesis de la variable "+self.c_name+"\n"
       ret+=flow_type.to_c_output(self)
     else
       ret="// (null)"
-      ret+=" "+self.name+";\n"
+      ret+=" "+self.c_name+";\n"
     end
   end
 

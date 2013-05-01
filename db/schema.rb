@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130428200048) do
+ActiveRecord::Schema.define(:version => 20130430230723) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -135,6 +135,17 @@ ActiveRecord::Schema.define(:version => 20130428200048) do
   end
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
+
+  create_table "st_mach_sys_maps", :force => true do |t|
+    t.boolean  "implementation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "state_machine_id"
+    t.integer  "sub_system_id"
+  end
+
+  add_index "st_mach_sys_maps", ["state_machine_id"], :name => "index_st_mach_sys_maps_on_state_machine_id"
+  add_index "st_mach_sys_maps", ["sub_system_id"], :name => "index_st_mach_sys_maps_on_sub_system_id"
 
   create_table "state_machine_actions", :force => true do |t|
     t.string   "name"

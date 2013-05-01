@@ -105,6 +105,9 @@ Blocks::Application.routes.draw do
     collection do
       post 'reorder'
     end
+    member do
+      get 'gen_code'
+    end
   end
 
   # Owner routes for controller sub_systems
@@ -220,6 +223,30 @@ Blocks::Application.routes.draw do
       get 'new', :on => :new, :action => 'new_for_function'
       collection do
         post 'create', :action => 'create_for_function'
+      end
+    end
+  end
+
+
+  # Resource routes for controller st_mach_sys_maps
+  resources :st_mach_sys_maps, :only => [:index, :edit, :show, :update, :destroy]
+
+  # Owner routes for controller st_mach_sys_maps
+  resources :sub_systems, :as => :sub_system, :only => [] do
+    resources :st_mach_sys_maps, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_sub_system'
+      collection do
+        post 'create', :action => 'create_for_sub_system'
+      end
+    end
+  end
+
+  # Owner routes for controller st_mach_sys_maps
+  resources :state_machines, :as => :state_machine, :only => [] do
+    resources :st_mach_sys_maps, :only => [] do
+      get 'new', :on => :new, :action => 'new_for_state_machine'
+      collection do
+        post 'create', :action => 'create_for_state_machine'
       end
     end
   end

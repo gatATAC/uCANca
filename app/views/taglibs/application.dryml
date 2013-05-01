@@ -94,10 +94,13 @@ you can place common code in this file. -->
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
       <div class="code-section" if="&can_update?(@sub_system)">
-        <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
-        <embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="2" background="#ff00ff"/>
-        <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
-        <embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="2" background="blue"/>
+        Generadores automaticos de codigo:
+        <ul>
+          <li><%= link_to "Header del DRE", :action => :gen_code, :format => 'h' %></li>
+          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+          <li><%= link_to "Rutinas IO del DRE", :action => :gen_code, :format => 'c' %></li>
+          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+        </ul>
       </div>
     </aside:>
   </old-show-page>
@@ -316,32 +319,32 @@ you can place common code in this file. -->
       <h2>Project Members</h2>
       <collection:project_memberships part="members">
         <card><heading:><a:user/></heading:></card>
-        </collection>
+      </collection>
 
-        <form:project_memberships.new update="members" reset-form refocus-form>
-          <div>
-            Add a member:
-            <name-one:user/>
-          </div>
-          </form>
-          </project_memberships-collection-section:>
-          <append-aside:>
-      <div class="code-section" if="&can_update?(@project)">
-            <p>
-              <%= link_to "Header del DRE", :action => :show, :format => 'h' %>
-            </p><embed src="./#{this.id}.h" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-              <%= link_to "Rutinas IO del DRE", :action => :show, :format => 'c' %>
-            </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-              <%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :show, :format => 'cdp' %>
-            </p><embed src="./#{this.id}.c" type="text/x-c" width="100%" height="auto" border="1px"/><p>
-              <%= link_to "Esqueleto de XCos", :action => :show, :format => 'xcos' %>
-            </p>
+      <form:project_memberships.new update="members" reset-form refocus-form>
+      <div>
+         Add a member:
+         <name-one:user/>
       </div>
-          </append-aside:>
-
-
-          </old-show-page>
-          </extend>
+    </form>
+  </project_memberships-collection-section:>
+    <append-collection-section:>
+      <br/>
+      <br/>
+      <div class="code-section" if="&can_update?(@project)">
+        Generadores automaticos de codigo:
+        <ul>
+          <li><%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :gen_code, :format => 'cdp' %></li>
+          <li><%= link_to "Esqueleto de XCos", :action => :gen_code, :format => 'xcos' %></li>
+          <li><%= link_to "Header del DRE", :action => :gen_code, :format => 'h' %></li>
+          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+          <li><%= link_to "Rutinas IO del DRE", :action => :gen_code, :format => 'c' %></li>
+          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+        </ul>
+      </div>
+    </append-collection-section:>
+  </old-show-page>
+</extend>
 
           <extend tag="card" for="ProjectMembership">
             <old-card merge>
@@ -422,6 +425,13 @@ you can place common code in this file. -->
               <prepend-aside:>
                 <img src="#{@this.to_graphviz}" alt="Maquina SM"/><br/>
               </prepend-aside:>
+              <append-st_mach_sys_maps-collection-section:>
+      <a:st_mach_sys_maps action="new" if="&can_create?(@state_machine.st_mach_sys_maps)" param="new-link">
+        <ht key="st_mach_sys_map.actions.new" count="1">
+          New State Machine Map
+        </ht>
+      </a:st_mach_sys_maps>
+              </append-st_mach_sys_maps-collection-section:>
             </old-show-page>
           </extend>
 

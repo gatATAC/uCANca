@@ -45,21 +45,21 @@ actions_lib=[]
         <%= raw("<property name=\"name\" type=\"string\">#{@project.name}</property>") %>
 
         <% 
-          @project.sub_system_tree.each { |ss|
+          @project.sub_systems.each { |ss|
         %>
               <%= raw("<object type=\"udPackageItem\">") %>
                 <%= raw("<property name=\"id\" type=\"long\">#{(30000+ss.id).to_s}</property>") %>
                 <%= raw("<property name=\"name\" type=\"string\">#{ss.full_abbrev}</property>") %>
                 <% 
-                ss.function_sub_systems.each{ |fss|
-                  if fss.implementacion then
-                   fss.state_machines.each{|sm|
+                ss.st_mach_sys_maps.each{ |smsm|
+                  if smsm.implementation then
+                   sm=smsm.state_machine
                    %>
 
                     <%= raw("<object type=\"udHStateChartDiagramItem\">") %>
                         <%= raw("<property name=\"id\" type=\"long\">#{(40000+sm.id).to_s}</property>") %>
                         <%= raw("<property name=\"name\" type=\"string\">#{sm.to_func_name}</property>") %>
-                        <%= raw("<property name=\"description\" type=\"string\">Funcion #{fss.function.name} desplegada en el subsistema #{fss.sub_system.full_name} en la maquina de estados #{sm.name}</property>") %>
+                        <%= raw("<property name=\"description\" type=\"string\">Funcion #{sm.function_sub_system.function.name} desplegada en el subsistema #{smsm.sub_system.full_name} en la maquina de estados #{sm.name}</property>") %>
                         <%= raw("<property name=\"diagram_type\" type=\"string\">State Chart</property>") %>
                         <%= raw("<property name=\"generate_code\" type=\"bool\">1</property>") %>
                         <%= raw("<property name=\"output_file\" type=\"string\">&lt;default&gt;</property>") %>
@@ -288,7 +288,6 @@ actions_lib=[]
                     <%= raw("</object>") %>
                   <%
                     
-                    }
                   end
                   } %>
               <%= raw("</object>")%>

@@ -6,6 +6,8 @@ class SubSystemsController < ApplicationController
   auto_actions_for :parent, [:new,:create]
   auto_actions_for :project, [:new,:create]
 
+  show_action :gen_code
+
   def new
     hobo_new do
       if (params[:super_system]) then
@@ -28,11 +30,17 @@ class SubSystemsController < ApplicationController
       format.svg {
         render :inline => find_instance.to_svg
       }
-      format.c
-      format.h
       format.html {
         hobo_show
       }
+    end
+  end
+
+  def gen_code
+    @sub_system=find_instance
+    respond_to do |format|
+      format.c
+      format.h
     end
   end
 

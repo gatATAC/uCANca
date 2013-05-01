@@ -12,6 +12,7 @@
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&StMachSysMap"><ht key="st_mach_sys_map.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&StateMachine"><ht key="state_machine.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
@@ -1588,6 +1589,177 @@
 
 
 
+<!-- ====== StMachSysMap Pages ====== -->
+
+<def tag="index-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="st_mach_sys_map.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.new.title', :default=>[' New St mach sys map'] }">
+    <body: class="new-page st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.new.heading">
+          New St mach sys map
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'st_mach_sys_map.actions.create', :default=>['Create St mach sys map']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.show.title', :default=>['St mach sys map'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.show.heading" name="#{name(:no_wrapper => true)}">
+          St mach sys map <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="implementation" param/>
+
+      <a:sub_system param="creator-link"/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="st_mach_sys_map.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit St mach sys map
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <field-list fields="state_machine" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.edit.title', :default=>['Edit St mach sys map'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit St mach sys map
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'st_mach_sys_map.actions.delete', :default=>['Remove This St mach sys map']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-sub-system-page" polymorphic/>
+<def tag="new-for-sub-system-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.new_for_owner.title', :default=>['New St mach sys map for']} #{name :with => @sub_system}">
+    <body: class="new-for-owner-page  st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.new_for_owner.heading">
+          New St Mach Sys Map
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="st_mach_sys_map.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@sub_system"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="sub_system" method="post" param>
+        <field-list: skip="sub_system"/>
+        <submit: label="#{ht 'st_mach_sys_map.actions.create', :default=>['Create St mach sys map']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+<def tag="new-for-state-machine-page" polymorphic/>
+<def tag="new-for-state-machine-page" for="StMachSysMap">
+  <page merge title="#{ht 'st_mach_sys_map.new_for_owner.title', :default=>['New St mach sys map for']} #{name :with => @state_machine}">
+    <body: class="new-for-owner-page  st-mach-sys-map" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="st_mach_sys_map.new_for_owner.heading">
+          New St Mach Sys Map
+        </ht>
+      </h2>
+      <h3 param="subheading">
+        <ht key="st_mach_sys_map.new_for_owner.subheading">
+          For:
+        </ht>
+        <a with="&@state_machine"/>
+      </h3>
+    </content-header:>
+
+    <content-body: param>
+      <form owner="state_machine" method="post" param>
+        <field-list: skip="state_machine"/>
+        <submit: label="#{ht 'st_mach_sys_map.actions.create', :default=>['Create St mach sys map']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== StateMachineAction Pages ====== -->
 
 <def tag="index-page" for="StateMachineAction">
@@ -1649,6 +1821,7 @@
     <body: class="show-page state-machine-action" param/>
 
     <content-header: param>
+      <a:transitions param="parent-link">&laquo; <ht key="state_machine_action.actions.back_to_parent" parent="State machine transition" name="&this">Back to <name/></ht></a:transitions>
       <h2 param="heading">
         <ht key="state_machine_action.show.heading" name="#{name(:no_wrapper => true)}">
           State machine action <name/>
@@ -2404,6 +2577,14 @@
         </h3>
         <collection:sub_machines  param="sub_machines-collection"/>
       </section>
+      <section param="st_mach_sys_maps-collection-section">
+        <h3 param="st_mach_sys_maps-collection-heading">
+          <ht key="st_mach_sys_map.collection.heading" count="&this.st_mach_sys_maps.count" >
+            <human-collection-name collection="st_mach_sys_maps" your/>
+          </ht>
+        </h3>
+        <collection:st_mach_sys_maps  param="st_mach_sys_maps-collection"/>
+      </section>
     </aside:>
 
   </page>
@@ -2729,6 +2910,14 @@
           </ht>
         </h3>
         <collection:function_sub_systems  param="function_sub_systems-collection"/>
+      </section>
+      <section param="st_mach_sys_maps-collection-section">
+        <h3 param="st_mach_sys_maps-collection-heading">
+          <ht key="st_mach_sys_map.collection.heading" count="&this.st_mach_sys_maps.count" >
+            <human-collection-name collection="st_mach_sys_maps" your/>
+          </ht>
+        </h3>
+        <collection:st_mach_sys_maps  param="st_mach_sys_maps-collection"/>
       </section>
     </aside:>
 
