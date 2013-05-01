@@ -22,8 +22,9 @@ class SubSystem < ActiveRecord::Base
 
   has_many :connectors, :order => :position
 
-  has_many :output_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => true}
-  has_many :input_flows, :through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:outdir => false}
+  has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 2},:order => :position
+  has_many :input_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 1},:order => :position
+  has_many :nodir_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
 
   has_many :function_sub_systems, :inverse_of => :sub_system, :order => :position
   has_many :functions, :through => :function_sub_systems
@@ -85,7 +86,7 @@ class SubSystem < ActiveRecord::Base
   end
 
 	def has_parents?
-    return sources.size > 0
+    return parent!=nil
   end
 
 	def has_children?
@@ -298,6 +299,86 @@ class SubSystem < ActiveRecord::Base
       end
     else
       ret=false
+    end
+    return ret
+  end
+
+
+
+
+  def to_code(init,doneelems,u)
+    #allowed=this.view_permitted?
+    allowed=true
+    if (allowed)
+      ret=to_code_int(u)
+      return ret,[doneelems,self.subtree]
+    else
+      "Not allowed operation"
+    end
+  end
+
+  def to_code_embedded(u)
+    return to_code(u)
+  end
+
+  def to_code_int(u)
+    #allowed=s.view_permitted?
+    allowed=true
+    if allowed
+      ret="<treeview title=\""+self.name+" Tree\">\n"
+=begin
+      if (self.class==Library)
+        ret+=get_tree_data_xml_lb(self){|n|
+          #link_to(n.name,{:controller=>'nodes', :action=>'show', :id=>n.id}, :target => "main") }
+          "<a href='/nodes/"+n.id.to_s+"' target='main'>"+n.name+"</a>"
+        }
+      else
+        if (self.class==Mode)
+          ret+=get_tree_data_xml_md(self){|n|
+            #link_to(n.name,{:controller=>'nodes', :action=>'show', :id=>n.id}, :target => "main") }
+            "<a href='/nodes/"+n.id.to_s+"' target='main'>"+n.name+"</a>"
+          }
+        else
+=end
+      ret+=self.get_tree_data_xml_ss(u){|n|
+        #link_to(n.name,{:controller=>'nodes', :action=>'show', :id=>n.id}, :target => "main") }
+        "<a href='/sub_systems/"+n.id.to_s+"' target='main'>"+n.name+"</a>"
+      }
+=begin
+        end
+      end
+=end
+      ret+="</treeview>"
+      return ret
+    else
+      "Not allowed operation 2"
+    end
+  end
+
+  def get_tree_data_xml_ss(u)
+    if self.viewable_by?(u) then
+      #ret="<folder title=\""+self.name+"\" type=\"sub_systems\" code=\""+self.id.to_s+"\""+" img=\""+self.node_type.img_link+"\" action=\""+self.id.to_s+"\" >\n"
+      ret="<folder title=\""+self.name+"\" type=\"sub_systems\" code=\""+self.id.to_s+"\""+" img=\"/images/nodes/subsystem.png\" action=\""+self.id.to_s+"\" >\n"
+
+      self.state_machines.each {|sm|
+        ret+=sm.get_tree_data_xml_sm()
+      }
+
+      self.connectors.each {|cn|
+          ret+=cn.get_tree_data_xml_cn()
+      }
+
+      self.children.each {|n|
+        ret+=n.get_tree_data_xml_ss(u)
+      }
+=begin
+      self.modes.each {|n|
+        ret+=get_tree_data_xml_md(n)
+      }
+=end
+      ret+="</folder>\n"
+    else
+      ret=""
     end
     return ret
   end

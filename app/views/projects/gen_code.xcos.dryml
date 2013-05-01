@@ -25,7 +25,7 @@ c=s.connectors.find(:first)
 c.sub_system_flows.each{|f|
   op=f.flow
   if (f.flow.flow_type.name="DIO") then
-    if (f.outdir) then
+    if (f.flow_direction.name="output") then
       contop=contop+1
 %>
 <%= raw("<ExplicitOutBlock id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" ordering=\"#{contop}\" parent=\"#{@project.name+"file:"+s.name+"Block:"}iop1\" simulationFunctionType=\"DEFAULT\" style=\"OUT_f;flip=false;mirror=false\" value=\"1\"><ScilabString as=\"exprs\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" value=\"#{contop}\"/></ScilabString><ScilabDouble as=\"integerParameters\" height=\"1\" width=\"1\"><data column=\"0\" line=\"0\" realPart=\"#{contop}.0\"/></ScilabDouble><Array as=\"objectsParameters\" scilabClass=\"ScilabList\"/><Array as=\"equations\" scilabClass=\"ScilabList\"/><mxGeometry as=\"geometry\" height=\"20.0\" width=\"20.0\" x=\"240.0\" y=\"#{40*contop}.0\"/></ExplicitOutBlock><ExplicitInputPort dataType=\"UNKNOW_TYPE\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}1aux\" ordering=\"1\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"6.0\"/></ExplicitInputPort><mxCell connectable=\"0\" id=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}#identifier\" parent=\"#{@project.name+"file:"+s.name+"Block:"}#{op.name}\" style=\"noLabel=0;opacity=0\" value=\"#{op.name}\" vertex=\"1\"><mxGeometry as=\"geometry\" relative=\"1\" x=\"0.5\" y=\"1.4\"/></mxCell>") %>
@@ -787,7 +787,7 @@ c=s.connectors.find(:first)
 c.sub_system_flows.each{|f|
   op=f.flow
   if (f.flow.flow_type.name="DIO") then
-    if (f.outdir) then
+    if (f.flow_direction.name="output") then
       contop=contop+1
 %>
 <%= raw("<ExplicitOutputPort dataColumns=\"1\" dataLines=\"1\" dataType=\"REAL_MATRIX\" id=\"#{@project.name+"file:"+s.name+"Block:"+s.name}#{op.name}\" ordering=\"#{contop}\" parent=\"#{@project.name+"file:"+s.name+"Block:"+s.name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{op.name}\"><mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/></ExplicitOutputPort>") %>

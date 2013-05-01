@@ -3,13 +3,13 @@ class SubSystemFlow < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    outdir :boolean
     timestamps
   end
-  attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :outdir
+  attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :flow_direction, :flow_direction_id
 
   belongs_to :flow, :inverse_of => :sub_system_flows, :creator => :true
   belongs_to :connector, :inverse_of => :sub_system_flows, :creator => :true
+  belongs_to :flow_direction, :inverse_of => :sub_system_flows
 
   validates :flow, :presence => :true
   validates :connector, :presence => :true
@@ -22,6 +22,11 @@ class SubSystemFlow < ActiveRecord::Base
 
   def project
     flow.project
+  end
+
+  def get_tree_data_xml_ssfl()
+    ret="<leaf title=\""+self.flow.name+"\" type=\"sub_system_flows\" code=\""+self.id.to_s+"\""+" img=\""+self.flow_direction.img+"\" />\n"
+    return ret
   end
 
   # --- Permissions --- #

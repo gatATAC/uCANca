@@ -307,6 +307,10 @@ Blocks::Application.routes.draw do
   end
 
 
+  # Resource routes for controller flow_directions
+  resources :flow_directions
+
+
   # Resource routes for controller node_edges
   resources :node_edges, :only => [:show]
 

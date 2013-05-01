@@ -41,6 +41,7 @@ class SubSystemsController < ApplicationController
     respond_to do |format|
       format.c
       format.h
+      format.tree
     end
   end
 

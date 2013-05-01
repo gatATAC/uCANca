@@ -16,9 +16,9 @@ class Connector < ActiveRecord::Base
 
 
   has_many :sub_system_flows, :dependent => :destroy,:order => :position, :inverse_of => :connector
-  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => true},:order => :position
-  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:outdir => false},:order => :position
-
+  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 2},:order => :position
+  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 1},:order => :position
+  has_many :nodir_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
 
   children :sub_system_flows,:input_flows
 
@@ -201,6 +201,21 @@ class Connector < ActiveRecord::Base
 </svg>"
     return ret
   end
+
+  def get_tree_data_xml_cn()
+    #ret="<folder title=\""+self.name+"\" type=\"connectors\" code=\""+self.id.to_s+"\""+" img=\""+self.node_type.img_link+"\" action=\""+self.id.to_s+"\" >\n"
+    if (self.name) then
+      ret="<folder title=\""+self.name.to_s+"\" type=\"connectors\" code=\""+self.id.to_s+"\""+" img=\"/images/nodes/connector2.png\" action=\""+self.id.to_s+"\" >\n"
+      self.sub_system_flows.each {|ssfl|
+        ret+=ssfl.get_tree_data_xml_ssfl()
+      }
+      ret+="</folder>\n"
+    else
+      ret=""
+    end
+    return ret
+  end
+
 
   # --- Permissions --- #
 

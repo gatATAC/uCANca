@@ -7,6 +7,7 @@
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
     <nav-item with="&Flow"><ht key="flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&FlowDirection"><ht key="flow_direction.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Function"><ht key="function.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
@@ -188,6 +189,119 @@
         <submit: label="#{ht 'connector.actions.create', :default=>['Create Connector']}"/>
       </form>
     </content-body:>
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== FlowDirection Pages ====== -->
+
+<def tag="index-page" for="FlowDirection">
+  <page merge title="#{ht 'flow_direction.index.title', :default=>[model.model_name.human(:count=>100)] }">
+    <body: class="index-page flow-direction" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_direction.index.heading">
+          <model-name-human model="&model"/>
+        </ht>
+      </h2>
+
+      <p param="count" if>
+        <ht key="flow_direction.collection.count" count="&collection_count">
+          <count summary/>
+        </ht>
+      </p>
+    </content-header:>
+
+    <content-body: param>
+      <a action="new" to="&model" param="new-link">
+        <ht key="flow_direction.actions.new">New Flow direction</ht>
+      </a>
+
+      <page-nav param="top-page-nav"/>
+
+      <collection param/>
+
+      <page-nav param="bottom-page-nav"/>
+
+
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="FlowDirection">
+  <page merge title="#{ht 'flow_direction.new.title', :default=>[' New Flow direction'] }">
+    <body: class="new-page flow-direction" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_direction.new.heading">
+          New Flow direction
+        </ht>
+      </h2>
+    </content-header:>
+
+    <content-body: param>
+      <form param>
+        <submit: label="#{ht 'flow_direction.actions.create', :default=>['Create Flow direction']}"/>
+      </form>
+    </content-body:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="FlowDirection">
+  <page merge title="#{ht 'flow_direction.show.title', :default=>['Flow direction'], :name => name(:no_wrapper => true) }" without-aside >
+
+    <body: class="show-page flow-direction" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_direction.show.heading" name="#{name(:no_wrapper => true)}">
+          Flow direction <name/>
+        </ht>
+      </h2>
+
+      <record-flags fields="" param/>
+
+      <a action="edit" if="&can_edit?" param="edit-link">
+        <ht key="flow_direction.actions.edit" name="#{name(:no_wrapper => true)}">
+          Edit Flow direction
+        </ht>
+      </a>
+    </content-header:>
+
+    <content-body: param>
+      <view:description param="description" />
+      <field-list fields="img" param/>
+    </content-body:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="FlowDirection">
+  <page merge title="#{ht 'flow_direction.edit.title', :default=>['Edit Flow direction'], :name => name(:no_wrapper => true) }">
+
+    <body: class="edit-page flow-direction" param/>
+
+    <content-header: param>
+      <h2 param="heading">
+        <ht key="flow_direction.edit.heading" name="#{name(:no_wrapper => true)}">
+          Edit Flow direction
+        </ht>
+      </h2>
+      <delete-button label="#{ht 'flow_direction.actions.delete', :default=>['Remove This Flow direction']}" param/>
+    </content-header:>
+
+    <content-body: param>
+      <form param/>
+    </content-body:>
+
   </page>
 </def>
 
@@ -1821,7 +1935,6 @@
     <body: class="show-page state-machine-action" param/>
 
     <content-header: param>
-      <a:transitions param="parent-link">&laquo; <ht key="state_machine_action.actions.back_to_parent" parent="State machine transition" name="&this">Back to <name/></ht></a:transitions>
       <h2 param="heading">
         <ht key="state_machine_action.show.heading" name="#{name(:no_wrapper => true)}">
           State machine action <name/>
@@ -2759,7 +2872,7 @@
     </content-header:>
 
     <content-body: param>
-      <field-list fields="position, flow" param/>
+      <field-list fields="position, flow, flow_direction" param/>
     </content-body:>
 
   </page>

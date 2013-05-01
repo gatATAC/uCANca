@@ -27,6 +27,14 @@
   </card>
 </def>
 
+<def tag="card" for="FlowDirection">
+  <card class="flow-direction" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="FlowType">
   <card class="flow-type" param="default" merge>
     <header: param>

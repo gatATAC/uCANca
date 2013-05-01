@@ -1,0 +1,1113 @@
+<HTML><!-- #BeginTemplate "/Templates/templatePro.dwt" --><!-- DW6 --><HEAD>
+
+
+
+<!-- #BeginEditable "doctitle" --> 
+
+<TITLE>DHTML Treeview component</TITLE>
+
+<!-- #EndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<META http-equiv="Content-Type" content="Ressources for java programming, by a web developer, Jean-Michel Garnier ">
+
+<META http-equiv="Content-Language" content="en">
+
+<META NAME="Description" content="Ressources about java programming : Junit, Struts, J2EE patterns">
+
+<META NAME="Keywords" content="java developer CV  Struts UML diagrams EJB J2EE Patterns DHTML Treeview cross-browser XML XSLT Junit">
+
+<META NAME="Author" content="Jean-Michel Garnier">
+
+<META NAME="Identifier-URL" content="rollerjm.free.fr">
+
+<META NAME="Date-Creation-yyyymmdd" content="20020117">
+
+<META NAME="Date-Revision-yyyymmdd" content="20021022">
+
+<META NAME="Reply-to" content="Jean-Michel GARNIER">
+
+<META NAME="Revisit-after" content="4 days">
+
+<META NAME="robots" content="index, follow">
+
+<META NAME="Category" content="Internet">
+
+<META NAME="Publisher" content="free">
+
+<META NAME="Copyright" content="Jean-Michel GARNIER">
+
+<link REL="stylesheet" TYPE="text/css" HREF="/pro/pro.css">
+
+</HEAD>
+
+<BODY>
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  <tr> 
+
+    <td class="title1" width="63%"><!-- #BeginEditable "title" -->XTreeview component<!-- #EndEditable --></td>
+
+    <td align="center" width="22%"><font size="2">Last update : <!-- #BeginEditable "LastUpdate" -->22/07/2004<!-- #EndEditable --></font> 
+
+    </td>
+
+    <td align="right" width="15%" bgcolor="#E2E2E2"><a href="../../index.html"><font color="#003366"><b>back 
+
+      to HOME PAGE</b></font></a></td>
+
+  </tr>
+
+  <tr> 
+
+    <td colspan="3"> 
+
+      <HR>
+    </td>
+
+  </tr>
+
+</table>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+  <tr> 
+    <td class="title2"><a name=top></a>Introduction</td>
+  </tr>
+</TABLE>
+
+
+
+<!-- #BeginEditable "introduction" --> 
+
+<table width="75" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><a href="http://www.javaclue.org/pub/js/TreeViewHan/" class="sourcecode"><img src="../../images/korean_flag.gif" width="62" height="32"></a></td>
+  </tr>
+  <tr>
+    <td><a href="http://www.javaclue.org/pub/js/TreeViewHan/" class="sourcecode">Korean
+    Translation</a> </td>
+  </tr>
+</table>
+<p>The goal of this article is to present a cross-browser DHTML treeview component 
+  
+which uses XML as data source. </p>
+<p><span class="title4">Important :</span> </p>
+<ul>
+  <li>If you have downloaded the treeview before the 30/01/2003, you can download 
+    it again ! Besides, I have changed (simplified) the DTD and add new parameters.</li>
+  <li>Update from the 08/12/2003 : there is a bug in the XSLT regarding the expanded
+     attribute. a new XSLT will be published in september 2004. If you don't
+    use 
+    the expanded attribute, everything should work fine.</li>
+</ul>
+<p>Contents :</p>
+
+<ol>
+
+  <li><a href="#1">Example, a file system explorer</a> </li>
+
+  <li><a href="#2">User Manual</a></li>
+
+  <li><a href="#3">How does it work ?</a> </li>
+
+  <li><a href="#5">FAQ</a></li>
+
+  <li><a href="#6">Links and download</a>, links about XSLT and references +
+    Download 
+
+    component, API and J2EE example application</li>
+
+  <li><a href="#7">Original idea</a> - about not reinventing the wheel ...</li>
+  <li><a href="#7">Credits</a> - about the author of this article</li>
+ and the license to respect if you want to use the code
+</ol>
+
+<!-- #EndEditable --> <BR/>
+
+<a href="#top">back to Top</a><BR/>
+
+<!-- #BeginEditable "content" --> 
+
+<p><a name=1></a> </p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tr> 
+
+    <td class="title2">1. Example, a file system explorer </td>
+
+  </tr>
+
+</table>
+
+<p>The best explanation - much better than a long description with bladiebla - 
+
+  is a live example. Click on the image <img src="plus.gif" width="16" height="16">to 
+
+  deploy a branch. Click on a leaf to select it and see what happens ...</p>
+
+<link rel="stylesheet" href="treeview.css" type="text/css">
+
+<script src="treeview.js" language="javascript" type="text/javascript"></script>
+
+<script language="javascript">
+
+			// This function must be implemented bc it is called by DHTML Treeview every time
+
+    			// you click on a leaf
+
+    			function selectLeaf(title, code) {
+
+        			alert("You just clicked on title :" + title + "with code = " + code);
+
+    			}
+
+    			// This function is must be implemented if you use the "code" attribute into folder elements.
+
+    			// It is Treeview every time you click on a folder
+
+			function selectFolder(folderCode) {
+
+        			alert("You just clicked on a folder with code :" + folderCode);
+
+    			}
+
+			</script>
+
+<table border="0" cellspacing="0" cellpadding="0">
+
+  <tr>
+
+    <td> 
+
+      <table border="0" cellspacing="0" cellpadding="0">
+
+        <tr> 
+
+          <td><a class="folder" onClick="toggle(this)"><img src="minus.gif"><img src="MyDocuments.gif">My 
+
+            documents</a>
+
+            <div style="display:block;"> 
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="folder" onClick="toggle2(this, 'Folder 1')"><img src="minus.gif"><img src="folder.gif" alt="this is my House">House</a>
+
+                    <div style="display:block;"> 
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('What\'s going on?','1')"><img src="link.gif"><img src="ie_link.gif">What's 
+
+                            going on?</a></td>
+
+                        </tr>
+
+                      </table>
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('What\'s up?','2')"><img src="link.gif"><img src="question.gif">What's 
+
+                            up?</a></td>
+
+                        </tr>
+
+                      </table>
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('How you do\'in?','3')"><img src="lastlink.gif"><img src="question.gif">How 
+
+                            you do'in?</a></td>
+
+                        </tr>
+
+                      </table>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </table>
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="MyImages.gif">My 
+
+                    images</a>
+
+                    <div style="display:none;"> 
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('funny','4')"><img src="link.gif"><img src="red_ball.gif">funny</a></td>
+
+                        </tr>
+
+                      </table>
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('ounga ounga','5')"><img src="lastlink.gif"><img src="red_ball.gif">ounga 
+
+                            ounga</a></td>
+
+                        </tr>
+
+                      </table>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </table>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </table>
+
+      <table border="0" cellspacing="0" cellpadding="0">
+
+        <tr> 
+
+          <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="computer.gif">My 
+
+            computer</a>
+
+            <div style="display:none;"> 
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="floppy.gif">Floppy 
+
+                    (A:)</a>
+
+                    <div style="display:none;"> </div>
+
+                  </td>
+
+                </tr>
+
+              </table>
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="harddrive.gif">Hard 
+
+                    drive (C:)</a>
+
+                    <div style="display:none;"> 
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('Linux','6')"><img src="link.gif"><img src="folder.gif">Linux</a></td>
+
+                        </tr>
+
+                      </table>
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('Open source','7')"><img src="link.gif"><img src="folder.gif">Open 
+
+                            source</a></td>
+
+                        </tr>
+
+                      </table>
+
+                      <table border="0" cellspacing="0" cellpadding="0">
+
+                        <tr> 
+
+                          <td width="15"></td>
+
+                          <td><a class="leaf" onClick="selectLeaf('Free','8')"><img src="lastlink.gif"><img src="folder.gif">Free</a></td>
+
+                        </tr>
+
+                      </table>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </table>
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="leaf" onClick="selectLeaf('Configuration Pannel','1')"><img src="link.gif"><img src="config.gif">Configuration 
+
+                    Pannel</a></td>
+
+                </tr>
+
+              </table>
+
+              <table border="0" cellspacing="0" cellpadding="0">
+
+                <tr> 
+
+                  <td width="15"></td>
+
+                  <td><a class="leaf" onClick="selectLeaf('Shared documents','1')"><img src="lastlink.gif"><img src="folder.gif">Shared 
+
+                    documents</a></td>
+
+                </tr>
+
+              </table>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </table>
+
+      <table border="0" cellspacing="0" cellpadding="0">
+
+        <tr> 
+
+          <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="network.gif">Network</a>
+
+            <div style="display:none;"> </div>
+
+          </td>
+
+        </tr>
+
+      </table>
+
+      <table border="0" cellspacing="0" cellpadding="0">
+
+        <tr> 
+
+          <td><a class="folder" onClick="toggle(this)"><img src="plus.gif"><img src="trash.gif">Trash</a>
+
+            <div style="display:none;"> </div>
+
+          </td>
+
+        </tr>
+
+      </table>
+
+    </td>
+
+  </tr>
+
+</table>
+
+<p><a href="#top">back to Top</a> </p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tr> 
+
+    <td class="title2">2. User Manual</td>
+
+  </tr>
+
+</table>
+
+<p class="title3">Introduction</p>
+
+<p>This manual explains how to install, configure and customize the XTreeview 
+
+  component in your project.</p>
+
+<p class="title3">2.1 Installation</p>
+
+<p>To install the component, simply unzip the archive. The DHTML Treeview package 
+
+  is composed of :</p>
+
+<ul>
+
+  <li><a href="treeview.dtd">treeview.dtd</a>, defines the DTD of the XML source</li>
+
+  <li><a href="treeview.xslt">treeview.xslt</a>, this stylesheet transforms the 
+
+    XML into DHTML</li>
+
+  <li><a href="treeview.css">treeview.css</a>, to customize the look</li>
+
+  <li><a href="treeview.js">treeview.js</a>, javascripts functions</li>
+
+  <li> gif images : plus.gif <img src="plus.gif" width="16" height="16">, minus.gif 
+
+    <img src="minus.gif" width="16" height="16">, link.gif <img src="link.gif" width="15" height="16">, 
+
+    lastlink.gif <img src="lastlink.gif" width="15" height="16"> and folder.gif 
+
+    <img src="folder.gif" width="16" height="16"> </li>
+
+</ul>
+
+<p class="title4">What tools do you need ?</p>
+
+<p>A good XML editor may be useful, you can download an evaluation version of 
+
+  the excellent <a href="http://www.altova.com/products_ide.html">XML Spy</a> 
+
+  from Altova. </p>
+
+<p>If you use java, download <a href="http://xml.apache.org/">Xalan and Xerces</a> 
+
+  which are part of the apache.xml project.</p>
+
+<p class="title3">2.2 Browser compatibility table</p>
+
+<p>This DHTML treeview is cross browser. Actually, it works better on Mozilla
+  
+
+  / Netscape, especially the underline effect when mouse pointer hoovers an <a href="rollerjm.free.fr">&lt;a&gt;</a> 
+
+  tag. Mac users, I am afraid it does not work at all even on the latest versions
+  of Mac OS and IE ...</p>
+
+<table width="34%" border="1" cellspacing="0" cellpadding="2" bordercolor="#666666">
+
+  <tr> 
+
+    <td width="50%" class="title5"> Browser </td>
+
+    <td width="21%" class="title5">Version</td>
+
+    <td width="29%" class="title5"> Works ? </td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Mozilla</td>
+
+    <td width="21%">5.0</td>
+
+    <td width="29%" class="YES">YES</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Netscape</td>
+
+    <td width="21%">4.77</td>
+
+    <td width="29%" class="NO">NO</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Netscape</td>
+
+    <td width="21%">6.0</td>
+
+    <td width="29%" class="YES">YES</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Netscape</td>
+
+    <td width="21%">6.2.3 </td>
+
+    <td width="29%" class="YES">YES</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Opera</td>
+
+    <td width="21%">7.11</td>
+
+    <td width="29%" class="YES">YES</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Internet Explorer</td>
+
+    <td width="21%">4 (SP 2)</td>
+
+    <td width="29%" class="NO">NO</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Internet Explorer</td>
+
+    <td width="21%">5.0 (Mac)</td>
+
+    <td width="29%" class="NO">NO</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="50%">Internet Explorer</td>
+
+    <td width="21%">&gt;5.0 (Win)</td>
+
+    <td width="29%" class="YES">YES</td>
+
+  </tr>
+
+</table>
+
+<p class="title3">2.3 Configuration</p>
+
+<p class="title4">2.3.1 Data source : a simple XML file</p>
+
+<p class="title1">Instead of learning a complex proprietary API to build a treeview 
+
+  object which will generate a DHTML barbarian code, all you need to do is to 
+
+  generate a XML file as the data source of the treeview. If your datas come from 
+
+  another XML file, you have to write a simple XLST stylesheet to transform it 
+
+  into the format used by the treeview. If your datas com from a database, you 
+
+  need to write a XML document builder class. </p>
+
+<p class="title1">To generate the XML data source, the only constraint is to conform 
+
+  to the <a href="treeview.dtd">treeview.dtd</a>. XML is a tree-structured language, 
+
+  it is very easy to define a tree structure composed of folders and leaves :<br>
+
+</p>
+
+<ul>
+
+  <li> a folder can contain other folders and leaves</li>
+
+  <li>a leave belongs mandatory to a parent folder and can't contain any folders</li>
+
+</ul>
+
+<p>The figure above explains the structure of the XML file :</p>
+
+<p><img src="configXML.gif" width="585" height="484"><br>
+
+</p>
+
+<p class="title4">2.3.2 Optionnal custom parameters</p>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="5" bordercolor="#333333">
+
+  <tr> 
+
+    <td class="title5" width="50%"> param-deploy-treeview </td>
+
+    <td class="title5" width="50%"> param-shift-width </td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="34%" height="38">Default value : false</td>
+
+    <td width="26%" valign="middle" height="38">Default value : 15</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="34%"> 
+
+      <div align="center"><img src="deploy-treeview.gif"></div>
+
+    </td>
+
+    <td width="26%" valign="top"> 
+
+      <div align="center"><img src="shift-width.gif"></div>
+
+    </td>
+
+  </tr>
+
+</table>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="5" bordercolor="#333333">
+
+  <tr> 
+
+    <td class="title5" width="50%">param-img-directory</td>
+
+    <td class="title5" width="50%">param-is-netscape</td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="20%" valign="middle" height="38">Default value : '' (empty string)</td>
+
+    <td width="20%" valign="middle" height="38">Default value : 'false' </td>
+
+  </tr>
+
+  <tr> 
+
+    <td width="20%" valign="middle"> 
+
+      <p>Static directory which contains the images used by the treeview. <b>MUST</b> 
+
+        ends by slash (/).</p>
+
+      <p>Example :</p>
+
+      <p>If your images are in the directory static/images,</p>
+
+      <p>Transformer trans = transFact.newTransformer(stylesheet);</p>
+
+      <p> // Add parameter<br>
+
+        trans.setParameter(&quot;param-img-directory&quot;, &quot;static/images/&quot;);<br>
+
+      </p>
+
+    </td>
+
+    <td width="20%" valign="top"> 
+
+      <p>Boolean. Is the Browser Netscape / Mozilla or Internet Explorer ? The 
+
+        value per defaut is false and you know why. </p>
+
+      <p>Affect this parameter if you are using the &quot;alt&quot; property for 
+
+        images. As the DHTML code is cross-browsser compatible, there is no other 
+
+        consequence.</p>
+
+      <p>&nbsp;</p>
+
+    </td>
+
+  </tr>
+
+</table>
+
+<p><strong>Note:</strong></p>
+<p><em>I have received a few e-mails asking me to add more parameters such as
+    the folder which contains the css and /or the javascript. I don't have any
+    time
+  to update the xslt but I'd be happy to update this article if someone wants
+  to send me his/her solution (thanks in advance!).</em></p>
+<p><span class="title4">2.3.3 Customize the look and feel</span></p>
+
+<p> Edit the <a href="treeview.css">treeview.css</a> and customize the following 
+
+  styles :</p>
+
+<p><img src="style.gif" width="351" height="59"></p>
+
+<p>You can add more styles but you have to update the treeview.xslt stylesheet 
+
+  .</p>
+
+<p class="title4">2.3.4 Customize the events </p>
+
+<p>The javascript selectLeaf() function is called every time you click on a leaf. 
+
+  Therefore, you have to implement it in your html page. The source-code below 
+
+  is extracted from the page you are reading :</p>
+
+<pre>
+
+<font size="3"><code><font  face="Courier New"><font color="#808080">&lt;</font><font color="#000080">SCRIPT Language</font><font color="#808080">=</font><font color="#800000">&quot;javascript&quot;</font><font color="#808080">&gt;
+
+    <i>// This function must be implemented bc it is called by DHTML Treeview every time
+
+    // you click on a leaf
+
+    </i></font><font color="#000080"><b>function </b>selectLeaf</font><font color="#808080">(</font>title<font color="#808080">, </font><font color="#000080">code</font><font color="#808080">) {
+
+        </font>alert<font color="#808080">(</font><font color="#800000">&quot;You just clicked on title :&quot; </font><font color="#808080">+ </font>title<font color="#808080"> + </font><font size="3"><code><font  face="Courier New"><font color="#800000">&quot;with code = &quot; </font></font></code></font><font color="#808080">+ </font><font size="3"><code><font  face="Courier New">code</font></code></font><font color="#808080">);
+
+    }
+
+&lt;/</font><font color="#000080">SCRIPT</font><font color="#808080">&gt;
+
+</font></font></code></font>
+
+</pre>
+
+The signature of this function is : 
+
+<ul>
+
+  <li>title : String, which is the leaf label</li>
+
+  <li>code : String, id which can be used as an unique identifier for the leaves</li>
+
+</ul>
+
+<p class="title4">2.3.5 If you use the attribute &quot;code&quot; in the folder 
+
+  element</p>
+
+<p>Then you have to implement a selectFolder() function in your html page. This 
+
+  function is called every time you click on a folder. As for example :<br>
+
+</p>
+
+<pre>
+
+<font size="3"><code><font  face="Courier New"><font color="#808080">&lt;</font><font color="#000080">SCRIPT Language</font><font color="#808080">=</font><font color="#800000">&quot;javascript&quot;</font><font color="#808080">&gt;
+
+    <i>// This function is must be implemented if you use the &quot;code&quot; attribute into folder elements.<br>    // It is called every time you click on a folder
+
+	</i></font><font color="#000080"><b>function </b>selectFolder</font><font color="#808080">(</font><font color="#000080">folderCode</font><font color="#808080">) {
+
+        </font>alert<font color="#808080">(</font><font color="#800000">&quot;You just clicked on a folder with code :&quot; </font><font color="#808080">+ </font><font size="3"><code><font  face="Courier New">folderCode</font></code></font><font color="#808080">);
+
+    }
+
+&lt;/</font><font color="#000080">SCRIPT</font><font color="#808080">&gt;</font></font></code></font><br></pre>
+
+<p class="title4">2.3.6 Generate the DHTML</p>
+
+<p>Apply the stylesheet treeview.xslt to your XML document. This transformation 
+
+  will be generally on server-side as client-side XSLT is not supported (not yet 
+
+  !) by the majority of browsers.</p>
+
+<p><a href="#top">back to Top</a> <a name=2></a> </p>
+
+<p><a name=3></a> </p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tr> 
+
+    <td class="title2">3. How does it works ?</td>
+
+  </tr>
+
+</table>
+
+<p class="title3">DTHML</p>
+
+<p>The DHTML code is inspired from an article of <a href="http://www.codeproject.com/jscript/dhtml_treeview.asp">D.D. 
+
+  de Kerf</a>. He explains his code very clearly so have a look to its article 
+
+  ... </p>
+
+<p class="title3">Generate the DHTML</p>
+
+<p>A good programming model simplifies maintenance and encourages code reuse by 
+
+  enforcing a clean separation of data, logic, presentation. This is exactly the 
+
+  purpose of XML, XSLT and HTML :</p>
+
+<ul>
+
+  <li>Datas = XML</li>
+
+  <li>Logic = XSLT</li>
+
+  <li>Presentation = HTML + css + javascript</li>
+
+</ul>
+
+<p>The figure below illustrates this programming model (you can click on the XML, 
+
+  XSLT, js, css and js image maps) :</p>
+
+<p><img src="Howitwroks.gif" width="1024" height="500" usemap="#Map" border="0"> 
+
+  <map name="Map"> 
+
+    <area shape="rect" coords="520,90,655,172" href="treeview.xslt">
+
+    <area shape="rect" coords="520,257,644,304" href="treeview.css">
+
+    <area shape="rect" coords="520,345,642,394" href="treeview.js">
+
+    <area shape="rect" coords="18,12,443,489" href="treeview-explorer.xml">
+
+  </map>
+
+</p>
+
+<p>To understand deeply the generation of the DHTML code, the best is to read 
+
+  the comments in <a href="treeview.xslt">treeview.xslt</a>.</p>
+
+<p><a href="#top">back to Top</a> </p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tbody> 
+
+  <tr> 
+
+    <td class="title2"><a name=5></a>4 FAQ</td>
+
+  </tr>
+
+  </tbody> 
+
+</table>
+
+<ul>
+
+  <li><b>Is the XSLT on the client-side or server-side ?</b> As XSLT is not supported 
+
+    (yet) by many clients (IE &gt; 5.5 and Mozilla &gt;= 1.2.1) , I suggest to 
+
+    make it on the server-side.</li>
+
+  <li><b>How can I keep the treeview state ?</b> Tricky problem ...</li>
+
+</ul>
+
+<p><a href="#top">back to Top</a><br/>
+
+</p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tbody> 
+
+  <tr> 
+
+    <td class="title2"><a name=6></a>5 Links and Download</td>
+
+  </tr>
+
+  </tbody> 
+
+</table>
+
+<p class="title4">Links</p>
+
+<ul>
+
+  <li>The original easy DHTML treeview : <a href="http://www.codeproject.com/jscript/dhtml_treeview.asp">http://www.codeproject.com/jscript/dhtml_treeview.asp</a></li>
+
+  <li> A recipe to search and replace in strings with XSLT : <a href="http://aspn.activestate.com/ASPN/Cookbook/XSLT/Recipe/65426">http://aspn.activestate.com/ASPN/Cookbook/XSLT/Recipe/65426</a></li>
+
+  <li>XMLSpy from altova : <a href="http://www.altova.com/products_ide.html">http://www.altova.com/products_ide.html</a></li>
+
+  <li>Apache open source tools for XML : <a href="http://xml.apache.org/">http://xml.apache.org/</a></li>
+
+</ul>
+
+<p class="title4">Downloads</p>
+
+<table width="75%" border="1" cellspacing="0" cellpadding="0" height="52" bordercolor="#333333">
+  <tr> 
+    <td colspan="2" height="25" class="title5">File</td>
+    <td width="77%" class="title5" height="25">Description</td>
+  </tr>
+  <tr> 
+    <td height="25" width="3%" align="center" valign="middle"><img src="../../images/zip.gif" width="16" height="17"></td>
+    <td height="25" width="20%"><a href="Treeview.zip">treeview_1.zip</a></td>
+    <td height="25" width="77%">The treeview package version 1.0 (dtd, xslt, gif, 
+      javascript files only)</td>
+  </tr>
+</table>
+
+<p><a href="#top">back to Top</a><br/>
+
+</p>
+
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+
+  <tbody> 
+
+  <tr> 
+
+    <td class="title2"><a name=7></a>6 Original idea</td>
+
+  </tr>
+
+  </tbody> 
+
+</table>
+
+<p class="title4">One of my favorite principles in programming is to not to &quot;reinvent
+  the 
+
+wheel&quot;, so I haven't:</p>
+
+<ul>
+
+  <li>The original idea of using XML and XSLT to make a reusable DHMTL component 
+    was &quot;stolen&quot; from an ex-colleague, Bruno Faure.</li>
+
+  <li>The original DHMTL treeview, cross-browser compatible, was &quot;stolen&quot; 
+
+    from an article by <a href="http://www.codeproject.com/jscript/dhtml_treeview.asp">D.D. 
+
+    de Kerf</a>.</li>
+
+</ul>
+
+<p>So what did I do ? :-) In fact, my work was almost refactoring the DHTML, the 
+
+  javascript code and of course writing a reusable and understandable (!) XSLT 
+
+  style sheet.</p>
+
+<p class="title4"><a href="#top">back to Top</a> 
+
+  <!-- Begin Nedstat Basic code -->
+
+  <!-- Title: DHTML Treeview Component -->
+
+  <!-- URL: http://rollerjm.free.fr/pro/Treeview/Treeview.html -->
+
+  <script language="JavaScript" src="http://m1.nedstatbasic.net/basic.js">
+
+  </script>
+
+  <script language="JavaScript">
+
+<!--
+
+  nedstatbasic("AB6VtQLoBt9KhYsiijBm6G0m4CIg", 0);
+
+// -->
+
+  </script>
+</p>
+
+<noscript> <a target="_blank" href="http://v1.nedstatbasic.net/stats?AB6VtQLoBt9KhYsiijBm6G0m4CIg"><img
+
+src="http://m1.nedstatbasic.net/n?id=AB6VtQLoBt9KhYsiijBm6G0m4CIg"
+
+border="0" nosave width="18" height="18"></a> </noscript> 
+
+  <!-- End Nedstat Basic code -->
+
+</p>
+
+<!-- #EndEditable -->
+
+<p><a name=Credits></a>
+<table cellspacing=5 cellpadding=5 width="100%" border=0>
+  <tbody>
+    <tr>
+      <td class="title2">Credits</td>
+    </tr>
+  </tbody>
+</table>
+<p class="title3">Author</p>
+<p>I am an European software engineer who lives and works in London. For any
+  comments / suggestions : send an e-mail to g a r n i e r j m @ y a h o o.f
+  r (remove the spaces to get my e-mail, I have done that bc the sobig virus
+has filled my mailbox!).</p>
+<p><font color="#FF0000"><strong>I am looking for a job.</strong></font> Ideally,
+  I want to work on a J2EE web-project within a team applying <a href="http://agilemanifesto.org/">Agile
+  methods</a> and using cutting edge technologies: <a href="http://www.hibernate.org/">Hibernate</a>, <a href="http://jakarta.apache.org/tapestry/">Tapestry</a>, <a href="http://www.martinfowler.com/articles/injection.html">Inversion
+  of Control</a> Frameworks, ... (Contract / Permanent). Please
+take a look at my <a href="pro/cv/CV_Garnier_internet.doc">CV.</a></p>
+<p class="title3">Copyrights</p>
+<p> The source is free to use and is available under the <a href="http://www.gnu.org/copyleft/gpl.html#TOC3">GNU
+    GENERAL PUBLIC LICENSE</a>.</p>
+<p><a href="#top">back to Top</a> </p>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  <tr> 
+
+    <td height="30"> 
+
+      <hr>
+
+    </td>
+
+  </tr>
+
+  <tr> 
+
+    <td height="30"><div align="right"><img src="http://perso0.free.fr/cgi-bin/wwwcount.cgi?df=rollerjm.dat&dd=break3&ft=0"></div></td>
+
+  </tr>
+
+</table>
+
+</BODY><!-- #EndTemplate --></HTML>
+

@@ -33,6 +33,16 @@ you can place common code in this file. -->
             <human-collection-name collection="children" your/>
           </ht>
         </h3>
+        <p><b>Tree:</b>
+          <div id="ajaxtree">
+            <!--DOCTYPE treeview SYSTEM "/Treeview/treeview.dtd"-->
+            <!--%=  raw("<?xml-stylesheet type=\"text/xsl\" href=\"/Treeview/treeview.xslt\"?>") %-->
+            <!--%= ret,ret2=@sub_system.to_code(true,[],current_user);
+            raw(ret)%-->
+            <%= link_to "Diagrama Arbol #{@sub_system.name}", :action => :gen_code, :format => 'tree' %>
+            <embed src="./#{this.id}/gen_code.tree" width="100%" height="300px" style="border: 1px solid" />
+          </div>
+        </p>
 
         <if test="&can_edit?(this.position_column)">
           <sortable-collection:children param="children-collection"/>
@@ -124,14 +134,14 @@ you can place common code in this file. -->
     </heading:>
     <append-header:>
       <delete-button label="X" param/>
-      Salida? <view:outdir if="&!can_edit?"/> <editor:outdir/>
+      Tipo? <view:flow_direction if="&!can_edit?"/> <editor:flow_direction/>
     </append-header:>
   </old-card>
 </extend>
 
 <extend tag="form" for="SubSystemFlow">
   <old-form merge param="default">
-    <field-list: fields="outdir, connector,flow" param/>
+    <field-list: fields="flow_direction, connector,flow" param/>
   </old-form>
 </extend>
 

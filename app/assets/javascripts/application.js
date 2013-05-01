@@ -792,3 +792,24 @@ function BrowserDetectLite() {
 
 }
 
+// This function must be implemented bc it is called by DHTML Treeview every time
+// you click on a leaf
+
+
+function selectLeaf(title, type ,code) {
+    //location.href="/nodes/"+code;
+    parent.location.href = "/"+type+"/"+code;
+//document.getElementsByName("basefrm")[0].contentWindow.location.href="/nodes/"+code;
+}
+// This function is must be implemented if you use the "code" attribute into folder elements.
+// It is called every time you click on a folder
+function selectFolder(folderCode) {
+    parent.location.href="/nodes/"+folderCode;
+}
+function selectAction(gen_id,type, code) {
+    //location.href="/nodes/"+code;
+    window.open("/"+type+"/"+code);
+//parent.frames['basefrm'].location.href = gen_id+"?node="+code;
+//document.getElementsByName("basefrm")[0].contentWindow.location.href="/nodes/"+code;
+}
+

@@ -13,6 +13,18 @@
 
 
 
+<def tag="form" for="FlowDirection">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, description, img" param/>
+    <div param="actions">
+      <submit label="#{ht 'flow_direction.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="FlowType">
   <form merge param="default">
     <error-messages param/>
@@ -220,7 +232,7 @@
 <def tag="form" for="SubSystemFlow">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="outdir, position, connector, flow" param/>
+    <field-list fields="position, connector, flow, flow_direction" param/>
     <div param="actions">
       <submit label="#{ht 'sub_system_flow.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

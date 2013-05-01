@@ -17,19 +17,23 @@ class StMachSysMap < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    state_machine.updatable_by?(acting_user)
+    if (state_machine) then
+      state_machine.updatable_by?(acting_user)
+    else
+      sub_system.updatable_by?(acting_user)
+    end
   end
 
   def update_permitted?
-    state_machine.updatable_by?(acting_user)
+    sub_system.updatable_by?(acting_user)
   end
 
   def destroy_permitted?
-    state_machine.updatable_by?(acting_user)
+    sub_system.updatable_by?(acting_user)
   end
 
   def view_permitted?(field)
-    state_machine.viewable_by?(acting_user)
+    sub_system.viewable_by?(acting_user)
   end
 
 end

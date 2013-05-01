@@ -55,6 +55,16 @@ class StateMachine < ActiveRecord::Base
     return ret+"; }"+self.graphviz_size
   end
 
+  def get_tree_data_xml_sm()
+    ret="<leaf title=\""+self.name+"\" type=\"state_machines\"  code=\""+self.id.to_s+"\""+" img=\"/images/nodes/mech.png\" />\n"
+    return ret
+  end
+
+  def to_code_permitted?()
+    false
+  end
+
+
   # --- Permissions --- #
 
   def create_permitted?

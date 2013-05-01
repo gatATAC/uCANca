@@ -10,3 +10,4 @@ Mime::Type.register "application/xml", :cdp
 Mime::Type.register "application/xml", :xcos
 Mime::Type.register "text/plain", :gv
 #Mime::Type.register 'text/vnd.graphviz', :gv
+Mime::Type.register "application/xml", :tree
