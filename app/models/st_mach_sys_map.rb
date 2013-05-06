@@ -14,6 +14,10 @@ class StMachSysMap < ActiveRecord::Base
   validates :state_machine, :presence => :true
   validates :sub_system, :presence => :true
 
+  def name
+    state_machine.name+" -> "+sub_system.full_name
+  end
+
   # --- Permissions --- #
 
   def create_permitted?
@@ -33,7 +37,11 @@ class StMachSysMap < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    sub_system.viewable_by?(acting_user)
+    if (sub_system) then
+      sub_system.viewable_by?(acting_user)
+    else
+      state_machine.viewable_by?(acting_user)
+    end
   end
 
 end

@@ -42,14 +42,16 @@ class StateMachine < ActiveRecord::Base
     tailp=["n","e","w","ne","se","sw","nw","s"]
     tailpcont=0
     self.state_machine_transitions.each{|t|
-      ret+="#{t.state_machine_state.name}->#{t.destination_state.name}[label=&quot;[#{t.condition_name}]"
-      ret+=t.action_short_names.join("(),")+"()"
-      ret+="&quot;"
-      if (t.destination_state==t.state_machine_state) then
-        ret+=",tailport=#{tailp[tailpcont%tailp.size]},headport=#{tailp[tailpcont%tailp.size]}"
-        tailpcont=tailpcont+1
+      if (t.destination_state) then
+        ret+="#{t.state_machine_state.name}->#{t.destination_state.name}[label=&quot;[#{t.condition_name}]"
+        ret+=t.action_short_names.join("(),")+"()"
+        ret+="&quot;"
+        if (t.destination_state==t.state_machine_state) then
+          ret+=",tailport=#{tailp[tailpcont%tailp.size]},headport=#{tailp[tailpcont%tailp.size]}"
+          tailpcont=tailpcont+1
+        end
+        ret+="];"
       end
-      ret+="];"
     }
     #ret+=";Counting->Counting[label=&quot;[equal]reset()&quot;];Counting->Counting[label=&quot;[diff]increment()&quot;];Counting->Counting[label=&quot;[expired]copy();reset()&quot;]}&amp;chs=500x500"
     return ret+"; }"+self.graphviz_size
