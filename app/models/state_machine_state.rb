@@ -13,7 +13,7 @@ class StateMachineState < ActiveRecord::Base
 
   belongs_to :state_machine, :inverse_of => :state_machine_states
   has_many :sub_machines, :class_name => 'StateMachine', :limit => 1, :inverse_of => :super_state, :foreign_key => :super_state_id
-  has_many :state_machine_transitions, :inverse_of => :state_machine_state
+  has_many :state_machine_transitions, :inverse_of => :state_machine_state, :order => "priority DESC"
   has_many :incoming_transitions, :inverse_of => :destination_state
 
   children :state_machine_transitions,:sub_machines

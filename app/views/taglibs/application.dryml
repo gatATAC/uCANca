@@ -430,6 +430,19 @@ you can place common code in this file. -->
             </old-card>
           </extend>
 
+          <extend tag="show-page" for="StateMachineState">
+            <old-show-page merge>
+              <append-sub_machines-collection-section:>
+                <a:sub_machines action="new" if="&can_create?(@state_machine_state.sub_machines)" param="new-link">
+                  <ht key="state_machine.actions.new" count="1">
+                    New State Machine
+                  </ht>
+                </a:sub_machines>
+              </append-sub_machines-collection-section:>
+            </old-show-page>
+          </extend>
+
+
           <extend tag="show-page" for="StateMachine">
             <old-show-page merge>
               <prepend-aside:>

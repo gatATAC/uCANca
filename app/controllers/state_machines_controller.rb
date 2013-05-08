@@ -16,5 +16,4 @@ class StateMachinesController < ApplicationController
     end
   end
 
-
 end

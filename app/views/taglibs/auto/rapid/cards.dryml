@@ -146,6 +146,7 @@
       <h4 param="heading"><a><name/></a></h4>
     </header:>
     <body: param>
+      <a:super_state param="creator-link"/>
       <ht key="state_machine_state.collection.count" count="&this.state_machine_states.size">
          <count:state_machine_states param/>
       </ht>
