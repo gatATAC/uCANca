@@ -59,9 +59,9 @@ class Flow < ActiveRecord::Base
 
   def to_c_io_decl
     if (self.flow_type) then
-      ret="\n\n// Adquisicion de la variable "+self.c_name+"\n"
+      ret="\n\n// "+self.c_name+" flow acquisition\n"
       ret+=flow_type.to_c_input_decl(self)
-      ret+="\n// Sintesis de la variable "+self.c_name+"\n"
+      ret+="\n// "+self.c_name+" flow synthesis\n"
       ret+=flow_type.to_c_output_decl(self)
     else
       ret="// (null)"
@@ -71,9 +71,9 @@ class Flow < ActiveRecord::Base
 
   def to_c_io
     if (self.flow_type) then
-      ret="\n// Adquisicion de la variable "+self.c_name+"\n"
+      ret="\n// "+self.c_name+" flow acquisition\n"
       ret+=flow_type.to_c_input(self)
-      ret+="\n\n// Sintesis de la variable "+self.c_name+"\n"
+      ret+="\n\n// "+self.c_name+" flow synthesis\n"
       ret+=flow_type.to_c_output(self)
     else
       ret="// (null)"

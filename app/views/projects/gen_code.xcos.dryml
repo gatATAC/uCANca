@@ -8,7 +8,9 @@
 ret=""
 #@project.sub_systems.each{|s|
   s=@project.sub_systems.find(:first)
-  ret+=s.to_xcos
+  if (s) then
+    ret+=s.to_xcos
+  end
 #}
 raw(ret)
 %>

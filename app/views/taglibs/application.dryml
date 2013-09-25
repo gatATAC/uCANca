@@ -1,5 +1,7 @@
 <!-- this file is included by front_site.dryml, admin_site.dryml et al, so
 you can place common code in this file. -->
+<def tag="app-name">uCANca</def>
+
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
@@ -253,9 +255,9 @@ you can place common code in this file. -->
   <old-show-page>
     <append-collection-section:>
     <div class="code-section" if="&can_update?(@flow)">
-      <%= link_to "Declaracion en C #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'h' %>
+      <%= link_to "C declaration #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'h' %>
       <embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%"/>
-      <%= link_to "Codigo I/O en C #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
+      <%= link_to "C I/O code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
       <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
     </div>
     </append-collection-section:>
@@ -344,11 +346,11 @@ you can place common code in this file. -->
       <div class="code-section" if="&can_update?(@project)">
         Generadores automaticos de codigo:
         <ul>
-          <li><%= link_to "Esqueleto de maquinas de estado CodeDesigner", :action => :gen_code, :format => 'cdp' %></li>
-          <li><%= link_to "Esqueleto de XCos", :action => :gen_code, :format => 'xcos' %></li>
-          <li><%= link_to "Header del DRE", :action => :gen_code, :format => 'h' %></li>
+          <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
+          <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
+          <li><%= link_to "DRE Header", :action => :gen_code, :format => 'h' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-          <li><%= link_to "Rutinas IO del DRE", :action => :gen_code, :format => 'c' %></li>
+          <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
         </ul>
       </div>
@@ -487,8 +489,14 @@ you can place common code in this file. -->
   <old-card merge>
     <body: param>
       <view:description/>
-      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Estimulos<div style="display:none"><view:stimulus/></div><br/>
-      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Resultados esperados<div style="display:none"><view:expected_results/></div>
+      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Stimuli<div style="display:none"><view:stimulus/></div><br/>
+      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Expected results<div style="display:none"><view:expected_results/></div>
     </body:>
   </old-card>
+</extend>
+
+<extend tag="form" for="User">
+  <old-form merge param="default">
+    <field-list: fields="name, email_address, administrator, developer, state"/>
+  </old-form>
 </extend>

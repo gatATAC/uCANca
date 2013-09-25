@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
     developer :boolean, :default => false
     timestamps
   end
-  attr_accessible :name, :email_address, :password, :password_confirmation, :current_password
+  attr_accessible :name, :email_address, :password, :password_confirmation, :current_password, :developer
 
   has_many :projects, :class_name => "Project", :foreign_key => "owner_id", :inverse_of => :owner
   has_many :project_memberships, :dependent => :destroy, :inverse_of => :user

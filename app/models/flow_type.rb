@@ -30,7 +30,7 @@ class FlowType < ActiveRecord::Base
 
   def to_c_type(f)
     if (tipo_fantasma) then
-      ret="// "+name+" -- No necesita declaracion"
+      ret="// "+name+" -- Does not need declaration"
     else
       ret=""
       if (!c_type || c_type.size<=0) then
@@ -65,10 +65,10 @@ class FlowType < ActiveRecord::Base
         end
         ret=ret.gsub("%TYP%",name)
       else
-        ret="// (salida no implementada para el tipo #{name})"
+        ret="// (output not implemented for #{name} type)"
       end
     else
-      ret="// (salida no habilitada para el tipo #{name})"
+      ret="// (output disabled for #{name} type)"
     end
   end
 
@@ -84,10 +84,10 @@ class FlowType < ActiveRecord::Base
         end
         ret=ret.gsub("%TYP%",name)
       else
-        ret="// (entrada no implementada para el tipo #{name})"
+        ret="// (input not implemented for #{name} type)"
       end
     else
-      ret="// (entrada no habilitada para el tipo #{name})"
+      ret="// (input disabled for #{name} type)"
     end
   end
   
@@ -103,10 +103,10 @@ class FlowType < ActiveRecord::Base
         end
         ret=ret.gsub("%TYP%",name)
       else
-        ret="// (salida no implementada para el tipo #{name})"
+        ret="// (output not implemented for #{name} type)"
       end
     else
-      ret="// (salida no habilitada para el tipo #{name})"
+      ret="// (output disabled for #{name} type)"
     end
   end
   # --- Permissions --- #

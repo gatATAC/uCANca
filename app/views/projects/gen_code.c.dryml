@@ -1,10 +1,10 @@
 #include "DRE.h"
 
-// --- Declaracion de la estructura de datos del DRE ---
+// --- DRE data structure declaration ---
 t_dre dre;
 t_diag diag;
 
-// --- Funciones de adquisicion y sintesis del DRE ---
+// --- DRE flow acquisition and flow synthesis functions ---
 <%     @project.flows.find(:all).each{ |f| %>
   <%=f.to_c_io %>
 <%    }    %>

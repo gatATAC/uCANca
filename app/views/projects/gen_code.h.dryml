@@ -15,7 +15,7 @@ typedef struct {
 %><%= f.to_diag_c_decl%><% } %>
 } t_diag;
 
-// Funciones de entrada y salida
+// Input / Output functions
 <%  @project.flows.find(:all).each{ |f| %>
   <%= f.to_c_io_decl%><% } %>
 
