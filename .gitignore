@@ -17,3 +17,4 @@
 #config/hobo_routes.rb
 /db/*.sqlite3
 /db/*.sqlite3_old
+/db/*.csv
