@@ -16,7 +16,7 @@ It produces C source code, Scilab/XCos project skeleton, CodeDesigner RAD projec
 * http://www.lmsintl.com/mil-sil-hil-and-real-time
 * http://www.scilab.org/scilab/features/xcos
 * http://www.codedesigner.org/
-
+* http://www.ni.com/labview/
 
 See http://www.gatatac.org/projects/ucanca/wiki for more information.
 
@@ -40,6 +40,7 @@ Produce código fuente en C, esqueletos de proyecto de Scilab/XCos, proyectos de
 * http://www.lmsintl.com/mil-sil-hil-and-real-time
 * http://www.scilab.org/scilab/features/xcos
 * http://www.codedesigner.org/
+* http://www.ni.com/labview/esa/
 
 Ver http://www.gatatac.org/projects/ucanca/wiki para más información.
 
