@@ -1,7 +1,7 @@
 uCANca
 ======
 
-A framework to develop embedded systems.
+A framework to develop embedded systems from the System Engineering point of view.
 
 It allows the user to define the functionality and architecture of a system, and also the behaviour of each module using Finite State Machines.
 
@@ -25,7 +25,7 @@ Published under GPLv3 license. http://www.gnu.org/licenses/gpl.html
 
 ------------
 
-Un entorno de desarrollo para sistemas integrados.
+Un entorno de desarrollo para sistemas integrados from the System Engineering point of view.
 
 Permite al usuario definir la funcionalidad y la arquitectura de un sistema, y también el comportamiento de cada módulo usando máquinas de estado finitas (autómatas).
 
