@@ -16,3 +16,4 @@
 #app/views/taglibs/auto/**/*
 #config/hobo_routes.rb
 /db/*.sqlite3
+/db/*.sqlite3_old
