@@ -11,6 +11,11 @@ It produces C source code, Scilab/XCos project skeleton, CodeDesigner RAD projec
 * CodeDesigner RAD projects allow the generation of C software (Software code automatic generation).
 * Labview skeleton make easier to make tests when hardware is present (Hardware in the Loop)
 
+* http://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation
+* http://www.embedded.com/design/prototyping-and-development/4024865/Hardware-in-the-Loop-Simulation
+* http://www.lmsintl.com/mil-sil-hil-and-real-time
+
+
 See http://www.gatatac.org/projects/ucanca/wiki for more information.
 
 (c)2013 Txinto Vaz, gatATAC.org.
@@ -27,6 +32,10 @@ Produce código fuente en C, esqueletos de proyecto de Scilab/XCos, proyectos de
 * Los esqueletos de proyecto Scilab/XCos permiten desarrollar modelos consistentes con la arquitectura o "empotrar" código autogenerado para probar el comportamiento en un entorno dinámico. (Model in the Loop, Software in the loop)
 * Los proyectos CodeDesigner RAD permiten la generación automática de código fuente en C (Software code automatic generation).
 * Los esqueletos de proyecto en Labview skeleton hacen más fácil los test cuando el hardware está presente (Hardware in the Loop)
+
+* http://es.wikipedia.org/wiki/Hardware-in-the-loop
+* http://www.embedded.com/design/prototyping-and-development/4024865/Hardware-in-the-Loop-Simulation
+* http://www.lmsintl.com/mil-sil-hil-and-real-time
 
 Ver http://www.gatatac.org/projects/ucanca/wiki para más información.
 
