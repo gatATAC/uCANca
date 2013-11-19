@@ -9,6 +9,9 @@ It produces C source code, Scilab/XCos projects, CodeDesigner RAD projects and L
 
 See http://www.gatatac.org/projects/ucanca/wiki for more information.
 
+(c)2013 Txinto Vaz, gatATAC.org.
+Published under GPLv2 license.
+
 ------------
 
 Un entorno de desarrollo para sistemas integrados.
@@ -18,3 +21,7 @@ Permite al usuario definir la funcionalidad y la arquitectura de un sistema, y t
 Produce código fuente en C, proyectos de Scilab/XCos, proyectos de CodeDesigner RAD, y proyectos de Labview, para permitir hacer "Model in the Loop", "Hardware in the Loop", etc.
 
 Ver http://www.gatatac.org/projects/ucanca/wiki para más información.
+
+(c)2013 Txinto Vaz, gatATAC.org.
+Publicado bajo licencia GPLv2.
+
