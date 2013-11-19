@@ -10,7 +10,7 @@ It produces C source code, Scilab/XCos projects, CodeDesigner RAD projects and L
 See http://www.gatatac.org/projects/ucanca/wiki for more information.
 
 (c)2013 Txinto Vaz, gatATAC.org.
-Published under GPLv2 license.
+Published under GPLv3 license. http://www.gnu.org/licenses/gpl.html
 
 ------------
 
@@ -23,5 +23,5 @@ Produce código fuente en C, proyectos de Scilab/XCos, proyectos de CodeDesigner
 Ver http://www.gatatac.org/projects/ucanca/wiki para más información.
 
 (c)2013 Txinto Vaz, gatATAC.org.
-Publicado bajo licencia GPLv2.
+Publicado bajo licencia GPLv3. http://www.gnu.org/licenses/gpl.html
 
