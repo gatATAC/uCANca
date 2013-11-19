@@ -14,6 +14,8 @@ It produces C source code, Scilab/XCos project skeleton, CodeDesigner RAD projec
 * http://en.wikipedia.org/wiki/Hardware-in-the-loop_simulation
 * http://www.embedded.com/design/prototyping-and-development/4024865/Hardware-in-the-Loop-Simulation
 * http://www.lmsintl.com/mil-sil-hil-and-real-time
+* http://www.scilab.org/scilab/features/xcos
+* http://www.codedesigner.org/
 
 
 See http://www.gatatac.org/projects/ucanca/wiki for more information.
@@ -36,6 +38,8 @@ Produce código fuente en C, esqueletos de proyecto de Scilab/XCos, proyectos de
 * http://es.wikipedia.org/wiki/Hardware-in-the-loop
 * http://www.embedded.com/design/prototyping-and-development/4024865/Hardware-in-the-Loop-Simulation
 * http://www.lmsintl.com/mil-sil-hil-and-real-time
+* http://www.scilab.org/scilab/features/xcos
+* http://www.codedesigner.org/
 
 Ver http://www.gatatac.org/projects/ucanca/wiki para más información.
 
