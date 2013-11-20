@@ -13,8 +13,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-app/views/taglibs/auto/**/*
-config/hobo_routes.rb
+/app/views/taglibs/auto/**/*
+/config/hobo_routes.rb
 /db/*.sqlite3
 /db/*.sqlite3_old
 /db/*.csv
