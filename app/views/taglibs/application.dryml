@@ -106,11 +106,11 @@ you can place common code in this file. -->
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
       <div class="code-section" if="&can_update?(@sub_system)">
-        Generadores automaticos de codigo:
+        Automatic code generators:
         <ul>
-          <li><%= link_to "Header del DRE", :action => :gen_code, :format => 'h' %></li>
+          <li><%= link_to "DRE header", :action => :gen_code, :format => 'h' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-          <li><%= link_to "Rutinas IO del DRE", :action => :gen_code, :format => 'c' %></li>
+          <li><%= link_to "DRE IO functions", :action => :gen_code, :format => 'c' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
         </ul>
       </div>
@@ -344,7 +344,7 @@ you can place common code in this file. -->
       <br/>
       <br/>
       <div class="code-section" if="&can_update?(@project)">
-        Generadores automaticos de codigo:
+        Automatic code generators:
         <ul>
           <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
           <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
