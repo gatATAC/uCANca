@@ -136,9 +136,8 @@ class FlowType < ActiveRecord::Base
         ) then
       ret=acting_user.developer?
     else
-      ret=acting_user.signed_up?
+      ret=true
     end
     return ret
   end
-
 end

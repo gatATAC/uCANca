@@ -105,7 +105,7 @@ you can place common code in this file. -->
     <aside:>
       <%= link_to "Diagrama SVG #{@sub_system.name}", :controller => :sub_systems, :action => :show, :format => 'svg' %>
       <embed src="./#{this.id}.svg" type="image/svg+xml" />
-      <div class="code-section" if="&can_update?(@sub_system)">
+      <div class="code-section" if="&can_update?(@sub_system)|| @sub_system.project.public">
         Automatic code generators:
         <ul>
           <li><%= link_to "DRE header", :action => :gen_code, :format => 'h' %></li>
@@ -254,7 +254,7 @@ you can place common code in this file. -->
 <extend tag="show-page" for="Flow">
   <old-show-page>
     <append-collection-section:>
-    <div class="code-section" if="&can_update?(@flow)">
+    <div class="code-section" if="&can_update?(@flow) || @flow.project.public">
       <%= link_to "C declaration #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'h' %>
       <embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%"/>
       <%= link_to "C I/O code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
@@ -343,7 +343,7 @@ you can place common code in this file. -->
     <append-collection-section:>
       <br/>
       <br/>
-      <div class="code-section" if="&can_update?(@project)">
+      <div class="code-section" if="&can_update?(@project) || @project.public">
         Automatic code generators:
         <ul>
           <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>

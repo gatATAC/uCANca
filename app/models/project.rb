@@ -4,9 +4,10 @@ class Project < ActiveRecord::Base
 
   fields do
     name :string
+    public :boolean
     timestamps
   end
-  attr_accessible :name, :owner, :owner_id
+  attr_accessible :name, :owner, :owner_id, :public
 
   belongs_to :owner, :class_name => "User", :creator => true, :inverse_of => :projects
 
@@ -45,7 +46,7 @@ class Project < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    (acting_user.administrator? || acting_user == owner || acting_user.in?(members))
+    (acting_user.administrator? || acting_user == owner || acting_user.in?(members) || self.public)
   end
 
 end

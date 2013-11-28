@@ -27,7 +27,7 @@ class FlowDirection < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    acting_user.signed_up?
+    true
   end
 
 end

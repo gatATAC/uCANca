@@ -1189,7 +1189,7 @@ class SubSystem < ActiveRecord::Base
   def view_permitted?(field)
     ret=self.project.viewable_by?(acting_user)
     if (!(acting_user.developer? || acting_user.administrator?)) then
-      ret=self.layer_visible_by?(acting_user)
+      ret=self.project.public || self.layer_visible_by?(acting_user)
     end
     return ret
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501145915) do
+ActiveRecord::Schema.define(:version => 20131128122204) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130501145915) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "owner_id"
+    t.boolean  "public"
   end
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
