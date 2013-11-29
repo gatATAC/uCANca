@@ -1,6 +1,13 @@
 <!-- this file is included by front_site.dryml, admin_site.dryml et al, so
 you can place common code in this file. -->
-<def tag="app-name">uCANca</def>
+
+<def tag="copyright">
+  <div class="copyright" param>
+    (c) 2013 <a href="http://gatatac.org" target="_blank">gatATAC.org</a> - <a href="http://gatatac.org/projects/ucanca/wiki" target="_blank">uCANca project</a> - Txinto Vaz
+  </div>
+</def>
+
+<def tag="app-name"><img src="/images/gatatac.png"/>uCANca</def>
 
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">

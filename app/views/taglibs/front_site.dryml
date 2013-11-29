@@ -15,3 +15,20 @@
 <include src="taglibs/auto/rapid/forms"/>
 
 <include src="application"/>
+
+<def tag="ucancafooter">
+  <div class="ucancafooter" param>
+      <copyright/>
+  </div>
+</def>
+
+<extend tag="page">
+  <old-page merge>
+    <before-main-column:>
+      <!--div class="logo"></div--> 
+    </before-main-column:>
+    <footer:>
+      <ucancafooter/>
+    </footer:>
+  </old-page>
+</extend>
