@@ -48,7 +48,7 @@ class Flow < ActiveRecord::Base
   def to_diag_c_decl
     ret=""
     if (self.flow_type) then
-      if (!self.flow_type.tipo_fantasma) then
+      if (!self.flow_type.phantom_type) then
         ret="\tBOOL enable_"+self.c_name+";\n\t"
         ret+=self.flow_type.to_c_type(self).+" "+self.c_name+";\n"
       end

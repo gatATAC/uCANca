@@ -372,7 +372,7 @@ actions_lib=[]
         <%= raw("<property name=\"name\" type=\"string\">Generic variables</property>") %>
                         <% 
                         @project.flows.each{|f| 
-                        if (!f.flow_type.tipo_fantasma) then
+                        if (!f.flow_type.phantom_type) then
                         %>
         <%= raw("<object type=\"udGenericVariableItem\">") %>
             <%= raw("<property name=\"id\" type=\"long\">#{(10000+f.id).to_s}</property>") %>

@@ -9,19 +9,19 @@ class FlowType < ActiveRecord::Base
     c_output_patron :text
     enable_input :boolean, :default => true
     enable_output :boolean, :default => true
-    paso_por_referencia :boolean, :default => false
-    tipo_propio :boolean, :default => false
-    tipo_fantasma :boolean, :default => false
+    arg_by_reference :boolean, :default => false
+    custom_type :boolean, :default => false
+    phantom_type :boolean, :default => false
     timestamps
   end
-  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :paso_por_referencia, :tipo_propio, :tipo_fantasma
+  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type
 
   has_many :flows
 
   validates :name, :presence => :true
 
   def to_define(f)
-    if (!tipo_fantasma) then
+    if (!phantom_type) then
       return "#define "+f.name+" dre."+f.name+"\n"
     else
       return ""
@@ -29,7 +29,7 @@ class FlowType < ActiveRecord::Base
   end
 
   def to_c_type(f)
-    if (tipo_fantasma) then
+    if (phantom_type) then
       ret="// "+name+" -- Does not need declaration"
     else
       ret=""
@@ -38,7 +38,7 @@ class FlowType < ActiveRecord::Base
       else
         ret=c_type
       end
-      if (tipo_propio) then
+      if (custom_type) then
         ret="t_"+f.name.downcase
       end
     end
@@ -58,7 +58,7 @@ class FlowType < ActiveRecord::Base
       if (c_output_patron) then
         ret=c_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (paso_por_referencia) then
+        if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
           ret=ret.gsub("%REF%","")
@@ -77,7 +77,7 @@ class FlowType < ActiveRecord::Base
       if (c_input_patron) then
         ret=c_input_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (paso_por_referencia) then
+        if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
           ret=ret.gsub("%REF%","")
@@ -96,7 +96,7 @@ class FlowType < ActiveRecord::Base
       if (c_output_patron) then
         ret=c_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (paso_por_referencia) then
+        if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
           ret=ret.gsub("%REF%","")
@@ -131,9 +131,9 @@ class FlowType < ActiveRecord::Base
           field==:c_output_patron ||
           field==:enable_input ||
           field==:enable_output ||
-          field==:paso_por_referencia ||
-          field==:tipo_propio ||
-          field==:tipo_fantasma
+          field==:arg_by_reference ||
+          field==:custom_type ||
+          field==:phantom_type
         ) then
       ret=acting_user.developer?
     else
