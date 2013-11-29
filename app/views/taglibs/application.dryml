@@ -12,7 +12,8 @@ you can place common code in this file. -->
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
-    <nav-item with="&FlowType" if="&current_user.administrator? || current_user.developer?"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <!--nav-item with="&FlowType" if="&current_user.administrator? || current_user.developer?"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item-->
+    <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType" if="&current_user.administrator? || current_user.developer?"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer" if="&current_user.administrator? || current_user.developer?"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
