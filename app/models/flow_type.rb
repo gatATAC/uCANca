@@ -124,6 +124,7 @@ class FlowType < ActiveRecord::Base
   end
 
   def view_permitted?(field)
+=begin
     ret=false
     if (field==:c_type ||
           field==:c_input_patron ||
@@ -139,5 +140,7 @@ class FlowType < ActiveRecord::Base
       ret=true
     end
     return ret
+=end
+    return true
   end
 end

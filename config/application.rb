@@ -11,7 +11,7 @@ end
 
 module Blocks
   class Application < Rails::Application
-    config.i18n.default_locale = :es
+    config.i18n.default_locale = :en
     # Hobo: Named routes have changed in Hobo 2.0.   Set to false to emit both the 2.0 and 1.3 names.
     config.hobo.dont_emit_deprecated_routes = true
     # Hobo: remove support for ERB templates
