@@ -8,6 +8,7 @@ Mime::Type.register "text/x-c", :c
 Mime::Type.register "text/x-c", :h
 Mime::Type.register "application/xml", :cdp
 Mime::Type.register "application/xml", :xcos
+Mime::Type.register "application/xml", :iox
 Mime::Type.register "text/plain", :gv
 #Mime::Type.register 'text/vnd.graphviz', :gv
 Mime::Type.register "application/xml", :tree

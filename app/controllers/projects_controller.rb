@@ -21,6 +21,7 @@ class ProjectsController < ApplicationController
       format.h
       format.xcos
       format.cdp
+      format.iox
     end
   end
 

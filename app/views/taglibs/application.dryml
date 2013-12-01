@@ -356,6 +356,7 @@ you can place common code in this file. -->
         <ul>
           <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
           <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
+          <li><%= link_to "IOX XML I/O description (for LabView, etc.)", :action => :gen_code, :format => 'iox' %></li>
           <li><%= link_to "DRE Header", :action => :gen_code, :format => 'h' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
           <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>

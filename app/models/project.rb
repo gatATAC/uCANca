@@ -31,6 +31,35 @@ class Project < ActiveRecord::Base
 
   children :flows, :project_memberships, :sub_systems, :functions
 
+  def to_iox
+    return self.to_xml(:include =>{
+        :sub_systems=>{:include => 
+            {:connectors => {:include => 
+                {:input_flows=>{:include => 
+                    {:flow=>{:include => 
+                        {:flow_type => {:only => 
+                            [:name]
+                        }
+                      }
+                    }
+                  }
+                }, 
+                :output_flows=>{:include =>
+                    {:flow=>{:include => 
+                        {:flow_type => {:only => 
+                            [:name]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      })
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?
