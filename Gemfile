@@ -7,6 +7,8 @@ gem 'rails', '3.2.13'
 
 #gem 'sqlite3'
 
+gem "paperclip"
+gem 'hobo_paperclip', :git => "git://github.com/Hobo/hobo_paperclip.git", :branch => "master"
 
 # Gems used only for assets and not required
 # in production environments by default.

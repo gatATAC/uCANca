@@ -1,0 +1,43 @@
+<edit-page content-size="9">
+  <prepend-aside:>
+    <!--The logo form has to be outside of the main form-->
+    Hoooolaaaa
+    <attached-logo-form/>
+  </prepend-aside:>
+  <form:>
+    <field-list: replace>
+      <div class="row columns">
+        <div class="span6">
+          <single-field-list fields="name,description"/>
+        </div>
+        <div class="span3">
+          <attached-logo part="logo"/>
+        </div>
+      </div>
+    </field-list:>
+  </form:>
+</edit-page>
+
+<def tag="attached-logo-form">
+  <form action="" class="pull-left" id="logo-fileupload">
+    <span class="btn btn-mini fileinput-button"
+          style="display:none;">
+      <input type="file" id="fileupload-input"
+             name="project[logo]" multiple="true"
+             data-url="&project_path(@project)"/>
+    </span>
+  </form>
+  <div class="progress progress-striped active hide" id="upload-progress">
+    <div class="bar" style="width:0%"></div>
+  </div>
+</def>
+
+<def tag="attached-logo">
+  <a href="&this.logo.url(:original)" class="thumbnail">
+    <img src="&this.logo.url(:medium)"/>
+  </a>
+  <a class="btn btn-success" style="margin:5px" href="#"
+     onclick="$('input[type=file]').trigger('click');">
+    <i class="icon-plus icon-white"></i>
+  </a>
+</def>

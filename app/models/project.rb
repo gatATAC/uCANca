@@ -4,11 +4,21 @@ class Project < ActiveRecord::Base
 
   fields do
     name :string
+    description :text
     public :boolean
     timestamps
   end
-  attr_accessible :name, :owner, :owner_id, :public
+  
+  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description
 
+  has_attached_file :logo,
+    :styles => {
+    :medium => ["200x138#", :png],
+    :thumb => ["100x100>", :png] },
+    :whiny => false,
+    :path => 'lib/logos/:style/:filename',
+    :url => '/projects/:id?style=:style'  
+  
   belongs_to :owner, :class_name => "User", :creator => true, :inverse_of => :projects
 
   validates :name, :presence => :true

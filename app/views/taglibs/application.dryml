@@ -300,7 +300,14 @@ you can place common code in this file. -->
 
 <extend tag="show-page" for="Project">
   <old-show-page>
-
+  <field-list: replace>
+    <div class="row columns">
+      <div class="span3">
+        Project logo:
+        <attached-logo part="logo"/>
+      </div>
+    </div>
+  </field-list:>
     <collection: replace>
       <table-plus with="&@flows" fields="this,flow_type">
         <prepend-header:>

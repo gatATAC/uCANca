@@ -1,0 +1,24 @@
+$ ->
+  # Start of file upload
+  $('#logo-fileupload').fileupload({
+    dataType: 'script',
+    url: $('#fileupload-input').data('url') + '?render[0][id]=logo&render[0][part_context]=' + $("[data-rapid-page-data]").data('rapid-page-data').hobo_parts['logo'],
+    type: 'PUT', # PUT is the default for the Hobo update routes
+    fileInput: $('#fileupload-input')
+  });
+  
+  $('#logo-fileupload').bind('fileuploadstart', (e) ->
+    $('#upload-progress .bar').width('0%');
+    $('#upload-progress').fadeIn();
+  )
+  
+  $('#logo-fileupload').bind('fileuploadprogress', (e, data) ->
+    percentage = data.loaded * 100 / data.total
+    $('#upload-progress .bar').width(percentage+'%');
+  );
+  
+  $('#logo-fileupload').bind('fileuploaddone', (e, data) ->
+    $('#upload-progress .bar').width('100%');
+    $('#upload-progress').fadeOut();
+  )
+  # End of file upload

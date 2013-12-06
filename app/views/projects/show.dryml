@@ -1,0 +1,70 @@
+<show-page>
+  <field-list: replace>
+    <div class="row columns">
+      <div class="span6">
+        <single-field-list fields="name,description"/>
+      </div>
+      <div class="span3">
+        Project logo:
+        <attached-logo-show part="logo"/>
+      </div>
+    </div>
+  </field-list:>
+  <collection-section: replace>
+    <file-attachments/>
+  </collection-section:>
+</show-page>
+
+<def tag="file-attachments">
+  <fieldset>
+    <legend>
+      <span class="pull-left">Report files</span>
+      <form action="" class="pull-left" id="fileupload">
+        <span class="fileinput-button" style="margin-left:8px;">
+          <a class="btn btn-success" style="margin:5px" href="#"
+             onclick="$('#fileupload input[type=file]').trigger('click');
+                 return false;">
+            <i class="icon-plus icon-white"></i>Add or drag file
+          </a>
+        </span>
+        <input type="file" class="hidden" id="fileupload-input" name="attachment[document]" multiple="true"
+               data-url="/attachments?project_id=#{@project.id}"/>
+      </form>
+    </legend>
+    <br/>
+    <div class="progress progress-striped active hide" id="upload-progress">
+      <div class="bar" style="width:0%"></div>
+    </div>
+    <ul class="thumbnails" id="attachments" part="attachments">
+      <repeat with="&@project.attachments">
+        <card/>
+      </repeat>
+    </ul>
+  </fieldset>
+</def>
+
+<def tag="card" for="Attachment">
+  <card id="&dom_id(this)" class="attachment span3" remove-class="well" param="default" merge>
+  <header: param>
+    <div class="thumbnail">
+      <a href="&this.document.url(:original)" class="thumbnail">
+        <img src="&this.thumbnail_url(:medium)"/>
+      </a>
+      <div class="caption">
+        <this.short-name/>
+        <a rel="nofollow" data-remote="true" data-method="delete"
+           data-confirm="Are you sure?" class="pull-right"
+           href="/attachments/#{this.id}">
+          <i class="icon-trash"></i>
+        </a>
+      </div>
+    </div>
+  </header:>
+  </card>
+</def>
+
+<def tag="attached-logo-show">
+  <a href="&this.logo.url(:original)" class="thumbnail">
+    <img src="&this.logo.url(:medium)"/>
+  </a>
+</def>

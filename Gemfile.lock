@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/Hobo/hobo_paperclip.git
+  revision: abb4e77b849e78be9f1594b7304b71dc5a76157d
+  branch: master
+  specs:
+    hobo_paperclip (0.0.4)
+      hobo
+      paperclip
+
+GIT
   remote: git://github.com/Hobo/will_paginate.git
   revision: cc7ef01551b94fe4f607e38929037234dc70bb62
   specs:
@@ -42,6 +51,10 @@ GEM
     bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
     builder (3.0.4)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.3)
+      climate_control (>= 0.0.3, < 1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -107,6 +120,11 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     multi_xml (0.5.3)
+    paperclip (3.5.2)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      cocaine (~> 0.5.3)
+      mime-types
     pg (0.15.1)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
@@ -179,8 +197,10 @@ DEPENDENCIES
   hobo_bootstrap (= 2.0.0)
   hobo_bootstrap_ui (= 2.0.0)
   hobo_jquery_ui (= 2.0.0)
+  hobo_paperclip!
   jquery-rails
   jquery-ui-themes (~> 0.0.4)
+  paperclip
   pg
   quiet_assets
   rails (= 3.2.13)

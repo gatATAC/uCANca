@@ -19,3 +19,4 @@
 /db/*.sqlite3_old
 /db/*.csv
 public/assets/*
+/lib/logos/*
