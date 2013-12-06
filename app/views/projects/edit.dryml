@@ -1,7 +1,7 @@
 <edit-page content-size="9">
   <prepend-aside:>
     <!--The logo form has to be outside of the main form-->
-    Hoooolaaaa
+    Image upload info
     <attached-logo-form/>
   </prepend-aside:>
   <form:>
