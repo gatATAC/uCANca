@@ -71,4 +71,6 @@ Blocks::Application.routes.draw do
     resource :diagram
   end
 
+  resources :project_flows_imports
+
 end

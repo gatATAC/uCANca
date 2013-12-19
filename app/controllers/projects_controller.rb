@@ -31,6 +31,8 @@ class ProjectsController < ApplicationController
       format.xcos
       format.cdp
       format.iox
+      format.iocsv
+      format.ioxls
     end
   end
 

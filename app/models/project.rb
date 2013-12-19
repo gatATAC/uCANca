@@ -70,6 +70,15 @@ class Project < ActiveRecord::Base
       })
   end
   
+  def to_iocsv(options = {})
+    CSV.generate(options) do |csv|
+      csv << Flow.import_attributes
+      self.flows.each do |flow|
+        csv << flow.attributes.values_at(*Flow.import_attributes)
+      end
+    end
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?

@@ -87,6 +87,15 @@ class Flow < ActiveRecord::Base
     return ret
   end
 
+  def self.import_attributes
+    ret=Flow.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
+  
   # --- Permissions --- #
 
 
