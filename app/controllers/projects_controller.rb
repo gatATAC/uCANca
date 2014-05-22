@@ -7,6 +7,21 @@ class ProjectsController < ApplicationController
   auto_actions_for :owner, [:new, :create]
 
   show_action :gen_code
+  show_action :show_structure
+  show_action :show_structure_define
+  show_action :show_calibration
+  show_action :show_calibration_extern
+  show_action :show_autodiag_main
+  show_action :show_autodiag_main_c
+  show_action :show_autodiag_main_functions
+  show_action :show_autodiag_main_functions_c
+  show_action :show_diagmux_call
+  show_action :show_sendmessage
+  show_action :show_dtc_a2l
+  show_action :show_dtc_code
+
+  show_action :show_diagmux
+  show_action :show_diagmux_c
 
   def update
     hobo_update do
@@ -47,6 +62,13 @@ class ProjectsController < ApplicationController
           end
         end
         @sub_systems=find_instance.sub_systems
+        @fault_requirements=find_instance.fault_requirements
+        @fail_safe_commands=find_instance.fail_safe_commands
+        @fail_safe_command_times=find_instance.fail_safe_command_times
+        @fault_detection_moments=find_instance.fault_detection_moments        
+        @fault_preconditions=find_instance.fault_preconditions      
+        @fault_rehabilitations=find_instance.fault_rehabilitations      
+        @fault_recurrence_times=find_instance.fault_recurrence_times       
 =begin
     @functions=Function.search(params[:search_func], :name).order_by(parse_sort_param(:name, :function_type)).paginate(:page => params[:page])
     if (params[:function_type]) then
@@ -65,4 +87,165 @@ class ProjectsController < ApplicationController
       }
     end
   end
+
+  def show_calibration
+    @code=""
+
+    find_instance.fault_recurrence_times.find(:all).each { |r|
+      @code+=r.to_calibration
+    }
+  end
+
+  def show_calibration_extern
+    @code = ""
+    contador=0
+    find_instance.fault_requirements.find(:all).each{|fr|
+      fr.faults.find(:all).each { |r|
+        @code+="#define DTC_"+r.dtc_prefix+r.dtc+" "+contador.to_s+"\n"
+        contador=contador+1
+      }}
+
+    @code+="\ntypedef struct {\n"
+    @code+="\tUI_16 ident;\n"
+    @code+="\tUI_8 low_byte;\n"
+    @code+="}t_dtc;\n\n"
+    @code+="#define DTC_NUM "+contador.to_s+"\n\n"
+    @code+="extern t_dtc dtc[DTC_NUM];\n\n"
+    find_instance.fault_recurrence_times.find(:all).each { |r|
+      @code+=r.to_calibration_extern
+    }
+  end
+
+  def show_structure
+    @code = ""
+    find_instance.fail_safe_commands.find(:all).each { |r|
+      @code+=r.to_structure
+    }
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_structure
+    }
+  end
+
+  def show_structure_define
+    @code = ""
+
+    find_instance.fail_safe_commands.find(:all).each { |r|
+      @code+=r.to_structure_define
+    }
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_structure_define
+    }
+  end
+
+  def show_autodiag_main
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_autodiag_main
+    }
+  end
+
+
+  def show_autodiag_main_c
+
+    @code = "void AD_FailSafeCommands_clear(){\n"
+    find_instance.fail_safe_commands.find(:all).each { |i|
+      @code+=i.to_autodiag_main_c
+    }
+    @code += "}\n\n"
+
+    @code += "void AD_FailSafeCommands_decrement(){\n"
+    find_instance.fail_safe_commands.find(:all).each { |i|
+      @code+=i.to_autodiag_main_c_decrement
+    }
+    @code += "}\n"
+
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_autodiag_main_c
+    }
+    @code+="\n"
+
+  end
+
+  def show_autodiag_main_functions
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_autodiag_main_functions
+    }
+  end
+
+  def show_autodiag_main_functions_c
+
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_autodiag_main_functions_c
+    }
+    @code+="\n"
+
+  end
+
+  def show_diagmux
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_diagmux
+    }
+  end
+
+  def show_diagmux_c
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_diagmux_c
+    }
+    @code+="\n"
+
+  end
+
+  def show_diagmux_call
+    @code = ""
+
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_diagmux_call_init
+    }
+    @code+="}\nvoid AutoDiagnosticsFSM(){\n"
+    @code +="\n\tAutoDiagnosticsFSMAux();\n"
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_diagmux_call_normal
+    }
+    @code+="}\n"
+  end
+
+  def show_dtc_a2l
+    @code = ""
+    contador=0
+    find_instance.fault_requirements.find(:all).each{|fr|
+      fr.faults.find(:all).each { |r|
+        @code+=r.to_dtc_a2l(contador)+"\n"
+        contador=contador+1
+      }}
+    find_instance.fail_safe_commands.find(:all).each { |r|
+      @code+=r.to_a2l+"\n"
+    }
+  end
+  
+  def show_dtc_code
+    @code = "\nBOOL ad_dtcs_valid(void){\n\treturn (TRUE\n"
+    find_instance.fault_requirements.find(:all).each{|fr|
+      fr.faults.find(:all).each { |r|
+        @code+="\t\t&& "+r.to_dtc_code_valid+"\n"
+      }}
+    @code+="\t\t);\n}\n"
+    @code+="\nvoid ad_init_dtcs(void) {\n\tif (ad_dtcs_valid() == FALSE) {\n"
+    find_instance.fault_requirements.find(:all).each{|fr|
+      fr.faults.find(:all).each { |r|
+        @code+="\t\t"+r.to_dtc_code_init+"\n"
+      }}
+    @code+="\t\tad_clear_dtcs();\n\t} else {\n\t\tad_decrement_dtcs();\n\t}\n}\n"
+  end
+
+  def show_sendmessage
+    @code = ""
+    find_instance.fault_requirements.find(:all).each { |r|
+      @code+=r.to_sendmessage
+    }
+  end
+
 end

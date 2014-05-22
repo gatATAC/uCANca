@@ -28,9 +28,15 @@ class Project < ActiveRecord::Base
   has_many :members, :through => :project_memberships, :source => :user
   has_many :sub_systems
   has_many :flows
-
   has_many :functions
-
+  has_many :fault_requirements, :dependent => :destroy, :inverse_of => :project
+  has_many :fail_safe_commands, :dependent => :destroy, :inverse_of => :project
+  has_many :fail_safe_command_times, :dependent => :destroy, :inverse_of => :project
+  has_many :fault_detection_moments, :dependent => :destroy, :inverse_of => :project
+  has_many :fault_preconditions, :dependent => :destroy, :inverse_of => :project
+  has_many :fault_recurrence_times, :dependent => :destroy, :inverse_of => :project
+  has_many :fault_rehabilitations, :dependent => :destroy, :inverse_of => :project
+  
   has_many :contributor_memberships, :class_name => "ProjectMembership", :conditions => {:contributor => true}
   has_many :contributors, :through => :contributor_memberships, :source => :user
 
@@ -39,7 +45,7 @@ class Project < ActiveRecord::Base
     user.administrator? || user == owner || user.in?(contributors)
   end
 
-  children :flows, :project_memberships, :sub_systems, :functions
+  children :flows, :project_memberships, :sub_systems, :functions, :fault_requirements, :fail_safe_commands, :fail_safe_command_times, :fault_detection_moments, :fault_preconditions, :fault_recurrence_times, :fault_rehabilitations
 
   def to_iox
     return self.to_xml(:include =>{

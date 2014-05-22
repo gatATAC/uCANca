@@ -335,6 +335,141 @@ you can place common code in this file. -->
         </ht>
       </a:sub_systems>
     </append-sub_systems-collection-section:>
+
+    <fault_requirements-collection: replace>
+      <table-plus with="&@fault_requirements" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fault_requirements-collection:>
+
+    <append-fault_requirements-collection-section:>
+      <a:fault_requirements action="new" if="&can_create?(@project.fault_requirements)" param="new-link">
+        <ht key="fault_requirement.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fault_requirements>
+    </append-fault_requirements-collection-section:>
+
+    <fault_recurrence_times-collection: replace>
+      <table-plus with="&@fault_recurrence_times" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fault_recurrence_times-collection:>
+
+    <append-fault_recurrence_times-collection-section:>
+      <a:fault_recurrence_times action="new" if="&can_create?(@project.fault_recurrence_times)" param="new-link">
+        <ht key="fault_recurrence_time.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fault_recurrence_times>
+    </append-fault_recurrence_times-collection-section:>
+
+    <fail_safe_commands-collection: replace>
+      <table-plus with="&@fail_safe_commands" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fail_safe_commands-collection:>
+
+    <append-fail_safe_commands-collection-section:>
+      <a:fail_safe_commands action="new" if="&can_create?(@project.fail_safe_commands)" param="new-link">
+        <ht key="fail_safe_command.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fail_safe_commands>
+    </append-fail_safe_commands-collection-section:>
+
+    <fault_preconditions-collection: replace>
+      <table-plus with="&@fault_preconditions" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fault_preconditions-collection:>
+
+    <append-fault_preconditions-collection-section:>
+      <a:fault_preconditions action="new" if="&can_create?(@project.fault_preconditions)" param="new-link">
+        <ht key="fault_precondition.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fault_preconditions>
+    </append-fault_preconditions-collection-section:>
+    
+    <fault_rehabilitations-collection: replace>
+      <table-plus with="&@fault_rehabilitations" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fault_rehabilitations-collection:>
+
+    <append-fault_rehabilitations-collection-section:>
+      <a:fault_rehabilitations action="new" if="&can_create?(@project.fault_rehabilitations)" param="new-link">
+        <ht key="fault_rehabilitation.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fault_rehabilitations>
+    </append-fault_rehabilitations-collection-section:>
+    
+    
+    <fault_detection_moments-collection: replace>
+      <table-plus with="&@fault_detection_moments" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fault_detection_moments-collection:>
+
+    <append-fault_detection_moments-collection-section:>
+      <a:fault_detection_moments action="new" if="&can_create?(@project.fault_detection_moments)" param="new-link">
+        <ht key="fault_detection_moment.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fault_detection_moments>
+    </append-fault_detection_moments-collection-section:>
+
+    <fail_safe_command_times-collection: replace>
+      <table-plus with="&@fail_safe_command_times" fields="this">
+        <!--prepend-header:>
+          <div class="filter">
+            Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
+          </div>
+        </prepend-header:>
+        <empty-message:>No flows match your criteria</empty-message:-->
+      </table-plus>
+    </fail_safe_command_times-collection:>
+
+    <append-fail_safe_command_times-collection-section:>
+      <a:fail_safe_command_times action="new" if="&can_create?(@project.fail_safe_command_times)" param="new-link">
+        <ht key="fail_safe_command_time.actions.new" count="1">
+          New Fault Requirement
+        </ht>
+      </a:fail_safe_command_times>
+    </append-fail_safe_command_times-collection-section:>
+
     <append-functions-collection-section:>
       <a:functions action="new" if="&can_create?(@project.functions)" param="new-link">
         <ht key="function.actions.new" count="1">
@@ -371,7 +506,25 @@ you can place common code in this file. -->
           <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
         </ul>
+        AutoDiagnostics code generators:
+        <ul>
+          <li><%= link_to "Generate calibration parameters structure", :action => :show_structure, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate calibration parameters Defines", :action => :show_structure_define, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate calibration variables Code", :action => :show_calibration, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate calibration variables Defines", :action => :show_calibration_extern, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate AutoDiag main", :action => :show_autodiag_main, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate AutoDiag main C", :action => :show_autodiag_main_c, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate AutoDiag main functions", :action => :show_autodiag_main_functions, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate AutoDiag main functions C", :action => :show_autodiag_main_functions_c, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DiagMux", :action => :show_diagmux, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DiagMux C", :action => :show_diagmux_c, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DiagMux Calls", :action => :show_diagmux_call, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate CAN SendMessages", :action => :show_sendmessage, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DTC A2L", :action => :show_dtc_a2l, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DTC C code", :action => :show_dtc_code, :format => "c", :target => '_blank' %></li>
+        </ul>
       </div>
+
       <div class="import-section" if="&can_update?(@project)">
         Project data importers:
         <ul>
@@ -524,3 +677,33 @@ you can place common code in this file. -->
     <field-list: fields="name, email_address, administrator, developer, state"/>
   </old-form>
 </extend>
+
+
+<extend tag="form" for="Fault">
+  <old-form merge>
+    <field-list: fields="fault_requirement, name, abbrev,abbrev_c, description, status_byte, dtc, fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, system_failsafe_mode, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+  </old-form>
+</extend>
+
+<!--extend tag="show-page" for="Fault">
+  <old-show-page merge>
+    <field-list: fields="fault_requirement, name, abbrev,abbrev_c, description, status_byte, dtc,  fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, system_failsafe_mode, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+    <append-collection-section:>
+      <ul>
+        <li> <%= link_to "Generate calibration variables Code for #{@fault.name}", :controller => :faults, :action => :show_calibration, :id => @fault, :format => "c", :target => '_blank' %></li>
+        <li> <%= link_to "Generate calibration variables Extern for #{@fault.name}", :controller => :faults, :action => :show_calibration_extern, :id => @fault, :format => "c", :target => '_blank' %></li>
+      </ul>
+    </append-collection-section:>
+  </old-show-page>
+</extend-->
+
+<!--extend tag="show-page" for="FaultRequirement">
+  <old-show-page merge>
+    <append-collection-section:>
+      <ul>
+        <li><%= link_to "Generate calibration variables Code for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
+        <li><%= link_to "Generate calibration variables Extern for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration_extern, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
+      </ul>
+    </append-collection-section:>
+  </old-show-page>
+</extend-->

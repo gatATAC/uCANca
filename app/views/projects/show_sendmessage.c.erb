@@ -1,0 +1,18 @@
+    @code = "/////// AutoDiagnostics_messages.c ////////
+#include "AutoDiagnostics_messages.h"
+#include "FicOsekCom.h"
+#include "FSM_AD.h"
+#include "Project_definitions.h"
+
+void ReceiveAutoDiagnosticsMessages(){
+  ReceiveMessage(SIG_DTCCLEAR,&dtc_clear);
+  ReceiveMessage(SIG_CANCOMOBDSTOP,&can_com_obd_stop);
+}
+
+void SendAutoDiagnosticsMessages(){
+
+<%= ret=@code
+    ret %>
+
+  SendMessage(SIG_DTCCLEARSTATUS,&dtc_clear_status);
+}

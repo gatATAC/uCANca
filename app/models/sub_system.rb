@@ -157,7 +157,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{yoffsetcaja}\"
        id=\"rect_#{self.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.34495062;stroke-opacity:1\" />
-    <a id=\"link_#{self.full_name}\" xlink:href=\"/sub_systems/#{self.id}\" target=\"_blank\">
+    <a id=\"link_#{self.full_name}\" xlink:href=\"/sub_systems/#{self.id}\" xlink:title=\"#{self.full_name}\" target=\"_blank\">
       <text
        x=\"#{xcentrocaja}\"
        y=\"#{ycentrocaja}\"
@@ -184,7 +184,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.flow.name}\" target=\"_blank\">
   <text
        x=\"#{xoffsetcaja-anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -210,7 +210,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{yoffsetconectorinput}\"
        id=\"rect_#{c.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.34495062;stroke-opacity:1\" />
-    <a id=\"link_#{c.full_name}\" xlink:href=\"/connectors/#{c.id}\" target=\"_blank\">
+    <a id=\"link_#{c.full_name}\" xlink:href=\"/connectors/#{c.id}\" xlink:title=\"#{c.full_name}\" target=\"_blank\">
       <text
        x=\"#{xcentroconectorinput}\"
        y=\"#{ycentroconectorinput}\"
@@ -235,7 +235,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
        id=\"line_#{f.flow.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/flows/#{f.flow.id}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.flow.name}\" target=\"_blank\">
     <text
        x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
@@ -260,7 +260,7 @@ class SubSystem < ActiveRecord::Base
        y=\"#{yoffsetconectoroutput}\"
        id=\"rect_#{c.name}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.34495062;stroke-opacity:1\" />
-    <a id=\"link_#{c.full_name}\" xlink:href=\"/connectors/#{c.id}\" target=\"_blank\">
+    <a id=\"link_#{c.full_name}\" xlink:href=\"/connectors/#{c.id}\" xlink:title=\"#{c.full_name}\" target=\"_blank\">
       <text
        x=\"#{xcentroconectoroutput}\"
        y=\"#{ycentroconectoroutput}\"
