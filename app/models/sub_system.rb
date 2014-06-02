@@ -11,6 +11,7 @@ class SubSystem < ActiveRecord::Base
 
 
   belongs_to :project
+  belongs_to :target
   belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
   belongs_to :parent,  :creator => true, :foreign_key => :parent_id, :class_name => 'SubSystem'

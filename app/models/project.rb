@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
     timestamps
   end
   
-  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description
+  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target
 
   has_attached_file :logo,
     :styles => {
@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
     :url => '/projects/:id?style=:style'  
   
   belongs_to :owner, :class_name => "User", :creator => true, :inverse_of => :projects
+  belongs_to :target
 
   validates :name, :presence => :true
   validates :owner, :presence => :true

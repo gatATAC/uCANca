@@ -14,6 +14,7 @@ you can place common code in this file. -->
     <nav-item href="#{base_url}/">Home</nav-item>
     <!--nav-item with="&FlowType" if="&current_user.administrator? || current_user.developer?"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item-->
     <nav-item with="&FlowType"><ht key="flow_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Target"><ht key="target.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&FunctionType" if="&current_user.administrator? || current_user.developer?"><ht key="function_type.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Layer" if="&current_user.administrator? || current_user.developer?"><ht key="layer.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&Project"><ht key="project.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
@@ -263,9 +264,8 @@ you can place common code in this file. -->
   <old-show-page>
     <append-collection-section:>
     <div class="code-section" if="&can_update?(@flow) || @flow.project.public">
-      <%= link_to "C declaration #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'h' %>
-      <embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%"/>
-      <%= link_to "C I/O code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
+      <h2>Code Generation:</h2>
+      <%= link_to "C I/O preview code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
       <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
     </div>
     </append-collection-section:>
@@ -307,6 +307,7 @@ you can place common code in this file. -->
         <attached-logo part="logo"/>
       </div>
     </div>
+    <view:target/>
   </field-list:>
     <collection: replace>
       <table-plus with="&@flows" fields="this,flow_type">
