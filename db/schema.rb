@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140603013243) do
+ActiveRecord::Schema.define(:version => 20140603001043) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"

@@ -1,4 +1,4 @@
-class HoboMigration56 < ActiveRecord::Migration
+class HoboMigration56v15Rc < ActiveRecord::Migration
   def self.up
     remove_column :flow_type_targets, :name
   end

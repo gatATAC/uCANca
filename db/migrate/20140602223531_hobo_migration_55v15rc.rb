@@ -1,4 +1,4 @@
-class HoboMigration55 < ActiveRecord::Migration
+class HoboMigration55v15Rc < ActiveRecord::Migration
   def self.up
     rename_column :flow_type_targets, :c_setup_patron, :c_setup_input_patron
     add_column :flow_type_targets, :c_setup_output_patron, :text
