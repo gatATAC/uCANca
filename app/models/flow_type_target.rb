@@ -5,7 +5,6 @@ class FlowTypeTarget < ActiveRecord::Base
   include FlowTypeGen
   
   fields do
-    name :string
     c_type :string
     c_setup_input_patron :text
     c_setup_output_patron :text
@@ -24,7 +23,11 @@ class FlowTypeTarget < ActiveRecord::Base
   belongs_to :target, :creator => :true
 
   def name
+    if flow_type
     return flow_type.name
+    else
+      nil
+    end
   end
 
   # --- Permissions --- #
