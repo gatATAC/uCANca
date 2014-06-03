@@ -22,9 +22,20 @@ class Flow < ActiveRecord::Base
   validates :flow_type, :presence => true
   validates :project, :presence => true
 
+  def current_pattern
+      if (self.project.target)
+        tgt=self.project.target.flow_type_targets
+        ft=tgt.find_by_flow_type_id(self.flow_type_id);
+        if (ft)
+          return ft
+        end
+      end
+      return self.flow_type
+  end
+  
   def to_define
-    if (self.flow_type) then
-      return self.flow_type.to_define(self)
+    if (self.current_pattern) then
+      return self.current_pattern.to_define(self)
     else
       return "// (null) "+self.name
     end
@@ -36,9 +47,8 @@ class Flow < ActiveRecord::Base
   end
 
   def to_c_decl
-    if (self.flow_type) then
-      ret="\t"
-      ret+=self.flow_type.to_c_type(self).+" "+self.c_name+";\n"
+    if (self.current_pattern) then
+      ret=self.current_pattern.to_c_type(self).+" "+self.c_name+";\n"
       return ret
     else
       return "// (null) "+self.name+"\n"
@@ -47,10 +57,10 @@ class Flow < ActiveRecord::Base
 
   def to_diag_c_decl
     ret=""
-    if (self.flow_type) then
-      if (!self.flow_type.phantom_type) then
-        ret="\tBOOL enable_"+self.c_name+";\n\t"
-        ret+=self.flow_type.to_c_type(self).+" "+self.c_name+";\n"
+    if (self.current_pattern) then
+      if (!self.current_pattern.phantom_type) then
+        ret="BOOL enable_"+self.c_name+";\n"
+        ret+=self.current_pattern.to_c_type(self).+" "+self.c_name+";\n"
       end
     else
       return "// (null) "+self.c_name+"\n"
@@ -58,31 +68,52 @@ class Flow < ActiveRecord::Base
   end
 
   def to_c_io_decl
-    if (self.flow_type) then
-      ret="\n\n// "+self.c_name+" flow acquisition\n"
-      ret+=flow_type.to_c_input_decl(self)
-      ret+="\n// "+self.c_name+" flow synthesis\n"
-      ret+=flow_type.to_c_output_decl(self)
-    else
-      ret="// (null)"
-      ret+=" "+self.c_name+";\n"
-    end
-  end
-
-  def to_c_io
-    if (self.flow_type) then
+    if (self.current_pattern) then
       ret="\n// "+self.c_name+" flow acquisition\n"
-      ret+=flow_type.to_c_input(self)
-      ret+="\n\n// "+self.c_name+" flow synthesis\n"
-      ret+=flow_type.to_c_output(self)
+      ret+=current_pattern.to_c_input_decl(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_c_output_decl(self)
     else
       ret="// (null)"
       ret+=" "+self.c_name+";\n"
     end
   end
 
-  def to_c
-    ret=to_c_decl
+  def to_c_io_setup
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_c_setup_input(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_c_setup_output(self)
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+
+  end
+  
+  def to_c_io
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_c_input(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_c_output(self)
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+  end
+
+  def to_c_preview
+    ret="// Types declaration\n"
+    ret+=to_c_decl
+    ret+="...\n\n// Diags declaration\n"
+    ret+=to_diag_c_decl
+    ret+="...\n\n// IO Declaration"
+    ret+=to_c_io_decl
+    ret+="\n...\n\n// IO Setup"
+    ret+=to_c_io_setup
+    ret+="\n...\n\n// IO Functions"
     ret+=to_c_io
     return ret
   end

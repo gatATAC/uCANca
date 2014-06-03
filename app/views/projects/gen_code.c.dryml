@@ -4,6 +4,12 @@
 t_dre dre;
 t_diag diag;
 
+void io_setup(void){
+<%     @project.flows.find(:all).each{ |f| %>
+  <%=f.to_c_io_setup %>
+<%    }    %>
+}
+
 // --- DRE flow acquisition and flow synthesis functions ---
 <%     @project.flows.find(:all).each{ |f| %>
   <%=f.to_c_io %>

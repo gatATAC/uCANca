@@ -10,6 +10,7 @@ class SubSystem < ActiveRecord::Base
   attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id, :functions
 
   belongs_to :project
+  belongs_to :target
   belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
   belongs_to :parent,  :creator => true, :foreign_key => :parent_id, :class_name => 'SubSystem'

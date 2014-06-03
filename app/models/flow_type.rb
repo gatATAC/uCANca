@@ -2,9 +2,13 @@ class FlowType < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
 
+  include FlowTypeGen
+  
   fields do
     name :string
     c_type :string
+    c_setup_input_patron :text
+    c_setup_output_patron :text
     c_input_patron :text
     c_output_patron :text
     enable_input :boolean, :default => true
@@ -14,101 +18,13 @@ class FlowType < ActiveRecord::Base
     phantom_type :boolean, :default => false
     timestamps
   end
-  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type
+  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron, :c_setup_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type
 
   has_many :flows
-
+  has_many :flow_type_targets
+  
   validates :name, :presence => :true
 
-  def to_define(f)
-    if (!phantom_type) then
-      return "#define "+f.name+" dre."+f.name+"\n"
-    else
-      return ""
-    end
-  end
-
-  def to_c_type(f)
-    if (phantom_type) then
-      ret="// "+name+" -- Does not need declaration"
-    else
-      ret=""
-      if (!c_type || c_type.size<=0) then
-        ret+="t_"+name.downcase
-      else
-        ret=c_type
-      end
-      if (custom_type) then
-        ret="t_"+f.name.downcase
-      end
-    end
-    return ret
-  end
-
-  def to_c_input_decl(f)
-    ret=to_c_input(f).split("{")[0]+";"
-  end
-  
-  def to_c_output_decl(f)
-    ret=to_c_output(f).split("{")[0]+";"
-  end
-
-  def to_c_output(f)
-    if (enable_output) then
-      if (c_output_patron) then
-        ret=c_output_patron.gsub("%FLOW%", f.c_name)
-        ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (arg_by_reference) then
-          ret=ret.gsub("%REF%","*")
-        else
-          ret=ret.gsub("%REF%","")
-        end
-        ret=ret.gsub("%TYP%",name)
-      else
-        ret="// (output not implemented for #{name} type)"
-      end
-    else
-      ret="// (output disabled for #{name} type)"
-    end
-  end
-
-  def to_c_input(f)
-    if (enable_input) then
-      if (c_input_patron) then
-        ret=c_input_patron.gsub("%FLOW%", f.c_name)
-        ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (arg_by_reference) then
-          ret=ret.gsub("%REF%","*")
-        else
-          ret=ret.gsub("%REF%","")
-        end
-        ret=ret.gsub("%TYP%",name)
-      else
-        ret="// (input not implemented for #{name} type)"
-      end
-    else
-      ret="// (input disabled for #{name} type)"
-    end
-  end
-  
-  def to_c_output(f)
-    if (enable_output) then
-      if (c_output_patron) then
-        ret=c_output_patron.gsub("%FLOW%", f.c_name)
-        ret=ret.gsub("%CTYP%",to_c_type(f))
-        if (arg_by_reference) then
-          ret=ret.gsub("%REF%","*")
-        else
-          ret=ret.gsub("%REF%","")
-        end
-        ret=ret.gsub("%TYP%",name)
-      else
-        ret="// (output not implemented for #{name} type)"
-      end
-    else
-      ret="// (output disabled for #{name} type)"
-    end
-  end
   # --- Permissions --- #
 
   def create_permitted?

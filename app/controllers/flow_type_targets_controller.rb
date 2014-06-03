@@ -1,8 +1,9 @@
-class FlowTypesController < ApplicationController
+class FlowTypeTargetsController < ApplicationController
 
   hobo_model_controller
 
-  auto_actions :all
+  auto_actions :all,:except => [:index, :new, :create]
+  auto_actions_for :target, [:new,:create]
 
   def show
     respond_to do |format|
@@ -13,6 +14,6 @@ class FlowTypesController < ApplicationController
         hobo_show
       }
     end
-  end
-
+  end  
+  
 end

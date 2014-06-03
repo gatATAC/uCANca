@@ -1,1 +1,1 @@
-<%=@flow.to_c %>
+<%=@flow.to_c_preview %>
