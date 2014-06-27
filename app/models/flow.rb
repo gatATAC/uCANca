@@ -61,9 +61,11 @@ class Flow < ActiveRecord::Base
       if (!self.current_pattern.phantom_type) then
         ret="BOOL enable_"+self.c_name+";\n"
         ret+=self.current_pattern.to_c_type(self).+" "+self.c_name+";\n"
+      else
+             return "// (null) No diag variables for "+self.c_name+"\n"
       end
     else
-      return "// (null) "+self.c_name+"\n"
+      return "// (null) No diag variables for "+self.c_name+"\n"
     end
   end
 
