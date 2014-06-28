@@ -10,7 +10,7 @@ class StateMachineTransition < ActiveRecord::Base
   end
   attr_accessible :name, :description, :priority, :destination_state, :destination_state_id, :state_machine_condition_id, :state_machine_condition, :transition_actions, :actions
 
-  belongs_to :state_machine_state, :inverse_of => :state_machine_transitions
+  belongs_to :state_machine_state, :inverse_of => :state_machine_transitions, :creator => :true
   belongs_to :destination_state, :class_name => 'StateMachineState', :inverse_of => :incoming_transitions
   belongs_to :state_machine_condition, :inverse_of => :state_machine_transitions
   has_many :transition_actions, :class_name => 'StateMachineTransitionAction', :foreign_key => 'transition_id', :inverse_of => :transition, :accessible => :true

@@ -168,17 +168,11 @@ you can place common code in this file. -->
 
 <extend tag="form" for="FunctionSubSystem">
   <old-form merge param="default">
-    <field-list:>
+    <field-list: skip="position">
       <function-view:>
         <name-one/>
       </function-view:>
     </field-list:>
-  </old-form>
-</extend>
-
-<extend tag="form" for="FunctionSubSystem">
-  <old-form merge param="default">
-    <field-list: fields="name, function, sub_system, implementacion"/>
   </old-form>
 </extend>
 

@@ -12,7 +12,7 @@ class StateMachine < ActiveRecord::Base
 
   belongs_to :function_sub_system
 
-  has_many :state_machine_states, :inverse_of => :state_machine
+  has_many :state_machine_states, :inverse_of => :state_machine, :dependent => :destroy
   has_many :state_machine_transitions, :through => :state_machine_states
   belongs_to :super_state, :class_name => 'StateMachineState', :inverse_of => :sub_machines, :foreign_key => :super_state_id, :creator => true
   has_many :sub_machines, :through => :state_machine_states, :class_name => 'StateMachine', :foreign_key => :super_state_id

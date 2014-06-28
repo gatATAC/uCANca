@@ -20,3 +20,6 @@
 /db/*.csv
 public/assets/*
 /lib/logos/*
+
+# Ignore netbeans private
+nbproject/private/*
