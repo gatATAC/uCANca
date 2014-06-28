@@ -37,7 +37,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 gem "hobo", "= 2.0.1"
 # Hobo has a lot of assets.   Stop cluttering the log in development mode.
