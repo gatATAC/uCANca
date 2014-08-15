@@ -1,4 +1,4 @@
-class HoboMigration53v15Rc < ActiveRecord::Migration
+class HoboMigration53v15rc < ActiveRecord::Migration
   def self.up
     create_table :flow_type_targets do |t|
       t.string   :name

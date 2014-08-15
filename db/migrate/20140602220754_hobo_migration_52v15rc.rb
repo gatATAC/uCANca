@@ -1,4 +1,4 @@
-class HoboMigration52v15Rc < ActiveRecord::Migration
+class HoboMigration52v15rc < ActiveRecord::Migration
   def self.up
     create_table :targets do |t|
       t.string   :name
