@@ -20,6 +20,11 @@ class ConnectorsController < ApplicationController
     redirect_to this
   end
 
+  web_method :copy_all_project_flows do
+    @connector.copy_all_project_flows Project.find_by_id(params['project'])
+    redirect_to this
+  end
+
   def show
     respond_to do |format|
       format.svg {

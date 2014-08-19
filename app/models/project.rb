@@ -86,10 +86,19 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def root_sub_system
+    sub_systems.each {|ss|
+      if (ss.root)
+        return ss.root
+      end
+    }
+    return sub_systems.first
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?
-    (owner_is? acting_user) && acting_user.developer
+    acting_user.administrator? || ((owner_is? acting_user) && acting_user.developer)
   end
 
   def update_permitted?

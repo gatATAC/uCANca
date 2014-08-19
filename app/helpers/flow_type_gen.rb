@@ -27,11 +27,25 @@ module FlowTypeGen
   end
 
   def to_c_input_decl(f)
-    ret=to_c_input(f).split("{")[0]+";"
+    ip=to_c_input(f)
+    sp=ip.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=ip
+    end
+    ret
   end
   
   def to_c_output_decl(f)
-    ret=to_c_output(f).split("{")[0]+";"
+    op=to_c_output(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
   end
 
   def to_c_setup_input(f)

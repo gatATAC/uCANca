@@ -22,8 +22,8 @@ class SubSystem < ActiveRecord::Base
 
   has_many :connectors, :order => :position
 
-  has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 2},:order => :position
-  has_many :input_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 1},:order => :position
+  has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position
+  has_many :input_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [1,4]},:order => :position
   has_many :nodir_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
 
   has_many :function_sub_systems, :inverse_of => :sub_system, :order => :position
@@ -107,7 +107,8 @@ class SubSystem < ActiveRecord::Base
     yporflujo=40
     alturacaracter=10
     anchuracaracter=6
-    maxflujos=[self.input_flows.size,self.output_flows.size].max
+    alturaminconector=12
+    maxflujos=[self.input_flows.size,self.output_flows.size,self.connectors.size*(alturaminconector/alturacaracter)].max
     yoffsetcaja=10
     yoffsetflujo=yoffsetcaja*2+alturacaracter*2
     anchuracaja=200+(self.full_name.length*anchuracaracter)

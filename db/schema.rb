@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140603001043) do
+ActiveRecord::Schema.define(:version => 20140808183905) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -207,11 +207,13 @@ ActiveRecord::Schema.define(:version => 20140603001043) do
     t.datetime "updated_at"
     t.integer  "flow_type_id"
     t.integer  "project_id"
-    t.boolean  "puntero",        :default => false
+    t.boolean  "puntero",                   :default => false
     t.string   "alternate_name"
+    t.integer  "primary_flow_direction_id"
   end
 
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"
+  add_index "flows", ["primary_flow_direction_id"], :name => "index_flows_on_primary_flow_direction_id"
   add_index "flows", ["project_id"], :name => "index_flows_on_project_id"
 
   create_table "function_sub_systems", :force => true do |t|
@@ -399,7 +401,6 @@ ActiveRecord::Schema.define(:version => 20140603001043) do
     t.integer  "flow_id"
     t.integer  "connector_id"
     t.integer  "position"
-    t.boolean  "outdir"
     t.integer  "flow_direction_id"
   end
 
@@ -416,8 +417,8 @@ ActiveRecord::Schema.define(:version => 20140603001043) do
     t.integer  "position"
     t.integer  "project_id"
     t.integer  "layer_id"
-    t.string   "abbrev"
     t.integer  "target_id"
+    t.string   "abbrev"
   end
 
   add_index "sub_systems", ["layer_id"], :name => "index_sub_systems_on_layer_id"

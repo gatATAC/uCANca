@@ -8,10 +8,11 @@ class Flow < ActiveRecord::Base
     puntero :boolean, :default => false
     timestamps
   end
-  attr_accessible :name, :flow_type_id, :flow_type, :project, :project_id
+  attr_accessible :name, :flow_type_id, :flow_type, :project, :project_id, :primary_flow_direction, :primary_flow_direction_id
 
   belongs_to :project, :inverse_of => :flows
   belongs_to :flow_type
+  belongs_to :primary_flow_direction, :class_name => 'FlowDirection'
 
   has_many :sub_system_flows, :dependent => :destroy
   has_many :connectors, :through => :sub_system_flows

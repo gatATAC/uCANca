@@ -145,7 +145,7 @@ you can place common code in this file. -->
     </heading:>
     <append-header:>
       <delete-button label="X" param/>
-      Tipo? <view:flow_direction if="&!can_edit?"/> <editor:flow_direction/>
+      Sentido? <view:flow_direction if="&!can_edit?"/> <editor:flow_direction/>
     </append-header:>
   </old-card>
 </extend>
@@ -180,30 +180,53 @@ you can place common code in this file. -->
   <old-show-page merge>
     <prepend-collection-section:>
       <div if="&can_create?(@connector.sub_system_flows)">
+        
         <if test="&this.possible_individual_flows">
           <form merge param="default" web-method="copy_flow">
             <div param="sub_system_flow">
               <select-menu options="&this.possible_individual_flows.collect {|p| [ p.name, p.id ] }" name="sub_system_flow"/>
-              <submit label="#{ht 'connector.actions.copy_flow', :default=>['Copia un flujo del padre en este conector']}" param/>
+              <submit label="#{ht 'connector.actions.copy_connector_flow', :default=>['Copia un flujo del padre en este conector']}" param/>
             </div>
           </form>
         </if>
+        <if test="&this.project.flows">
+          <form merge param="default" web-method="copy_flow">
+            <div param="project">
+              <select-menu options="&this.project.flows.collect {|p| [ p.name, p.id ] }" name="sub_system_flow"/>
+              <submit label="#{ht 'connector.actions.copy_project_flow', :default=>['Copia un flujo del projecto en este conector']}" param/>
+            </div>
+          </form>
+        </if>
+        
         <if test="&this.possible_connectors">
           <form merge param="default" web-method="copy_connector_flows">
             <div param="connector">
               <select-menu options="&this.possible_connectors.collect {|p| [ p.name, p.id ] }" name="connector"/>
-              <submit label="#{ht 'connector.actions.copy_connector', :default=>['Copia un conector del padre en este conector']}" param/>
+              <submit label="#{ht 'connector.actions.copy_connector_flows', :default=>['Copia todos los flujos de un conector del padre en este conector']}" param/>
             </div>
           </form>
         </if>
+
+
+        <if test="&this.project.flows">
+          <form merge param="default" web-method="copy_all_project_flows">
+            <div param="project_flows">
+              <input type="hidden" name="project" value="&this.project.id"/>
+              <submit label="#{ht 'connector.actions.copy_project_flows', :default=>['Copia todos los flujos del proyecto en este conector']}" param/>
+            </div>
+          </form>
+        </if>
+
+
         <if test="&this.sub_system.parent">
           <form merge param="default" web-method="copy_all_subsystem_flows">
             <div param="sub_system">
               <input type="hidden" name="sub_system" value="&this.sub_system.parent.id"/>
-              <submit label="#{ht 'connector.actions.copy', :default=>['Copia todos los flujos del padre en este conector']}" param/>
+              <submit label="#{ht 'connector.actions.copy_connector_flows', :default=>['Copia todos los flujos del padre en este conector']}" param/>
             </div>
           </form>
         </if>
+
       </div>
     </prepend-collection-section:>
     <collection: replace>
@@ -304,7 +327,7 @@ you can place common code in this file. -->
     <view:target/>
   </field-list:>
     <collection: replace>
-      <table-plus with="&@flows" fields="this,flow_type">
+      <table-plus with="&@flows" fields="this,flow_type,primary_flow_direction">
         <prepend-header:>
           <div class="filter">
             Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>

@@ -7,7 +7,7 @@
 <%=
 ret=""
 #@project.sub_systems.each{|s|
-  s=@project.sub_systems.find(:first)
+  s=@project.root_sub_system
   if (s) then
     ret+=s.to_xcos
   end

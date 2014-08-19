@@ -16,8 +16,8 @@ class Connector < ActiveRecord::Base
 
 
   has_many :sub_system_flows, :dependent => :destroy,:order => :position, :inverse_of => :connector
-  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 2},:order => :position
-  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 1},:order => :position
+  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position
+  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [1,4]},:order => :position
   has_many :nodir_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
 
   children :sub_system_flows,:input_flows
@@ -62,6 +62,18 @@ class Connector < ActiveRecord::Base
         newf.save
       }
     }
+  end
+  def copy_all_project_flows(p)
+    fs=p.flows.sort_by{|i| i.id}
+    fs.each {|f|
+        #newf=f.dup
+        newf=SubSystemFlow.new
+        newf.flow=f
+        newf.flow_direction=FlowDirection.find(3)
+        newf.position=find_first_free_position
+        self.sub_system_flows << newf
+        newf.save
+      }
   end
 
   def find_first_free_position
@@ -248,6 +260,10 @@ class Connector < ActiveRecord::Base
   end
 
   def copy_all_subsystem_flows_permitted?
+    sub_system.updatable_by?(acting_user)
+  end
+
+  def copy_all_project_flows_permitted?
     sub_system.updatable_by?(acting_user)
   end
 
