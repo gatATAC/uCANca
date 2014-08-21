@@ -137,11 +137,21 @@ you can place common code in this file. -->
       </section>
 -->
 
+<def tag="flowlabel">
+  <div param="default">
+  <name/><%= 
+if (this.label!=this.flow.name) 
+  "(#{this.flow.name})" 
+  else 
+  "" 
+end %></div>
+</def>
+
 <extend tag="card" for="SubSystemFlow">
   <old-card merge>
     <heading: replace>
       <a with="&this.connector"><%=  this.full_path %></a>:<view:position/>
-      <h5 param="heading"><a><name/></a></h5>
+      <h5 param="heading"><a><flowlabel/></a></h5>
     </heading:>
     <append-header:>
       <delete-button label="X" param/>
@@ -152,7 +162,7 @@ you can place common code in this file. -->
 
 <extend tag="form" for="SubSystemFlow">
   <old-form merge param="default">
-    <field-list: fields="flow_direction, connector,flow" param/>
+    <field-list: fields="flow_direction, connector,flow,context_name" param/>
   </old-form>
 </extend>
 

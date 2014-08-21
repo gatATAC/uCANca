@@ -3,9 +3,10 @@ class SubSystemFlow < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
+    context_name :string
     timestamps
   end
-  attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :flow_direction, :flow_direction_id
+  attr_accessible :flow, :connector, :connector_id, :flow_id, :position, :flow_direction, :flow_direction_id, :context_name
 
   belongs_to :flow, :inverse_of => :sub_system_flows, :creator => :true
   belongs_to :connector, :inverse_of => :sub_system_flows, :creator => :true
@@ -17,9 +18,17 @@ class SubSystemFlow < ActiveRecord::Base
   acts_as_list :scope => :connector
 
   def name
-    ret=connector.sub_system.full_name+"_"+flow.name
+    ret=connector.sub_system.full_name+"_"+label
   end
 
+  def label
+    if context_name
+      context_name
+    else
+      flow.name
+    end
+  end
+  
   def project
     flow.project
   end
@@ -29,7 +38,7 @@ class SubSystemFlow < ActiveRecord::Base
   end
 
   def get_tree_data_xml_ssfl()
-    ret="<leaf title=\""+self.flow.name+"\" type=\"sub_system_flows\" code=\""+self.id.to_s+"\""+" img=\""+self.flow_direction.img+"\" />\n"
+    ret="<leaf title=\""+self.label+"\" type=\"sub_system_flows\" code=\""+self.id.to_s+"\""+" img=\""+self.flow_direction.img+"\" />\n"
     return ret
   end
 
@@ -157,7 +166,7 @@ class SubSystemFlow < ActiveRecord::Base
                                     <mxPoint as=\"targetPoint\" x=\"440.0\" y=\"180.0\"/>
                                 </mxGeometry>
                                 <mxCell as=\"parent\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p0\"/>
-                                <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.flow.name}\">
+                                <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.label}\">
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/>
                                 </ExplicitOutputPort>
                                 <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}aux\" ordering=\"1\" parent=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\">
@@ -183,10 +192,10 @@ class SubSystemFlow < ActiveRecord::Base
                                         <mxPoint as=\"targetPoint\" x=\"440.0\" y=\"180.0\"/>
                                     </mxGeometry>
                                     <mxCell as=\"parent\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p0\"/>
-                                    <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.flow.name}\">
+                                    <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.label}\">
                                         <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/>
                                     </ExplicitOutputPort>
-                                    <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssf.sub_system.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{ssf.flow.name}\">
+                                    <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssf.sub_system.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{ssf.label}\">
                                         <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"#{((40*(contssf-1))+36)}.0\"/>
                                     </ExplicitInputPort>
                                 </ExplicitLink>
@@ -227,7 +236,7 @@ class SubSystemFlow < ActiveRecord::Base
                                         parent=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\">
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"20.0\" y=\"6.0\"/>
                                 </ExplicitOutputPort>
-                                <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.flow.name}\">
+                                <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.label}\">
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"#{((40*(contip-1))+36)}.0\"/>
                                 </ExplicitInputPort>
                             </ExplicitLink>

@@ -117,7 +117,8 @@ class SubSystem < ActiveRecord::Base
     xoffsetcaja=200
     ycentrocaja=yoffsetflujo+(alturacaja/2)
     xcentrocaja=(anchuracaja/2)+xoffsetcaja
-    alturapagina=alturacaja+yoffsetcaja*2
+    alturacajaajustada=[alturacaja,yoffsetflujo+yporflujo].max
+    alturapagina=alturacajaajustada+yoffsetcaja*2
 
     anchuraconector=anchuracaja/4
     xoffsetconectorinput=xoffsetcaja+10
@@ -155,7 +156,7 @@ class SubSystem < ActiveRecord::Base
     ret+="
     <rect
        width=\"#{anchuracaja}\"
-       height=\"#{alturacaja}\"
+       height=\"#{alturacajaajustada}\"
        x=\"#{xoffsetcaja}\"
        y=\"#{yoffsetcaja}\"
        id=\"rect_#{self.name}\"
@@ -181,23 +182,23 @@ class SubSystem < ActiveRecord::Base
       c.input_flows.each {|f|
         ret+="
     <rect
-       width=\"#{anchuracaracter*(f.flow.name.length+2)}\"
+       width=\"#{anchuracaracter*(f.label.length+2)}\"
        height=\"1\"
-       x=\"#{xoffsetcaja-(anchuracaracter*(f.flow.name.length+2))}\"
+       x=\"#{xoffsetcaja-(anchuracaracter*(f.label.length+2))}\"
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
-       id=\"line_#{f.flow.name}\"
+       id=\"line_#{f.label}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.flow.name}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.label}\" target=\"_blank\">
   <text
        x=\"#{xoffsetcaja-anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
-       id=\"text_#{f.flow.name}\"
+       id=\"text_#{f.label}\"
        xml:space=\"preserve\"
        style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja-anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
-         id=\"tspan_#{f.flow.name}\">#{f.flow.name}</tspan></text>  </a>";
+         id=\"tspan_#{f.label}\">#{f.label}</tspan></text>  </a>";
         contador=contador+1
       }
 
@@ -232,23 +233,23 @@ class SubSystem < ActiveRecord::Base
       c.output_flows.each {|f|
         ret+="
     <rect
-       width=\"#{anchuracaracter*(f.flow.name.length+2)}\"
+       width=\"#{anchuracaracter*(f.label.length+2)}\"
        height=\"1\"
        x=\"#{xoffsetcaja+anchuracaja}\"
        y=\"#{(yporflujo*(contador-1))+yoffsetflujo}\"
-       id=\"line_#{f.flow.name}\"
+       id=\"line_#{f.label}\"
        style=\"fill:none;stroke:#000000;stroke-width:0.65142924;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\" />
-    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.flow.name}\" target=\"_blank\">
+    <a xlink:href=\"/flows/#{f.flow.id}\" xlink:title=\"#{f.label}\" target=\"_blank\">
     <text
        x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
        y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
-       id=\"text_#{f.flow.name}\"
+       id=\"text_#{f.label}\"
        xml:space=\"preserve\"
        style=\"font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans\">
        <tspan
          x=\"#{xoffsetcaja+anchuracaja+anchuracaracter}\"
          y=\"#{(yporflujo*(contador-1))+(yoffsetflujo-alturacaracter)}\"
-         id=\"tspan_#{f.flow.name}\">#{f.flow.name}</tspan></text></a>";
+         id=\"tspan_#{f.label}\">#{f.label}</tspan></text></a>";
         contador=contador+1
       }
       alturaconector=((contador-acumoutput-1)*yporflujo)-(yoffsetconector/2)

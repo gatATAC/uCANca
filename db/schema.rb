@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140821180307) do
+ActiveRecord::Schema.define(:version => 20140821210110) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -403,6 +403,7 @@ ActiveRecord::Schema.define(:version => 20140821180307) do
     t.integer  "connector_id"
     t.integer  "position"
     t.integer  "flow_direction_id"
+    t.string   "context_name"
   end
 
   add_index "sub_system_flows", ["connector_id"], :name => "index_sub_system_flows_on_connector_id"
