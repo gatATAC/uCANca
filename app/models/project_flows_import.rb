@@ -77,6 +77,7 @@ class ProjectFlowsImport
             ssf.flow=flow
           end
           ssf.flow_direction=dir
+          ssf.context_name=row["context_name"]
           if ssf.valid?
             ssf.save!
           end
