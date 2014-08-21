@@ -2,19 +2,19 @@
 <%= raw("<XcosDiagram background=\"-1\" title=\"#{@project.name}\"><!--Xcos - 1.0 - scilab-branch-5.4-1363295645 - 20130315 0027-->") %>
     <%= raw("<mxGraphModel as=\"model\">") %>
         <%= raw("<root>") %>
-            <%= raw("<mxCell id=\"#{@project.name+"file:"+@project.name}p0\"/>") %>
-            <%= raw("<mxCell id=\"#{@project.name+"file:"+@project.name}p1\" parent=\"#{@project.name+"file:"+@project.name}p0\"/>") %>
+            <%= raw("<mxCell id=\"#{@project.abbrev+"file:"+@project.abbrev}p0\"/>") %>
+            <%= raw("<mxCell id=\"#{@project.abbrev+"file:"+@project.abbrev}p1\" parent=\"#{@project.abbrev+"file:"+@project.abbrev}p0\"/>") %>
 <%=
 ret=""
 #@project.sub_systems.each{|s|
   s=@project.root_sub_system
   if (s) then
-    ret+=s.to_xcos
+    ret+=s.to_xcos(0)
   end
 #}
 raw(ret)
 %>
         <%= raw("</root>") %>
     <%= raw("</mxGraphModel>") %>
-    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.name}p1\" parent=\"#{@project.name}p0\"/>") %>
+    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.abbrev}p1\" parent=\"#{@project.abbrev}p0\"/>") %>
 <%= raw("</XcosDiagram>") %>

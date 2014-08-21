@@ -4,12 +4,13 @@ class Project < ActiveRecord::Base
 
   fields do
     name :string
+    abbrev :string
     description :text
     public :boolean
     timestamps
   end
   
-  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target
+  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target, :abbrev
 
   has_attached_file :logo,
     :styles => {
@@ -24,6 +25,7 @@ class Project < ActiveRecord::Base
 
   validates :name, :presence => :true
   validates :owner, :presence => :true
+  validates :abbrev, :presence => :true
 
   has_many :project_memberships, :dependent => :destroy, :inverse_of => :project
   has_many :members, :through => :project_memberships, :source => :user

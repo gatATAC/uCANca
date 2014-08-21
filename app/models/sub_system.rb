@@ -22,6 +22,7 @@ class SubSystem < ActiveRecord::Base
 
   has_many :connectors, :order => :position
 
+  has_many :sub_system_flows, :through => :connectors
   has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position
   has_many :input_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [1,4]},:order => :position
   has_many :nodir_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
@@ -384,12 +385,12 @@ class SubSystem < ActiveRecord::Base
     return ret
   end
 
-  def to_xcos
+  def to_xcos(child_number)
     ret=""
     if self.parent then
-      ret+="<SuperBlock id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}\" parent=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.parent.full_name}p1\" simulationFunctionType=\"DEFAULT\" style=\"SUPER_f;flip=false;mirror=false\" value=\"#{self.name}\">"
+      ret+="<SuperBlock id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.parent.full_name}p1\" simulationFunctionType=\"DEFAULT\" style=\"SUPER_f;flip=false;mirror=false\" value=\"#{self.name}\">"
     else
-      ret+="<SuperBlock id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}\" parent=\"#{self.project.name+"file:"+self.project.name}p1\" simulationFunctionType=\"DEFAULT\" style=\"SUPER_f;flip=false;mirror=false\" value=\"#{self.name}\">"
+      ret+="<SuperBlock id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev}p1\" simulationFunctionType=\"DEFAULT\" style=\"SUPER_f;flip=false;mirror=false\" value=\"#{self.name}\">"
     end
     ret+="<SuperBlockDiagram as=\"child\" background=\"-1\" title=\"#{self.name}\"><!--Xcos - 1.0 - scilab-branch-5.4-1363295645 - 20130315 0027-->"
     ret+="<Array as=\"context\" scilabClass=\"String[]\">"
@@ -397,8 +398,8 @@ class SubSystem < ActiveRecord::Base
     ret+="</Array>"
     ret+="<mxGraphModel as=\"model\">"
     ret+="<root>"
-    ret+="<mxCell id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}p0\"/>"
-    ret+="<mxCell id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}p1\" parent=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}p0\"/>"
+    ret+="<mxCell id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}p0\"/>"
+    ret+="<mxCell id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}p0\"/>"
 
     ret+="                            <!-- Puertos 	 (dentro) -->"
 
@@ -410,13 +411,15 @@ class SubSystem < ActiveRecord::Base
       }
     }
 
+    contchild=0
     self.children.each{|ss|
-      ret+=ss.to_xcos
+      ret+=ss.to_xcos(contchild)
+      contchild+=1
     }
 
     ret+="</root>"
     ret+="</mxGraphModel>"
-    ret+="<mxCell as=\"defaultParent\" id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}p1\" parent=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}p0\"/>"
+    ret+="<mxCell as=\"defaultParent\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}p0\"/>"
     ret+="</SuperBlockDiagram>"
     ret+="<Array as=\"realParameters\" scilabClass=\"ScilabMList\">"
     ret+="<ScilabString height=\"1\" width=\"5\">"
@@ -652,7 +655,7 @@ class SubSystem < ActiveRecord::Base
     ret+="<data column=\"1\" line=\"0\" value=\"false\"/>"
     ret+="</ScilabBoolean>"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}input1\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}input1\"/>"
     ret+="</ScilabString>"
     ret+="<ScilabDouble height=\"1\" width=\"1\">"
     ret+="<data column=\"0\" line=\"0\" realPart=\"0.0\"/>"
@@ -666,7 +669,7 @@ class SubSystem < ActiveRecord::Base
     ret+="</ScilabString>"
     ret+="<Array scilabClass=\"ScilabList\">"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}input1\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}input1\"/>"
     ret+="</ScilabString>"
     ret+="</Array>"
     ret+="</Array>"
@@ -810,7 +813,7 @@ class SubSystem < ActiveRecord::Base
     ret+="<data column=\"1\" line=\"0\" value=\"false\"/>"
     ret+="</ScilabBoolean>"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}output1\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}output1\"/>"
     ret+="</ScilabString>"
     ret+="<ScilabDouble height=\"1\" width=\"1\">"
     ret+="<data column=\"0\" line=\"0\" realPart=\"0.0\"/>"
@@ -824,7 +827,7 @@ class SubSystem < ActiveRecord::Base
     ret+="</ScilabString>"
     ret+="<Array scilabClass=\"ScilabList\">"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}output1\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}output1\"/>"
     ret+="</ScilabString>"
     ret+="</Array>"
     ret+="</Array>"
@@ -968,7 +971,7 @@ class SubSystem < ActiveRecord::Base
     ret+="<data column=\"1\" line=\"0\" value=\"false\"/>"
     ret+="</ScilabBoolean>"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}input2\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}input2\"/>"
     ret+="</ScilabString>"
     ret+="<ScilabDouble height=\"1\" width=\"1\">"
     ret+="<data column=\"0\" line=\"0\" realPart=\"0.0\"/>"
@@ -982,7 +985,7 @@ class SubSystem < ActiveRecord::Base
     ret+="</ScilabString>"
     ret+="<Array scilabClass=\"ScilabList\">"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}input2\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}input2\"/>"
     ret+="</ScilabString>"
     ret+="</Array>"
     ret+="</Array>"
@@ -1126,7 +1129,7 @@ class SubSystem < ActiveRecord::Base
     ret+="<data column=\"1\" line=\"0\" value=\"false\"/>"
     ret+="</ScilabBoolean>"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}output2\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}output2\"/>"
     ret+="</ScilabString>"
     ret+="<ScilabDouble height=\"1\" width=\"1\">"
     ret+="<data column=\"0\" line=\"0\" realPart=\"0.0\"/>"
@@ -1140,7 +1143,7 @@ class SubSystem < ActiveRecord::Base
     ret+="</ScilabString>"
     ret+="<Array scilabClass=\"ScilabList\">"
     ret+="<ScilabString height=\"1\" width=\"1\">"
-    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.name+"file:"+self.project.name+"Block:"}output2\"/>"
+    ret+="<data column=\"0\" line=\"0\" value=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"}output2\"/>"
     ret+="</ScilabString>"
     ret+="</Array>"
     ret+="</Array>"
@@ -1151,7 +1154,7 @@ class SubSystem < ActiveRecord::Base
     ret+="<Array scilabClass=\"ScilabList\"/></Array>"
     ret+="<Array as=\"oDState\" scilabClass=\"ScilabList\"/>"
     ret+="<Array as=\"equations\" scilabClass=\"ScilabList\"/>"
-    ret+="<mxGeometry as=\"geometry\" height=\"#{([contip, contop].max*40)+(36)}.0\" width=\"260.0\" x=\"230.0\" y=\"80.0\"/>"
+    ret+="<mxGeometry as=\"geometry\" height=\"#{([contip, contop].max*40)+36}.0\" width=\"260.0\" x=\"#{(child_number*(300+80))+100}.0\" y=\"20.0\"/>"
     ret+="</SuperBlock>"
 
     ret+="<!-- Puertos 	 (fuera) -->"
@@ -1162,7 +1165,7 @@ class SubSystem < ActiveRecord::Base
         ret,contop,contip=f.to_xcos_out(ret,contop,contip)
       }
     }
-    ret+="<mxCell connectable=\"0\" id=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}#identifier\" parent=\"#{self.project.name+"file:"+self.project.name+"Block:"+self.full_name}\" style=\"noLabel=0;opacity=0\" value=\"#{self.name}\" vertex=\"1\">"
+    ret+="<mxCell connectable=\"0\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}#identifier\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}\" style=\"noLabel=0;opacity=0\" value=\"#{self.name}\" vertex=\"1\">"
     ret+="<mxGeometry as=\"geometry\" x=\"130.0\" y=\"#{(([contip, contop].max*40)+(36*2))/2}.0\"/>"
     ret+="</mxCell>"
 

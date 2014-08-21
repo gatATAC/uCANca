@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140808183905) do
+ActiveRecord::Schema.define(:version => 20140821180307) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20140808183905) do
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.integer  "target_id"
+    t.string   "abbrev"
   end
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
