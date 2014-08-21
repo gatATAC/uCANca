@@ -145,33 +145,57 @@ class SubSystemFlow < ActiveRecord::Base
                   <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/>
                 </ExplicitOutputPort>"
       # Let's search for an output with same flow in the parent
-#      if (self.flow_direction.name!="bidir")
-        ssp=self.sub_system.parent
-        if (ssp!=nil)
-          ssp.output_flows.each{|ssf|
-              print("output: Para "+self.to_s+" intento "+ssf.to_s)
-            if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
-              print("output: Para "+self.to_s+" encuentro "+ssf.to_s)
-              # There is an output flow with same flow, so we have to connect this output to the parent's one:
-              ret+="
+      ssp=self.sub_system.parent
+      if (ssp!=nil)
+        ssp.output_flows.each{|ssf|
+          if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+            # There is an output flow with same flow, so we have to connect this output to the parent's one:
+            ret+="
                             <ExplicitLink id=\"link_out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
                                 <mxGeometry as=\"geometry\">
                                     <mxPoint as=\"sourcePoint\" x=\"360.0\" y=\"180.0\"/>
                                     <mxPoint as=\"targetPoint\" x=\"440.0\" y=\"180.0\"/>
                                 </mxGeometry>
                                 <mxCell as=\"parent\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p0\"/>
-                                <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{ssf.flow.name}\">
+                                <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.flow.name}\">
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/>
                                 </ExplicitOutputPort>
                                 <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}aux\" ordering=\"1\" parent=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"\">
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"6.0\"/>
                                 </ExplicitInputPort>
                             </ExplicitLink>
-              "
-            end
-          }
-        end  
-#      end    
+            "
+          end
+        }
+
+        # Let's search for an output with same flow in the sibling subsystems
+        ssp.children.each{|sss|
+          if (sss!=self.sub_system)
+            contssf=0
+            sss.input_flows.each{|ssf|
+              contssf+=1
+              if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+                # There is an output flow with same flow, so we have to connect this output to the parent's one:
+                ret+="
+                                <ExplicitLink id=\"link_sibout_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
+                                    <mxGeometry as=\"geometry\">
+                                        <mxPoint as=\"sourcePoint\" x=\"360.0\" y=\"180.0\"/>
+                                        <mxPoint as=\"targetPoint\" x=\"440.0\" y=\"180.0\"/>
+                                    </mxGeometry>
+                                    <mxCell as=\"parent\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p1\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}p0\"/>
+                                    <ExplicitOutputPort as=\"source\" dataType=\"UNKNOW_TYPE\" id=\"out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitOutputPort;align=right;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{self.flow.name}\">
+                                        <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"260.0\" y=\"#{((40*(contop-1))+36)}.0\"/>
+                                    </ExplicitOutputPort>
+                                    <ExplicitInputPort as=\"target\" dataType=\"UNKNOW_TYPE\" id=\"in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssf.sub_system.full_name+":"}#{ssf.connector.name+":"+ssf.position.to_s}b2\" ordering=\"2\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+ssp.full_name}\" style=\"ExplicitInputPort;align=left;verticalAlign=middle;spacing=10.0;rotation=0;flip=false;mirror=false\" value=\"#{ssf.flow.name}\">
+                                        <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"#{((40*(contssf-1))+36)}.0\"/>
+                                    </ExplicitInputPort>
+                                </ExplicitLink>
+                "
+              end
+            }
+          end
+        }
+      end  
     end
     if (self.flow_direction.name=="input" || self.flow_direction.name=="bidir") then
       contip=contip+1
@@ -185,15 +209,13 @@ class SubSystemFlow < ActiveRecord::Base
               </ExplicitInputPort>"
 
       # Let's search for an input with same flow in the parent
-#      if (self.flow_direction.name!="bidir")
-        ssp=self.sub_system.parent
-        if (ssp!=nil)
-          ssp.input_flows.each{|ssf|
-              print("input: Para "+self.to_s+" intento "+ssf.to_s)
-            if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
-              print("input: Para "+self.to_s+" encuentro "+ssf.to_s)
-              # There is an input flow with same flow, so we have to connect this output to the parent's one:
-              ret+="
+      #      if (self.flow_direction.name!="bidir")
+      ssp=self.sub_system.parent
+      if (ssp!=nil)
+        ssp.input_flows.each{|ssf|
+          if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+            # There is an input flow with same flow, so we have to connect this output to the parent's one:
+            ret+="
                             <ExplicitLink id=\"link_in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
                                 <mxGeometry as=\"geometry\">
                                     <mxPoint as=\"sourcePoint\" x=\"40.0\" y=\"180.0\"/>
@@ -209,11 +231,11 @@ class SubSystemFlow < ActiveRecord::Base
                                     <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"#{((40*(contip-1))+36)}.0\"/>
                                 </ExplicitInputPort>
                             </ExplicitLink>
-              "
-            end
-          }
-        end  
-#      end
+            "
+          end
+        }
+      end  
+      #      end
     end    
 
     return ret,contip,contop
