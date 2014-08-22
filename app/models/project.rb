@@ -12,6 +12,8 @@ class Project < ActiveRecord::Base
   
   attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target, :abbrev
 
+  attr_accessor :public
+  
   has_attached_file :logo,
     :styles => {
     :medium => ["200x138#", :png],
