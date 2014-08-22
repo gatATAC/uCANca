@@ -1,0 +1,22 @@
+.git
+log/*
+tmp/*
+
+# Ignore bundler config
+/.bundle
+
+# Ignore the default SQLite database.
+/db/production.sqlite3
+
+# Ignore all logfiles and tempfiles.
+/app/views/taglibs/auto/*
+/config/hobo_routes.rb
+/db/*.sqlite3_old
+/db/*.csv
+public/assets/*
+/lib/logos/*
+
+# Ignore netbeans private
+nbproject/private/*
+
+
