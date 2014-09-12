@@ -17,6 +17,15 @@ class FaultRehabilitation < ActiveRecord::Base
   
   children :faults
   
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?

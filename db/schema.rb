@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140821210110) do
+ActiveRecord::Schema.define(:version => 20140912204248) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(:version => 20140821210110) do
     t.text     "custom_precondition"
     t.text     "detection_condition"
     t.string   "qualification_time"
-    t.text     "system_failsafe_mode"
     t.text     "recovery_condition"
     t.string   "recovery_time"
     t.text     "custom_rehabilitation"
@@ -149,6 +148,10 @@ ActiveRecord::Schema.define(:version => 20140821210110) do
     t.integer  "fault_detection_moment_id"
     t.integer  "fault_recurrence_time_id"
     t.integer  "fault_rehabilitation_id"
+    t.string   "failure_flag"
+    t.string   "test_completed_flag"
+    t.string   "diag_activate_flag"
+    t.integer  "flow_id"
   end
 
   add_index "faults", ["fault_detection_moment_id"], :name => "index_faults_on_fault_detection_moment_id"
@@ -156,6 +159,7 @@ ActiveRecord::Schema.define(:version => 20140821210110) do
   add_index "faults", ["fault_recurrence_time_id"], :name => "index_faults_on_fault_recurrence_time_id"
   add_index "faults", ["fault_rehabilitation_id"], :name => "index_faults_on_fault_rehabilitation_id"
   add_index "faults", ["fault_requirement_id"], :name => "index_faults_on_fault_requirement_id"
+  add_index "faults", ["flow_id"], :name => "index_faults_on_flow_id"
 
   create_table "flow_directions", :force => true do |t|
     t.string   "name"
@@ -419,8 +423,8 @@ ActiveRecord::Schema.define(:version => 20140821210110) do
     t.integer  "position"
     t.integer  "project_id"
     t.integer  "layer_id"
-    t.integer  "target_id"
     t.string   "abbrev"
+    t.integer  "target_id"
   end
 
   add_index "sub_systems", ["layer_id"], :name => "index_sub_systems_on_layer_id"

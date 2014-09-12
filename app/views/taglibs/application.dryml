@@ -557,6 +557,7 @@ end %></div>
         Project data importers:
         <ul>
           <li><%= link_to "Import IOXLS I/O flows", :controller => :project_flows_imports, :action => :new, :project_id => @project %></li>
+          <li><%= link_to "Import Diagnostics", :controller => :diagnostics_imports, :action => :new, :project_id => @project %></li>
         </ul>
       </div>
     </append-collection-section:>
@@ -709,13 +710,13 @@ end %></div>
 
 <extend tag="form" for="Fault">
   <old-form merge>
-    <field-list: fields="fault_requirement, name, abbrev,abbrev_c, description, status_byte, dtc, fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, system_failsafe_mode, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+    <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc, fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
   </old-form>
 </extend>
 
 <!--extend tag="show-page" for="Fault">
   <old-show-page merge>
-    <field-list: fields="fault_requirement, name, abbrev,abbrev_c, description, status_byte, dtc,  fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, system_failsafe_mode, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+    <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc,  fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
     <append-collection-section:>
       <ul>
         <li> <%= link_to "Generate calibration variables Code for #{@fault.name}", :controller => :faults, :action => :show_calibration, :id => @fault, :format => "c", :target => '_blank' %></li>

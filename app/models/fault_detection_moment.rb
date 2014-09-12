@@ -14,6 +14,16 @@ class FaultDetectionMoment < ActiveRecord::Base
   has_many :faults
   belongs_to :project, :creator => :true
 
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
+  
+  
   # --- Permissions --- #
 
   def create_permitted?

@@ -17,6 +17,8 @@ class Flow < ActiveRecord::Base
   has_many :sub_system_flows, :dependent => :destroy
   has_many :connectors, :through => :sub_system_flows
 
+  has_many :faults, :inverse_of => :flow
+  
   children :sub_system_flows
 
   validates :name, :presence => true

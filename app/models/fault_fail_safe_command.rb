@@ -16,6 +16,10 @@ class FaultFailSafeCommand < ActiveRecord::Base
   
   attr_accessor :project_temp # atributo temporal para conseguir añadir nuevas instancias desde cualquiera de sus dos "padres": subsistema o funcion
   
+  def name
+    fail_safe_command.name
+  end
+  
   def project
     if project_temp then
       ret=project_temp
@@ -34,6 +38,18 @@ class FaultFailSafeCommand < ActiveRecord::Base
 
   def remove_project_temp
     self.project_temp = nil
+  end
+  
+  
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("fail_safe_command_id")
+    ret.delete("fault_id")
+    ret.delete("fail_safe_command")
+    ret.delete("fault")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
   end
   
   # --- Permissions --- #

@@ -8,10 +8,11 @@ class FaultRequirement < ActiveRecord::Base
     abbrev_c :string, :required, :unique
     timestamps
   end
+  
   attr_accessible :name, :abbrev, :abbrev_c, :project, :project_id
 
-  has_many :faults  
-  belongs_to :project
+  has_many :faults, :dependent => :destroy
+  belongs_to :project,  :creator => true
   
   children :faults
   
@@ -140,6 +141,15 @@ class FaultRequirement < ActiveRecord::Base
     return ret
   end
   
+  
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
   
   # --- Permissions --- #
 

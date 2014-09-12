@@ -18,6 +18,8 @@ class SubSystem < ActiveRecord::Base
   validates :name, :presence => :true
   validates :abbrev, :presence => :true
 
+  validates :parent_id, confirmation: true, if: "self.parent_id!=self.id"
+  
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
 
   has_many :connectors, :order => :position

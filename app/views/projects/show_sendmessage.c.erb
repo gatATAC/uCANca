@@ -12,7 +12,7 @@ void ReceiveAutoDiagnosticsMessages(){
 void SendAutoDiagnosticsMessages(){
 
 <%= ret=@code
-    ret %>
+    raw(ret) %>
 
   SendMessage(SIG_DTCCLEARSTATUS,&dtc_clear_status);
 }

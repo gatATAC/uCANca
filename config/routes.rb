@@ -73,4 +73,6 @@ Blocks::Application.routes.draw do
 
   resources :project_flows_imports
 
+  resources :diagnostics_imports
+
 end

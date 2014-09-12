@@ -31,9 +31,9 @@ class Project < ActiveRecord::Base
 
   has_many :project_memberships, :dependent => :destroy, :inverse_of => :project
   has_many :members, :through => :project_memberships, :source => :user
-  has_many :sub_systems
-  has_many :flows
-  has_many :functions
+  has_many :sub_systems, :dependent => :destroy, :inverse_of => :project
+  has_many :flows, :dependent => :destroy, :inverse_of => :project 
+  has_many :functions, :dependent => :destroy, :inverse_of => :project
   has_many :fault_requirements, :dependent => :destroy, :inverse_of => :project
   has_many :fail_safe_commands, :dependent => :destroy, :inverse_of => :project
   has_many :fail_safe_command_times, :dependent => :destroy, :inverse_of => :project
@@ -41,6 +41,8 @@ class Project < ActiveRecord::Base
   has_many :fault_preconditions, :dependent => :destroy, :inverse_of => :project
   has_many :fault_recurrence_times, :dependent => :destroy, :inverse_of => :project
   has_many :fault_rehabilitations, :dependent => :destroy, :inverse_of => :project
+  
+  has_many :faults, :through => :fault_requirements
   
   has_many :contributor_memberships, :class_name => "ProjectMembership", :conditions => {:contributor => true}
   has_many :contributors, :through => :contributor_memberships, :source => :user

@@ -3,7 +3,7 @@ class Fault < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
-    name                 :string, :required, :unique
+    name                 :string, :required
     abbrev               :string, :required
     abbrev_c :string, :required
     description          :text
@@ -14,7 +14,6 @@ class Fault < ActiveRecord::Base
     custom_precondition         :text
     detection_condition  :text, :required
     qualification_time   :string    #empty for autogenerating, - for no time.
-    system_failsafe_mode :text, :required
     recovery_condition   :text, :required
     recovery_time        :string  #empty for autogenerating, - for no time.
     custom_rehabilitation       :text
@@ -29,10 +28,13 @@ class Fault < ActiveRecord::Base
     recovery_detection_task_init :text
     rehabilitation_detection_task :text
     rehabilitation_detection_task_init :text
+    failure_flag :string, :required
+    test_completed_flag :string, :required
+    diag_activate_flag :string, :required
     
     timestamps
   end
-  attr_accessible :name, :abbrev, :abbrev_c, :description, :status_byte, :dtc, :dtc_prefix, :custom_detection_moment, :custom_precondition, :detection_condition, :qualification_time, :system_failsafe_mode, :recovery_condition, :recovery_time, :custom_rehabilitation, :feedback_required, :generate_can, :can_abbrev, :activate_value, :include_fault, :error_detection_task, :error_detection_task_init, :recovery_detection_task, :recovery_detection_task_init, :rehabilitation_detection_task, :rehabilitation_detection_task_init, :fault_detection_moment,:fault_detection_moment_id, :fault_precondition, :fault_precondition_id, :fault_recurrence_time, :fault_recurrence_time_id, :fault_rehabilitation, :fault_rehabilitation_id
+  attr_accessible :name, :flow, :flow_id, :abbrev, :abbrev_c, :description, :status_byte, :dtc, :dtc_prefix, :custom_detection_moment, :custom_precondition, :detection_condition, :qualification_time, :recovery_condition, :recovery_time, :custom_rehabilitation, :feedback_required, :generate_can, :can_abbrev, :activate_value, :include_fault, :error_detection_task, :error_detection_task_init, :recovery_detection_task, :recovery_detection_task_init, :rehabilitation_detection_task, :rehabilitation_detection_task_init, :fault_detection_moment,:fault_detection_moment_id, :fault_precondition, :fault_precondition_id, :fault_recurrence_time, :fault_recurrence_time_id, :fault_rehabilitation, :fault_rehabilitation_id, :failure_flag, :test_completed_flag, :diag_activate_flag
   
   belongs_to :fault_requirement, :creator => true
   belongs_to :fault_precondition
@@ -41,6 +43,8 @@ class Fault < ActiveRecord::Base
   belongs_to :fault_detection_moment
   belongs_to :fault_recurrence_time
   belongs_to :fault_rehabilitation
+  
+  belongs_to :flow
   
   children :fault_fail_safe_commands
 
@@ -56,8 +60,8 @@ class Fault < ActiveRecord::Base
       ret="\n//"
       ret+=self.name
       ret+="\n"
-      ret+="BOOL _Scr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+";\n"
-      ret+="BOOL _Scr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+";"
+      ret+="BOOL _"+self.failure_flag+";\n"
+      ret+="BOOL _"+self.test_completed_flag+";"
       return ret
     else
       ""
@@ -66,8 +70,8 @@ class Fault < ActiveRecord::Base
 
   def to_structure_define
     if self.include_fault
-      ret="#define Scr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+" ad_output._Scr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+"\n"
-      ret+="#define Scr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+" ad_output._Scr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+"\n"
+      ret="#define "+self.failure_flag+" ad_output._"+self.failure_flag+"\n"
+      ret+="#define "+self.test_completed_flag+" ad_output._"+self.test_completed_flag+"\n"
       return ret
     else
       ""
@@ -104,20 +108,12 @@ class Fault < ActiveRecord::Base
         @code+="\t"+data_str+".T_DIAGNOSTICS=0;\n"
       end
       if (self.qualification_time!="-") then
-        if (self.qualification_time==nil || self.qualification_time="") then
-          @code+="\t"+data_str+".T_QUALIFICATION=Scr_tiCfm"+self.fault_requirement.abbrev+"_"+self.abbrev+"_cal;\n"
-        else
           @code+="\t"+data_str+".T_QUALIFICATION="+self.qualification_time+";\n"
-        end
       else
         @code+="\t"+data_str+".T_QUALIFICATION=0;\n"
       end
       if (self.recovery_time!="-") then
-        if (self.recovery_time==nil || self.recovery_time=="") then
-          @code+="\t"+data_str+".T_RECOVERY=Scr_tiRcv"+self.fault_requirement.abbrev+"_"+self.abbrev+"_cal;\n"
-        else
-          @code+="\t"+data_str+".T_RECOVERY="+self.recovery_time+";\n"
-        end
+        @code+="\t"+data_str+".T_RECOVERY="+self.recovery_time+";\n"
       else
         @code+="\t"+data_str+".T_RECOVERY=0;\n"
       end
@@ -144,15 +140,15 @@ class Fault < ActiveRecord::Base
       @code+="\t"+data_str+".fault_present=ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_fault_present;\n"
       @code+="\t"+data_str+".set_tci=ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_set_tci;\n"
       @code+="\t"+data_str+".clear_tci=ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_clear_tci;\n"
-      @code+="\t"+data_str+".TEST_TIMES_CAL=Scr_ctDiagRunMinTime;\n"
+      @code+="\t"+data_str+".TEST_TIMES_CAL=ctDiagRunMinTime_cal;\n"
       @code+="\t// Flags initialization \n"
-      @code+="\tScr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+"=FALSE;\n"
-      @code+="\tScr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+"=FALSE;\n"
+      @code+="\t"+self.failure_flag+"=FALSE;\n"
+      @code+="\t"+self.test_completed_flag+"=FALSE;\n"
       @code+="\n\tYYAutoDiagInicialitza(&ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+");\n"
       @code+="}\n\n"
 
       @code+="void AD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"(){\n"
-      @code+="\tif (Scr_bAcv"+self.fault_requirement.abbrev+"_"+self.abbrev+"_cal == TRUE) {\n"
+      @code+="\tif ("+self.diag_activate_flag+" == TRUE) {\n"
       @code+="\t\tYYAutoDiag(&ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+");\n"
       @code+="\t}\n"
       @code+="}\n\n"
@@ -179,7 +175,7 @@ class Fault < ActiveRecord::Base
       end
       @code+="}\n\n"
       @code+="BOOL ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_error_conditions(){\n"
-      @code+="\treturn ("+self.detection_condition+");\n"
+      @code+="\treturn ("+self.detection_condition.to_s+");\n"
       @code+="}\n\n"
       @code+="BOOL ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_recovery_conditions(){\n"
       @code+="\treturn ("+self.recovery_condition+");\n"
@@ -253,21 +249,21 @@ class Fault < ActiveRecord::Base
       }
       @code+="}\n\n"
       @code+="void ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_set_fault(){\n"
-      @code+="\tScr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+"=TRUE;\n"
+      @code+="\t"+self.failure_flag+"=TRUE;\n"
       @code+="\tad_set_dtc(DTC_"+self.dtc_prefix+self.dtc+");\n"
       @code+="}\n\n"
       @code+="void ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_clear_fault(){\n"
-      @code+="\tScr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+"=FALSE;\n"
+      @code+="\t"+self.failure_flag+"=FALSE;\n"
       @code+="\tad_recover_dtc(DTC_"+self.dtc_prefix+self.dtc+");\n"
       @code+="}\n\n"
       @code+="void ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_set_tci(){\n"
-      @code+="\tScr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+"=TRUE;\n"
+      @code+="\t"+self.test_completed_flag+"=TRUE;\n"
       @code+="}\n\n"
       @code+="void ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_clear_tci(){\n"
-      @code+="\tScr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+"=FALSE;\n"
+      @code+="\t"+self.test_completed_flag+"=FALSE;\n"
       @code+="}\n\n"
       @code+="BOOL ad_"+self.fault_requirement.abbrev_c+"_"+self.abbrev_c+"_fault_present(){\n"
-      @code+="\treturn (Scr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+"==TRUE);\n"
+      @code+="\treturn ("+self.failure_flag+"==TRUE);\n"
       @code+="}\n\n"
 
     else
@@ -360,13 +356,13 @@ class Fault < ActiveRecord::Base
       else
         @code="\t//"
       end
-      @code+="SendMessage(SIG_SCR_BFAIL"+self.fault_requirement.abbrev.upcase+"_"+self.get_can_abbrev.upcase+",&Scr_bFail"+self.fault_requirement.abbrev+"_"+self.abbrev+");\n"
+      @code+="SendMessage(SIG_"+self.failure_flag.upcase+",&"+self.failure_flag+");\n"
       if self.generate_can then
         @code+="\t"
       else
         @code+="\t//"
       end
-      @code+="SendMessage(SIG_SCR_BTCOMP"+self.fault_requirement.abbrev.upcase+"_"+self.get_can_abbrev.upcase+",&Scr_bTComp"+self.fault_requirement.abbrev+"_"+self.abbrev+");\n"
+      @code+="SendMessage(SIG_"+self.test_completed_flag.upcase+",&"+self.test_completed_flag+");\n"
     else
       ""
     end
@@ -409,6 +405,18 @@ class Fault < ActiveRecord::Base
   def to_dtc_code_init
 		@code="dtc[DTC_"+self.dtc_prefix+self.dtc+"].ident = 0x"+self.dtc+";"
   end
+  
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("fault_requirement_id")
+    ret.delete("fault_requirement")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
+  
+  
+  
   
   # --- Permissions --- #
 

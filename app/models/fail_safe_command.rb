@@ -24,7 +24,7 @@ class FailSafeCommand < ActiveRecord::Base
     ret="\n/* "
     ret+=self.name+": "+self.description
     ret+=" */\n"
-    ret+="t_"+self.name+" _"+self.name+";"
+    ret+="t_failsafe_command _"+self.name+";"
     return ret
   end
 
@@ -131,6 +131,16 @@ class FailSafeCommand < ActiveRecord::Base
     ret+="/end MEASUREMENT\n\n"
 
   end
+  
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
+  
   
   
   # --- Permissions --- #
