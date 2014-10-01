@@ -15,3 +15,5 @@ Mime::Type.register "application/xls", :xls
 Mime::Type.register "text/plain", :gv
 #Mime::Type.register 'text/vnd.graphviz', :gv
 Mime::Type.register "application/xml", :tree
+Mime::Type.register "text/plain", :a2l
+Mime::Type.register "text/plain", :par

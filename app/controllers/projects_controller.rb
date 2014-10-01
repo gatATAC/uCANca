@@ -19,9 +19,14 @@ class ProjectsController < ApplicationController
   show_action :show_sendmessage
   show_action :show_dtc_a2l
   show_action :show_dtc_code
-
   show_action :show_diagmux
   show_action :show_diagmux_c
+  show_action :show_data_a2l
+  show_action :show_data_code
+  show_action :show_dataset_spec
+  show_action :show_parameter_set
+  
+  
 
   def update
     hobo_update do
@@ -48,6 +53,9 @@ class ProjectsController < ApplicationController
       format.iox
       format.iocsv
       format.ioxls
+      format.a2l
+      format.csv
+      format.par
     end
   end
 
@@ -248,4 +256,79 @@ class ProjectsController < ApplicationController
     }
   end
 
+  def show_data_a2l
+    @code =""
+    FlowType.find(:all).each {|dt|
+      @code+=dt.to_a2l+"\n"
+    }
+    find_instance.datum_conversions.find(:all).each { |d|
+      @code+=d.to_a2l+"\n"
+    }
+    @code+="\n"
+    find_instance.flows.each { |f|
+      f.data.each {|r|
+        if (r.generate) then
+          r.datum_datum_conversions.find(:all).each { |d|
+            @code+=d.to_a2l+"\n"
+          }
+        end
+      }
+    }
+    return @code
+  end
+  
+  def show_data_code
+    @code="/**** AutoDiagnostics_calibration.h ****/\n"
+    find_instance.flows.each { |f|
+      f.data.each {|r|
+        if (r.generate) then
+          r.datum_datum_conversions.find(:all).each { |d|
+            @code+=d.to_code_declaration;
+          }
+        end
+      }
+    }
+    @code+="\n\n/**** AutoDiagnostics_calibration.c ****/\n"
+    find_instance.flows.each { |f|
+      f.data.each {|r|
+        if (r.generate) then
+          r.datum_datum_conversions.find(:all).each { |d|
+            @code+=d.to_code
+          }
+        end
+      }
+    }
+    return @code
+  end
+  
+  def show_dataset_spec
+    @code="Calibration list for AutoDiagnostics;;;;;;;;;;\n"
+    @code+="Name;Parameter description;AutoSar Compliant;Min value;Max value;Typ value;Special vector;Unit;Data type;Size data;Resolution\n"
+    find_instance.flows.each { |f|
+      f.data.each {|r|
+        if (r.generate) then
+          r.datum_datum_conversions.find(:all).each { |d|
+            @code+=d.to_dataset_spec+"\n"
+          }
+        end
+      }
+    }
+    return @code
+  end
+  def show_parameter_set
+    @code="CANape PAR V3.1: INE_HONDA_DCU.a2l 1 0 CCP_DCU\n"
+    @code+=";Parameter file created by DRE code generator\n;\n"
+    find_instance.flows.each { |f|
+      f.data.each {|r|
+        if (r.generate) then
+          r.datum_datum_conversions.find(:all).each { |d|
+            @code+=d.to_parameter_set+"\n"
+          }
+        end
+      }
+    }
+    return @code
+  end
+
+  
 end

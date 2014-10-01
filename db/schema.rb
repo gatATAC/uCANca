@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140912204248) do
+ActiveRecord::Schema.define(:version => 20141001163448) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -22,6 +22,56 @@ ActiveRecord::Schema.define(:version => 20140912204248) do
   end
 
   add_index "connectors", ["sub_system_id"], :name => "index_connectors_on_sub_system_id"
+
+  create_table "conversion_targets", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "data", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.float    "min_phys_value"
+    t.float    "max_phys_value"
+    t.float    "typ_phys_value"
+    t.text     "comment"
+    t.boolean  "generate"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "flow_id"
+    t.integer  "unit_id"
+  end
+
+  add_index "data", ["flow_id"], :name => "index_data_on_flow_id"
+  add_index "data", ["unit_id"], :name => "index_data_on_unit_id"
+
+  create_table "datum_conversions", :force => true do |t|
+    t.string   "name"
+    t.boolean  "convert"
+    t.boolean  "truncate"
+    t.float    "factor"
+    t.float    "offset"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "flow_type_id"
+    t.integer  "project_id"
+  end
+
+  add_index "datum_conversions", ["flow_type_id"], :name => "index_datum_conversions_on_flow_type_id"
+  add_index "datum_conversions", ["project_id"], :name => "index_datum_conversions_on_project_id"
+
+  create_table "datum_datum_conversions", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "datum_id"
+    t.integer  "datum_conversion_id"
+    t.integer  "conversion_target_id"
+  end
+
+  add_index "datum_datum_conversions", ["conversion_target_id"], :name => "index_datum_datum_conversions_on_conversion_target_id"
+  add_index "datum_datum_conversions", ["datum_conversion_id"], :name => "index_datum_datum_conversions_on_datum_conversion_id"
+  add_index "datum_datum_conversions", ["datum_id"], :name => "index_datum_datum_conversions_on_datum_id"
 
   create_table "fail_safe_command_times", :force => true do |t|
     t.string   "name"
@@ -203,6 +253,13 @@ ActiveRecord::Schema.define(:version => 20140912204248) do
     t.boolean  "phantom_type",          :default => false
     t.text     "c_setup_input_patron"
     t.text     "c_setup_output_patron"
+    t.integer  "size"
+    t.string   "A2l_type"
+    t.string   "dataset_type"
+    t.string   "parameter_set_type"
+    t.boolean  "is_float"
+    t.boolean  "is_symbol"
+    t.text     "A2L_symbol_code"
   end
 
   create_table "flows", :force => true do |t|
@@ -436,6 +493,13 @@ ActiveRecord::Schema.define(:version => 20140912204248) do
   create_table "targets", :force => true do |t|
     t.string   "name"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "units", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

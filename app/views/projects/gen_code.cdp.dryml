@@ -386,7 +386,7 @@ actions_lib=[]
       valType="0"
     end %>
             <%= raw("<property name=\"value_type\" type=\"int\">#{valType}</property>") %>
-            <%= raw("<property name=\"data_type\" type=\"int\">0</property>") %>
+            <%= raw("<property name=\"flow_type\" type=\"int\">0</property>") %>
             <%= raw("<property name=\"data_modifier\" type=\"int\">7</property>") %>
             <%= raw("<property name=\"user_decl_place\" type=\"int\">0</property>") %>
             <%= raw("<property name=\"user_data_type\" type=\"string\">#{f.flow_type.to_c_type(f)}</property>") %>

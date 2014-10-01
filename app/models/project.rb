@@ -47,6 +47,8 @@ class Project < ActiveRecord::Base
   has_many :contributor_memberships, :class_name => "ProjectMembership", :conditions => {:contributor => true}
   has_many :contributors, :through => :contributor_memberships, :source => :user
 
+  has_many :datum_conversions, :dependent => :destroy, :inverse_of => :project
+  
   # permission helper
   def accepts_changes_from?(user)
     user.administrator? || user == owner || user.in?(contributors)
@@ -119,4 +121,6 @@ class Project < ActiveRecord::Base
     (acting_user.administrator? || acting_user == owner || acting_user.in?(members) || self.public)
   end
 
+  
+  
 end

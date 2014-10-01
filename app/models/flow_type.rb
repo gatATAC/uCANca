@@ -16,15 +16,34 @@ class FlowType < ActiveRecord::Base
     arg_by_reference :boolean, :default => false
     custom_type :boolean, :default => false
     phantom_type :boolean, :default => false
+    
+    # For calibration/conversion
+    size          :integer
+    A2l_type :string
+    dataset_type :string
+    parameter_set_type :string
+    is_float  :boolean
+    is_symbol :boolean
+    A2L_symbol_code :text
+    
     timestamps
   end
-  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron, :c_setup_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type
-
+  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron, :c_setup_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type, 
+    :size, :A2l_type, :dataset_type, :parameter_set_type, :is_float, :is_symbol, :A2L_symbol_code
   has_many :flows
   has_many :flow_type_targets
+  has_many :datum_conversions
   
   validates :name, :presence => :true
 
+  def to_a2l
+    if is_symbol then
+      return self.A2L_symbol_code+"\n"
+    else
+      return ""
+    end
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?

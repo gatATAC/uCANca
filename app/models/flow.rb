@@ -18,12 +18,14 @@ class Flow < ActiveRecord::Base
   has_many :connectors, :through => :sub_system_flows
 
   has_many :faults, :inverse_of => :flow
+  has_many :data, :inverse_of => :flow, :dependent => :destroy
   
-  children :sub_system_flows
+  children :sub_system_flows, :data
 
   validates :name, :presence => true
   validates :flow_type, :presence => true
   validates :project, :presence => true
+  
 
   def current_pattern
       if (self.project.target)

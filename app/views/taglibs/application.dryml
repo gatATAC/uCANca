@@ -22,6 +22,10 @@ you can place common code in this file. -->
     <nav-item with="&Flow"><ht key="flow.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&SubSystem"><ht key="sub_system.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
     <nav-item with="&StateMachine"><ht key="state_machine.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&ConversionTarget"><ht key="conversion_target.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&DatumConversion"><ht key="datum_conversion.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&DatumDatumConversion"><ht key="datum_datum_conversion.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
+    <nav-item with="&Unit"><ht key="unit.nav_item" count="100"><model-name-human count="100"/></ht></nav-item>
   </navigation>
 </def>
 
@@ -296,6 +300,13 @@ end %></div>
       <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
     </div>
     </append-collection-section:>
+    <append-data-collection-section:>
+            <a:data action="new" if="&can_create?(@flow.data)" param="new-link">
+        <ht key="datum.actions.new" count="1">
+          New Datum
+        </ht>
+      </a:data>
+    </append-data-collection-section:>
   </old-show-page>
 </extend>
 
@@ -548,8 +559,15 @@ end %></div>
           <li><%= link_to "Generate DiagMux C", :action => :show_diagmux_c, :format => "c", :target => '_blank' %></li>
           <li><%= link_to "Generate DiagMux Calls", :action => :show_diagmux_call, :format => "c", :target => '_blank' %></li>
           <li><%= link_to "Generate CAN SendMessages", :action => :show_sendmessage, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate DTC A2L", :action => :show_dtc_a2l, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate DTC A2L", :action => :show_dtc_a2l, :format => "a2l", :target => '_blank' %></li>
           <li><%= link_to "Generate DTC C code", :action => :show_dtc_code, :format => "c", :target => '_blank' %></li>
+        </ul>
+        Calibration/Conversion code generators:
+        <ul>
+          <li><%= link_to "Generate Data A2L", :action => :show_data_a2l, :format => "a2l", :target => '_blank' %></li>
+          <li><%= link_to "Generate Data Code", :action => :show_data_code, :format => "c", :target => '_blank' %></li>
+          <li><%= link_to "Generate Dataset Spec", :action => :show_dataset_spec, :format => "csv", :target => '_blank' %></li>
+          <li><%= link_to "Generate Parameter Set", :action => :show_parameter_set, :format => "par", :target => '_blank' %></li>
         </ul>
       </div>
 
@@ -736,3 +754,31 @@ end %></div>
     </append-collection-section:>
   </old-show-page>
 </extend-->
+
+<extend tag="index-page" for="Datum">
+  <old-index-page merge>
+    <append-content-body:>
+      <br/><b>Embedded C code:</b><br/><p><view:show_code/></p>
+      <br/><b>Dataset Excel:</b><br/><p><view:show_dataset_spec/></p>
+      <br/><b>Parameter Set:</b><br/><p><view:show_parameter_set/></p>
+      <br/><b>A2L code:</b><br/><p><view:show_a2l/></p>
+    </append-content-body:>
+  </old-index-page>
+</extend>
+
+<extend tag="show-page" for="DatumDatumConversion">
+  <old-show-page merge>
+    <append-content-body:>
+      <br/><b>Embedded C code:</b><br/><br/><p><view:to_code/></p>
+      <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
+    </append-content-body:>
+  </old-show-page>
+</extend>
+
+<extend tag="show-page" for="DatumConversion">
+  <old-show-page merge>
+    <append-content-body:>
+      <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
+    </append-content-body:>
+  </old-show-page>
+</extend>

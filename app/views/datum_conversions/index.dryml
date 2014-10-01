@@ -1,0 +1,7 @@
+<index-page>
+  <collection: replace>
+  <table-plus: fields="this, factor, offset, flow_type, convert, truncate">
+    <empty-message:>No conversions match your criteria</empty-message:>
+  </table-plus>
+  </collection:>
+</index-page>
