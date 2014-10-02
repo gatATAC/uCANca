@@ -27,6 +27,8 @@ class DiagnosticsImport
   def load_imported_diagnostics
     spreadsheet = open_spreadsheet
 
+=begin    
+    
     # Recurrence Times
     ucanca_sheet=spreadsheet.sheet('Recurrence Times')
     header = ucanca_sheet.row(1)
@@ -187,6 +189,12 @@ class DiagnosticsImport
         fault_requirement = project.fault_requirements.find_by_name(row["name"]) || project.fault_requirements.find_by_name(row["old_name"]) || FaultRequirement.new
         fault_requirement.attributes = row.to_hash.slice(*FaultRequirement.import_attributes)
         fault_requirement.project_id=self.project_id
+        
+        fflow=project.flows.find_by_name(row["flow"])
+        if (fflow)
+          fault_requirement.flow=fflow
+        end
+        
         print "\Importamos: "+fault_requirement.attributes.to_s
         if (fault_requirement.valid?)
           fault_requirement.save!
@@ -202,7 +210,8 @@ class DiagnosticsImport
         nil
       end
     end
-
+=end
+    
     # Import now the faults
     ucanca_sheet=spreadsheet.sheet('Faults Import')
     header = ucanca_sheet.row(1)
@@ -215,7 +224,10 @@ class DiagnosticsImport
         if (fr)
           print "dos"
           fault = fr.faults.find_by_name(row["name"]) || fr.faults.find_by_name(row["old_name"]) || Fault.new
+          print "\nRow: "+row.to_s
+          print "\nFault import attributes "+Fault.import_attributes.to_s
           fault.attributes = row.to_hash.slice(*Fault.import_attributes)
+          print "\nFault attributes "+fault.attributes.to_s
           fault.fault_requirement_id=fr.id
           if (fault.custom_detection_moment == nil)
             # Buscamos el detection moment
@@ -244,6 +256,11 @@ class DiagnosticsImport
             fault.fault_recurrence_time=frt
           end
 
+          fflow=project.flows.find_by_name(row["flow"])
+          if (fflow)
+            fault.flow=fflow
+          end
+       
           print "\nImportamos: "+fault.attributes.to_s
           if (fault.valid?)
             fault.save!

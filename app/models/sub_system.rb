@@ -35,6 +35,10 @@ class SubSystem < ActiveRecord::Base
 
   has_many :st_mach_sys_maps, :dependent => :destroy, :inverse_of => :sub_system
 
+  has_many :parameters, :dependent => :destroy, :inverse_of => :sub_system  
+  has_many :modes, :dependent => :destroy, :inverse_of => :sub_system  
+    
+    
   validates :layer, :presence => :true
   validates :project, :presence => :true
 

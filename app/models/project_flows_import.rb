@@ -48,7 +48,10 @@ class ProjectFlowsImport
         flow.project_id=self.project_id
         dir=FlowDirection.find_by_name(row["primary_flow_direction"])
         flow.primary_flow_direction=dir
-        print "\Importamos: "+flow.attributes.to_s
+        ftype=FlowType.find_by_name(row["flow_type"])
+        print "\nrow:"+row["flow_type"]
+        flow.flow_type=ftype
+        print "\nImportamos: "+flow.attributes.to_s
         if (flow.valid?)
           flow.save!
           subs=project.sub_systems.find_by_abbrev(row["sub_system"]) 

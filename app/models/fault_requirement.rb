@@ -9,10 +9,12 @@ class FaultRequirement < ActiveRecord::Base
     timestamps
   end
   
-  attr_accessible :name, :abbrev, :abbrev_c, :project, :project_id
+  attr_accessible :name, :abbrev, :abbrev_c, :project, :project_id, :flow, :flow_id
 
   has_many :faults, :dependent => :destroy
   belongs_to :project,  :creator => true
+  
+  belongs_to :flow
   
   children :faults
   
