@@ -37,6 +37,37 @@ class ProjectFlowsImport
 
   def load_imported_project_flows
     spreadsheet = open_spreadsheet
+
+    # Recurrence Times
+    ucanca_sheet=spreadsheet.sheet('Conversions Import')
+    header = ucanca_sheet.row(1)
+    (2..ucanca_sheet.last_row).map do |i|
+      row = Hash[[header, ucanca_sheet.row(i)].transpose]
+      if (row["name"]!=nil && row["name"]!="")
+        conv = project.datum_conversions.find_by_name(row["name"]) || project.datum_conversions.find_by_name(row["old_name"]) || DatumConversion.new
+        conv.attributes = row.to_hash.slice(*DatumConversion.import_attributes)
+        conv.project=self.project
+        ftype=FlowType.find_by_name(row["flow_type"])
+        print "\nrow:"+row["flow_type"]
+        conv.flow_type=ftype        
+
+        print "\Importamos: "+conv.attributes.to_s
+        if (conv.valid?)
+          conv.save!
+          conv
+        else
+          conv.errors.full_messages.each do |message|
+            errors.add :base, "Row #{i+2}: #{message}"
+          end
+          nil
+        end
+        # Let's see if we have to create a subsystem
+      else
+        nil
+      end
+    end
+
+
     ucanca_sheet=spreadsheet.sheet('uCANca Import')
     header = ucanca_sheet.row(1)
     (2..ucanca_sheet.last_row).map do |i|
@@ -45,12 +76,15 @@ class ProjectFlowsImport
       if (row["name"]!=nil && row["name"]!="")
         flow = project.flows.find_by_name(row["name"]) || project.flows.find_by_name(row["old_name"]) || Flow.new
         flow.attributes = row.to_hash.slice(*Flow.import_attributes)
+        flow.name=row["name"]
         flow.project_id=self.project_id
         dir=FlowDirection.find_by_name(row["primary_flow_direction"])
         flow.primary_flow_direction=dir
         ftype=FlowType.find_by_name(row["flow_type"])
         print "\nrow:"+row["flow_type"]
         flow.flow_type=ftype
+        conv=DatumConversion.find_by_name(row["conversion"])
+        flow.datum_conversion=conv
         print "\nImportamos: "+flow.attributes.to_s
         if (flow.valid?)
           flow.save!

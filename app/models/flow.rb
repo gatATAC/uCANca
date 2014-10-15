@@ -14,6 +14,8 @@ class Flow < ActiveRecord::Base
   belongs_to :flow_type
   belongs_to :primary_flow_direction, :class_name => 'FlowDirection'
 
+  belongs_to :datum_conversion  
+  
   has_many :sub_system_flows, :dependent => :destroy
   has_many :connectors, :through => :sub_system_flows
 
@@ -47,8 +49,9 @@ class Flow < ActiveRecord::Base
   end
 
   def c_name
-    ret=self.name.gsub("+", "_pos")
-    ret=ret.gsub("-", "_neg")
+    ret=self.name.gsub("+", "_POS")
+    ret=ret.gsub("-", "_NEG")
+    ret=ret.gsub("/", "NEG_")
   end
 
   def to_c_decl

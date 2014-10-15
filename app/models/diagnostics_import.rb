@@ -27,8 +27,6 @@ class DiagnosticsImport
   def load_imported_diagnostics
     spreadsheet = open_spreadsheet
 
-=begin    
-    
     # Recurrence Times
     ucanca_sheet=spreadsheet.sheet('Recurrence Times')
     header = ucanca_sheet.row(1)
@@ -210,7 +208,6 @@ class DiagnosticsImport
         nil
       end
     end
-=end
     
     # Import now the faults
     ucanca_sheet=spreadsheet.sheet('Faults Import')
@@ -222,7 +219,6 @@ class DiagnosticsImport
         print " name: "+row["name"]
         fr = project.fault_requirements.find_by_name(row["requirement"]) 
         if (fr)
-          print "dos"
           fault = fr.faults.find_by_name(row["name"]) || fr.faults.find_by_name(row["old_name"]) || Fault.new
           print "\nRow: "+row.to_s
           print "\nFault import attributes "+Fault.import_attributes.to_s

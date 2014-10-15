@@ -16,6 +16,7 @@ class DatumConversion < ActiveRecord::Base
   belongs_to :flow_type
   has_many :datum_datum_conversions
   has_many :data, :through => :datum_datum_conversions
+  belongs_to :flow
   
   validates :project, :presence => :true
   validates :flow_type, :presence => :true
@@ -34,6 +35,14 @@ class DatumConversion < ActiveRecord::Base
     return r
   end
 
+  def self.import_attributes
+    ret=self.accessible_attributes.clone
+    ret.delete("project_id")
+    ret.delete("project")
+    #ret.delete("flow_type")
+    ret.delete("")
+    return ret
+  end
   
   # --- Permissions --- #
 
