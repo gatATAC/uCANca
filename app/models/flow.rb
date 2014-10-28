@@ -49,7 +49,12 @@ class Flow < ActiveRecord::Base
   end
 
   def c_name
-    ret=self.name.gsub("+", "_POS")
+    ret=""
+    primchar=self.name.chars.first
+    if (primchar>='0' && primchar<='9') then
+      ret="_"
+    end
+    ret+=self.name.gsub("+", "_POS")
     ret=ret.gsub("-", "_NEG")
     ret=ret.gsub("/", "NEG_")
   end

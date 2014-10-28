@@ -9,7 +9,7 @@ class SubSystem < ActiveRecord::Base
   end
   attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id, :functions
 
-  belongs_to :project
+  belongs_to :project, :creator => :true
   belongs_to :target
   belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
@@ -22,7 +22,7 @@ class SubSystem < ActiveRecord::Base
   
   has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
 
-  has_many :connectors, :order => :position
+  has_many :connectors, :order => :position,:dependent => :destroy
 
   has_many :sub_system_flows, :through => :connectors
   has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position

@@ -11,7 +11,7 @@ class Connector < ActiveRecord::Base
 
   attr_accessible :name, :sub_system_flows,:position
 
-  belongs_to :sub_system, :inverse_of => :connectors
+  belongs_to :sub_system, :inverse_of => :connectors, :creator => :true
   acts_as_list :scope => :sub_system
 
 

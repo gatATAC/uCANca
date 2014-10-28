@@ -19,7 +19,7 @@ class Datum < ActiveRecord::Base
   belongs_to :flow
   belongs_to :unit
   
-  has_many :datum_datum_conversions
+  has_many :datum_datum_conversions, :dependent => :destroy
   has_many :datum_conversions, :through => :datum_datum_conversions, :accessible => true
 
   validates :flow, :presence => :true
