@@ -13,8 +13,8 @@ class StateMachineTransition < ActiveRecord::Base
   belongs_to :state_machine_state, :inverse_of => :state_machine_transitions, :creator => :true
   belongs_to :destination_state, :class_name => 'StateMachineState', :inverse_of => :incoming_transitions
   belongs_to :state_machine_condition, :inverse_of => :state_machine_transitions
-  has_many :transition_actions, :class_name => 'StateMachineTransitionAction', :foreign_key => 'transition_id', :inverse_of => :transition, :accessible => :true
-  has_many :actions, :class_name => 'StateMachineAction', :through => :transition_actions, :dependent => :destroy, :accessible => :true
+  has_many :transition_actions, :class_name => 'StateMachineTransitionAction', :foreign_key => 'transition_id', :inverse_of => :transition, :accessible => :true, :dependent => :destroy
+  has_many :actions, :class_name => 'StateMachineAction', :through => :transition_actions, :accessible => :true
 
   validates :state_machine_state, :presence => :true
 

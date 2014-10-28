@@ -11,7 +11,7 @@ class StateMachineCondition < ActiveRecord::Base
   end
   attr_accessible :name, :description, :implementation, :short_name
 
-  belongs_to :function_sub_system, :inverse_of => :state_machine_conditions
+  belongs_to :function_sub_system, :inverse_of => :state_machine_conditions, :creator => :true
   has_many :state_machine_transitions, :inverse_of => :state_machine_condition
 
   validates :implementation, :presence => :true

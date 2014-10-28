@@ -10,7 +10,7 @@ class StateMachine < ActiveRecord::Base
   end
   attr_accessible :name, :function_sub_system, :function_sub_system_id, :graphviz_link, :graphviz_size
 
-  belongs_to :function_sub_system
+  belongs_to :function_sub_system, :creator => :true
 
   has_many :state_machine_states, :inverse_of => :state_machine, :dependent => :destroy
   has_many :state_machine_transitions, :through => :state_machine_states

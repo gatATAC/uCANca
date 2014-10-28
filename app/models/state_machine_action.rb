@@ -11,7 +11,7 @@ class StateMachineAction < ActiveRecord::Base
   end
   attr_accessible :name, :description, :implementation, :function_sub_system, :function_sub_system_id, :short_name
 
-  belongs_to :function_sub_system, :inverse_of => :state_machine_actions
+  belongs_to :function_sub_system, :inverse_of => :state_machine_actions, :creator => :true
   has_many :transition_actions,:class_name => 'StateMachineTransitionAction', :foreign_key => 'action_id' ,:inverse_of => :action
   has_many :transitions, :class_name => 'StateMachineTransition', :through => :transition_actions, :dependent => :destroy
 
