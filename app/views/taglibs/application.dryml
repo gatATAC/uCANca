@@ -582,6 +582,20 @@ end %></div>
   </old-show-page>
 </extend>
 
+<extend tag="show-page" for="ReqDoc">
+  <old-show-page>
+    <append-collection-section:>
+      <div class="import-section" if="&can_update?(@req_doc)">
+        Project data importers:
+        <ul>
+          <li><%= link_to "Import Requirements", :controller => :req_imports, :action => :new, :req_doc_id => @req_doc %></li>
+        </ul>
+      </div>
+    </append-collection-section:>
+  </old-show-page>
+</extend>
+
+
           <extend tag="card" for="ProjectMembership">
             <old-card merge>
               <heading: replace>

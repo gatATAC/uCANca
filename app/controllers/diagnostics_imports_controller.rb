@@ -7,7 +7,7 @@ class DiagnosticsImportsController < ApplicationController
     @diagnostics_import = DiagnosticsImport.new(params[:diagnostics_import])
     @diagnostics_import.project=Project.find(@diagnostics_import.project_id)
     if @diagnostics_import.save
-      redirect_to root_url, notice: "Imported project flows successfully."
+      redirect_to root_url, notice: "Diagnostics successfully imported."
     else
       render :new
     end

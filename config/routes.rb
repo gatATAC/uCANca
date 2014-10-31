@@ -75,4 +75,6 @@ Blocks::Application.routes.draw do
 
   resources :diagnostics_imports
 
+  resources :req_imports
+
 end

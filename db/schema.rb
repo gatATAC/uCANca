@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141001232857) do
+ActiveRecord::Schema.define(:version => 20141031153013) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -56,8 +56,10 @@ ActiveRecord::Schema.define(:version => 20141001232857) do
     t.datetime "updated_at"
     t.integer  "flow_type_id"
     t.integer  "project_id"
+    t.integer  "flow_id"
   end
 
+  add_index "datum_conversions", ["flow_id"], :name => "index_datum_conversions_on_flow_id"
   add_index "datum_conversions", ["flow_type_id"], :name => "index_datum_conversions_on_flow_type_id"
   add_index "datum_conversions", ["project_id"], :name => "index_datum_conversions_on_project_id"
 
@@ -273,8 +275,10 @@ ActiveRecord::Schema.define(:version => 20141001232857) do
     t.boolean  "puntero",                   :default => false
     t.string   "alternate_name"
     t.integer  "primary_flow_direction_id"
+    t.integer  "datum_conversion_id"
   end
 
+  add_index "flows", ["datum_conversion_id"], :name => "index_flows_on_datum_conversion_id"
   add_index "flows", ["flow_type_id"], :name => "index_flows_on_flow_type_id"
   add_index "flows", ["primary_flow_direction_id"], :name => "index_flows_on_primary_flow_direction_id"
   add_index "flows", ["project_id"], :name => "index_flows_on_project_id"
@@ -391,6 +395,87 @@ ActiveRecord::Schema.define(:version => 20141001232857) do
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"
   add_index "projects", ["target_id"], :name => "index_projects_on_target_id"
+
+  create_table "req_created_throughs", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "req_criticalities", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "req_doc_types", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "req_docs", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+    t.integer  "req_doc_type_id"
+  end
+
+  add_index "req_docs", ["project_id"], :name => "index_req_docs_on_project_id"
+  add_index "req_docs", ["req_doc_type_id"], :name => "index_req_docs_on_req_doc_type_id"
+
+  create_table "req_target_micros", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "req_types", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "requirements", :force => true do |t|
+    t.string   "object_identifier"
+    t.integer  "object_level"
+    t.integer  "absolute_number"
+    t.boolean  "is_a_req"
+    t.boolean  "is_implemented"
+    t.string   "created_by"
+    t.date     "created_on"
+    t.string   "customer_req_accept_comments"
+    t.boolean  "customer_req_accepted"
+    t.string   "last_modified_by"
+    t.string   "master_req_acceptance_comments"
+    t.string   "object_heading"
+    t.string   "object_short_text"
+    t.string   "object_text"
+    t.string   "priority"
+    t.boolean  "is_real_time"
+    t.string   "req_source"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "req_doc_id"
+    t.integer  "req_criticality_id"
+    t.integer  "req_target_micro_id"
+    t.integer  "req_type_id"
+    t.integer  "sw_req_type_id"
+    t.integer  "req_created_through_id"
+  end
+
+  add_index "requirements", ["req_created_through_id"], :name => "index_requirements_on_req_created_through_id"
+  add_index "requirements", ["req_criticality_id"], :name => "index_requirements_on_req_criticality_id"
+  add_index "requirements", ["req_doc_id"], :name => "index_requirements_on_req_doc_id"
+  add_index "requirements", ["req_target_micro_id"], :name => "index_requirements_on_req_target_micro_id"
+  add_index "requirements", ["req_type_id"], :name => "index_requirements_on_req_type_id"
+  add_index "requirements", ["sw_req_type_id"], :name => "index_requirements_on_sw_req_type_id"
 
   create_table "st_mach_sys_maps", :force => true do |t|
     t.boolean  "implementation"
@@ -509,6 +594,13 @@ ActiveRecord::Schema.define(:version => 20141001232857) do
   add_index "sub_systems", ["project_id"], :name => "index_sub_systems_on_project_id"
   add_index "sub_systems", ["root_id"], :name => "index_sub_systems_on_root_id"
   add_index "sub_systems", ["target_id"], :name => "index_sub_systems_on_target_id"
+
+  create_table "sw_req_types", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "targets", :force => true do |t|
     t.string   "name"

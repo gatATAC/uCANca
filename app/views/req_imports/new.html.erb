@@ -1,0 +1,40 @@
+<h1>Requrirements Import</h1>
+
+<p>A text file (CSV), OpenOffice (ODS) or Excel (XLS,XLSX)  file can be used to import records. The first row should be the column name. The following columns are allowed.</p>
+
+<ul>
+  <% Requirement.columns.each do |column| %>
+    <% if column.name.in? [*Requirement.import_attributes] %>
+      <li>
+        <strong><%= column.name %></strong> -
+        <%= column.type.to_s.titleize %> type
+      </li>
+    <% end %>
+  <% end %>
+      <li>[optional]<strong>old_name</strong> - String type</li>
+</ul>
+
+<p>If <strong>old_name</strong> column is supplied (same type as <strong>name</strong> column) it will update the matching record instead of creating a new one.</p>
+
+<%= form_for @req_import do |f| %>
+  <% if @req_import.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@req_import.errors.count, "error") %> prohibited this import from completing:</h2>
+      <ul>
+      <% @req_import.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.file_field :file %>
+    <% if params[:req_doc_id] %>
+      <%= f.hidden_field :req_doc_id , :value =>params[:req_doc_id]%>
+    <% else %>
+      <p><%= f.select :req_doc_id, req_doc_tree_options_for_select(ReqDoc.find(:all), :selected => @req_import.req_doc) %></p>
+    <% end %>
+  </div>
+  <div class="buttons"><%= f.submit "Import" %></div>
+<% end %>
