@@ -1,5 +1,5 @@
 class ReqImport
- # switch to ActiveModel::Model in Rails 4
+  # switch to ActiveModel::Model in Rails 4
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
@@ -28,11 +28,78 @@ class ReqImport
     # Requirements
     ucanca_sheet=spreadsheet.sheet('Import')
     header = ucanca_sheet.row(1)
+    contador=0
     (2..ucanca_sheet.last_row).map do |i|
+      if (contador==10) then
+        break
+      end
       row = Hash[[header, ucanca_sheet.row(i)].transpose]
-      if (row["name"]!=nil && row["name"]!="")
-         print "fila "+i.to_s+"\n"
+      if (row['object_identifier']!=nil && row['object_identifier']!="")
+        print "fila "+i.to_s+": "+row['object_identifier']+"\n"
+        # First let's load the req_type
+        rqt=ReqType.find_by_abbrev(row['req_type'])
+        if (rqt!=nil) then
+          rqt=ReqType.create :name => row['req_type'], :abbrev => row['req_type']
+          rqt.save!
+        end
+        # Then let's load the sw_req_type
+        swrqt=ReqType.find_by_abbrev(row['sw_req_type'])
+        if (swrqt!=nil) then
+          swrqt=SwReqType.create :name => row['sw_req_type'], :abbrev => row['sw_req_type']
+          swrqt.save!
+        end
+        if (row['req_target_micro']!=nil && row['req_target_micro']!="")
+          # Then let's load the target_micro
+          rqtm=ReqTargetMicro.find_by_abbrev(row['req_target_micro'])
+          if (rqtm!=nil) then
+            rqtm=ReqTargetMicro.create :name => row['req_target_micro'], :abbrev => row['req_target_micro']
+            rqtm.save!
+          end      
+        end        
+        # Then let's load the rq_creater_through
+        rqct=ReqCreatedThrough.find_by_abbrev(row['req_created_through'])
+        if (rqct!=nil) then
+          rqct=ReqCreatedThrough.create :name => row['req_created_through'], :abbrev => row['req_created_through']
+          rqct.save!
+        end
+        # Then let's load the rq_creater_through
+        rqcrt=ReqCriticality.find_by_abbrev(row['req_criticality'])
+        if (rqcrt!=nil) then
+          rqcrt=ReqCriticality.create :name => row['req_criticality'], :abbrev => row['req_criticality']
+          rqcrt.save!
+        end
+        # Then let's load the rq_creater_through
+        rqcrt=ReqCriticality.find_by_abbrev(row['req_criticality'])
+        if (rqcrt!=nil) then
+          rqcrt=ReqCriticality.create :name => row['req_criticality'], :abbrev => row['req_criticality']
+          rqcrt.save!
+        end
+        
+        
+        rd=ReqDoc.find_by_id(self.req_doc_id)
+        requirement = rd.requirements.find_by_object_identifier(row["object_identifier"]) || Requirement.new
+        requirement.attributes = row.to_hash.slice(*Requirement.import_attributes)
+        requirement.req_doc_id=self.req_doc_id
+        requirement.req_type=rqt
+        requirement.sw_req_type=swrqt
+        requirement.req_created_through=rqct
+        if rqtm!=nil then
+          requirement.req_target_micro=rqtm
+        end
+        print "\Importamos: "+requirement.attributes.to_s
+        if (requirement.valid?)
+          requirement.save!
+          requirement
+        else
+          requirement.errors.full_messages.each do |message|
+            errors.add :base, "Row #{i+2}: #{message}"
+          end
+          nil
+        end       
+        contador=0
       else
+        print "Nos saltamos la fila "+i.to_s+" contador="+contador.to_s+"\n"
+        contador=contador+1
         nil
       end
     end

@@ -49,14 +49,14 @@ you can place common code in this file. -->
           </ht>
         </h3>
         <p><b>Tree:</b>
-          <div id="ajaxtree">
-            <!--DOCTYPE treeview SYSTEM "/Treeview/treeview.dtd"-->
-            <!--%=  raw("<?xml-stylesheet type=\"text/xsl\" href=\"/Treeview/treeview.xslt\"?>") %-->
-            <!--%= ret,ret2=@sub_system.to_code(true,[],current_user);
-            raw(ret)%-->
-            <%= link_to "Diagrama Arbol #{@sub_system.name}", :action => :gen_code, :format => 'tree' %>
-            <embed src="./#{this.id}/gen_code.tree" width="100%" height="300px" style="border: 1px solid" />
-          </div>
+        <div id="ajaxtree">
+          <!--DOCTYPE treeview SYSTEM "/Treeview/treeview.dtd"-->
+          <!--%=  raw("<?xml-stylesheet type=\"text/xsl\" href=\"/Treeview/treeview.xslt\"?>") %-->
+          <!--%= ret,ret2=@sub_system.to_code(true,[],current_user);
+          raw(ret)%-->
+          <%= link_to "Diagrama Arbol #{@sub_system.name}", :action => :gen_code, :format => 'tree' %>
+          <embed src="./#{this.id}/gen_code.tree" width="100%" height="300px" style="border: 1px solid" />
+        </div>
         </p>
 
         <if test="&can_edit?(this.position_column)">
@@ -143,12 +143,12 @@ you can place common code in this file. -->
 
 <def tag="flowlabel">
   <div param="default">
-  <name/><%= 
-if (this.label!=this.flow.name) 
-  "(#{this.flow.name})" 
-  else 
-  "" 
-end %></div>
+    <name/><%= 
+    if (this.label!=this.flow.name) 
+      "(#{this.flow.name})" 
+      else 
+      "" 
+      end %></div>
 </def>
 
 <extend tag="card" for="SubSystemFlow">
@@ -194,7 +194,7 @@ end %></div>
   <old-show-page merge>
     <prepend-collection-section:>
       <div if="&can_create?(@connector.sub_system_flows)">
-        
+
         <if test="&this.possible_individual_flows">
           <form merge param="default" web-method="copy_flow">
             <div param="sub_system_flow">
@@ -211,7 +211,7 @@ end %></div>
             </div>
           </form>
         </if>
-        
+
         <if test="&this.possible_connectors">
           <form merge param="default" web-method="copy_connector_flows">
             <div param="connector">
@@ -294,14 +294,14 @@ end %></div>
 <extend tag="show-page" for="Flow">
   <old-show-page>
     <append-collection-section:>
-    <div class="code-section" if="&can_update?(@flow) || @flow.project.public">
-      <h2>Code Generation:</h2>
-      <%= link_to "C I/O preview code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
-      <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
-    </div>
+      <div class="code-section" if="&can_update?(@flow) || @flow.project.public">
+        <h2>Code Generation:</h2>
+        <%= link_to "C I/O preview code #{@flow.name}", :controller => :flows, :action => :gen_code, :format => 'c' %>
+        <embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%"/>
+      </div>
     </append-collection-section:>
     <append-data-collection-section:>
-            <a:data action="new" if="&can_create?(@flow.data)" param="new-link">
+      <a:data action="new" if="&can_create?(@flow.data)" param="new-link">
         <ht key="datum.actions.new" count="1">
           New Datum
         </ht>
@@ -338,15 +338,15 @@ end %></div>
 
 <extend tag="show-page" for="Project">
   <old-show-page>
-  <field-list: replace>
-    <div class="row columns">
-      <div class="span3">
-        Project logo:
-        <attached-logo part="logo"/>
+    <field-list: replace>
+      <div class="row columns">
+        <div class="span3">
+          Project logo:
+          <attached-logo part="logo"/>
+        </div>
       </div>
-    </div>
-    <view:target/>
-  </field-list:>
+      <view:target/>
+    </field-list:>
     <collection: replace>
       <table-plus with="&@flows" fields="this,flow_type,primary_flow_direction">
         <prepend-header:>
@@ -450,7 +450,7 @@ end %></div>
         </ht>
       </a:fault_preconditions>
     </append-fault_preconditions-collection-section:>
-    
+
     <fault_rehabilitations-collection: replace>
       <table-plus with="&@fault_rehabilitations" fields="this">
         <!--prepend-header:>
@@ -469,8 +469,8 @@ end %></div>
         </ht>
       </a:fault_rehabilitations>
     </append-fault_rehabilitations-collection-section:>
-    
-    
+
+
     <fault_detection_moments-collection: replace>
       <table-plus with="&@fault_detection_moments" fields="this">
         <!--prepend-header:>
@@ -520,86 +520,124 @@ end %></div>
       <h2>Project Members</h2>
       <collection:project_memberships part="members">
         <card><heading:><a:user/></heading:></card>
-      </collection>
+        </collection>
 
-      <form:project_memberships.new update="members" reset-form refocus-form>
-      <div>
-         Add a member:
-         <name-one:user/>
-      </div>
-    </form>
-  </project_memberships-collection-section:>
-    <append-collection-section:>
-      <br/>
-      <br/>
-      <div class="code-section" if="&can_update?(@project) || @project.public">
-        Automatic code generators:
-        <ul>
-          <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
-          <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
-          <li><%= link_to "IOX XML I/O description (for LabView, etc.)", :action => :gen_code, :format => 'iox' %></li>
-          <li><%= link_to "IOCSV CSV I/O description", :action => :gen_code, :format => 'iocsv' %></li>
-          <li><%= link_to "IOXLS XLS I/O description", :action => :gen_code, :format => 'ioxls' %></li>
-          <li><%= link_to "DRE Header", :action => :gen_code, :format => 'h' %></li>
-          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-          <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>
-          <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-        </ul>
-        AutoDiagnostics code generators:
-        <ul>
-          <li><%= link_to "Generate calibration parameters structure", :action => :show_structure, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate calibration parameters Defines", :action => :show_structure_define, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate calibration variables Code", :action => :show_calibration, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate calibration variables Defines", :action => :show_calibration_extern, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate AutoDiag main", :action => :show_autodiag_main, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate AutoDiag main C", :action => :show_autodiag_main_c, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate AutoDiag main functions", :action => :show_autodiag_main_functions, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate AutoDiag main functions C", :action => :show_autodiag_main_functions_c, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate DiagMux", :action => :show_diagmux, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate DiagMux C", :action => :show_diagmux_c, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate DiagMux Calls", :action => :show_diagmux_call, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate CAN SendMessages", :action => :show_sendmessage, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate DTC A2L", :action => :show_dtc_a2l, :format => "a2l", :target => '_blank' %></li>
-          <li><%= link_to "Generate DTC C code", :action => :show_dtc_code, :format => "c", :target => '_blank' %></li>
-        </ul>
-        Calibration/Conversion code generators:
-        <ul>
-          <li><%= link_to "Generate Data A2L", :action => :show_data_a2l, :format => "a2l", :target => '_blank' %></li>
-          <li><%= link_to "Generate Data Code", :action => :show_data_code, :format => "c", :target => '_blank' %></li>
-          <li><%= link_to "Generate Dataset Spec", :action => :show_dataset_spec, :format => "csv", :target => '_blank' %></li>
-          <li><%= link_to "Generate Parameter Set", :action => :show_parameter_set, :format => "par", :target => '_blank' %></li>
-        </ul>
-      </div>
+        <form:project_memberships.new update="members" reset-form refocus-form>
+          <div>
+            Add a member:
+            <name-one:user/>
+          </div>
+          </form>
+          </project_memberships-collection-section:>
+          <append-collection-section:>
+            <br/>
+            <br/>
+            <div class="code-section" if="&can_update?(@project) || @project.public">
+              Automatic code generators:
+              <ul>
+                <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
+                <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
+                <li><%= link_to "IOX XML I/O description (for LabView, etc.)", :action => :gen_code, :format => 'iox' %></li>
+                <li><%= link_to "IOCSV CSV I/O description", :action => :gen_code, :format => 'iocsv' %></li>
+                <li><%= link_to "IOXLS XLS I/O description", :action => :gen_code, :format => 'ioxls' %></li>
+                <li><%= link_to "DRE Header", :action => :gen_code, :format => 'h' %></li>
+                <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+                <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>
+                <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
+              </ul>
+              AutoDiagnostics code generators:
+              <ul>
+                <li><%= link_to "Generate calibration parameters structure", :action => :show_structure, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate calibration parameters Defines", :action => :show_structure_define, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate calibration variables Code", :action => :show_calibration, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate calibration variables Defines", :action => :show_calibration_extern, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate AutoDiag main", :action => :show_autodiag_main, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate AutoDiag main C", :action => :show_autodiag_main_c, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate AutoDiag main functions", :action => :show_autodiag_main_functions, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate AutoDiag main functions C", :action => :show_autodiag_main_functions_c, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate DiagMux", :action => :show_diagmux, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate DiagMux C", :action => :show_diagmux_c, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate DiagMux Calls", :action => :show_diagmux_call, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate CAN SendMessages", :action => :show_sendmessage, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate DTC A2L", :action => :show_dtc_a2l, :format => "a2l", :target => '_blank' %></li>
+                <li><%= link_to "Generate DTC C code", :action => :show_dtc_code, :format => "c", :target => '_blank' %></li>
+              </ul>
+              Calibration/Conversion code generators:
+              <ul>
+                <li><%= link_to "Generate Data A2L", :action => :show_data_a2l, :format => "a2l", :target => '_blank' %></li>
+                <li><%= link_to "Generate Data Code", :action => :show_data_code, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate Dataset Spec", :action => :show_dataset_spec, :format => "csv", :target => '_blank' %></li>
+                <li><%= link_to "Generate Parameter Set", :action => :show_parameter_set, :format => "par", :target => '_blank' %></li>
+              </ul>
+            </div>
 
-      <div class="import-section" if="&can_update?(@project)">
-        Project data importers:
-        <ul>
-          <li><%= link_to "Import IOXLS I/O flows", :controller => :project_flows_imports, :action => :new, :project_id => @project %></li>
-          <li><%= link_to "Import Diagnostics", :controller => :diagnostics_imports, :action => :new, :project_id => @project %></li>
-        </ul>
-      </div>
-    </append-collection-section:>
-  </old-show-page>
-</extend>
+            <div class="import-section" if="&can_update?(@project)">
+              Project data importers:
+              <ul>
+                <li><%= link_to "Import IOXLS I/O flows", :controller => :project_flows_imports, :action => :new, :project_id => @project %></li>
+                <li><%= link_to "Import Diagnostics", :controller => :diagnostics_imports, :action => :new, :project_id => @project %></li>
+              </ul>
+            </div>
+          </append-collection-section:>
+          </old-show-page>
+          </extend>
 
-<extend tag="show-page" for="ReqDoc">
-  <old-show-page>
-    <append-collection-section:>
-      <div class="import-section" if="&can_update?(@req_doc)">
-        Project data importers:
-        <ul>
-          <li><%= link_to "Import Requirements", :controller => :req_imports, :action => :new, :req_doc_id => @req_doc %></li>
-        </ul>
-      </div>
-    </append-collection-section:>
-  </old-show-page>
-</extend>
+<def tag="reqstable">
+  <div class='reqstable' param="default">
+    
+    <%= element "table", attributes - attrs_for(:with_fields) do %>
+      <%  open_row=false
+          this.requirements.each { |r| %>
+      <% if r.column_number==0 then 
+          if open_row==true then %>
+            <%="</tr>".html_safe%>
+      <%    open_row=false
+          end %>
+        <%="<tr class='reqhead'>".html_safe%> <%="<td colspan=6 >".html_safe%> <b><%= r.title %></b> <%="</td>".html_safe%> <%="</tr>".html_safe%>
+        <%="<tr class='reqdesc'>".html_safe%> <%="<td colspan=6 >".html_safe%> <%= r.description %> <%="</td>".html_safe%> <%="</tr>".html_safe%>
+      <% else if r.column_number==1 then  
+          if open_row==true then %>
+            <%="</tr>".html_safe%>
+      <%    open_row=false
+          end %>
+                <%="<tr>".html_safe%> <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
+      <%      open_row=true
+              else %>
+                <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
+      <%      end 
+         end %>
+      <% } %>
+    
+    <%  if open_row==true then %>
+                <%="</tr>".html_safe%>
+    <%  end %>
+                
+    <%  end  %>
+    
+  </div>
+</def>
+
+          <extend tag="show-page" for="ReqDoc">
+            <old-show-page>
+              <collection: replace>
+                <reqstable/>
+              </collection:>
+              <append-content-body:>
+                <div class="import-section" if="&can_update?(@req_doc)">
+                  Project data importers:
+                  <ul>
+                    <li><%= link_to "Import Requirements", :controller => :req_imports, :action => :new, :req_doc_id => @req_doc %></li>
+                  </ul>
+                </div>
+              </append-content-body:>
+            </old-show-page>
+          </extend>
 
 
           <extend tag="card" for="ProjectMembership">
             <old-card merge>
               <heading: replace>
-                 <h4 param="heading"><view:project/></h4>
+                <h4 param="heading"><view:project/></h4>
               </heading:>
               <body:>
                 <ul>
@@ -634,7 +672,7 @@ end %></div>
                   <ul>
                     <li>Destination:<view:destination_state/> </li>
                     <li>Condition: <view:state_machine_condition/>
-<% if (this.state_machine_condition) then %><br/><%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:state_machine_condition.implementation/></div><% end %>
+                    <% if (this.state_machine_condition) then %><br/><%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:state_machine_condition.implementation/></div><% end %>
                     </li>
                     <li>Actions:<collection:actions/></li>
                   </ul>
@@ -689,11 +727,11 @@ end %></div>
                 <img src="#{@this.to_graphviz}" alt="Maquina SM"/><br/>
               </prepend-aside:>
               <append-st_mach_sys_maps-collection-section:>
-      <a:st_mach_sys_maps action="new" if="&can_create?(@state_machine.st_mach_sys_maps)" param="new-link">
-        <ht key="st_mach_sys_map.actions.new" count="1">
-          New State Machine Map
-        </ht>
-      </a:st_mach_sys_maps>
+                <a:st_mach_sys_maps action="new" if="&can_create?(@state_machine.st_mach_sys_maps)" param="new-link">
+                  <ht key="st_mach_sys_map.actions.new" count="1">
+                    New State Machine Map
+                  </ht>
+                </a:st_mach_sys_maps>
               </append-st_mach_sys_maps-collection-section:>
             </old-show-page>
           </extend>
@@ -711,88 +749,97 @@ end %></div>
           </extend>
 
 
-<extend tag="card" for="StateMachineAction">
-  <old-card merge>
-    <header: param>
-      <h4 param="heading"><a><name/></a></h4>
-    </header:>
-    <append-body:>
-      <view:description/>
-      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:implementation/></div>
-    </append-body:>
-  </old-card>
-</extend>
+          <extend tag="card" for="StateMachineAction">
+            <old-card merge>
+              <header: param>
+                <h4 param="heading"><a><name/></a></h4>
+              </header:>
+              <append-body:>
+                <view:description/>
+                <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:implementation/></div>
+              </append-body:>
+            </old-card>
+          </extend>
 
-<extend tag="card" for="FunctionTest">
-  <old-card merge>
-    <body: param>
-      <view:description/>
-      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Stimuli<div style="display:none"><view:stimulus/></div><br/>
-      <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Expected results<div style="display:none"><view:expected_results/></div>
-    </body:>
-  </old-card>
-</extend>
+          <extend tag="card" for="FunctionTest">
+            <old-card merge>
+              <body: param>
+                <view:description/>
+                <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Stimuli<div style="display:none"><view:stimulus/></div><br/>
+                <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Expected results<div style="display:none"><view:expected_results/></div>
+              </body:>
+            </old-card>
+          </extend>
 
-<extend tag="form" for="User">
-  <old-form merge param="default">
-    <field-list: fields="name, email_address, administrator, developer, state"/>
-  </old-form>
-</extend>
+          <extend tag="form" for="User">
+            <old-form merge param="default">
+              <field-list: fields="name, email_address, administrator, developer, state"/>
+            </old-form>
+          </extend>
 
 
-<extend tag="form" for="Fault">
-  <old-form merge>
-    <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc, fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
-  </old-form>
-</extend>
+          <extend tag="form" for="Fault">
+            <old-form merge>
+              <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc, fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+            </old-form>
+          </extend>
 
-<!--extend tag="show-page" for="Fault">
-  <old-show-page merge>
-    <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc,  fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
-    <append-collection-section:>
-      <ul>
-        <li> <%= link_to "Generate calibration variables Code for #{@fault.name}", :controller => :faults, :action => :show_calibration, :id => @fault, :format => "c", :target => '_blank' %></li>
-        <li> <%= link_to "Generate calibration variables Extern for #{@fault.name}", :controller => :faults, :action => :show_calibration_extern, :id => @fault, :format => "c", :target => '_blank' %></li>
-      </ul>
-    </append-collection-section:>
-  </old-show-page>
-</extend-->
+          <!--extend tag="show-page" for="Fault">
+            <old-show-page merge>
+              <field-list: fields="fault_requirement, flow, name, abbrev,abbrev_c, description, status_byte, dtc,  fault_detection_moment, custom_detection_moment, fault_precondition, custom_precondition, detection_condition, error_detection_task_init, error_detection_task, fault_recurrence_time, qualification_time, fault_fail_safe_commands, recovery_condition, recovery_detection_task_init, recovery_detection_task, recovery_time, fault_rehabilitation, custom_rehabilitation, rehabilitation_detection_task_init, rehabilitation_detection_task, can_abbrev,generate_can, feedback_required,activate_value,include_fault" param/>
+              <append-collection-section:>
+                <ul>
+                  <li> <%= link_to "Generate calibration variables Code for #{@fault.name}", :controller => :faults, :action => :show_calibration, :id => @fault, :format => "c", :target => '_blank' %></li>
+                  <li> <%= link_to "Generate calibration variables Extern for #{@fault.name}", :controller => :faults, :action => :show_calibration_extern, :id => @fault, :format => "c", :target => '_blank' %></li>
+                </ul>
+              </append-collection-section:>
+            </old-show-page>
+          </extend-->
 
-<!--extend tag="show-page" for="FaultRequirement">
-  <old-show-page merge>
-    <append-collection-section:>
-      <ul>
-        <li><%= link_to "Generate calibration variables Code for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
-        <li><%= link_to "Generate calibration variables Extern for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration_extern, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
-      </ul>
-    </append-collection-section:>
-  </old-show-page>
-</extend-->
+          <!--extend tag="show-page" for="FaultRequirement">
+            <old-show-page merge>
+              <append-collection-section:>
+                <ul>
+                  <li><%= link_to "Generate calibration variables Code for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
+                  <li><%= link_to "Generate calibration variables Extern for #{@fault_requirement.name}", :controller => :fault_requirements, :action => :show_calibration_extern, :id => @fault_requirement, :format => "c", :target => '_blank' %></li>
+                </ul>
+              </append-collection-section:>
+            </old-show-page>
+          </extend-->
 
-<extend tag="index-page" for="Datum">
-  <old-index-page merge>
-    <append-content-body:>
-      <br/><b>Embedded C code:</b><br/><p><view:show_code/></p>
-      <br/><b>Dataset Excel:</b><br/><p><view:show_dataset_spec/></p>
-      <br/><b>Parameter Set:</b><br/><p><view:show_parameter_set/></p>
-      <br/><b>A2L code:</b><br/><p><view:show_a2l/></p>
-    </append-content-body:>
-  </old-index-page>
-</extend>
+          <extend tag="index-page" for="Datum">
+            <old-index-page merge>
+              <append-content-body:>
+                <br/><b>Embedded C code:</b><br/><p><view:show_code/></p>
+                <br/><b>Dataset Excel:</b><br/><p><view:show_dataset_spec/></p>
+                <br/><b>Parameter Set:</b><br/><p><view:show_parameter_set/></p>
+                <br/><b>A2L code:</b><br/><p><view:show_a2l/></p>
+              </append-content-body:>
+            </old-index-page>
+          </extend>
 
-<extend tag="show-page" for="DatumDatumConversion">
-  <old-show-page merge>
-    <append-content-body:>
-      <br/><b>Embedded C code:</b><br/><br/><p><view:to_code/></p>
-      <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
-    </append-content-body:>
-  </old-show-page>
-</extend>
+          <extend tag="show-page" for="DatumDatumConversion">
+            <old-show-page merge>
+              <append-content-body:>
+                <br/><b>Embedded C code:</b><br/><br/><p><view:to_code/></p>
+                <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
+              </append-content-body:>
+            </old-show-page>
+          </extend>
 
-<extend tag="show-page" for="DatumConversion">
-  <old-show-page merge>
-    <append-content-body:>
-      <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
-    </append-content-body:>
-  </old-show-page>
-</extend>
+          <extend tag="show-page" for="DatumConversion">
+            <old-show-page merge>
+              <append-content-body:>
+                <br/><b>A2L code:</b><br/><br/><p><view:to_a2l/></p>
+              </append-content-body:>
+            </old-show-page>
+          </extend>
+
+          <extend tag="card" for="Requirement">
+            <old-card merge without-creator-link>
+              <append-body:>
+                <view:description/>
+              </append-body:>
+            </old-card>
+          </extend>
+

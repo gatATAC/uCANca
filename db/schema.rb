@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141031153013) do
+ActiveRecord::Schema.define(:version => 20141101005142) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -456,7 +456,7 @@ ActiveRecord::Schema.define(:version => 20141031153013) do
     t.string   "master_req_acceptance_comments"
     t.string   "object_heading"
     t.string   "object_short_text"
-    t.string   "object_text"
+    t.text     "object_text"
     t.string   "priority"
     t.boolean  "is_real_time"
     t.string   "req_source"
@@ -468,6 +468,9 @@ ActiveRecord::Schema.define(:version => 20141031153013) do
     t.integer  "req_type_id"
     t.integer  "sw_req_type_id"
     t.integer  "req_created_through_id"
+    t.string   "object_number"
+    t.date     "last_modified_on"
+    t.boolean  "master_req_accepted"
   end
 
   add_index "requirements", ["req_created_through_id"], :name => "index_requirements_on_req_created_through_id"
