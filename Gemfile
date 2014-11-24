@@ -66,3 +66,5 @@ end
 
 gem 'thin'
 #gem 'tiny_mce'
+
+gem 'builder'

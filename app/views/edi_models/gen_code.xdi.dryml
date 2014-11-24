@@ -1,0 +1,4 @@
+<%=
+ret=@edi_model.to_edi_xml
+raw(ret)
+%>

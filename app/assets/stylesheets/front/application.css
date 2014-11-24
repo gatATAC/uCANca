@@ -49,3 +49,16 @@ width: 68PX;
 /*    padding-bottom: 20px;*/
     text-align: center;
 }
+
+.reqcell {
+    border-spacing: 0;
+    border: ridge;
+}
+/*.reqhead {
+    border-spacing: 0;
+    border: ridge;
+}
+.reqdesc {
+    border-spacing: 0;
+    border: ridge;
+}*/

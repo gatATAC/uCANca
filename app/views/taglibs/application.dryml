@@ -32,7 +32,7 @@ you can place common code in this file. -->
 <extend tag="show-page" for="SubSystem">
   <old-show-page merge>
 
-    <field-list: fields="abbrev, parent, root, project, layer, full_name" param/>
+    <field-list: fields="abbrev, sub_system_type, parent, root, project, layer, full_name" param/>
     <collection: replace>
       <if test="&can_edit?(this.position_column)">
         <sortable-collection:connectors param="collection"/>
@@ -516,6 +516,23 @@ you can place common code in this file. -->
         </ht>
       </a:functions>
     </append-functions-collection-section:>
+
+    <append-req_docs-collection-section:>
+      <a:req_docs action="new" if="&can_create?(@project.req_docs)" param="new-link">
+        <ht key="req_doc.actions.new" count="1">
+          New Req Doc
+        </ht>
+      </a:req_docs>
+    </append-req_docs-collection-section:>
+
+    <append-edi_models-collection-section:>
+      <a:edi_models action="new" if="&can_create?(@project.edi_models)" param="new-link">
+        <ht key="edi_model.actions.new" count="1">
+          New Edi Model
+        </ht>
+      </a:edi_models>
+    </append-edi_models-collection-section:>
+
     <project_memberships-collection-section:>
       <h2>Project Members</h2>
       <collection:project_memberships part="members">
@@ -582,40 +599,57 @@ you can place common code in this file. -->
           </old-show-page>
           </extend>
 
-<def tag="reqstable">
-  <div class='reqstable' param="default">
-    
-    <%= element "table", attributes - attrs_for(:with_fields) do %>
-      <%  open_row=false
-          this.requirements.each { |r| %>
-      <% if r.column_number==0 then 
-          if open_row==true then %>
-            <%="</tr>".html_safe%>
-      <%    open_row=false
-          end %>
-        <%="<tr class='reqhead'>".html_safe%> <%="<td colspan=6 >".html_safe%> <b><%= r.title %></b> <%="</td>".html_safe%> <%="</tr>".html_safe%>
-        <%="<tr class='reqdesc'>".html_safe%> <%="<td colspan=6 >".html_safe%> <%= r.description %> <%="</td>".html_safe%> <%="</tr>".html_safe%>
-      <% else if r.column_number==1 then  
-          if open_row==true then %>
-            <%="</tr>".html_safe%>
-      <%    open_row=false
-          end %>
-                <%="<tr>".html_safe%> <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
-      <%      open_row=true
-              else %>
-                <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
-      <%      end 
-         end %>
-      <% } %>
-    
-    <%  if open_row==true then %>
-                <%="</tr>".html_safe%>
-    <%  end %>
-                
-    <%  end  %>
-    
-  </div>
-</def>
+          <def tag="reqstable">
+            <div class='reqstable' param="default">
+              
+<%="<table>".html_safe %>
+
+              <tbody>
+                <%  
+                open_row=false
+                    open_table=false
+                this.requirements.each { |r| %>
+                  <% if r.column_number==0 then 
+                    if open_row==true then %>
+                      <%="</tr>".html_safe%>
+                      <%    open_row=false
+                      end
+                    if open_table==true then %>
+                      <%="</table></td></tr>".html_safe %>
+                      <%    open_table=false
+                      end %>
+                      <% if r.title.size>0 then %>
+                    <%="<tr><td class='reqhead'>".html_safe%> <b><%= r.title %></b> <%="</td>".html_safe%> <%="</tr>".html_safe%>
+                    <% end %>
+                      <% if r.description.size>0 then %>
+                    <%="<tr><td class='reqdesc'>".html_safe%> <%= r.description %> <%="</td>".html_safe%> <%="</tr>".html_safe%>
+                    <% end %>
+                  <% else if r.column_number==1 then  
+                      if open_row==true then %>
+                        <%="</tr>".html_safe%>
+                        <%    open_row=false
+                        end %>
+                      <% if open_table==false then 
+                            open_table=true
+                      %>
+                      <%= "<tr><td class='reqdesc'><table>".html_safe %>
+                      <% end %>
+                      <%="<tr>".html_safe%> <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
+                      <%      open_row=true
+                      else %>
+                      <%="<td class='reqcell'>".html_safe%><%= r.description %><%="</td>".html_safe%>
+                    <%      end 
+                    end %>
+                <% } %>
+
+                <%  if open_row==true then %>
+                  <%="</tr>".html_safe%>
+                <%  end %>
+              </tbody>
+              <%="</table>".html_safe %>
+              
+            </div>
+          </def>
 
           <extend tag="show-page" for="ReqDoc">
             <old-show-page>
@@ -843,3 +877,12 @@ you can place common code in this file. -->
             </old-card>
           </extend>
 
+          <extend tag="show-page" for="EdiModel">
+            <old-show-page merge>
+              <append-content-body:>
+                <ul>
+                  <li><%= link_to "Edi Model XML", :action => :gen_code, :format => 'xdi' %></li>
+                </ul>
+              </append-content-body:>
+            </old-show-page>
+          </extend>

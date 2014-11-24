@@ -7,13 +7,14 @@ class SubSystem < ActiveRecord::Base
     abbrev :string
     timestamps
   end
-  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id, :functions
+  attr_accessible :name, :parent, :root, :parent_id, :root_id, :layer, :layer_id, :abbrev, :project, :project_id, :functions, :sub_system_type_id, :sub_system_type
 
   belongs_to :project, :creator => :true
   belongs_to :target
   belongs_to :layer
   belongs_to :root, :class_name => 'SubSystem'
   belongs_to :parent,  :creator => true, :foreign_key => :parent_id, :class_name => 'SubSystem'
+  belongs_to :sub_system_type, :inverse_of => :sub_systems
 
   validates :name, :presence => :true
   validates :abbrev, :presence => :true

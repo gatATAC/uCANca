@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141101005142) do
+ActiveRecord::Schema.define(:version => 20141124161844) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(:version => 20141101005142) do
   add_index "datum_datum_conversions", ["conversion_target_id"], :name => "index_datum_datum_conversions_on_conversion_target_id"
   add_index "datum_datum_conversions", ["datum_conversion_id"], :name => "index_datum_datum_conversions_on_datum_conversion_id"
   add_index "datum_datum_conversions", ["datum_id"], :name => "index_datum_datum_conversions_on_datum_id"
+
+  create_table "edi_models", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "edi_models", ["project_id"], :name => "index_edi_models_on_project_id"
 
   create_table "fail_safe_command_times", :force => true do |t|
     t.string   "name"
@@ -428,6 +438,18 @@ ActiveRecord::Schema.define(:version => 20141101005142) do
   add_index "req_docs", ["project_id"], :name => "index_req_docs_on_project_id"
   add_index "req_docs", ["req_doc_type_id"], :name => "index_req_docs_on_req_doc_type_id"
 
+  create_table "req_links", :force => true do |t|
+    t.boolean  "is_external"
+    t.string   "ext_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "requirement_id"
+    t.integer  "req_source_id"
+  end
+
+  add_index "req_links", ["req_source_id"], :name => "index_req_links_on_req_source_id"
+  add_index "req_links", ["requirement_id"], :name => "index_req_links_on_requirement_id"
+
   create_table "req_target_micros", :force => true do |t|
     t.string   "name"
     t.string   "abbrev"
@@ -579,6 +601,13 @@ ActiveRecord::Schema.define(:version => 20141101005142) do
   add_index "sub_system_flows", ["flow_direction_id"], :name => "index_sub_system_flows_on_flow_direction_id"
   add_index "sub_system_flows", ["flow_id"], :name => "index_sub_system_flows_on_flow_id"
 
+  create_table "sub_system_types", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sub_systems", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -590,12 +619,14 @@ ActiveRecord::Schema.define(:version => 20141101005142) do
     t.integer  "layer_id"
     t.string   "abbrev"
     t.integer  "target_id"
+    t.integer  "sub_system_type_id"
   end
 
   add_index "sub_systems", ["layer_id"], :name => "index_sub_systems_on_layer_id"
   add_index "sub_systems", ["parent_id"], :name => "index_sub_systems_on_parent_id"
   add_index "sub_systems", ["project_id"], :name => "index_sub_systems_on_project_id"
   add_index "sub_systems", ["root_id"], :name => "index_sub_systems_on_root_id"
+  add_index "sub_systems", ["sub_system_type_id"], :name => "index_sub_systems_on_sub_system_type_id"
   add_index "sub_systems", ["target_id"], :name => "index_sub_systems_on_target_id"
 
   create_table "sw_req_types", :force => true do |t|

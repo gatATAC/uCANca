@@ -50,6 +50,7 @@ class Project < ActiveRecord::Base
   has_many :datum_conversions, :dependent => :destroy, :inverse_of => :project
 
   has_many :req_docs, :dependent => :destroy, :inverse_of => :project
+  has_many :edi_models, :dependent => :destroy, :inverse_of => :project
 
   
   # permission helper
@@ -57,7 +58,7 @@ class Project < ActiveRecord::Base
     user.administrator? || user == owner || user.in?(contributors)
   end
 
-  children :req_docs, :flows, :project_memberships, :sub_systems, :functions, :fault_requirements, :fail_safe_commands, :fail_safe_command_times, :fault_detection_moments, :fault_preconditions, :fault_recurrence_times, :fault_rehabilitations
+  children :flows, :project_memberships, :sub_systems, :functions, :fault_requirements, :fail_safe_commands, :fail_safe_command_times, :fault_detection_moments, :fault_preconditions, :fault_recurrence_times, :fault_rehabilitations,:req_docs, :edi_models
 
   def to_iox
     return self.to_xml(:include =>{

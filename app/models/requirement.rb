@@ -34,6 +34,9 @@ class Requirement < ActiveRecord::Base
   belongs_to :req_created_through, :inverse_of => :requirements
   belongs_to :req_doc, :creator => :true, :inverse_of => :requirements
   
+  has_many :req_links, :dependent => :destroy, :inverse_of => :requirement
+  has_many :incoming_links, :class_name => 'ReqLink', :foreign_key => :req_source_id, :inverse_of => :req_source
+  
   validates :object_identifier, :presence => :true
   validates :req_doc, :presence => :true
   validates :req_type, :presence => :true  

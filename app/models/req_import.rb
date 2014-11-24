@@ -26,6 +26,7 @@ class ReqImport
   def load_imported_req
     spreadsheet = open_spreadsheet
     # Requirements
+=begin
     ucanca_sheet=spreadsheet.sheet('Import')
     header = ucanca_sheet.row(1)
     contador=0
@@ -99,8 +100,38 @@ class ReqImport
         contador=0
       else
         print "Nos saltamos la fila "+i.to_s+" contador="+contador.to_s+"\n"
+        # Al llegar a 10 filas sin nada, cortamos
         contador=contador+1
         nil
+      end
+    end
+=end
+    #Links
+    ucanca_sheet=spreadsheet.sheet('HyperLinks')
+    header = ucanca_sheet.row(1)
+    contador=0
+    (2..ucanca_sheet.last_row).map do |i|
+      if (contador==10) then
+        break
+      end
+      row = Hash[[header, ucanca_sheet.row(i)].transpose]
+      if (row['req_ident']!=nil && row['req_ident']!="")
+        print "fila "+i.to_s+": "+row['req_ident']+"\n"
+        contador=0
+        rq=Requirement.find_by_object_identifier(row['req_ident'])
+        rq2=Requirement.find_by_object_identifier(row['req_source'])
+        rql=rq.req_links.find_by_req_source_id(rq2.id)
+        if (rql==nil) then
+          rql=ReqLink.new
+          rql.requirement=rq
+          rql.req_source=rq2
+        end
+        rql.ext_url=row['ext_url']
+      else
+        print "Nos saltamos la fila "+i.to_s+" contador="+contador.to_s+"\n"
+        # Al llegar a 10 filas sin nada, cortamos
+        contador=contador+1
+        nil        
       end
     end
   end

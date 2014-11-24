@@ -17,3 +17,4 @@ Mime::Type.register "text/plain", :gv
 Mime::Type.register "application/xml", :tree
 Mime::Type.register "text/plain", :a2l
 Mime::Type.register "text/plain", :par
+Mime::Type.register "application/xml", :xdi
