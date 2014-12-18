@@ -4,7 +4,7 @@ class SubSystemType < ActiveRecord::Base
 
   fields do
     name :string
-    name :abbrev
+    abbrev :string
     timestamps
   end
   attr_accessible :name,:abbrev

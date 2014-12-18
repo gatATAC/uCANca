@@ -11,15 +11,26 @@ class EdiModel < ActiveRecord::Base
   attr_accessible :name, :abbrev
   
   belongs_to :project, :creator => :true, :inverse_of => :edi_models
+  has_many :edi_processes, :dependent => :destroy, :inverse_of => :edi_model
 
-
+  def create_from_scratch
+    conts=0;
+    project.sub_systems.each {|s|
+      p=EdiProcess.create :ident => s.id, :label=>s.abbrev, :pos_x=>((conts+1)*(block_width*3)), :pos_y=>block_height * 2, \
+        :size_x=>block_width, :size_y=>block_height, :color=>block_color(s),:description => s.name, :master=>:false
+      p.sub_system=s
+      self.edi_processes << p
+      conts+=1
+    }
+  end
+  
+  
+  
   def to_edi_xml
+    if edi_processes.size <= 0 
+      create_from_scratch
+    end
     xml = ::Builder::XmlMarkup.new( :indent => 2 )
-=begin
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE EdiProject SYSTEM "EdiGra.dtd">
-<EdiProject Label="903_FE1XC_S0" Description="GEELY Shifter main microcontroller (MMC) application design." Author="Ignasi Molina" Date="30/03/2012" Version="1.0" Tag="Tag">
-=end
     date1 = DateTime.now
     xml.instruct! :xml, :version => "1.0", :encoding => "iso-8859-1"
     xml.declare! :DOCTYPE, :EdiProject, :SYSTEM, "EdiGra.dtd"
@@ -146,16 +157,24 @@ class EdiModel < ActiveRecord::Base
     bidir_vars_done=[]
     cont=0
     s.output_flows.each{|ofl|
-      if (s.sub_system_type.abbrev!="sw") then
+      
+      #determine if the flow must be treated as link or as variable
+      
+      uselink=true
+      foundfatherflow=flows_father.find{|f| f.flow_id==ofl.flow.id}
+      foundsiblingflow=flows_siblings.find{|f| f.flow_id==ofl.flow.id}      
+      if (foundfatherflow==nil and s.sub_system_type.abbrev=="sw") then
+        uselink=false;
+      end
+      
+      if (uselink) then
         xml.Link(:Label=>ofl.flow.name, :Color=>link_color, :PosX=>((c+1.4)*(block_width*3)).to_s, :PosY=>block_height+(cont*link_height), :Destination=>"-1", :Source=>ofl.sub_system.id+sub_system_id_offset, 
           :OrderSource=>"0", :OrderDestination=>"0", :DataType=>"Hw signal", :Prop =>"NONE"){
           xml.Attrb(:Name=>"Port Type", :Value=>"I/O", :Type=>"string")
         }
         output_links_done << ofl
       else
-        foundfatherflow=flows_father.find{|f| f.flow_id==ofl.flow.id}
-        foundsiblingflow=flows_siblings.find{|f| f.flow_id==ofl.flow.id}
-        if (foundfatherflow==nil and foundsiblingflow==nil) then
+        if (foundsiblingflow==nil) then
           xml.MemElement(
             :Id=>"#{ofl.id+sub_system_flow_id_offset}",
             :Label=>ofl.flow.name, 
@@ -196,18 +215,24 @@ class EdiModel < ActiveRecord::Base
 
     cont=0
     s.input_flows.each{|ifl|
-      if (s.sub_system_type.abbrev!="sw") then
+      
+      uselink=true
+      foundfatherflow=flows_father.find{|f| f.flow_id==ifl.flow.id}
+      foundsiblingflow=flows_siblings.find{|f| f.flow_id==ifl.flow.id}      
+      if (foundfatherflow==nil and s.sub_system_type.abbrev=="sw") then
+        uselink=false;
+      end
+      
+      if (uselink) then
         xml.Link(:Label=>ifl.flow.name, :Color=>link_color.to_s, "PosX"=>((c+0.6)*(block_width*3)).to_s, "PosY"=>block_height+(cont*link_height), :Source=>"-1", :Destination=>ifl.sub_system.id+sub_system_id_offset, 
           :OrderSource=>"0", :OrderDestination=>"0", :DataType=>"Hw signal", :Prop =>"NONE"){
           xml.Attrb(:Name=>"Port Type", :Value=>"I/O", :Type=>"string")
         }
         input_links_done << ifl
       else
-        foundfatherflow=flows_father.find{|f| f.flow_id==ifl.flow.id}
-        foundsiblingflow=flows_siblings.find{|f| f.flow_id==ifl.flow.id}
         foundblockflow=flows_block.find{|f| f.flow_id==ifl.flow.id}
-        if (foundfatherflow==nil and foundsiblingflow==nil and foundblockflow==nil) then
-  				xml.MemElement(
+        if (!foundblockflow and foundsiblingflow==nil) then
+          xml.MemElement(
             :Id=>"#{ifl.id+sub_system_flow_id_offset}",
             :Label=>ifl.flow.name, 
             :PosX=>((c+0.6)*(block_width*3)).to_s, :PosY=>block_height+(cont*mem_element_height), 
@@ -226,89 +251,87 @@ class EdiModel < ActiveRecord::Base
         else
           ident=foundfatherflow.id+sub_system_flow_id_inner_offset
         end
-        if foundblockflow==nil then
-          xml.DataFlow(:Label=>ifl.flow.name, 
-            :Color=>data_flow_color, 
-            :PosX=>((c+0.8)*(block_width*3)).to_s, :PosY=>block_height+(cont*mem_element_height), 
-            :Source=>"#{ident}",
-            :Destination=>"#{s.id+sub_system_id_offset}", :OrderSource=>"0", :OrderDestination=>"0", 
-            :DataType=>"#{ifl.flow.flow_type.name}",
-            :Prop=>"NONE", :Bidirection=>"No" 
-          )
-          input_vars_done << ifl
-        end
+        xml.DataFlow(:Label=>ifl.flow.name, 
+          :Color=>data_flow_color, 
+          :PosX=>((c+0.8)*(block_width*3)).to_s, :PosY=>block_height+(cont*mem_element_height), 
+          :Source=>"#{ident}",
+          :Destination=>"#{s.id+sub_system_id_offset}", :OrderSource=>"0", :OrderDestination=>"0", 
+          :DataType=>"#{ifl.flow.flow_type.name}",
+          :Prop=>"NONE2", :Bidirection=>"No" 
+        )
+        input_vars_done << ifl
       end
       flows_block << ifl
       cont+=1
     }
     xml.Process("Id"=>s.id+sub_system_id_offset, "Label" => s.abbrev, "PosX"=>((c+1)*(block_width*3)).to_s, "PosY"=>block_height * 2,"SizeX" =>block_width, "SizeY"=>block_height, "Color"=>block_color(s).to_s,
       "Shape"=>"Rectangle","Master"=>"No", "Order"=>"No", "Code"=>"", "Description"=>s.name){|p|
-        p.Attrb("Name" => "Block Id", "Value" => s.abbrev, "Type" => "string")
-        p.Attrb("Name" => "Source Arch. Module "+1.to_s, "Value" => "", "Type" => "url")
-        p.Attrb("Name" => "Software Requirement "+1.to_s, "Value" => "", "Type" => "url")
-        p.Attrb("Name" => "code_gen", "Value" => "0", "Type" => "enum")
-        p.Attrb("Name" => "Exec. Order", "Value" => "", "Type" => "int")
-        p.Attrb("Name" => "Timer Size", "Value" => "1", "Type" => "enum")
+      p.Attrb("Name" => "Block Id", "Value" => s.abbrev, "Type" => "string")
+      p.Attrb("Name" => "Source Arch. Module "+1.to_s, "Value" => "", "Type" => "url")
+      p.Attrb("Name" => "Software Requirement "+1.to_s, "Value" => "", "Type" => "url")
+      p.Attrb("Name" => "code_gen", "Value" => "0", "Type" => "enum")
+      p.Attrb("Name" => "Exec. Order", "Value" => "", "Type" => "int")
+      p.Attrb("Name" => "Timer Size", "Value" => "1", "Type" => "enum")
         
-        posy=20
-        output_links_done.each { |item|
-          p.Link(:Label=>item.flow.name, :Color=>13171450, :PosX=>520, :PosY=>posy, :Source=>"-1",:Destination=>"-1",
-            :OrderSource=>"0",
-            :OrderDestination=>"0",
-            :DataType=>"Hw signal",
-            :Prop =>"HIEROUTPUT"
-          )
-          posy+=link_height
-        }
-        posy=20
-        input_links_done.each { |item|
-          p.Link(:Label=>item.flow.name, :Color=>13171450, :PosX=>20, :PosY=>posy, :Source=>"-1",:Destination=>"-1",
-            :OrderSource=>"0",
-            :OrderDestination=>"0",
-            :DataType=>"Hw signal",
-            :Prop =>"HIERINPUT"
-          )
-          posy+=link_height
-        }
-        posy=20
-        input_vars_done.each { |item|
-          p.MemElement(
-            :Id=>item.id+sub_system_flow_id_inner_offset,
-            :Label=>item.flow.name,
-            :Color=>8388736,
-            :PosX=>20, :PosY=>posy, 
-            :SizeX=>80, :SizeY=>58, 
-            :DataType => item.flow.flow_type.name,
-            :Prop =>"READ"
-          )
-          posy+=mem_element_height
-        }
-        posy=20
-        output_vars_done.each { |item|
-          p.MemElement(
-            :Id=>item.id+sub_system_flow_id_inner_offset,
-            :Label=>item.flow.name,
-            :Color=>8388736,
-            :PosX=>20, :PosY=>posy, 
-            :SizeX=>80, :SizeY=>58, 
-            :DataType => item.flow.flow_type.name,
-            :Prop =>"WRITE"
-          )
-          posy+=mem_element_height
-        }
-        posy=20
-        bidir_vars_done.each { |item|
-          p.MemElement(
-            :Id=>item.id+sub_system_flow_id_inner_offset,
-            :Label=>item.flow.name,
-            :Color=>8388736,
-            :PosX=>20, :PosY=>posy, 
-            :SizeX=>80, :SizeY=>58, 
-            :DataType => item.flow.flow_type.name,
-            :Prop =>"READWRITE"
-          )
-          posy+=mem_element_height
-        }
+      posy=20
+      output_links_done.each { |item|
+        p.Link(:Label=>item.flow.name, :Color=>13171450, :PosX=>520, :PosY=>posy, :Source=>"-1",:Destination=>"-1",
+          :OrderSource=>"0",
+          :OrderDestination=>"0",
+          :DataType=>"Hw signal",
+          :Prop =>"HIEROUTPUT"
+        )
+        posy+=link_height
+      }
+      posy=20
+      input_links_done.each { |item|
+        p.Link(:Label=>item.flow.name, :Color=>13171450, :PosX=>20, :PosY=>posy, :Source=>"-1",:Destination=>"-1",
+          :OrderSource=>"0",
+          :OrderDestination=>"0",
+          :DataType=>"Hw signal",
+          :Prop =>"HIERINPUT"
+        )
+        posy+=link_height
+      }
+      posy=20
+      input_vars_done.each { |item|
+        p.MemElement(
+          :Id=>item.id+sub_system_flow_id_inner_offset,
+          :Label=>item.flow.name,
+          :Color=>8388736,
+          :PosX=>20, :PosY=>posy, 
+          :SizeX=>80, :SizeY=>58, 
+          :DataType => item.flow.flow_type.name,
+          :Prop =>"READ"
+        )
+        posy+=mem_element_height
+      }
+      posy=20
+      output_vars_done.each { |item|
+        p.MemElement(
+          :Id=>item.id+sub_system_flow_id_inner_offset,
+          :Label=>item.flow.name,
+          :Color=>8388736,
+          :PosX=>20, :PosY=>posy, 
+          :SizeX=>80, :SizeY=>58, 
+          :DataType => item.flow.flow_type.name,
+          :Prop =>"WRITE"
+        )
+        posy+=mem_element_height
+      }
+      posy=20
+      bidir_vars_done.each { |item|
+        p.MemElement(
+          :Id=>item.id+sub_system_flow_id_inner_offset,
+          :Label=>item.flow.name,
+          :Color=>8388736,
+          :PosX=>20, :PosY=>posy, 
+          :SizeX=>80, :SizeY=>58, 
+          :DataType => item.flow.flow_type.name,
+          :Prop =>"READWRITE"
+        )
+        posy+=mem_element_height
+      }
 
       contsystem=0
       flows_siblings+=flows_block

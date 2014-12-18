@@ -1,4 +1,4 @@
  <index-page>
-<collection: fields="this,abbrev, parent, project, connectors, actions">
+<collection: fields="this,abbrev, sub_system_type, parent, project, connectors, actions">
 </collection:>
  </index-page>
