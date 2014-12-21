@@ -186,10 +186,10 @@ class EdiProcess < ActiveRecord::Base
       end
       if (s.input_flows.find_by_flow_id(ofl.flow.id)!=nil) then
         bidir="Yes"
-        bidir_vars_done << ofl
+        bidir_vars_done << currentflow
       else
         bidir="No"
-        output_vars_done << ofl
+        output_vars_done << currentflow
       end
       if (foundfatherflow==nil) then
         if (foundsiblingflow==nil) then
@@ -229,7 +229,7 @@ class EdiProcess < ActiveRecord::Base
       foundfatherflow=flows_father.find{|f| f.flow_id==ifl.flow.id}
       foundsiblingflow=flows_siblings.find{|f| f.flow_id==ifl.flow.id}      
       foundblockflow=flows_block.find{|f| f.flow_id==ifl.flow.id}
-      foundbidirflow=bidir_vars_done.find{|f| f.flow_id==ifl.flow.id}
+      foundbidirflow=bidir_vars_done.find{|f| f.sub_system_flow.flow_id==ifl.flow.id}
       if (foundblockflow==nil and foundfatherflow==nil and foundsiblingflow==nil and foundbidirflow==nil) then
         xml.MemElement(
           :Id=>"#{currentflow.ident+EdiProcess.sub_system_flow_id_offset}",
@@ -264,7 +264,7 @@ class EdiProcess < ActiveRecord::Base
           :DataType=>currentflow.data_type,
           :Prop=>"NONE", :Bidirection=>"No" 
         )
-        input_vars_done << ifl
+        input_vars_done << currentflow
       end
       flows_block << ifl
       cont+=1
@@ -283,12 +283,12 @@ class EdiProcess < ActiveRecord::Base
       posy=20
       input_vars_done.each { |item|
         p.MemElement(
-          :Id=>item.id+EdiProcess.sub_system_flow_id_inner_offset,
-          :Label=>item.flow.name,
+          :Id=>item.ident+EdiProcess.sub_system_flow_id_inner_offset,
+          :Label=>item.label,
           :Color=>colortoset,
-          :PosX=>40, :PosY=>posy, 
+          :PosX=>item.pos_x_inner, :PosY=>item.pos_y_inner, 
           :SizeX=>80, :SizeY=>58, 
-          :DataType => item.flow.flow_type.name,
+          :DataType => item.data_type,
           :Prop =>"READ"
         )
         posy+=EdiProcess.mem_element_height
@@ -296,12 +296,12 @@ class EdiProcess < ActiveRecord::Base
       posy=20
       output_vars_done.each { |item|
         p.MemElement(
-          :Id=>item.id+EdiProcess.sub_system_flow_id_inner_offset,
-          :Label=>item.flow.name,
+          :Id=>item.ident+EdiProcess.sub_system_flow_id_inner_offset,
+          :Label=>item.label,
           :Color=>colortoset,
-          :PosX=>80, :PosY=>posy, 
+          :PosX=>item.pos_x_inner, :PosY=>item.pos_y_inner, 
           :SizeX=>80, :SizeY=>58, 
-          :DataType => item.flow.flow_type.name,
+          :DataType => item.data_type,
           :Prop =>"WRITE"
         )
         posy+=EdiProcess.mem_element_height
@@ -309,12 +309,12 @@ class EdiProcess < ActiveRecord::Base
       posy=20
       bidir_vars_done.each { |item|
         p.MemElement(
-          :Id=>item.id+EdiProcess.sub_system_flow_id_inner_offset,
-          :Label=>item.flow.name,
+          :Id=>item.ident+EdiProcess.sub_system_flow_id_inner_offset,
+          :Label=>item.label,
           :Color=>colortoset,
-          :PosX=>120, :PosY=>posy, 
+          :PosX=>item.pos_x_inner, :PosY=>item.pos_y_inner, 
           :SizeX=>80, :SizeY=>58, 
-          :DataType => item.flow.flow_type.name,
+          :DataType => item.data_type,
           :Prop =>"READWRITE"
         )
         posy+=EdiProcess.mem_element_height
