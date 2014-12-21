@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141219185743) do
+ActiveRecord::Schema.define(:version => 20141221054857) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -78,22 +78,22 @@ ActiveRecord::Schema.define(:version => 20141219185743) do
   create_table "edi_flows", :force => true do |t|
     t.integer  "ident"
     t.string   "label"
-    t.integer  "color"
     t.integer  "pos_x"
     t.integer  "pos_y"
     t.string   "data_type"
-    t.string   "prop"
-    t.string   "attr_name"
-    t.string   "attr_value"
-    t.string   "attr_type"
     t.integer  "size_x"
     t.integer  "size_y"
-    t.string   "edi_type"
-    t.boolean  "internal"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sub_system_flow_id"
     t.integer  "edi_process_id"
+    t.integer  "pos_x_inner"
+    t.integer  "pos_y_inner"
+    t.integer  "pos_x_dataflow"
+    t.integer  "pos_y_dataflow"
+    t.integer  "pos_x_inner_dataflow"
+    t.integer  "pos_y_inner_dataflow"
+    t.boolean  "bidir"
   end
 
   add_index "edi_flows", ["edi_process_id"], :name => "index_edi_flows_on_edi_process_id"

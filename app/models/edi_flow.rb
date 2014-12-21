@@ -5,70 +5,54 @@ class EdiFlow < ActiveRecord::Base
   fields do
     ident      :integer
     label      :string
-    color      :integer
     pos_x      :integer
     pos_y      :integer
+    pos_x_inner :integer
+    pos_y_inner :integer
+    pos_x_dataflow      :integer
+    pos_y_dataflow      :integer
+    pos_x_inner_dataflow :integer
+    pos_y_inner_dataflow :integer
     data_type  :string
-    prop       :string
-    attr_name  :string
-    attr_value :string
-    attr_type  :string
     size_x     :integer
     size_y     :integer
-    edi_type   :string
-    internal   :boolean
+    bidir      :boolean
     timestamps
   end
-  attr_accessible :ident, :label, :color, :pos_x, :pos_y, :data_type, :prop, :attr_name, :attr_value, :attr_type, :size_x, :size_y, :edi_type, :internal
+  attr_accessible :ident, :label, :pos_x, :pos_y, :pos_x_inner, :pos_y_inner,:pos_x_dataflow, :pos_y_dataflow, :pos_x_inner_dataflow, :pos_y_inner_dataflow, :data_type, :size_x, :size_y
 
   belongs_to :sub_system_flow
   belongs_to :edi_process, :creator =>:true, :inverse_of => :edi_flows
 
-  
-  def self.create_memelement_from_scratch(ssfl,cont, internal_value)
-    p=EdiFlow.create :ident => ssfl.id+EdiProcess.sub_system_flow_id_offset, :label=>ssfl.flow.name, :color => EdiProcess.mem_element_color, 
-      :pos_x=> ((c+1.4)*(EdiProcess.block_width*3)) , :pos_y => EdiProcess.block_height+(cont*EdiProcess.mem_element_height), 
-      :size_x => 80, :size_y => 58,
-      :data_type => ssfl.flow.flow_type.name, :prop=>"NONE", :attr_name=>"Port Type", :attr_value => "I/O", :attr_type => ":string",
-      :edi_type => "MemElement", :internal => internal_value
-    p.sub_system_flow=ssfl 
-    return p
+  def name
+    self.sub_system_flow.flow.name
   end
+    
   
-  def self.create_from_scratch(ssfl, cont, flows_father,flows_siblings)
-    foundfatherflow=flows_father.find{|f| f.flow_id==ssfl.id}
-    foundsiblingflow=flows_siblings.find{|f| f.flow_id==ssfl.id}      
-      
-    if (foundsiblingflow==nil) then
-      ef=EdiFlow.create_memelement_from_scratch(ssfl,cont,false)
-    end
-    if (s.input_flows.find_by_flow_id(ssfl.flow.id)!=nil) then
-      bidir="Yes"
-      bidir_vars_done << ssfl
+  def self.create_from_scratch(ssf,c,cont)
+    if  ssf.flow_direction.name=="input" then
+      posx=((c+0.6)*(EdiProcess.block_width*3))
+      posy=EdiProcess.block_height+(cont*EdiProcess.mem_element_height)
+      posxdataflow=((c+0.8)*(EdiProcess.block_width*3))
+      posydataflow=EdiProcess.block_height+(cont*EdiProcess.mem_element_height) 
     else
-      bidir="No"
-      output_vars_done << ssfl
+      posx=((c+1.4)*(EdiProcess.block_width*3))
+      posy=EdiProcess.block_height+(cont*EdiProcess.mem_element_height)
+      posxdataflow=((c+1.2)*(EdiProcess.block_width*3))
+      posydataflow=EdiProcess.block_height+(cont*EdiProcess.mem_element_height)
     end
-    if (foundfatherflow==nil) then
-      if (foundsiblingflow==nil) then
-        ident=ssfl.id+EdiProcess.sub_system_flow_id_offset
-      else
-        ident=foundsiblingflow.id+EdiProcess.sub_system_flow_id_offset
-      end
-    else
-      ident=foundfatherflow.id+EdiProcess.sub_system_flow_id_inner_offset
-    end
-    xml.DataFlow(:Label=>ofl.flow.name, 
-      :Color=>EdiProcess.data_flow_color, 
-      :PosX=>((c+1.2)*(EdiProcess.block_width*3)).to_s, :PosY=>EdiProcess.block_height+(cont*EdiProcess.mem_element_height), 
-      :Destination=>"#{ident}",
-      :Source=>"#{s.id+EdiProcess.sub_system_id_offset}", :OrderSource=>"0", :OrderDestination=>"0", 
-      :DataType=>"#{ofl.flow.flow_type.name}",
-      :Prop=>"NONE", :Bidirection=>bidir )
-    flows_block << ofl
-    cont+=1   
+
+    p=EdiFlow.create :ident => ssf.id, :label=>ssf.flow.name, \
+      :pos_x=>posx, :pos_y=>posy, \
+      :pos_x_dataflow=>posxdataflow, :pos_y_dataflow=>posydataflow, \
+      :pos_x_inner=>((EdiProcess.block_width*3)), :pos_y_inner=>EdiProcess.block_height+(cont*EdiProcess.mem_element_height), \
+      :pos_x_inner_dataflow=>((EdiProcess.block_width*3)), :pos_y_inner_dataflow=>EdiProcess.block_height+(cont*EdiProcess.mem_element_height), \
+      :size_x=>80, :size_y=>58, \
+      :data_type=>ssf.flow.flow_type.name
+    p.sub_system_flow=ssf
+    return p  
   end
-  
+    
   # --- Permissions --- #
 
   def create_permitted?
