@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141125090914) do
+ActiveRecord::Schema.define(:version => 20141219185743) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -75,6 +75,30 @@ ActiveRecord::Schema.define(:version => 20141125090914) do
   add_index "datum_datum_conversions", ["datum_conversion_id"], :name => "index_datum_datum_conversions_on_datum_conversion_id"
   add_index "datum_datum_conversions", ["datum_id"], :name => "index_datum_datum_conversions_on_datum_id"
 
+  create_table "edi_flows", :force => true do |t|
+    t.integer  "ident"
+    t.string   "label"
+    t.integer  "color"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.string   "data_type"
+    t.string   "prop"
+    t.string   "attr_name"
+    t.string   "attr_value"
+    t.string   "attr_type"
+    t.integer  "size_x"
+    t.integer  "size_y"
+    t.string   "edi_type"
+    t.boolean  "internal"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sub_system_flow_id"
+    t.integer  "edi_process_id"
+  end
+
+  add_index "edi_flows", ["edi_process_id"], :name => "index_edi_flows_on_edi_process_id"
+  add_index "edi_flows", ["sub_system_flow_id"], :name => "index_edi_flows_on_sub_system_flow_id"
+
   create_table "edi_models", :force => true do |t|
     t.string   "name"
     t.string   "abbrev"
@@ -98,12 +122,10 @@ ActiveRecord::Schema.define(:version => 20141125090914) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "edi_model_id"
-    t.integer  "parent_id"
     t.integer  "sub_system_id"
   end
 
   add_index "edi_processes", ["edi_model_id"], :name => "index_edi_processes_on_edi_model_id"
-  add_index "edi_processes", ["parent_id"], :name => "index_edi_processes_on_parent_id"
   add_index "edi_processes", ["sub_system_id"], :name => "index_edi_processes_on_sub_system_id"
 
   create_table "fail_safe_command_times", :force => true do |t|
