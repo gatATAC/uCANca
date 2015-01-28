@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE EdiProject SYSTEM "EdiGra.dtd">
+<EdiProject Label="903_FE1XC_S0" Description="Geely ISBSW Development project" Author="Txinto Vaz" Date="24/12/2014" Version="1.0" Tag="Tag">
+	<DefAttrb Name="Author" ObjType="EdiProject" Default="" Type="string" ValRange=""/>
+	<DefAttrb Name="Reference" ObjType="EdiProject" Default="" Type="string" ValRange=""/>
+	<DefAttrb Name="Version" ObjType="EdiProject" Default="" Type="string" ValRange=""/>
+	<DefAttrb Name="Date" ObjType="EdiProject" Default="DD/MM/YYYY" Type="date" ValRange=""/>
+	<DefAttrb Name="Block Id" ObjType="Process" Default="" Type="string" ValRange=""/>
+	<DefAttrb Name="Source Arch. Module 1" ObjType="Process" Default="" Type="url" ValRange=""/>
+	<DefAttrb Name="Software Requirement 1" ObjType="Process" Default="" Type="url" ValRange=""/>
+	<DefAttrb Name="code_gen" ObjType="Process" Default="0" Type="enum" ValRange="(FSM,0);(OsekCom,1);(FSM_Redun2,2);(FSM_Redun3,3)"/>
+	<DefAttrb Name="Exec. Order" ObjType="Process" Default="" Type="int" ValRange="1;2;3"/>
+	<DefAttrb Name="Timer Size" ObjType="Process" Default="1" Type="enum" ValRange="(UI_8,0);(UI_16,1);(UI_32,2);"/>
+	<DefAttrb Name="Port Type" ObjType="Link" Default="I/O" Type="string" ValRange=""/>
+	<DefAttrb Name="Software Requirement 1" ObjType="Transition" Default="" Type="url" ValRange=""/>
+	<DefAttrb Name="Priority" ObjType="Transition" Default="" Type="int" ValRange=""/>
+	<DefAttrb Name="Software Requirement 1" ObjType="State" Default="" Type="url" ValRange=""/>
+	<Attrb Name="Author" Value="Txinto Vaz" Type="string"/>
+	<Attrb Name="Reference" Value="903_FE1XC_S0" Type="string"/>
+	<Attrb Name="Version" Value="2.1" Type="string"/>
+	<Attrb Name="Date" Value="24/12/2014" Type="date"/>
+	<Process Id="1" Label="903_FE1XC_S0" PosX="200" PosY="230" SizeX="140" SizeY="90" Color="13688896" Shape="Rectangle" Master="No" Order="No" Code="" Description="Geely ISBSW">
+		<Attrb Name="Block Id" Value="903_FE1XC_S0" Type="string"/>
+		<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+		<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+		<Attrb Name="code_gen" Value="0" Type="enum"/>
+		<Attrb Name="Exec. Order" Value="" Type="int"/>
+		<Attrb Name="Timer Size" Value="1" Type="enum"/>
+		<MemElement Id="2" Label="LIN" PosX="659" PosY="105" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="NONE"/>
+		<DataFlow Label="LIN" Color="12632256" PosX="550" PosY="116" Source="14" Destination="2" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+		<MemElement Id="4" Label="CAN_H" PosX="666" PosY="175" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="NONE"/>
+		<DataFlow Label="CAN_H" Color="12632256" PosX="557" PosY="167" Source="14" Destination="4" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+		<MemElement Id="6" Label="CAN_L" PosX="672" PosY="244" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="NONE"/>
+		<DataFlow Label="CAN_L" Color="12632256" PosX="556" PosY="226" Source="14" Destination="6" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+		<MemElement Id="8" Label="BAT_KL30" PosX="166" PosY="83" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="NONE"/>
+		<DataFlow Label="BAT_KL30" Color="12632256" PosX="292" PosY="88" Source="8" Destination="14" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+		<MemElement Id="10" Label="GND" PosX="169" PosY="152" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="NONE"/>
+		<DataFlow Label="GND" Color="12632256" PosX="275" PosY="150" Source="10" Destination="14" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+		<MemElement Id="12" Label="IGN_KL15" PosX="169" PosY="221" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="NONE"/>
+		<DataFlow Label="IGN_KL15" Color="12632256" PosX="284" PosY="216" Source="12" Destination="14" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+		<Process Id="14" Label="GSM" PosX="420" PosY="180" SizeX="140" SizeY="140" Color="13688896" Shape="Rectangle" Master="No" Order="No" Code="" Description="GSM">
+			<Attrb Name="Block Id" Value="GSM" Type="string"/>
+			<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+			<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+			<Attrb Name="code_gen" Value="0" Type="enum"/>
+			<Attrb Name="Exec. Order" Value="" Type="int"/>
+			<Attrb Name="Timer Size" Value="1" Type="enum"/>
+			<MemElement Id="15" Label="BAT_KL30" PosX="226" PosY="55" SizeX="77" SizeY="65" Color="12632256" DataType="Power" Prop ="READ"/>
+			<MemElement Id="16" Label="GND" PosX="1034" PosY="34" SizeX="80" SizeY="65" Color="12632256" DataType="Power" Prop ="READ"/>
+			<MemElement Id="17" Label="IGN_KL15" PosX="62" PosY="92" SizeX="77" SizeY="65" Color="12632256" DataType="Power" Prop ="READ"/>
+			<MemElement Id="18" Label="LIN" PosX="2002" PosY="495" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+			<MemElement Id="19" Label="CAN_H" PosX="1627" PosY="331" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+			<MemElement Id="20" Label="CAN_L" PosX="1624" PosY="225" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+			<MemElement Id="21" Label="WDA" PosX="71" PosY="641" SizeX="80" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="WDA" Color="12632256" PosX="180" PosY="636" Source="80" Destination="21" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="23" Label="SCLK2" PosX="1408" PosY="951" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="SCLK2" Color="12632256" PosX="789" PosY="805" Source="80" Destination="23" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="25" Label="MISO2" PosX="1414" PosY="1102" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="MISO2" Color="12632256" PosX="792" PosY="856" Source="80" Destination="25" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="27" Label="MOSI2" PosX="1408" PosY="1023" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="MOSI2" Color="12632256" PosX="790" PosY="830" Source="80" Destination="27" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="29" Label="MCLR_MMC" PosX="400" PosY="854" SizeX="93" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="MCLR_MMC" Color="12632256" PosX="416" PosY="783" Source="80" Destination="29" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="31" Label="NEG_SS2" PosX="1410" PosY="882" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="NEG_SS2" Color="12632256" PosX="790" PosY="780" Source="80" Destination="31" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="33" Label="NEG_SS1" PosX="1404" PosY="597" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="NEG_SS1" Color="12632256" PosX="792" PosY="677" Source="80" Destination="33" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="35" Label="U2CTS" PosX="816" PosY="964" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="NONE"/>
+			<DataFlow Label="U2CTS" Color="12632256" PosX="729" PosY="956" Source="80" Destination="35" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="37" Label="U2RTS" PosX="818" PosY="1036" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="NONE"/>
+			<DataFlow Label="U2RTS" Color="12632256" PosX="728" PosY="1021" Source="80" Destination="37" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="39" Label="EN_LIN" PosX="1142" PosY="436" SizeX="80" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="EN_LIN" Color="12632256" PosX="790" PosY="573" Source="80" Destination="39" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="41" Label="LIN_TX" PosX="1140" PosY="504" SizeX="80" SizeY="65" Color="12632256" DataType="LIN" Prop ="NONE"/>
+			<DataFlow Label="LIN_TX" Color="12632256" PosX="794" PosY="603" Source="80" Destination="41" OrderSource="0" OrderDestination="0" DataType="LIN" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="43" Label="MOSI1" PosX="1407" PosY="737" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="MOSI1" Color="12632256" PosX="786" PosY="729" Source="80" Destination="43" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="45" Label="MISO1" PosX="1409" PosY="812" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="MISO1" Color="12632256" PosX="785" PosY="754" Source="80" Destination="45" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<MemElement Id="47" Label="SCLK1" PosX="1403" PosY="664" SizeX="80" SizeY="65" Color="12632256" DataType="SPI" Prop ="NONE"/>
+			<DataFlow Label="SCLK1" Color="12632256" PosX="784" PosY="702" Source="80" Destination="47" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="49" Label="BL_PWM" PosX="817" PosY="1104" SizeX="80" SizeY="65" Color="12632256" DataType="PWM" Prop ="NONE"/>
+			<DataFlow Label="BL_PWM" Color="12632256" PosX="722" PosY="1081" Source="80" Destination="49" OrderSource="0" OrderDestination="0" DataType="PWM" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="51" Label="OL_PWM" PosX="816" PosY="1175" SizeX="80" SizeY="65" Color="12632256" DataType="PWM" Prop ="NONE"/>
+			<DataFlow Label="OL_PWM" Color="12632256" PosX="698" PosY="1122" Source="80" Destination="51" OrderSource="0" OrderDestination="0" DataType="PWM" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="53" Label="C1TX" PosX="898" PosY="368" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="NONE"/>
+			<DataFlow Label="C1TX" Color="12632256" PosX="747" PosY="440" Source="80" Destination="53" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="55" Label="CAN_EN_UC" PosX="901" PosY="296" SizeX="101" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="CAN_EN_UC" Color="12632256" PosX="750" PosY="381" Source="80" Destination="55" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="57" Label="CPU_ALIVE" PosX="88" PosY="757" SizeX="91" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="CPU_ALIVE" Color="12632256" PosX="371" PosY="732" Source="80" Destination="57" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="711" PosY="255" Source="16" Destination="80" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="60" Label="VDD" PosX="345" PosY="1082" SizeX="80" SizeY="65" Color="12632256" DataType="Power" Prop ="NONE"/>
+			<DataFlow Label="VDD" Color="12632256" PosX="432" PosY="1041" Source="60" Destination="80" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="62" Label="B1_PROT_SENS" PosX="351" PosY="326" SizeX="125" SizeY="65" Color="12632256" DataType="ADC" Prop ="NONE"/>
+			<DataFlow Label="B1_PROT_SENS" Color="12632256" PosX="427" PosY="499" Source="62" Destination="80" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="64" Label="I1_PROT_SENS" PosX="545" PosY="170" SizeX="120" SizeY="65" Color="12632256" DataType="ADC" Prop ="NONE"/>
+			<DataFlow Label="I1_PROT_SENS" Color="12632256" PosX="587" PosY="284" Source="64" Destination="80" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="66" Label="PGC_MMC" PosX="683" PosY="1318" SizeX="82" SizeY="65" Color="12632256" DataType="InCircuit" Prop ="NONE"/>
+			<DataFlow Label="PGC_MMC" Color="12632256" PosX="629" PosY="1181" Source="66" Destination="80" OrderSource="0" OrderDestination="0" DataType="InCircuit" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="68" Label="PGD_MMC" PosX="387" PosY="1315" SizeX="82" SizeY="65" Color="12632256" DataType="InCircuit" Prop ="NONE"/>
+			<DataFlow Label="PGD_MMC" Color="12632256" PosX="439" PosY="1197" Source="68" Destination="80" OrderSource="0" OrderDestination="0" DataType="InCircuit" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="70" Label="5V_SENS" PosX="312" PosY="1003" SizeX="80" SizeY="65" Color="12632256" DataType="ADC" Prop ="NONE"/>
+			<DataFlow Label="5V_SENS" Color="12632256" PosX="416" PosY="975" Source="70" Destination="80" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="72" Label="LIN_RX" PosX="1140" PosY="572" SizeX="80" SizeY="65" Color="12632256" DataType="LIN" Prop ="NONE"/>
+			<DataFlow Label="LIN_RX" Color="12632256" PosX="798" PosY="630" Source="72" Destination="80" OrderSource="0" OrderDestination="0" DataType="LIN" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="74" Label="XTAL1" PosX="486" PosY="1314" SizeX="96" SizeY="65" Color="12632256" DataType="MCU_Config" Prop ="NONE"/>
+			<DataFlow Label="XTAL1" Color="12632256" PosX="519" PosY="1204" Source="74" Destination="80" OrderSource="0" OrderDestination="0" DataType="MCU_Config" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="76" Label="XTAL2" PosX="588" PosY="1315" SizeX="96" SizeY="65" Color="12632256" DataType="MCU_Config" Prop ="NONE"/>
+			<DataFlow Label="XTAL2" Color="12632256" PosX="579" PosY="1222" Source="76" Destination="80" OrderSource="0" OrderDestination="0" DataType="MCU_Config" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="78" Label="C1RX" PosX="904" PosY="436" SizeX="80" SizeY="65" Color="12632256" DataType="Bus" Prop ="NONE"/>
+			<DataFlow Label="C1RX" Color="12632256" PosX="781" PosY="470" Source="78" Destination="80" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="No"/>
+			<Process Id="80" Label="MCU" PosX="567" PosY="719" SizeX="140" SizeY="800" Color="13688896" Shape="Rectangle" Master="No" Order="No" Code="" Description="MCU">
+				<MemElement Id="81" Label="GND" PosX="1291" PosY="1505" SizeX="80" SizeY="59" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="82" Label="VDD" PosX="1377" PosY="1501" SizeX="80" SizeY="59" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="83" Label="B1_PROT_SENS" PosX="1286" PosY="1055" SizeX="120" SizeY="59" Color="12632256" DataType="ADC" Prop ="READ"/>
+				<MemElement Id="84" Label="I1_PROT_SENS" PosX="1405" PosY="1055" SizeX="113" SizeY="59" Color="12632256" DataType="ADC" Prop ="READ"/>
+				<MemElement Id="85" Label="PGC_MMC" PosX="1283" PosY="1434" SizeX="80" SizeY="59" Color="12632256" DataType="InCircuit" Prop ="READ"/>
+				<MemElement Id="86" Label="PGD_MMC" PosX="1473" PosY="1327" SizeX="80" SizeY="59" Color="12632256" DataType="InCircuit" Prop ="READ"/>
+				<MemElement Id="87" Label="5V_SENS" PosX="1564" PosY="1329" SizeX="80" SizeY="59" Color="12632256" DataType="ADC" Prop ="READ"/>
+				<MemElement Id="88" Label="LIN_RX" PosX="1562" PosY="1458" SizeX="80" SizeY="59" Color="12632256" DataType="LIN" Prop ="READ"/>
+				<MemElement Id="89" Label="XTAL1" PosX="1105" PosY="1506" SizeX="86" SizeY="59" Color="12632256" DataType="MCU_Config" Prop ="READ"/>
+				<MemElement Id="90" Label="XTAL2" PosX="1197" PosY="1504" SizeX="86" SizeY="59" Color="12632256" DataType="MCU_Config" Prop ="READ"/>
+				<MemElement Id="91" Label="C1RX" PosX="836" PosY="1059" SizeX="80" SizeY="59" Color="12632256" DataType="Bus" Prop ="READ"/>
+				<MemElement Id="92" Label="WDA" PosX="1269" PosY="1356" SizeX="80" SizeY="59" Color="12632256" DataType="DIO" Prop ="WRITE"/>
+				<MemElement Id="93" Label="EN_LIN" PosX="1465" PosY="1391" SizeX="80" SizeY="59" Color="12632256" DataType="DIO" Prop ="WRITE"/>
+				<MemElement Id="94" Label="LIN_TX" PosX="1558" PosY="1395" SizeX="80" SizeY="59" Color="12632256" DataType="LIN" Prop ="WRITE"/>
+				<MemElement Id="95" Label="SCLK1" PosX="260" PosY="1060" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="WRITE"/>
+				<MemElement Id="96" Label="BL_PWM" PosX="1468" PosY="1263" SizeX="80" SizeY="59" Color="12632256" DataType="PWM" Prop ="WRITE"/>
+				<MemElement Id="97" Label="OL_PWM" PosX="1564" PosY="1264" SizeX="80" SizeY="59" Color="12632256" DataType="PWM" Prop ="WRITE"/>
+				<MemElement Id="98" Label="C1TX" PosX="922" PosY="1060" SizeX="80" SizeY="59" Color="12632256" DataType="Bus" Prop ="WRITE"/>
+				<MemElement Id="99" Label="CAN_EN_UC" PosX="743" PosY="1060" SizeX="91" SizeY="59" Color="12632256" DataType="DIO" Prop ="WRITE"/>
+				<MemElement Id="100" Label="CPU_ALIVE" PosX="1194" PosY="1442" SizeX="82" SizeY="59" Color="12632256" DataType="DIO" Prop ="WRITE"/>
+				<MemElement Id="101" Label="SCLK2" PosX="475" PosY="1061" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="102" Label="MISO2" PosX="442" PosY="1123" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="103" Label="MOSI2" PosX="413" PosY="1183" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="104" Label="MCLR_MMC" PosX="1375" PosY="1432" SizeX="86" SizeY="59" Color="12632256" DataType="DIO" Prop ="READWRITE"/>
+				<MemElement Id="105" Label="NEG_SS2" PosX="567" PosY="1062" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="106" Label="NEG_SS1" PosX="653" PosY="1061" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="107" Label="U2CTS" PosX="1557" PosY="1196" SizeX="80" SizeY="59" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+				<MemElement Id="108" Label="U2RTS" PosX="1467" PosY="1198" SizeX="80" SizeY="59" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+				<MemElement Id="109" Label="MOSI1" PosX="329" PosY="1183" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="110" Label="MISO1" PosX="293" PosY="1122" SizeX="80" SizeY="59" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="111" Label="bat_mode" PosX="1078" PosY="491" SizeX="80" SizeY="59" Color="8388736" DataType="Variable" Prop ="NONE"/>
+				<DataFlow Label="bat_mode" Color="16775880" PosX="1182" PosY="494" Source="119" Destination="111" OrderSource="0" OrderDestination="0" DataType="Variable" Prop="NONE" Bidirection="No"/>
+				<MemElement Id="113" Label="high_bat" PosX="1081" PosY="565" SizeX="80" SizeY="59" Color="8388736" DataType="Flag" Prop ="NONE"/>
+				<DataFlow Label="high_bat" Color="16775880" PosX="1181" PosY="556" Source="119" Destination="113" OrderSource="0" OrderDestination="0" DataType="Flag" Prop="NONE" Bidirection="No"/>
+				<MemElement Id="115" Label="low_bat" PosX="1082" PosY="637" SizeX="80" SizeY="59" Color="8388736" DataType="Flag" Prop ="NONE"/>
+				<DataFlow Label="low_bat" Color="16775880" PosX="1181" PosY="615" Source="119" Destination="115" OrderSource="0" OrderDestination="0" DataType="Flag" Prop="NONE" Bidirection="No"/>
+				<MemElement Id="117" Label="bat_sense" PosX="1301" PosY="699" SizeX="80" SizeY="59" Color="8388736" DataType="ADC" Prop ="NONE"/>
+				<DataFlow Label="bat_sense" Color="16775880" PosX="1292" PosY="636" Source="117" Destination="119" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+				<Process Id="119" Label="BATMode" PosX="1307" PosY="532" SizeX="140" SizeY="140" Color="16443110" Shape="Rectangle" Master="No" Order="No" Code="" Description="BATMode">
+					<Attrb Name="Block Id" Value="BATMode" Type="string"/>
+					<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+					<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+					<Attrb Name="code_gen" Value="0" Type="enum"/>
+					<Attrb Name="Exec. Order" Value="" Type="int"/>
+					<Attrb Name="Timer Size" Value="1" Type="enum"/>
+					<MemElement Id="120" Label="bat_sense" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="8388736" DataType="ADC" Prop ="READ"/>
+					<MemElement Id="121" Label="bat_mode" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="8388736" DataType="Variable" Prop ="WRITE"/>
+					<MemElement Id="122" Label="high_bat" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="8388736" DataType="Flag" Prop ="WRITE"/>
+					<MemElement Id="123" Label="low_bat" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="8388736" DataType="Flag" Prop ="WRITE"/>
+				</Process>
+				<DataFlow Label="bat_sense" Color="16775880" PosX="1310" PosY="759" Source="126" Destination="117" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+				<DataFlow Label="B1_PROT_SENS" Color="12632256" PosX="1299" PosY="938" Source="83" Destination="126" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+				<Process Id="126" Label="ADC" PosX="1332" PosY="862" SizeX="300" SizeY="80" Color="16443110" Shape="Rectangle" Master="No" Order="No" Code="" Description="ADC Library">
+					<Attrb Name="Block Id" Value="" Type="string"/>
+					<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+					<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+					<Attrb Name="code_gen" Value="0" Type="enum"/>
+					<Attrb Name="Exec. Order" Value="" Type="int"/>
+					<Attrb Name="Timer Size" Value="1" Type="enum"/>
+					<MemElement Id="127" Label="B1_PROT_SENS" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="8388736" DataType="ADC" Prop ="READ"/>
+					<MemElement Id="128" Label="bat_sense" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="8388736" DataType="ADC" Prop ="WRITE"/>
+				</Process>
+			</Process>
+			<DataFlow Label="CAN_H" Color="12632256" PosX="1418" PosY="288" Source="134" Destination="19" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="CAN_L" Color="12632256" PosX="1411" PosY="224" Source="134" Destination="20" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="C1RX" Color="12632256" PosX="1103" PosY="360" Source="134" Destination="78" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="C1TX" Color="12632256" PosX="1099" PosY="315" Source="53" Destination="134" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="1238" PosY="96" Source="16" Destination="134" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<Process Id="134" Label="CAN_Trcv" PosX="1262" PosY="260" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="CAN_Trcv">
+				<Attrb Name="Block Id" Value="CAN_Trcv" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="135" Label="C1TX" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="READ"/>
+				<MemElement Id="136" Label="GND" PosX="420" PosY="270" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="137" Label="C1RX" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="WRITE"/>
+				<MemElement Id="138" Label="CAN_H" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+				<MemElement Id="139" Label="CAN_L" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+			</Process>
+			<MemElement Id="140" Label="B1_PROT" PosX="76" PosY="548" SizeX="80" SizeY="65" Color="12632256" DataType="Power" Prop ="NONE"/>
+			<DataFlow Label="B1_PROT" Color="12632256" PosX="86" PosY="446" Source="149" Destination="140" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="B1_PROT_SENS" Color="12632256" PosX="357" PosY="248" Source="149" Destination="62" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="143" Label="I1_PROT" PosX="216" PosY="474" SizeX="80" SizeY="65" Color="12632256" DataType="Power" Prop ="NONE"/>
+			<DataFlow Label="I1_PROT" Color="12632256" PosX="214" PosY="402" Source="149" Destination="143" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="I1_PROT_SENS" Color="12632256" PosX="385" PosY="178" Source="149" Destination="64" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="BAT_KL30" Color="12632256" PosX="229" PosY="118" Source="15" Destination="149" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="IGN_KL15" Color="12632256" PosX="68" PosY="200" Source="17" Destination="149" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="419" PosY="42" Source="16" Destination="149" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<Process Id="149" Label="TransProt" PosX="215" PosY="237" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="TransProt">
+				<Attrb Name="Block Id" Value="TransProt" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="150" Label="BAT_KL30" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="151" Label="IGN_KL15" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="152" Label="GND" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="153" Label="B1_PROT" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="WRITE"/>
+				<MemElement Id="154" Label="B1_PROT_SENS" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="ADC" Prop ="WRITE"/>
+				<MemElement Id="155" Label="I1_PROT" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="WRITE"/>
+				<MemElement Id="156" Label="I1_PROT_SENS" PosX="420" PosY="270" SizeX="80" SizeY="58" Color="12632256" DataType="ADC" Prop ="WRITE"/>
+			</Process>
+			<DataFlow Label="MCLR_MMC" Color="12632256" PosX="394" PosY="917" Source="168" Destination="29" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="5V_SENS" Color="12632256" PosX="279" PosY="943" Source="168" Destination="70" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="159" Label="5V" PosX="52" PosY="997" SizeX="80" SizeY="65" Color="12632256" DataType="Power" Prop ="NONE"/>
+			<DataFlow Label="5V" Color="12632256" PosX="93" PosY="914" Source="168" Destination="159" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="B1_PROT" Color="12632256" PosX="209" PosY="581" Source="140" Destination="168" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="I1_PROT" Color="12632256" PosX="258" PosY="536" Source="143" Destination="168" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="CPU_ALIVE" Color="12632256" PosX="92" PosY="846" Source="57" Destination="168" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="WDA" Color="12632256" PosX="163" PosY="703" Source="21" Destination="168" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="165" Label="W_DISA" PosX="403" PosY="573" SizeX="80" SizeY="65" Color="12632256" DataType="DIO" Prop ="NONE"/>
+			<DataFlow Label="W_DISA" Color="12632256" PosX="363" PosY="642" Source="165" Destination="168" OrderSource="0" OrderDestination="0" DataType="DIO" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="465" PosY="309" Source="16" Destination="168" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<Process Id="168" Label="5VLDO" PosX="241" PosY="847" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="5VLDO">
+				<Attrb Name="Block Id" Value="5VLDO" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="169" Label="B1_PROT" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="170" Label="I1_PROT" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="171" Label="CPU_ALIVE" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="DIO" Prop ="READ"/>
+				<MemElement Id="172" Label="WDA" PosX="420" PosY="270" SizeX="80" SizeY="58" Color="12632256" DataType="DIO" Prop ="READ"/>
+				<MemElement Id="173" Label="W_DISA" PosX="420" PosY="330" SizeX="80" SizeY="58" Color="12632256" DataType="DIO" Prop ="READ"/>
+				<MemElement Id="174" Label="GND" PosX="420" PosY="390" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="175" Label="MCLR_MMC" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="DIO" Prop ="WRITE"/>
+				<MemElement Id="176" Label="5V_SENS" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="ADC" Prop ="WRITE"/>
+				<MemElement Id="177" Label="5V" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="WRITE"/>
+			</Process>
+			<DataFlow Label="VDD" Color="12632256" PosX="294" PosY="1148" Source="181" Destination="60" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="5V" Color="12632256" PosX="52" PosY="1113" Source="159" Destination="181" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="894" PosY="1193" Source="16" Destination="181" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<Process Id="181" Label="3VLDO" PosX="175" PosY="1182" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="3VLDO">
+				<Attrb Name="Block Id" Value="3VLDO" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="182" Label="5V" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="183" Label="GND" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="184" Label="VDD" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="WRITE"/>
+			</Process>
+			<DataFlow Label="LIN" Color="12632256" PosX="1885" PosY="496" Source="189" Destination="18" OrderSource="0" OrderDestination="0" DataType="Bus" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="LIN_RX" Color="12632256" PosX="1282" PosY="546" Source="189" Destination="72" OrderSource="0" OrderDestination="0" DataType="LIN" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="LIN_TX" Color="12632256" PosX="1275" PosY="481" Source="41" Destination="189" OrderSource="0" OrderDestination="0" DataType="LIN" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="GND" Color="12632256" PosX="1446" PosY="97" Source="16" Destination="189" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<Process Id="189" Label="LIN_Trcv" PosX="1495" PosY="484" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="LIN_Trcv">
+				<Attrb Name="Block Id" Value="LIN_Trcv" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="190" Label="LIN_TX" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="LIN" Prop ="READ"/>
+				<MemElement Id="191" Label="GND" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="192" Label="LIN_RX" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="LIN" Prop ="WRITE"/>
+				<MemElement Id="193" Label="LIN" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Bus" Prop ="READWRITE"/>
+			</Process>
+			<DataFlow Label="MOSI1" Color="12632256" PosX="1517" PosY="747" Source="205" Destination="43" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="MISO1" Color="12632256" PosX="1512" PosY="804" Source="205" Destination="45" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="MOSI2" Color="12632256" PosX="1533" PosY="955" Source="205" Destination="27" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="MISO2" Color="12632256" PosX="1559" PosY="1048" Source="205" Destination="25" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="Yes"/>
+			<DataFlow Label="GND" Color="12632256" PosX="1715" PosY="93" Source="16" Destination="205" OrderSource="0" OrderDestination="0" DataType="Power" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="199" Label="DIEA" PosX="2106" PosY="781" SizeX="80" SizeY="65" Color="12632256" DataType="ADC" Prop ="NONE"/>
+			<DataFlow Label="DIEA" Color="12632256" PosX="1940" PosY="762" Source="199" Destination="205" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<MemElement Id="201" Label="DIEB" PosX="2109" PosY="875" SizeX="80" SizeY="65" Color="12632256" DataType="ADC" Prop ="NONE"/>
+			<DataFlow Label="DIEB" Color="12632256" PosX="1942" PosY="858" Source="201" Destination="205" OrderSource="0" OrderDestination="0" DataType="ADC" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="SCLK1" Color="12632256" PosX="1516" PosY="688" Source="47" Destination="205" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="No"/>
+			<DataFlow Label="SCLK2" Color="12632256" PosX="1546" PosY="905" Source="23" Destination="205" OrderSource="0" OrderDestination="0" DataType="SPI" Prop="NONE" Bidirection="No"/>
+			<Process Id="205" Label="3DSensor" PosX="1747" PosY="801" SizeX="140" SizeY="140" Color="12423010" Shape="Rectangle" Master="No" Order="No" Code="" Description="3DSensor">
+				<Attrb Name="Block Id" Value="3DSensor" Type="string"/>
+				<Attrb Name="Source Arch. Module 1" Value="" Type="url"/>
+				<Attrb Name="Software Requirement 1" Value="" Type="url"/>
+				<Attrb Name="code_gen" Value="0" Type="enum"/>
+				<Attrb Name="Exec. Order" Value="" Type="int"/>
+				<Attrb Name="Timer Size" Value="1" Type="enum"/>
+				<MemElement Id="206" Label="GND" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="Power" Prop ="READ"/>
+				<MemElement Id="207" Label="DIEA" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="ADC" Prop ="READ"/>
+				<MemElement Id="208" Label="DIEB" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="ADC" Prop ="READ"/>
+				<MemElement Id="209" Label="SCLK1" PosX="420" PosY="390" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READ"/>
+				<MemElement Id="210" Label="SCLK2" PosX="420" PosY="570" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READ"/>
+				<MemElement Id="211" Label="MOSI1" PosX="420" PosY="90" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="212" Label="MISO1" PosX="420" PosY="150" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="213" Label="MOSI2" PosX="420" PosY="210" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+				<MemElement Id="214" Label="MISO2" PosX="420" PosY="270" SizeX="80" SizeY="58" Color="12632256" DataType="SPI" Prop ="READWRITE"/>
+			</Process>
+		</Process>
+	</Process>
+</EdiProject>

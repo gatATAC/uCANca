@@ -16,5 +16,5 @@ class EdiModelsController < ApplicationController
       format.xdi
     end
   end
-
+  
 end

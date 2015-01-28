@@ -882,7 +882,14 @@ you can place common code in this file. -->
               <append-content-body:>
                 <ul>
                   <li><%= link_to "Edi Model XML", :action => :gen_code, :format => 'xdi' %></li>
+                  <li><%= link_to "Uploaded Edi Model XDI", @edi_model.xdi.url(:original, false) %></li>
                 </ul>
               </append-content-body:>
             </old-show-page>
           </extend>
+          
+<extend tag="form" for="EdiModel">
+  <old-form merge multipart>
+    <field-list: fields="name, abbrev, project, xdi"/>
+  </old-form>
+</extend>

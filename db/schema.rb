@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141221054857) do
+ActiveRecord::Schema.define(:version => 20141224092826) do
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -105,6 +105,10 @@ ActiveRecord::Schema.define(:version => 20141221054857) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "project_id"
+    t.string   "xdi_file_name"
+    t.string   "xdi_content_type"
+    t.integer  "xdi_file_size"
+    t.datetime "xdi_updated_at"
   end
 
   add_index "edi_models", ["project_id"], :name => "index_edi_models_on_project_id"
@@ -116,7 +120,6 @@ ActiveRecord::Schema.define(:version => 20141221054857) do
     t.integer  "pos_y"
     t.integer  "size_x"
     t.integer  "size_y"
-    t.integer  "color"
     t.boolean  "master"
     t.text     "description"
     t.datetime "created_at"

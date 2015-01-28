@@ -63,6 +63,7 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     columnize (0.8.9)
+    commonjs (0.2.7)
     daemons (1.1.9)
     debugger (1.6.8)
       columnize (>= 0.3.1)
@@ -118,6 +119,13 @@ GEM
     jquery-ui-themes (0.0.11)
       httparty
     json (1.8.1)
+    less (2.6.0)
+      commonjs (~> 0.2.7)
+    less-rails (2.6.0)
+      actionpack (>= 3.1)
+      less (~> 2.6.0)
+    less-rails-bootstrap (3.3.1.0)
+      less-rails (~> 2.6.0)
     libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -194,6 +202,11 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    twitter-bootstrap-rails (2.2.8)
+      actionpack (>= 3.1)
+      execjs
+      rails (>= 3.1)
+      railties (>= 3.1)
     tzinfo (0.3.42)
     uglifier (2.5.3)
       execjs (>= 0.3.0)
@@ -218,6 +231,8 @@ DEPENDENCIES
   hobo_paperclip!
   jquery-rails
   jquery-ui-themes (~> 0.0.4)
+  less-rails-bootstrap
+  nokogiri
   paperclip
   pg
   quiet_assets
@@ -227,5 +242,6 @@ DEPENDENCIES
   sqlite3
   therubyracer
   thin
+  twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   will_paginate!
