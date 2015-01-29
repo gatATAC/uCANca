@@ -22,6 +22,60 @@ class EdiModel < ActiveRecord::Base
 
   children :edi_processes
   
+  before_save :parse_file
+  
+  def parse_file
+    tempfile = xdi.queued_for_write[:original]
+    doc = Nokogiri::XML(tempfile)
+    parse_xml(doc)
+  end
+  
+  def parse_xdi
+    content=File.open(xdi.path).read
+    doc = Nokogiri::XML(content)
+    parse_xml(doc)
+  end
+  
+  def parse_xml(doc)
+    doc.root.elements.each do |node|
+      parse_node(node)
+    end
+  end
+  
+  def parse_node(node)
+    if node.node_name.eql? 'Process'
+      parse_process(node)
+    else
+      if node.node_name.eql? 'MemElement'
+        parse_memelement(node)
+      else
+        if node.node_name.eql? 'DataFlow'
+          parse_dataflow(node)
+        end
+      end
+    end
+  end
+  
+  def parse_process(node)
+    print "Process: "+node.attr("Label").to_s+"\n"
+    node.elements.each do |node|
+      parse_node(node)
+    end
+  end  
+  
+  def parse_memelement(node)
+    print "MemElement: "+node.attr("Label").to_s+"\n"
+    node.elements.each do |node|
+      parse_node(node)
+    end
+  end  
+
+  def parse_dataflow(node)
+    print "DataFlow: "+node.attr("Label").to_s+"\n"
+    node.elements.each do |node|
+      parse_node(node)
+    end
+  end  
   
   def children
     ret=[]
