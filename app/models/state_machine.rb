@@ -24,7 +24,8 @@ class StateMachine < ActiveRecord::Base
   validates :function_sub_system, :presence => :true
 
   def to_func_name
-    ret=function_sub_system.to_func_name+"_"+name.to_s
+    #ret=function_sub_system.to_func_name+"_"+name.to_s
+    ret=name.to_s
     return ret
   end
 

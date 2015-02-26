@@ -16,5 +16,5 @@ raw(ret)
 %>
         <%= raw("</root>") %>
     <%= raw("</mxGraphModel>") %>
-    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.abbrev}p1\" parent=\"#{@project.abbrev}p0\"/>") %>
+    <%= raw("<mxCell as=\"defaultParent\" id=\"#{@project.abbrev+"file:"+@project.abbrev}p1\" parent=\"#{@project.abbrev+"file:"+@project.abbrev}p0\"/>") %>
 <%= raw("</XcosDiagram>") %>
