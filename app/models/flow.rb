@@ -94,6 +94,18 @@ class Flow < ActiveRecord::Base
     end
   end
 
+  def to_c_io_setup_decl
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_c_setup_input_decl(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_c_setup_output_decl(self)
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+  end
+
   def to_c_io_setup
     if (self.current_pattern) then
       ret="\n// "+self.c_name+" flow acquisition\n"

@@ -1,13 +1,15 @@
 #ifndef _DRE_H
 #define _DRE_H
 
-#include <%= raw("<Project/ProjectTypes.h>") %>
+#include "ProjectTypes.h"
+#include "ProjectFlows.h"
 
-typedef struct {
+
+//typedef struct {
 <%  @project.flows.find(:all).each{ |f|
 #  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
 %><%= f.to_c_decl%><% } %>
-} t_dre;
+//} t_dre;
 
 typedef struct {
 <%  @project.flows.find(:all).each{ |f|
@@ -15,8 +17,14 @@ typedef struct {
 %><%= f.to_diag_c_decl%><% } %>
 } t_diag;
 
+// Initialization functions
+<%  @project.flows.find(:all).each{ |f| %>
+  <%= f.to_c_io_setup_decl%><% } %>
+
 // Input / Output functions
 <%  @project.flows.find(:all).each{ |f| %>
   <%= f.to_c_io_decl%><% } %>
 
 #endif /* _DRE_H */
+
+
