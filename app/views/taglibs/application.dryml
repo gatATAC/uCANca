@@ -586,6 +586,19 @@ you can place common code in this file. -->
                 <li><%= link_to "Generate Dataset Spec", :action => :show_dataset_spec, :format => "csv", :target => '_blank' %></li>
                 <li><%= link_to "Generate Parameter Set", :action => :show_parameter_set, :format => "par", :target => '_blank' %></li>
               </ul>
+              UDS code generators:
+              <ul>
+                <li><%= link_to "Generate UDS RDI H", :action => :show_uds_rdi, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS RDI C", :action => :show_uds_rdi, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS WDI H", :action => :show_uds_wdi, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS WDI C", :action => :show_uds_wdi, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SUB SERV H", :action => :show_uds_sub_services, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SUB SERV C", :action => :show_uds_sub_services, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SERV FIXPARAM H", :action => :show_uds_serv_fixparams, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SERV FIXPARAM C", :action => :show_uds_serv_fixparams, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SERV H", :action => :show_uds_services, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS SERV C", :action => :show_uds_services, :format => "c", :target => '_blank' %></li>
+              </ul>
             </div>
 
             <div class="import-section" if="&can_update?(@project)">

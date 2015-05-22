@@ -52,6 +52,13 @@ class Project < ActiveRecord::Base
   has_many :req_docs, :dependent => :destroy, :inverse_of => :project
   has_many :edi_models, :dependent => :destroy, :inverse_of => :project
 
+  has_many :uds_sessions, :dependent => :destroy, :inverse_of => :project
+  has_many :uds_apps, :dependent => :destroy, :inverse_of => :project
+  has_many :uds_security_levels, :dependent => :destroy, :inverse_of => :project
+  has_many :uds_services, :dependent => :destroy, :inverse_of => :project
+  has_many :uds_service_managers, :dependent => :destroy, :inverse_of => :project
+  
+  has_many :configuration_switches, :dependent => :destroy, :inverse_of => :project
   
   # permission helper
   def accepts_changes_from?(user)

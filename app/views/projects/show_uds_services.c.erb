@@ -1,0 +1,23 @@
+///////// UDS_services_gen.c ///////////
+#include "Iso15765_3.h"
+#include "UDS_services_gen.h"
+
+UI_16 uds_services_id_indexes[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_session_default[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_session_prog[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_session_extended[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_session_supplier[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_security_locked[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_security_level1[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_security_level11[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_security_supplier[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_addressing_physical[UDS_SERVICES_NUMBER];
+BOOL uds_services_permission_addressing_functional[UDS_SERVICES_NUMBER];
+
+void UdsServicesInit(void){
+<%= raw(@code_init) %>
+}
+
+<%= raw(@code) %>
+
+<%= raw(@code_switch) %>

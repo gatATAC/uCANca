@@ -24,3 +24,16 @@ public/assets/*
 # Ignore netbeans private
 nbproject/private/*
 .hg
+/db/Geely_UDS_dev2.ods
+/public/system/edi_models/xdis/000/000/002/original/903_FE1XC_S0.xdi
+/public/system/edi_models/xdis/000/000/001/original/903_FE1XC_S0.xdi
+/db/Geely_UDS_merge.ods
+/db/Geely_uCANca_UDS.ods
+/db/Geely_UDS_dev.ods
+/db/Geely_UDS (otra copia).ods
+/db/Geely_UDS_dev_ant.xlsx
+/db/Geely_UDS_apps.ods
+/db/Geely_UDS_addrcsv.ods
+/db/Geely_UDS.ods
+/db/Geely_UDS_Proposal.xlsx
+/db/Geely_UDS_sessions2.ods

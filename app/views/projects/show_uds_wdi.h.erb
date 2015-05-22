@@ -1,0 +1,33 @@
+#ifndef UDS_WDI_GEN_H
+#define UDS_WDI_GEN_H
+
+#include "Global.h"
+#include "UDSCallbacks.h"
+
+
+<%= ret=@code
+    raw(ret) %>
+
+/* Number of WDI: <%= raw(@number) %>
+   Number of positions for masks:  <%= raw(@number_bytes) %>
+*/
+
+/* Memory definitions */
+<%= raw(@code_mem) %>
+
+#define UDS_WDI_NUMBER <%= raw(@number) %>
+#define UDS_WDI_TABLESIZE <%= raw(@number_bytes) %>
+
+extern UI_8 uds_wdi_permission_session_default[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_session_prog[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_session_extended[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_session_supplier[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_security_locked[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_security_level1[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_security_level11[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_security_supplier[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_addressing_physical[UDS_WDI_TABLESIZE];
+extern UI_8 uds_wdi_permission_addressing_functional[UDS_WDI_TABLESIZE];
+
+#endif /* UDS_WDI_H_ */
+

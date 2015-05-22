@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141224092826) do
+ActiveRecord::Schema.define(:version => 20150522173339) do
+
+  create_table "configuration_switches", :force => true do |t|
+    t.string   "name"
+    t.string   "ident"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "configuration_switches", ["project_id"], :name => "index_configuration_switches_on_project_id"
 
   create_table "connectors", :force => true do |t|
     t.string   "name"
@@ -688,6 +698,183 @@ ActiveRecord::Schema.define(:version => 20141224092826) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "uds_addressings", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "uds_apps", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "uds_apps", ["project_id"], :name => "index_uds_apps_on_project_id"
+
+  create_table "uds_response_codes", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "uds_security_levels", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "uds_security_levels", ["project_id"], :name => "index_uds_security_levels_on_project_id"
+
+  create_table "uds_service_fixed_params", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.integer  "length"
+    t.boolean  "app_session_default"
+    t.boolean  "app_session_prog"
+    t.boolean  "app_session_extended"
+    t.boolean  "app_session_supplier"
+    t.boolean  "boot_session_default"
+    t.boolean  "boot_session_prog"
+    t.boolean  "boot_session_extended"
+    t.boolean  "boot_session_supplier"
+    t.boolean  "sec_locked"
+    t.boolean  "sec_lev1"
+    t.boolean  "sec_lev_11"
+    t.boolean  "sec_supplier"
+    t.boolean  "addr_phys"
+    t.boolean  "addr_func"
+    t.boolean  "supress_bit"
+    t.boolean  "precondition"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "uds_sub_service_id"
+    t.integer  "uds_service_id"
+    t.integer  "configuration_switch_id"
+  end
+
+  add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "index_uds_service_fixed_params_on_configuration_switch_id"
+  add_index "uds_service_fixed_params", ["uds_service_id"], :name => "index_uds_service_fixed_params_on_uds_service_id"
+  add_index "uds_service_fixed_params", ["uds_sub_service_id"], :name => "index_uds_service_fixed_params_on_uds_sub_service_id"
+
+  create_table "uds_service_identifiers", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.integer  "length"
+    t.boolean  "app_session_default"
+    t.boolean  "app_session_prog"
+    t.boolean  "app_session_extended"
+    t.boolean  "app_session_supplier"
+    t.boolean  "boot_session_default"
+    t.boolean  "boot_session_prog"
+    t.boolean  "boot_session_extended"
+    t.boolean  "boot_session_supplier"
+    t.boolean  "sec_locked"
+    t.boolean  "sec_lev1"
+    t.boolean  "sec_lev_11"
+    t.boolean  "sec_supplier"
+    t.boolean  "addr_phys"
+    t.boolean  "addr_func"
+    t.boolean  "supress_bit"
+    t.boolean  "precondition"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "uds_sub_service_id"
+    t.integer  "uds_service_id"
+    t.integer  "configuration_switch_id"
+  end
+
+  add_index "uds_service_identifiers", ["configuration_switch_id"], :name => "index_uds_service_identifiers_on_configuration_switch_id"
+  add_index "uds_service_identifiers", ["uds_service_id"], :name => "index_uds_service_identifiers_on_uds_service_id"
+  add_index "uds_service_identifiers", ["uds_sub_service_id"], :name => "index_uds_service_identifiers_on_uds_sub_service_id"
+
+  create_table "uds_service_managers", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "uds_service_managers", ["project_id"], :name => "index_uds_service_managers_on_project_id"
+
+  create_table "uds_services", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.integer  "length"
+    t.boolean  "app_session_default"
+    t.boolean  "app_session_prog"
+    t.boolean  "app_session_extended"
+    t.boolean  "app_session_supplier"
+    t.boolean  "boot_session_default"
+    t.boolean  "boot_session_prog"
+    t.boolean  "boot_session_extended"
+    t.boolean  "boot_session_supplier"
+    t.boolean  "sec_locked"
+    t.boolean  "sec_lev1"
+    t.boolean  "sec_lev_11"
+    t.boolean  "sec_supplier"
+    t.boolean  "addr_phys"
+    t.boolean  "addr_func"
+    t.boolean  "supress_bit"
+    t.boolean  "precondition"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+    t.integer  "configuration_switch_id"
+  end
+
+  add_index "uds_services", ["configuration_switch_id"], :name => "index_uds_services_on_configuration_switch_id"
+  add_index "uds_services", ["project_id"], :name => "index_uds_services_on_project_id"
+
+  create_table "uds_sessions", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.string   "sub_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
+  add_index "uds_sessions", ["project_id"], :name => "index_uds_sessions_on_project_id"
+
+  create_table "uds_sub_services", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.integer  "length"
+    t.boolean  "app_session_default"
+    t.boolean  "app_session_prog"
+    t.boolean  "app_session_extended"
+    t.boolean  "app_session_supplier"
+    t.boolean  "boot_session_default"
+    t.boolean  "boot_session_prog"
+    t.boolean  "boot_session_extended"
+    t.boolean  "boot_session_supplier"
+    t.boolean  "sec_locked"
+    t.boolean  "sec_lev1"
+    t.boolean  "sec_lev_11"
+    t.boolean  "sec_supplier"
+    t.boolean  "addr_phys"
+    t.boolean  "addr_func"
+    t.boolean  "supress_bit"
+    t.boolean  "precondition"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "uds_service_id"
+    t.integer  "configuration_switch_id"
+  end
+
+  add_index "uds_sub_services", ["configuration_switch_id"], :name => "index_uds_sub_services_on_configuration_switch_id"
+  add_index "uds_sub_services", ["uds_service_id"], :name => "index_uds_sub_services_on_uds_service_id"
 
   create_table "units", :force => true do |t|
     t.string   "name"

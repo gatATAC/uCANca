@@ -1,0 +1,67 @@
+///////// UDS_wdi_gen.c ///////////
+#include "Iso15765_3.h"
+#include "UDS_wdi_gen.h"
+
+UI_8 uds_wdi_permission_session_default[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_session_prog[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_session_extended[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_session_supplier[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_security_locked[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_security_level1[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_security_level11[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_security_supplier[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_addressing_physical[UDS_WDI_TABLESIZE];
+UI_8 uds_wdi_permission_addressing_functional[UDS_WDI_TABLESIZE];
+
+void UdsWdiInit(void){
+  UI_8 cont=0;
+  for (cont=(UI_8)0;cont<UDS_WDI_TABLESIZE;cont++){
+    uds_wdi_permission_session_default[cont]=(UI_8)0;
+    uds_wdi_permission_session_prog[cont]=(UI_8)0;
+    uds_wdi_permission_session_extended[cont]=(UI_8)0;
+    uds_wdi_permission_session_supplier[cont]=(UI_8)0;
+    uds_wdi_permission_security_locked[cont]=(UI_8)0;
+    uds_wdi_permission_security_level1[cont]=(UI_8)0;
+    uds_wdi_permission_security_level11[cont]=(UI_8)0;
+    uds_wdi_permission_security_supplier[cont]=(UI_8)0;
+    uds_wdi_permission_addressing_physical[cont]=(UI_8)0;
+    uds_wdi_permission_addressing_functional[cont]=(UI_8)0;
+  }
+<%= raw(@code_init) %>
+}
+
+<%= raw(@code) %>
+
+void UdsWriteDataByIdentifierGen(UI_8 id_h, UI_8 id_l, UI_8 *buf_data_rx, UI_16 size)
+{
+    UI_8 response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE;
+    UI_16 id;
+    tp_uds_write_data_by_identifier resp;
+
+    /* Get the var that gives access to the answer data buffer	*/
+    resp = ISO15765_3_GET_RESP_DATA(tp_uds_write_data_by_identifier);
+    /* Get the complete id */
+    wd_id_high = id_h;
+    wd_id_low = id_l;
+    id = ((((UI_16) (id_h)) << 8) | ((UI_16) (id_l)));
+
+    switch (id)
+    {
+<%= raw(@code_switch) %>
+        default:
+            response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE;
+            break;
+    }
+
+    /* Finally in case of positive response we set the identifier in the response */
+    if ((response_mode == ISO15765_3_POSITIVE_RESPONSE) || (response_mode == UDS_ERR_RESPONSE_PENDING))
+    {
+        resp->id_high = id_h;
+        resp->id_low = id_l;
+        Iso15765_3IncrementResponseSize((UI_8) 2);
+    }
+
+    /* Send the response to ISO_3 layer */
+    Iso15765_3SendResponse(response_mode);
+
+}

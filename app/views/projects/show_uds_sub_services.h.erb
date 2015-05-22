@@ -1,0 +1,12 @@
+#ifndef UDS_SUB_SERVICES_GEN_H
+#define UDS_SUB_SERVICES_GEN_H
+
+#include "Global.h"
+#include "UDSCallbacks.h"
+
+#define UDS_SUB_SERVICES_NUMBER <%= raw(@number) %>
+
+<%= ret=@code
+    raw(ret) %>
+
+#endif /* UDS_SUB_SERVICE_H_ */

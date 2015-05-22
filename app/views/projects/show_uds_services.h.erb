@@ -1,0 +1,17 @@
+#ifndef UDS_SERVICES_GEN_H
+#define	UDS_SERVICES_GEN_H
+
+#include "Global.h"
+#include "HalCFG.h"
+#include "ProjectCFG.h"
+#include "EepromData.h"
+#include "UDSCallbacks.h"
+
+/* This header holds all the services that do not have a sub service */
+
+#define UDS_SERV_NUMBER <%= raw(@number) %>
+
+<%= ret=@code
+    raw(ret) %>
+
+#endif /* UDS_SERVICES_GEN_H */

@@ -1,0 +1,105 @@
+///////// UDS_sub_services_gen.c ///////////
+#include "Global.h"
+#include "RegMicro.h"
+#include "ProjectCFG.h"
+#include "UdsServerCallbacksMMC.h"
+#include "Iso15765_3.h"
+#include "Iso15765_3_Task.h"
+#include "Iso15765_3_CFG.h"
+#include "Eeprom.h"
+#include "Flash.h"
+#include "ADC.h"
+#include "FicOsekCom.h"
+#include "EcuBase.h"
+#include "903_FE1XC_S0_.h"
+#include "EepromData.h"
+#include "DTC_CFG.h"
+#include "DTC_Functions.h"
+#include "AdditionalFunctions.h"
+#include "SecurityFunctions.h"
+#include "Timer.h"
+#include "MelexisTask.h"
+#include "MelexisFunctions.h"
+#include "VectInterrupt_Functions.h"
+#include "UDSCallbacks.h"
+#include "UDS_sub_services_gen.h"
+
+UI_16 uds_sub_serv_id_indexes[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_session_default[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_session_prog[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_session_extended[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_session_supplier[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_security_locked[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_security_level1[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_security_level11[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_security_supplier[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_addressing_physical[UDS_SERV_FIXPARAM_NUMBER];
+BOOL uds_sub_serv_permission_addressing_functional[UDS_SERV_FIXPARAM_NUMBER];
+
+void UdsSubServicesInit(void){
+<%= raw(@code_init) %>
+}
+
+<%= raw(@code) %>
+
+/* READ DATA BY IDENTIFIER SERVICE HANDLERS */ 
+UI_8 UdsSubService(UI_8 id_h, UI_8 id_l) { 
+
+    UI_8 response_mode = UDS_ERR_SUBFUNCTION_NOT_SUPPORTED; 
+    UI_16 id; 
+    tp_uds_read_data_by_identifier_resp resp; 
+    UI_16 resp_pos; 
+    UI_8 data_size; 
+
+    /* Read the status of the EEPROM to avoid read values when 
+     the FSM is operating.*/ 
+    eeprom_status = EepromProgStatus(); 
+
+    /* Get the var that gives access to the answer data buffer        */ 
+    resp = ISO15765_3_GET_RESP_DATA(tp_uds_read_data_by_identifier_resp); 
+    resp_pos = (Iso15765_3GetResponseSize() - (UI_16) 1); 
+
+    if ((resp_pos + MAX_DIAGNOSTIC_LEN) >= (TP_DIAG_TX_LEN - (UI_8)4)) { 
+        return UDS_ERR_REQUEST_OUT_OF_RANGE; 
+    } 
+
+    /* Send correct Ids */ 
+    resp->buffer_dades[resp_pos + 0] = id_h; 
+    resp->buffer_dades[resp_pos + 1] = id_l; 
+
+    resp_pos = resp_pos + 2; 
+
+    /* Get the complete id */ 
+    //id = ((UI_16) (id_h << 8) | id_l); 
+    id = ((((UI_16) (id_h))<< 8) |((UI_16) (id_l))); 
+
+    switch (id) { 
+    
+<%= raw(@code_switch) %>
+        default: 
+            response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE; 
+            break; 
+    } 
+
+    /* JCL: In case that at the begining of this function the EEPROM is BUSY 
+     means that the value read may be wrong. We should make that check inside 
+     every case (before doing the EepromRead, but this consumes too much code 
+     space and we don't have it so we make this general check and we set the 
+     response as busy if we are not sure if the read is Ok. 
+     That means that in some RDIs (the voltages, etc) we have some chances of 
+     sending a busy when we are not really busy, but we have to sacrifice 
+     something in order to save code... */ 
+    if (eeprom_status == EEPROM_BUSY) { 
+        response_mode = UDS_ERR_BUSY_REPEAT_REQUEST; 
+    } 
+
+    /* Finally in case of positive response we set the identifier in the response */ 
+    if (response_mode == ISO15765_3_POSITIVE_RESPONSE) { 
+        Iso15765_3IncrementResponseSize((UI_8) 2); 
+    } else { 
+        /* Do nothing */ 
+    } 
+    /* Send the response to ISO_3 layer */ 
+    return response_mode; 
+
+}

@@ -25,9 +25,12 @@ class ProjectsController < ApplicationController
   show_action :show_data_code
   show_action :show_dataset_spec
   show_action :show_parameter_set
+  show_action :show_uds_rdi
+  show_action :show_uds_wdi
+  show_action :show_uds_sub_services
+  show_action :show_uds_serv_fixparams
+  show_action :show_uds_services
   
-  
-
   def update
     hobo_update do
       respond_to do |format|
@@ -152,7 +155,6 @@ class ProjectsController < ApplicationController
     }
   end
 
-
   def show_autodiag_main_c
 
     @code = "void AD_FailSafeCommands_clear(){\n"
@@ -174,6 +176,206 @@ class ProjectsController < ApplicationController
 
   end
 
+  def show_uds_rdi
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="22" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              coderet,coderetswitch,codeinit = si.to_rdi_c(index)
+              index += 1
+              @code += coderet
+              @code_switch += coderetswitch
+              @code_init += codeinit
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="22" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              @code += si.to_rdi_h(prev_instance)
+              @code += "\n"
+              index += 1
+              prev_instance=si
+            }
+            @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
+            @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+          end
+        }
+      }
+    end
+    
+  end
+
+  def show_uds_wdi
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2E" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              coderet,coderetswitch,codeinit = si.to_wdi_c(index)
+              index += 1
+              @code += coderet
+              @code_switch += coderetswitch
+              @code_init += codeinit
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        @code_mem=""
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2E" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              coderet,coderetmem=si.to_wdi_h(prev_instance)
+              @code += coderet
+              @code += "\n"
+              @code_mem += coderetmem
+              @code_mem += "\n"
+              index += 1
+              prev_instance=si
+            }
+            @number="(UDS_WDI_"+prev_instance.c_define_name+"_INDEX)"
+            @number_bytes="(UDS_WDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+          end
+        }
+      }
+    end
+  end
+ 
+  def show_uds_sub_services
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          s.uds_sub_services.find(:all).each { |si|
+            coderet,coderetswitch,codeinit = si.to_sub_serv_c(index)
+            index += 1
+            @code += coderet
+            @code_switch += coderetswitch
+            @code_init += codeinit
+          }
+        }
+      }
+      format.h { 
+        find_instance.uds_services.find(:all).each { |s| 
+          @number=s.uds_sub_services.size
+          s.uds_sub_services.find(:all).each { |si|
+            @code += si.to_sub_serv_h
+            @code += "\n"
+          }
+        }
+      }
+    end
+    
+  end
+  def show_uds_serv_fixparams
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          # Services with fixed params
+          s.uds_service_fixed_params.find(:all).each { |si|
+            coderet,coderetswitch,codeinit = si.to_serv_fixparam_c(index)
+            index += 1
+            @code += coderet
+            @code_switch += coderetswitch
+            @code_init += codeinit
+          }
+          # SubServices with fixed params
+          s.uds_sub_services.find(:all).each {|ss|
+            ss.uds_service_fixed_params.find(:all).each { |si|
+              coderet,coderetswitch,codeinit = si.to_serv_fixparam_c(index)
+              index += 1
+              @code += coderet
+              @code_switch += coderetswitch
+              @code_init += codeinit
+            }
+          }
+        }
+      }
+      format.h { 
+        find_instance.uds_services.find(:all).each { |s| 
+          @number=s.uds_service_fixed_params.size
+          s.uds_service_fixed_params.find(:all).each { |si|
+            @code += si.to_serv_fixparam_h
+            @code += "\n"
+          }
+        }
+      }
+    end
+  end
+
+  def show_uds_services
+    @code = ""
+    @code_switch = ""
+    @code_def = ""
+    @code_mem = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        index=0
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.uds_sub_services.size==0 then
+            if s.uds_service_fixed_params.size==0 then
+              if s.uds_service_identifiers.size==0 then
+                coderet,coderetswitch,codeinit = s.to_serv_c(index)
+                index+=1
+                @code += coderet
+                @code_switch += coderetswitch
+                @code_init += codeinit
+              end
+            end
+          end
+        }
+        @number=index
+      }
+        
+      format.h { 
+        index=0
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.uds_sub_services.size==0 then
+            if s.uds_service_fixed_params.size==0 then
+              if s.uds_service_identifiers.size==0 then
+                @code += s.to_serv_h
+                @code += "\n"
+                index +=1
+              end
+            end
+          end
+        }
+        @number=index
+      }
+    end
+    
+  end
+
+
+
+
+  
   def show_autodiag_main_functions
     @code = ""
     find_instance.fault_requirements.find(:all).each { |r|

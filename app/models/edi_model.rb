@@ -20,9 +20,13 @@ class EdiModel < ActiveRecord::Base
   belongs_to :project, :creator => :true, :inverse_of => :edi_models
   has_many :edi_processes, :dependent => :destroy, :inverse_of => :edi_model
 
+  validates :project, :presence => :true
+  
   children :edi_processes
   
   before_save :parse_file
+  
+  @root_node = true
   
   def parse_file
     tempfile = xdi.queued_for_write[:original]
@@ -37,44 +41,117 @@ class EdiModel < ActiveRecord::Base
   end
   
   def parse_xml(doc)
+    @root_node = true
     doc.root.elements.each do |node|
-      parse_node(node)
+      parse_node(node,nil)
     end
   end
   
-  def parse_node(node)
+  def parse_node(node,parent)
+    
+    if @root_node == true then
+      print "Root node: \n"
+    end
     if node.node_name.eql? 'Process'
-      parse_process(node)
+      parse_process(node,parent)
     else
       if node.node_name.eql? 'MemElement'
-        parse_memelement(node)
+        parse_memelement(node,parent)
       else
         if node.node_name.eql? 'DataFlow'
-          parse_dataflow(node)
+          parse_dataflow(node,parent)
+        else
+          # print "Parsing node ..."+node.attr("Label").to_s+"\n"    
         end
       end
     end
   end
+
+  def load_ss_from_edi_node(ss,node,parent)
+    ss.name=node.attr("Label").to_s
+    print ("ss name ")+ss.name+"\n"
+    ss.abbrev=node.attr("Label").to_s
+    print ("ss abbrev ")+ss.abbrev+"\n"
+    ss.project=self.project
+    print ("ss abbrev ")+ss.project.name+"\n"
+    
+    ss.parent=parent
+    if (parent!=nil) then
+      ss.root=parent.root
+    end
+    ss.layer = Layer.find(:first) 
+    print ("ss layer ")+ss.layer.name+"\n"
+    ss.sub_system_type=SubSystemType.find(:first)
+    print ("ss type ")+ss.sub_system_type.name+"\n"
+    ss.save
+  end
   
-  def parse_process(node)
+  def load_fl_from_edi_node(fl,node,parent)
+    fl.name=node.attr("Label").to_s
+    print ("fl name ")+fl.name+"\n"
+    fl.project=self.project
+    print ("fl abbrev ")+fl.project.name+"\n"
+    
+    fl.flow_type=FlowType.find(:first)
+    print ("fl type ")+fl.flow_type.name+"\n"
+    fl.save
+  end
+  
+  def parse_process(node,parent)
     print "Process: "+node.attr("Label").to_s+"\n"
-    node.elements.each do |node|
-      parse_node(node)
+    if (@root_node == true) then
+      print "Is the root node\n"
+    end
+    ss=self.project.sub_systems.find_by_name(node.attr("Label").to_s)
+    if (ss!=nil) then
+      print "Node identified "+node.attr("Label").to_s+"\n"
+      load_ss_from_edi_node(ss,node,parent)
+    else
+      print "Node not identified "+node.attr("Label").to_s+"\n"
+      ss=SubSystem.new
+      load_ss_from_edi_node(ss,node,parent)
+    end
+    if (@root_node == true) then
+      @root_node=false
+      ss.root=ss
+      project.sub_systems << ss
+    end
+    node.elements.each do |child|
+      parse_node(child,ss)
     end
   end  
   
-  def parse_memelement(node)
+  def parse_memelement(node,parent)
     print "MemElement: "+node.attr("Label").to_s+"\n"
-    node.elements.each do |node|
-      parse_node(node)
+    fl=project.flows.find_by_name(node.attr("Label").to_s)
+    if (fl!=nil) then
+      print "Flow identified "+node.attr("Label").to_s+"\n"
+      load_fl_from_edi_node(fl,node,parent)
+    else
+      print "Flow not identified "+node.attr("Label").to_s+"\n"
+      fl=self.project.flows.new
+      load_fl_from_edi_node(fl,node,parent)
     end
+#    node.elements.each do |child|
+#      print "Child MemElement \n"
+#      parse_node(child,nil)
+#    end
   end  
 
-  def parse_dataflow(node)
-    print "DataFlow: "+node.attr("Label").to_s+"\n"
-    node.elements.each do |node|
-      parse_node(node)
+  def parse_dataflow(node,parent)
+    fl=project.flows.find_by_name(node.attr("Label").to_s)
+    if (fl!=nil) then
+      print "Flow identified "+node.attr("Label").to_s+"\n"
+      load_fl_from_edi_node(fl,node,parent)
+    else
+      print "Flow not identified "+node.attr("Label").to_s+"\n"
+      fl=self.project.flows.new
+      load_fl_from_edi_node(fl,node,parent)
     end
+#    print "DataFlow: "+node.attr("Label").to_s+"\n"
+#    node.elements.each do |child|
+#      parse_node(child,nil)
+#    end
   end  
   
   def children

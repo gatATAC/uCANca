@@ -1,0 +1,12 @@
+#ifndef UDS_SERV_FIXPARAMS_GEN_H
+#define UDS_SERV_FIXPARAMS_GEN_H
+
+#include "Global.h"
+#include "UDSCallbacks.h"
+
+#define UDS_SERV_FIXPARAMS_NUMBER <%= raw(@number) %>
+
+<%= ret=@code
+    raw(ret) %>
+
+#endif /* UDS_SERV_FIXPARAMS_H_ */
