@@ -1,0 +1,30 @@
+#ifndef UDS_RDI_GEN_H
+#define UDS_RDI_GEN_H
+
+#include "Global.h"
+#include "UDSCallbacks.h"
+
+
+<%= ret=@code
+    raw(ret) %>
+
+/* Number of RDI: <%= raw(@number) %>
+   Number of positions for masks:  <%= raw(@number_bytes) %>
+*/
+
+#define UDS_RDI_NUMBER <%= raw(@number) %>
+#define UDS_RDI_TABLESIZE <%= raw(@number_bytes) %>
+
+extern UI_8 uds_rdi_permission_session_default[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_session_prog[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_session_extended[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_session_supplier[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_security_locked[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_security_level1[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_security_level11[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_security_supplier[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_addressing_physical[UDS_RDI_TABLESIZE];
+extern UI_8 uds_rdi_permission_addressing_functional[UDS_RDI_TABLESIZE];
+
+#endif /* UDS_RDI_H_ */
+
