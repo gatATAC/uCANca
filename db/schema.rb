@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150522173339) do
+ActiveRecord::Schema.define(:version => 20150616125235) do
 
   create_table "configuration_switches", :force => true do |t|
     t.string   "name"
@@ -759,6 +759,8 @@ ActiveRecord::Schema.define(:version => 20150522173339) do
     t.integer  "uds_sub_service_id"
     t.integer  "uds_service_id"
     t.integer  "configuration_switch_id"
+    t.text     "custom_code"
+    t.boolean  "generate"
   end
 
   add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "index_uds_service_fixed_params_on_configuration_switch_id"
@@ -790,6 +792,9 @@ ActiveRecord::Schema.define(:version => 20150522173339) do
     t.integer  "uds_sub_service_id"
     t.integer  "uds_service_id"
     t.integer  "configuration_switch_id"
+    t.integer  "data_size"
+    t.text     "custom_code"
+    t.boolean  "generate",                :default => true
   end
 
   add_index "uds_service_identifiers", ["configuration_switch_id"], :name => "index_uds_service_identifiers_on_configuration_switch_id"
@@ -831,6 +836,8 @@ ActiveRecord::Schema.define(:version => 20150522173339) do
     t.datetime "updated_at"
     t.integer  "project_id"
     t.integer  "configuration_switch_id"
+    t.text     "custom_code"
+    t.boolean  "generate",                :default => true
   end
 
   add_index "uds_services", ["configuration_switch_id"], :name => "index_uds_services_on_configuration_switch_id"
@@ -871,6 +878,8 @@ ActiveRecord::Schema.define(:version => 20150522173339) do
     t.datetime "updated_at"
     t.integer  "uds_service_id"
     t.integer  "configuration_switch_id"
+    t.text     "custom_code"
+    t.boolean  "generate",                :default => true
   end
 
   add_index "uds_sub_services", ["configuration_switch_id"], :name => "index_uds_sub_services_on_configuration_switch_id"

@@ -299,7 +299,7 @@ class Fault < ActiveRecord::Base
 
   def to_diagmux
     if self.include_fault
-      @code="void AD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"DiagMux(UI_8 level);\n"
+      @code="void AD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"DiagMux(uint8_t level);\n"
     else
       ""
     end
@@ -307,7 +307,7 @@ class Fault < ActiveRecord::Base
 
   def to_diagmux_c
     if self.include_fault
-      @code="void AD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"DiagMux(UI_8 level){\n"
+      @code="void AD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"DiagMux(uint8_t level){\n"
       @code+="\tAD_"+self.fault_requirement.abbrev+"_"+self.abbrev+"();\n"
       @code+="}\n";
     else

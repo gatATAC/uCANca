@@ -598,6 +598,27 @@ you can place common code in this file. -->
                 <li><%= link_to "Generate UDS SERV FIXPARAM C", :action => :show_uds_serv_fixparams, :format => "c", :target => '_blank' %></li>
                 <li><%= link_to "Generate UDS SERV H", :action => :show_uds_services, :format => "h", :target => '_blank' %></li>
                 <li><%= link_to "Generate UDS SERV C", :action => :show_uds_services, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS ROUTINE H", :action => :show_uds_routine_ctrls, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS ROUTINE C", :action => :show_uds_routine_ctrls, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS IOCTRL H", :action => :show_uds_ioctl, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS IOCTRL C", :action => :show_uds_ioctl, :format => "c", :target => '_blank' %></li>
+              </ul>
+              UDS BL code generators:
+              <ul>
+                <li><%= link_to "Generate UDS BL RDI H", :action => :show_uds_bl_rdi, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL RDI C", :action => :show_uds_bl_rdi, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL WDI H", :action => :show_uds_bl_wdi, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL WDI C", :action => :show_uds_bl_wdi, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SUB SERV H", :action => :show_uds_bl_sub_services, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SUB SERV C", :action => :show_uds_bl_sub_services, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SERV FIXPARAM H", :action => :show_uds_bl_serv_fixparams, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SERV FIXPARAM C", :action => :show_uds_bl_serv_fixparams, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SERV H", :action => :show_uds_bl_services, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL SERV C", :action => :show_uds_bl_services, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL ROUTINE H", :action => :show_uds_bl_routine_ctrls, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL ROUTINE C", :action => :show_uds_bl_routine_ctrls, :format => "c", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL IOCTRL H", :action => :show_uds_bl_ioctl, :format => "h", :target => '_blank' %></li>
+                <li><%= link_to "Generate UDS BL IOCTRL C", :action => :show_uds_bl_ioctl, :format => "c", :target => '_blank' %></li>
               </ul>
             </div>
 

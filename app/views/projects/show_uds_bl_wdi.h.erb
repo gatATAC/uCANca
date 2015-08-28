@@ -1,5 +1,5 @@
-#ifndef UDS_WDI_GEN_H
-#define UDS_WDI_GEN_H
+#ifndef UDS_BL_WDI_GEN_H
+#define UDS_BL_WDI_GEN_H
 
 /* TO DO: use a project preference to store this pattern in the BD */
 /* Include here the needed *.h 
@@ -9,7 +9,7 @@
 ...
 
 */
-#include "uds_rdi_gen.h"
+#include "uds_bl_rdi_gen.h"
 
 
 <%= ret=@code
@@ -20,10 +20,10 @@
 /* Memory definitions */
 <%= raw(@code_mem) %>
 
-#define UDS_WDI_NUMBER <%= raw(@number) %>
+#define UDS_BL_WDI_NUMBER <%= raw(@number) %>
 
 void UdsWdiInit(void);
 uint8_t UdsWdiDispatcher(uint16_t ident, uint8_t *buf_data_rx, uint16_t size, t_wdi_resp *resp);
 
-#endif /* UDS_WDI_H_ */
+#endif /* UDS_BL_WDI_H_ */
 

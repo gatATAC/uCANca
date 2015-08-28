@@ -30,6 +30,15 @@ class ProjectsController < ApplicationController
   show_action :show_uds_sub_services
   show_action :show_uds_serv_fixparams
   show_action :show_uds_services
+  show_action :show_uds_routine_ctrls
+  show_action :show_uds_ioctl
+  show_action :show_uds_bl_rdi
+  show_action :show_uds_bl_wdi
+  show_action :show_uds_bl_sub_services
+  show_action :show_uds_bl_serv_fixparams
+  show_action :show_uds_bl_services
+  show_action :show_uds_bl_routine_ctrls
+  show_action :show_uds_bl_ioctl
   
   def update
     hobo_update do
@@ -117,8 +126,8 @@ class ProjectsController < ApplicationController
       }}
 
     @code+="\ntypedef struct {\n"
-    @code+="\tUI_16 ident;\n"
-    @code+="\tUI_8 low_byte;\n"
+    @code+="\tuint16_t ident;\n"
+    @code+="\tuint8_t low_byte;\n"
     @code+="}t_dtc;\n\n"
     @code+="#define DTC_NUM "+contador.to_s+"\n\n"
     @code+="extern t_dtc dtc[DTC_NUM];\n\n"
@@ -186,26 +195,38 @@ class ProjectsController < ApplicationController
           if s.ident=="22" then
             index=0
             s.uds_service_identifiers.find(:all).each { |si|
-              coderet,coderetswitch,codeinit = si.to_rdi_c(index)
-              index += 1
-              @code += coderet
-              @code_switch += coderetswitch
-              @code_init += codeinit
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_rdi_c(index)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
             }
           end
         }
       }
       format.h {
         @number_bytes=0
+        @code_mem=""
         prev_instance=nil
         find_instance.uds_services.find(:all).each { |s| 
           if s.ident=="22" then
             index=0
             s.uds_service_identifiers.find(:all).each { |si|
-              @code += si.to_rdi_h(prev_instance)
-              @code += "\n"
-              index += 1
-              prev_instance=si
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetmem=si.to_rdi_h(prev_instance)
+                  @code += coderet
+                  @code += "\n"                
+                  @code_mem += coderetmem
+                  @code_mem += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
             }
             @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
             @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
@@ -226,11 +247,15 @@ class ProjectsController < ApplicationController
           if s.ident=="2E" then
             index=0
             s.uds_service_identifiers.find(:all).each { |si|
-              coderet,coderetswitch,codeinit = si.to_wdi_c(index)
-              index += 1
-              @code += coderet
-              @code_switch += coderetswitch
-              @code_init += codeinit
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_wdi_c(index)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
             }
           end
         }
@@ -243,13 +268,17 @@ class ProjectsController < ApplicationController
           if s.ident=="2E" then
             index=0
             s.uds_service_identifiers.find(:all).each { |si|
-              coderet,coderetmem=si.to_wdi_h(prev_instance)
-              @code += coderet
-              @code += "\n"
-              @code_mem += coderetmem
-              @code_mem += "\n"
-              index += 1
-              prev_instance=si
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetmem=si.to_wdi_h(prev_instance)
+                  @code += coderet
+                  @code += "\n"
+                  @code_mem += coderetmem
+                  @code_mem += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
             }
             @number="(UDS_WDI_"+prev_instance.c_define_name+"_INDEX)"
             @number_bytes="(UDS_WDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
@@ -258,7 +287,56 @@ class ProjectsController < ApplicationController
       }
     end
   end
- 
+
+  def show_uds_ioctl
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2F" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_ioctl_c(index)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2F" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  @code += si.to_ioctl_h(prev_instance)
+                  @code += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
+            }
+            @number="(UDS_IOCTL_"+prev_instance.c_define_name+"_INDEX)"
+            @number_bytes="(UDS_IOCTL_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+          end
+        }
+      }
+    end
+    
+  end
+  
+  
   def show_uds_sub_services
     @code = ""
     @code_switch = ""
@@ -266,28 +344,38 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.c {
         find_instance.uds_services.find(:all).each { |s| 
-          index=0
-          s.uds_sub_services.find(:all).each { |si|
-            coderet,coderetswitch,codeinit = si.to_sub_serv_c(index)
-            index += 1
-            @code += coderet
-            @code_switch += coderetswitch
-            @code_init += codeinit
-          }
+          if (s.ident!="22" && s.ident!="2E" && s.ident!="31") then
+            index=0
+            s.uds_sub_services.find(:all).each { |si|
+              coderet,coderetswitch,codeinit = si.to_sub_serv_c(index)
+              index += 1
+              @code += coderet
+              @code_switch += coderetswitch
+              @code_init += codeinit
+            }
+          end
         }
       }
-      format.h { 
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
         find_instance.uds_services.find(:all).each { |s| 
-          @number=s.uds_sub_services.size
-          s.uds_sub_services.find(:all).each { |si|
-            @code += si.to_sub_serv_h
-            @code += "\n"
-          }
+          if (s.ident!="22" && s.ident!="2E" && s.ident!="31") then
+            index=0
+            s.uds_sub_services.find(:all).each { |si|
+              @code += si.to_sub_serv_h(prev_instance)
+              @code += "\n"
+              index += 1
+              prev_instance=si
+            }
+          end
         }
+        @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
+        @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
       }
     end
-    
   end
+
   def show_uds_serv_fixparams
     @code = ""
     @code_switch = ""
@@ -296,33 +384,100 @@ class ProjectsController < ApplicationController
       format.c {
         find_instance.uds_services.find(:all).each { |s| 
           index=0
-          # Services with fixed params
+          # Services with fixed params 
           s.uds_service_fixed_params.find(:all).each { |si|
-            coderet,coderetswitch,codeinit = si.to_serv_fixparam_c(index)
-            index += 1
-            @code += coderet
-            @code_switch += coderetswitch
-            @code_init += codeinit
+            if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+              if (si.generate) then
+                coderet,coderetswitch,codeinit = si.to_serv_fixparams_c(index)
+                index += 1
+                if (s.ident!="31") then
+                  @code += coderet                  #(except: routine control, ...)
+                  @code_switch += coderetswitch     #(except: routine control, ...)
+                end
+                @code_init += codeinit
+              end
+            end
           }
-          # SubServices with fixed params
+          # SubServices with fixed params 
           s.uds_sub_services.find(:all).each {|ss|
             ss.uds_service_fixed_params.find(:all).each { |si|
-              coderet,coderetswitch,codeinit = si.to_serv_fixparam_c(index)
-              index += 1
-              @code += coderet
-              @code_switch += coderetswitch
-              @code_init += codeinit
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_serv_fixparams_c(index)
+                  index += 1
+                  if (ss.uds_service.ident!="31") then
+                    @code += coderet               #(except: routine control, ...)
+                    @code_switch += coderetswitch     #(except: routine control, ...)
+                  end
+                  @code_init += codeinit
+                end
+              end
             }
           }
         }
       }
-      format.h { 
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
         find_instance.uds_services.find(:all).each { |s| 
-          @number=s.uds_service_fixed_params.size
+          index=0
           s.uds_service_fixed_params.find(:all).each { |si|
-            @code += si.to_serv_fixparam_h
-            @code += "\n"
+            if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+              if (si.generate) then
+                @code += si.to_serv_fixparams_h(prev_instance)
+                @code += "\n"
+                index += 1
+                prev_instance=si
+              end
+            end
           }
+        }
+        @number="(UDS_SERV_FIXPARAMS_"+prev_instance.complete_c_define_name+"_INDEX)"
+        @number_bytes="(UDS_SERV_FIXPARAMS_"+prev_instance.complete_c_define_name+"_NUMBYTE+1)"
+      }
+    end
+  end
+
+  def show_uds_routine_ctrls
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          if (s.ident=="31") then
+            # SubServices with fixed params
+            s.uds_sub_services.find(:all).each {|ss|
+              ss.uds_service_fixed_params.find(:all).each { |si|
+                if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                  if (si.generate) then
+                    coderet,coderetswitch,codeinit = si.to_routine_ctrl_c(index)
+                    index += 1
+                    @code += coderet
+                    @code_switch += coderetswitch
+                    @code_init += codeinit
+                  end
+                end
+              }
+            }
+          end
+        }
+      }
+      format.h {
+        find_instance.uds_services.find(:all).each { |s| 
+          if (s.ident=="31") then
+            # SubServices with fixed params
+            @number=s.uds_service_fixed_params.size
+            s.uds_service_fixed_params.find(:all).each { |si|
+              if (si.app_session_default or si.app_session_prog or si.app_session_extended or si.app_session_supplier) then
+                if (si.generate) then
+                  @code += si.to_routine_ctrl_h
+                  @code += "\n"
+                end
+              end
+            }
+          end
         }
       }
     end
@@ -341,11 +496,15 @@ class ProjectsController < ApplicationController
           if s.uds_sub_services.size==0 then
             if s.uds_service_fixed_params.size==0 then
               if s.uds_service_identifiers.size==0 then
-                coderet,coderetswitch,codeinit = s.to_serv_c(index)
-                index+=1
-                @code += coderet
-                @code_switch += coderetswitch
-                @code_init += codeinit
+                if (s.app_session_default or s.app_session_prog or s.app_session_extended or s.app_session_supplier) then
+                  if (s.generate) then
+                    coderet,coderetswitch,codeinit = s.to_serv_c(index)
+                    index+=1
+                    @code += coderet
+                    @code_switch += coderetswitch
+                    @code_init += codeinit
+                  end
+                end
               end
             end
           end
@@ -354,19 +513,32 @@ class ProjectsController < ApplicationController
       }
         
       format.h { 
+        @number_bytes=0
+        prev_instance=nil
         index=0
         find_instance.uds_services.find(:all).each { |s| 
-          if s.uds_sub_services.size==0 then
-            if s.uds_service_fixed_params.size==0 then
-              if s.uds_service_identifiers.size==0 then
-                @code += s.to_serv_h
-                @code += "\n"
-                index +=1
+          if (s.generate) then
+            if (s.app_session_default or s.app_session_prog or s.app_session_extended or s.app_session_supplier) then
+              if s.uds_sub_services.size==0 then
+                if s.uds_service_fixed_params.size==0 then
+                  if s.uds_service_identifiers.size==0 then
+                    @code += s.to_serv_h(prev_instance)
+                    @code += "\n"
+                    index += 1
+                    prev_instance=s
+                  end
+                end
               end
             end
           end
         }
-        @number=index
+        if (prev_instance) then
+        @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
+        @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+        else
+        @number="(0)"
+        @number_bytes="(0)"
+        end
       }
     end
     
@@ -532,5 +704,383 @@ class ProjectsController < ApplicationController
     return @code
   end
 
+
+
+  def show_uds_bl_rdi
+    @code = ""
+    @code_mem = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="22" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_rdi_c(index,true)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="22" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  code,coderetmem = si.to_rdi_h(prev_instance,true)
+                  @code += code
+                  @code += "\n"
+                  @code_mem += coderetmem
+                  @code_mem += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
+            }
+            @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
+            @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+          end
+        }
+      }
+    end
+    
+  end
+
+  def show_uds_bl_wdi
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2E" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_wdi_c(index,true)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        @code_mem=""
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2E" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetmem=si.to_wdi_h(prev_instance,true)
+                  @code += coderet
+                  @code += "\n"
+                  @code_mem += coderetmem
+                  @code_mem += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
+            }
+            @number="(UDS_WDI_"+prev_instance.c_define_name+"_INDEX)"
+            @number_bytes="(UDS_WDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+          end
+        }
+      }
+    end
+  end
+
+  def show_uds_bl_ioctl
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2F" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_ioctl_c(index,true)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.ident=="2F" then
+            index=0
+            s.uds_service_identifiers.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  @code += si.to_ioctl_h(prev_instance,true)
+                  @code += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
+            }
+            if (prev_instance) then
+              @number="(UDS_IOCTL_"+prev_instance.c_define_name+"_INDEX)"
+              @number_bytes="(UDS_IOCTL_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+            else 
+              @number="(0)  /* No IOCTL */"
+              @number_bytes="(0)  /* No IOCTL */"
+            end            
+          end
+        }
+      }
+    end
+    
+  end
   
+  
+  def show_uds_bl_sub_services
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          if (s.ident!="22" && s.ident!="2E" && s.ident!="31") then
+            index=0
+            s.uds_sub_services.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_sub_serv_c(index,true)
+                  index += 1
+                  @code += coderet
+                  @code_switch += coderetswitch
+                  @code_init += codeinit
+                end
+              end
+            }
+          end
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          if (s.ident!="22" && s.ident!="2E" && s.ident!="31") then
+            index=0
+            s.uds_sub_services.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  @code += si.to_sub_serv_h(prev_instance,true)
+                  @code += "\n"
+                  index += 1
+                  prev_instance=si
+                end
+              end
+            }
+          end
+        }
+        @number="(UDS_RDI_"+prev_instance.c_define_name+"_INDEX)"
+        @number_bytes="(UDS_RDI_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+      }
+    end
+  end
+
+  def show_uds_bl_serv_fixparams
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          # Services with fixed params 
+          s.uds_service_fixed_params.find(:all).each { |si|
+            if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+              if (si.generate) then
+                coderet,coderetswitch,codeinit = si.to_serv_fixparams_c(index,true)
+                index += 1
+                if (s.ident!="31") then
+                  @code += coderet                  #(except: routine control, ...)
+                  @code_switch += coderetswitch     #(except: routine control, ...)
+                end
+                @code_init += codeinit
+              end
+            end
+          }
+          # SubServices with fixed params 
+          s.uds_sub_services.find(:all).each {|ss|
+            ss.uds_service_fixed_params.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  coderet,coderetswitch,codeinit = si.to_serv_fixparams_c(index,true)
+                  index += 1
+                  if (ss.uds_service.ident!="31") then
+                    @code += coderet               #(except: routine control, ...)
+                    @code_switch += coderetswitch     #(except: routine control, ...)
+                  end
+                  @code_init += codeinit
+                end
+              end
+            }
+          }
+        }
+      }
+      format.h {
+        @number_bytes=0
+        prev_instance=nil
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          s.uds_service_fixed_params.find(:all).each { |si|
+            if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+              if (si.generate) then
+                @code += si.to_serv_fixparams_h(prev_instance,true)
+                @code += "\n"
+                index += 1
+                prev_instance=si
+              end
+            end
+          }
+        }
+        if prev_instance then
+          @number="(UDS_SERV_FIXPARAMS_"+prev_instance.complete_c_define_name+"_INDEX)"
+          @number_bytes="(UDS_SERV_FIXPARAMS_"+prev_instance.complete_c_define_name+"_NUMBYTE+1)"
+        else
+          @number="(0)"
+          @number_bytes="(0)"
+        end
+      }
+    end
+  end
+
+  def show_uds_bl_routine_ctrls
+    @code = ""
+    @code_switch = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        find_instance.uds_services.find(:all).each { |s| 
+          index=0
+          if (s.ident=="31") then
+            # SubServices with fixed params
+            s.uds_sub_services.find(:all).each {|ss|
+              ss.uds_service_fixed_params.find(:all).each { |si|
+                if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                  if (si.generate) then
+                    coderet,coderetswitch,codeinit = si.to_routine_ctrl_c(index,true)
+                    index += 1
+                    @code += coderet
+                    @code_switch += coderetswitch
+                    @code_init += codeinit
+                  end
+                end
+              }
+            }
+          end
+        }
+      }
+      format.h {
+        find_instance.uds_services.find(:all).each { |s| 
+          if (s.ident=="31") then
+            # SubServices with fixed params
+            @number=s.uds_service_fixed_params.size
+            s.uds_service_fixed_params.find(:all).each { |si|
+              if (si.boot_session_default or si.boot_session_prog or si.boot_session_extended or si.boot_session_supplier) then
+                if (si.generate) then
+                  @code += si.to_routine_ctrl_h(true)
+                  @code += "\n"
+                end
+              end
+            }
+          end
+        }
+      }
+    end
+  end
+
+  def show_uds_bl_services
+    @code = ""
+    @code_switch = ""
+    @code_def = ""
+    @code_mem = ""
+    @code_init = ""
+    respond_to do |format|
+      format.c {
+        index=0
+        find_instance.uds_services.find(:all).each { |s| 
+          if s.uds_sub_services.size==0 then
+            if s.uds_service_fixed_params.size==0 then
+              if s.uds_service_identifiers.size==0 then
+                if (s.boot_session_default or s.boot_session_prog or s.boot_session_extended or s.boot_session_supplier) then
+                  if (s.generate) then
+                    coderet,coderetswitch,codeinit = s.to_serv_c(index,true)
+                    index+=1
+                    @code += coderet
+                    @code_switch += coderetswitch
+                    @code_init += codeinit
+                  end
+                end
+              end
+            end
+          end
+        }
+        @number=index
+      }
+        
+      format.h { 
+        @number_bytes=0
+        prev_instance=nil
+        index=0
+        find_instance.uds_services.find(:all).each { |s| 
+          if (s.boot_session_default or s.boot_session_prog or s.boot_session_extended or s.boot_session_supplier) then
+            if (s.generate) then
+              if s.uds_sub_services.size==0 then
+                if s.uds_service_fixed_params.size==0 then
+                  if s.uds_service_identifiers.size==0 then
+                    @code += s.to_serv_h(prev_instance,true)
+                    @code += "\n"
+                    index += 1
+                    prev_instance=s
+                  end
+                end
+              end
+            end
+          end
+        }
+        if (prev_instance) then
+          @number="(UDS_SERV_"+prev_instance.c_define_name+"_INDEX)"
+          @number_bytes="(UDS_SERV_"+prev_instance.c_define_name+"_NUMBYTE+1)"
+        else 
+          @number="(0)  /* No services */"
+          @number_bytes="(0)  /* No services */"
+        end
+      }
+    end
+    
+  end
+
 end

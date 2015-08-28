@@ -189,7 +189,7 @@ class EdiModel < ActiveRecord::Base
       p.DefAttrb("Name" => "Software Requirement "+1.to_s, "ObjType" => "Process", "Default" => "", :Type => "url", "ValRange"=>"")
       p.DefAttrb("Name" => "code_gen", "ObjType" => "Process", "Default" => "0", :Type => "enum", "ValRange"=>"(FSM,0);(OsekCom,1);(FSM_Redun2,2);(FSM_Redun3,3)")
       p.DefAttrb("Name" => "Exec. Order", "ObjType" => "Process", "Default" => "", :Type => "int", "ValRange"=>"1;2;3")
-      p.DefAttrb("Name" => "Timer Size", "ObjType" => "Process", "Default" => "1", :Type => "enum", "ValRange"=>"(UI_8,0);(UI_16,1);(UI_32,2);")
+      p.DefAttrb("Name" => "Timer Size", "ObjType" => "Process", "Default" => "1", :Type => "enum", "ValRange"=>"(uint8_t,0);(uint16_t,1);(uint32_t,2);")
       p.DefAttrb("Name" => "Port Type", "ObjType" => "Link", "Default" => "I/O", :Type => "string", "ValRange"=>"")
       p.DefAttrb("Name" => "Software Requirement "+1.to_s, "ObjType" => "Transition", "Default" => "", :Type => "url", "ValRange"=>"")
       p.DefAttrb("Name" => "Priority", "ObjType" => "Transition", "Default" => "", :Type => "int", "ValRange"=>"")

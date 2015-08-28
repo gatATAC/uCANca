@@ -1,5 +1,6 @@
-#ifndef UDS_IOCTL_GEN_H
-#define UDS_IOCTL_GEN_H
+/******** UDS_bl_ioctl_gen.h *********/
+#ifndef UDS_BL_IOCTL_GEN_H
+#define UDS_BL_IOCTL_GEN_H
 
 /* TO DO: use a project preference to store this pattern in the BD */
 /* Include here the needed *.h 
@@ -40,5 +41,5 @@ extern uint8_t uds_ioctl_permission_addressing_functional[UDS_IOCTL_TABLESIZE];
 void UdsIOCtrlInit(void);
 uint8_t UdsIOCtrlDispatcher(uint16_t ident, uint8_t io_ctrl_type, uint8_t ctrl_state, uint8_t* buf_data_rx, uint16_t size, t_ioctl_resp *resp);
 
-#endif /* UDS_IOCTL_H_ */
+#endif /* UDS_BL_IOCTL_H_ */
 
