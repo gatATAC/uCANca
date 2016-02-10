@@ -26,7 +26,7 @@ class UdsServiceFixedParam < ActiveRecord::Base
     generate              :boolean  # TODO: quit this workaround to avoid problems with SQLite development DB, redo , :default => true
     timestamps
   end
-  attr_accessible :ident, :name, :length, :app_session_default, :app_session_prog, :app_session_extended, :app_session_supplier, :boot_session_default, :boot_session_prog, :boot_session_extended, :boot_session_supplier, :sec_locked, :sec_lev1, :sec_lev_11, :sec_supplier, :addr_phys, :addr_func, :supress_bit, :precondition, :uds_service_sub, :uds_sub_service_id
+  attr_accessible :ident, :name, :length, :app_session_default, :app_session_prog, :app_session_extended, :app_session_supplier, :boot_session_default, :boot_session_prog, :boot_session_extended, :boot_session_supplier, :sec_locked, :sec_lev1, :sec_lev_11, :sec_supplier, :addr_phys, :addr_func, :supress_bit, :precondition, :uds_service_sub, :uds_sub_service_id, :configuration_switch, :configuration_switch_id
 
   belongs_to :uds_service, :creator => :true, :inverse_of => :uds_service_fixed_params
   belongs_to :uds_sub_service, :inverse_of => :uds_service_fixed_params

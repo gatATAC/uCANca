@@ -27,6 +27,9 @@ class SubSystemsController < ApplicationController
   def show
     @sub_system=find_instance
     respond_to do |format|
+      format.sim {
+        render :inline => find_instance.to_sim
+      }
       format.svg {
         render :inline => find_instance.to_svg
       }
