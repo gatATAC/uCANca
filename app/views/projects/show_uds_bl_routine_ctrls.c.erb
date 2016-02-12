@@ -1,60 +1,31 @@
-/********** UDS_bl_routine_ctrls_gen.c ************/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
+/********** UDS_routine_ctrls_gen.c ************/
 ...
-...
-...
-...
-
-*/
 #include "UDServices.h"
-#include "uds_bl_routine_ctrls_gen.h"
-
+#include "UdsBlRoutineCtrlGen.h"
 
 void UdsRoutineCtrlsInit(void)
 {
 }
 
-#ifdef UDS_ROUTIINE_CONTROLS_DUMMY_FUNCTIONS
+/* #define UDS_GEN_USE_AUTOGEN_ROUTINES */
+#ifdef UDS_GEN_USE_AUTOGEN_ROUTINES
 
 /* Please copy and paste the following functions to another *.c file to take
 profit of the signature.
 You can use the UDS_ROUTIINE_CONTROLS_DUMMY_FUNCTIONS definition to activate 
 this code fragment to allow you to include the code fragment in the compilation
 while the functions are not yet implemented.
-*/
-
+ */
 <%= raw(@code) %>
-
 #endif
 
-uint8_t UdsRoutineCtrlsDispatcheer(uint8_t routine_ctrl_type, uint16_t ident, uint8_t *routine_entry_option, uint16_t size, t_routinectl_resp *resp)
+void UdsRoutineControlDispatcher(...)
 {
-    uint8_t response_mode;
-
-    
-    /* Put here your pre-process 
-    ...
-    ...
-        
-    */    
-        
     if (FALSE) {
-    /* hack to simplify code generation */
-    }
-<%= raw(@code_switch) %>
-    else 
-    {
-            response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE;
+        /* hack to simplify code generation */<%= raw(@code_switch) %> 
+    } else {
+...
     }
 
-    /* Put here your post-process 
-    
-      - Fill an ISO3 answer... etc...
-       ...
-       ...
-        
-    */
-        
-    return response_mode;
+...
 }

@@ -86,9 +86,9 @@ class UdsSubService < ActiveRecord::Base
     ret+="}\n"
     retswitch +="        case UDS_SUBSERV_"+self.c_define_name+"_ID: 
             if (UDSSubServ_check_permissions(UDS_SUBSERV_"+self.c_define_name+"_NUMBYTE,UDS_SUBSERV_"+self.c_define_name+"_BITMASK ,&response_mode)==TRUE){ 
-                if (UDSSubServ_"+self.c_name+"(resp->buffer_dades,resp_pos,&data_size)==TRUE){ 
-                    response_mode=ISO15765_3_POSITIVE_RESPONSE; 
-                    Iso15765_3IncrementResponseSize(data_size); 
+                if (UDSSubServ_"+self.c_name+"(data_buffer,resp_pos,&data_size)==TRUE){ 
+                    /* Generate positive response */ 
+                    /* Increment response size in data_size */ 
                 } 
             } 
             break; 
@@ -112,7 +112,7 @@ class UdsSubService < ActiveRecord::Base
     if (configuration_switch!=nil) then
       ret+="#ifdef "+configuration_switch.ident.upcase+"_ENABLED\n"
     end
-    ret+="#define UDS_SUBSERV_"+self.c_define_name+"_ID                 ((uint16_t)0x"+self.ident.upcase+")\n"
+    ret+="#define UDS_SUBSERV_"+self.c_define_name+"_ID                 ((uint16_t)0x"+self.ident.upcase+"U)\n"
     ret+="#define UDS_SUBSERV_"+self.c_define_name+"_LEN                 ((uint8_t)"+self.length.to_s+")\n"
     ret+="#define UDS_SUBSERV_"+self.c_define_name+"_INDEX                ("+sub_serv_index+")\n"
     ret+="#define UDS_SUBSERV_"+self.c_define_name+"_NUMBYTE                 ((uint8_t)(("+sub_serv_index+")/8))\n"
@@ -142,7 +142,7 @@ class UdsSubService < ActiveRecord::Base
   end
   
   def c_name
-    name.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '').gsub('-','_')
+    name.strip.gsub(' ', '').gsub(/[^\w-]/, '').gsub('-','_').camelize
   end
   
   def c_define_name

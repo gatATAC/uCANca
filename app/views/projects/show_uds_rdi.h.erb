@@ -1,25 +1,23 @@
 #ifndef UDS_RDI_GEN_H
 #define UDS_RDI_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
 
 <%= ret=@code
     raw(ret) %>
 
 /* Number of RDI: <%= raw(@number) %> */
 
-/* Memory definitions */
-<%= raw(@code_mem) %>
-
+/**
+ * Initialization of the RDI manager
+ */
 void UdsRdiInit(void);
-uint8_t UdsRdiDispatcher(uint15_t ident, t_rdi_resp *resp);
+
+#ifndef UDS_GEN_USE_AUTOGEN_RDI
+
+<%= ret=@code_decl
+    raw(ret) %>
+
+#endif
 
 #endif /* UDS_RDI_H_ */
-

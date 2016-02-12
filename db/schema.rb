@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150616125235) do
+ActiveRecord::Schema.define(:version => 20150924161851) do
 
   create_table "configuration_switches", :force => true do |t|
     t.string   "name"
@@ -761,6 +761,7 @@ ActiveRecord::Schema.define(:version => 20150616125235) do
     t.integer  "configuration_switch_id"
     t.text     "custom_code"
     t.boolean  "generate"
+    t.integer  "data_size"
   end
 
   add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "index_uds_service_fixed_params_on_configuration_switch_id"

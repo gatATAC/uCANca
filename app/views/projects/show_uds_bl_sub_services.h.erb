@@ -1,14 +1,7 @@
 #ifndef UDS_BL_SUB_SERVICES_GEN_H
 #define UDS_BL_SUB_SERVICES_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
 #include "UDServices.h"
 
 
@@ -16,23 +9,8 @@
 <%= ret=@code
     raw(ret) %>
 
-/* Number of SUBSERV: <%= raw(@number) %>
-   Number of positions for masks:  <%= raw(@number_bytes) %>
-*/
+/* Number of SUBSERV: <%= raw(@number) %> */
 
 #define UDS_SUBSERV_NUMBER <%= raw(@number) %>
-#define UDS_SUBSERV_TABLESIZE <%= raw(@number_bytes) %>
-
-extern uint8_t uds_sub_serv_permission_session_default[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_session_prog[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_session_extended[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_session_supplier[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_security_locked[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_security_level1[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_security_level11[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_security_supplier[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_addressing_physical[UDS_SUBSERV_TABLESIZE];
-extern uint8_t uds_sub_serv_permission_addressing_functional[UDS_SUBSERV_TABLESIZE];
-
 
 #endif /* UDS_BL_SUB_SERVICE_H_ */

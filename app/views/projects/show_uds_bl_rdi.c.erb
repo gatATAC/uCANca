@@ -1,46 +1,23 @@
-/********** UDS_bl_rdi_gen.c *************/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
+/********** UDS_rdi_gen.c *************/
 ...
-...
-...
-...
-
-*/
 #include "UDServices.h"
-#include "uds_bl_rdi_gen.h"
+#include "UdsBlRdiGen.h"
 
 void UdsRdiInit(void){
 }
 
+#ifdef UDS_GEN_USE_AUTOGEN_RDI
 <%= raw(@code) %>
-
-uint8_t UdsRdiDispatcher(uint15_t ident, t_rdi_resp *resp) { 
-    uint8_t response_mode;
-
-        /* Put here your pre-process 
-        ...
-        ...
-        
-        */    
-        
-    switch (ident) { 
-    
+#endif
+/* READ DATA BY IDENTIFIER SERVICE HANDLERS */
+uint8_t UdsRdiDispatcher(...)
+{
+...
+        switch (id) {
 <%= raw(@code_switch) %>
-        default: 
-            response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE; 
-            break; 
-    } 
-
-    
-        /* Put here your post-process 
-        - Fill an ISO3 answer... etc...
-        ...
-        ...
-        
-        */
-        
-        return response_mode;
-
+        default:
+...
+          break;
+        }
+...
 }
-

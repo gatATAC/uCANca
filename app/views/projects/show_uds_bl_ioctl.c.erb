@@ -1,86 +1,27 @@
-/******** UDS_bl_ioctl_gen.c *********/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
+/******** UdsBlIoCtlGen.c *********/
+/* Example of code for implementing IOCtrl in bootloader */
 ...
-...
-...
-...
-
-*/
 
 #include "UDServices.h"
-#include "uds_bl_ioctl_gen.h"
+#include "UdsBlIoCtlGen.h"
 
-#ifdef UDS_IOCLT_CHECK_AT_LEAST_ONE
 
-uint8_t uds_ioctl_permission_session_default[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_session_prog[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_session_extended[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_session_supplier[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_security_locked[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_security_level1[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_security_level11[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_security_supplier[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_addressing_physical[UDS_IOCTL_TABLESIZE];
-uint8_t uds_ioctl_permission_addressing_functional[UDS_IOCTL_TABLESIZE];
-
-#endif
-
-void UdsIOCtrlInit(void){
-
-#ifdef UDS_IOCLT_CHECK_AT_LEAST_ONE
-  uint8_t cont=0;
-  for (cont=(uint8_t)0;cont<UDS_IOCTL_TABLESIZE;cont++){
-    uds_ioctl_permission_session_default[cont]=(uint8_t)0;
-    uds_ioctl_permission_session_prog[cont]=(uint8_t)0;
-    uds_ioctl_permission_session_extended[cont]=(uint8_t)0;
-    uds_ioctl_permission_session_supplier[cont]=(uint8_t)0;
-    uds_ioctl_permission_security_locked[cont]=(uint8_t)0;
-    uds_ioctl_permission_security_level1[cont]=(uint8_t)0;
-    uds_ioctl_permission_security_level11[cont]=(uint8_t)0;
-    uds_ioctl_permission_security_supplier[cont]=(uint8_t)0;
-    uds_ioctl_permission_addressing_physical[cont]=(uint8_t)0;
-    uds_ioctl_permission_addressing_functional[cont]=(uint8_t)0;
-  }
-<%= raw(@code_init) %>
-
-#endif
+void UdsIoCtlInit(void){
 
 }
 
-#ifdef UDS_IOCLT_CHECK_AT_LEAST_ONE
-
 <%= raw(@code) %>
-
-#endif
-
-uint8_t UdsIOCtrlDispatcher(uint16_t ident, uint8_t io_ctrl_type, uint8_t ctrl_state, uint8_t* buf_data_rx, uint16_t size, t_ioctl_resp *resp) {
-    uint8_t response_mode;
-
-        /* Put here your pre-process 
-        ...
-        ...
-        
-        */    
     
-        switch (ident) {
+void UdsIoCtlDispatcher(...) {
+
+    ...
+    
+    switch ((uint16_t) ident) {
 <%= raw(@code_switch) %>
-            default:
-                if (size == 0) {
-                    response_mode = UDS_ERR_INVALID_FORMAT;
-                } else {
-                    response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE;
-                }
-                break;
-        }
-    
-        /* Put here your post-process 
-        - Fill an ISO3 answer... etc...
-        ...
-        ...
-        
-        */
-        
-        return response_mode;
+      default:
+    ...
+      break;
+    }
+...
 }
 

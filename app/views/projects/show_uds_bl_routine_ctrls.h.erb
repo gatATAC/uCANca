@@ -1,24 +1,17 @@
 #ifndef UDS_BL_ROUTINE_CTRLS_GEN_H
 #define UDS_BL_ROUTINE_CTRLS_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
-
 #include "UDServices.h"
-#include "uds_bl_serv_fixparams_gen.h"
-
-#define UDS_ROUTINE_CTRLS_NUMBER <%= raw(@number) %>
-
 <%= ret=@code
     raw(ret) %>
+/* #define UDS_BL_ROUTINE_CTRLS_NUMBER <%= raw(@number) %> */
 
+<%= ret=@code_func
+    raw(ret) %>
+/**
+ * Initializes the RoutineCtrl dispatcher
+ */
 void UdsRoutineCtrlsInit(void);
-uint8_t UdsRoutineCtrlsDispatcheer(uint8_t routine_ctrl_type, uint16_t ident, uint8_t *routine_entry_option, uint16_t size, t_routinectl_resp *resp);
 
 #endif /* UDS_BL_ROUTINE_CTRLS_GEN_H_ */

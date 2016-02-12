@@ -1,15 +1,7 @@
 /************* UDS_serv_fixparam_gen.c ***************/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
-
 #include "UDServices.h"
-#include "uds_serv_fixparams_gen.h"
+#include "UdsServFixparamsGen.h"
 
 void UdsServiceWithFixParamInit(void){
 
@@ -17,3 +9,14 @@ void UdsServiceWithFixParamInit(void){
 
 <%= raw(@code) %>
 
+uint8_t UdsServiceWithFixParam(...) { 
+...
+    switch (id) { 
+    
+<%= raw(@code_switch) %>
+        default: 
+...
+          break; 
+    } 
+...
+}

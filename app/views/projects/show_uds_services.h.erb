@@ -1,14 +1,7 @@
 #ifndef UDS_SERVICES_GEN_H
 #define	UDS_SERVICES_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
 #include "UDServices.h"
 
 /* This header holds all the services that do not have a sub service */
@@ -16,23 +9,8 @@
 <%= ret=@code
     raw(ret) %>
 
-/* Number of Services: <%= raw(@number) %>
-   Number of positions for masks:  <%= raw(@number_bytes) %>
-*/
+/* Number of Services: <%= raw(@number) %> */
 
 #define UDS_SERV_NUMBER <%= raw(@number) %>
-#define UDS_SERV_TABLESIZE <%= raw(@number_bytes) %>
-
-extern uint8_t uds_serv_permission_session_default[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_session_prog[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_session_extended[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_session_supplier[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_security_locked[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_security_level1[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_security_level11[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_security_supplier[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_addressing_physical[UDS_SERV_TABLESIZE];
-extern uint8_t uds_serv_permission_addressing_functional[UDS_SERV_TABLESIZE];
-
 
 #endif /* UDS_SERVICES_GEN_H */

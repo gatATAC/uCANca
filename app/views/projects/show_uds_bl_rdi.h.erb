@@ -1,14 +1,7 @@
 #ifndef UDS_BL_RDI_GEN_H
 #define UDS_BL_RDI_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
 
 <%= ret=@code
     raw(ret) %>
@@ -19,7 +12,22 @@
 <%= raw(@code_mem) %>
 
 void UdsRdiInit(void);
-uint8_t UdsRdiDispatcher(uint15_t ident, t_rdi_resp *resp);
+
+#define UDS_BL_RDI_REDIRECT_APP_RDI
+
+#ifndef UDS_BL_RDI_REDIRECT_APP_RDI
+
+<%= ret=@code_func
+    raw(ret) %>
+
+#else 
+
+#include "UdsRdiGen.h"
+
+/*********** BOOTLOADER SECTION *****************/
+<%= ret=@code_redirect
+    raw(ret) %>
+#endif
 
 #endif /* UDS_RDI_H_ */
 

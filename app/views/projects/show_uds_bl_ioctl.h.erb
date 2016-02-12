@@ -1,45 +1,17 @@
-/******** UDS_bl_ioctl_gen.h *********/
 #ifndef UDS_BL_IOCTL_GEN_H
 #define UDS_BL_IOCTL_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
 #include "UDServices.h"
 
 
 <%= ret=@code
     raw(ret) %>
 
-/* Number of IOCTL: <%= raw(@number) %>
-   Number of positions for masks:  <%= raw(@number_bytes) %>
-*/
-
-#ifdef UDS_IOCLT_CHECK_AT_LEAST_ONE
-
-#define UDS_IOCTL_NUMBER <%= raw(@number) %>
-#define UDS_IOCTL_TABLESIZE <%= raw(@number_bytes) %>
-
-extern uint8_t uds_ioctl_permission_session_default[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_session_prog[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_session_extended[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_session_supplier[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_security_locked[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_security_level1[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_security_level11[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_security_supplier[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_addressing_physical[UDS_IOCTL_TABLESIZE];
-extern uint8_t uds_ioctl_permission_addressing_functional[UDS_IOCTL_TABLESIZE];
-
-#endif
+/* Number of IOCTL: <%= raw(@number) %> */
 
 void UdsIOCtrlInit(void);
-uint8_t UdsIOCtrlDispatcher(uint16_t ident, uint8_t io_ctrl_type, uint8_t ctrl_state, uint8_t* buf_data_rx, uint16_t size, t_ioctl_resp *resp);
+
 
 #endif /* UDS_BL_IOCTL_H_ */
 

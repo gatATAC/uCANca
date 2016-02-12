@@ -1,29 +1,30 @@
 #ifndef UDS_WDI_GEN_H
 #define UDS_WDI_GEN_H
 
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
-
-*/
-#include "uds_rdi_gen.h"
-
-
+#include "UdsRdiGen.h"
 <%= ret=@code
     raw(ret) %>
 
 /* Number of WDI: <%= raw(@number) %> */
-
-/* Memory definitions */
-<%= raw(@code_mem) %>
-
 #define UDS_WDI_NUMBER <%= raw(@number) %>
 
+/* Memory definitions, translation to RDI when it exists */
+<%= raw(@code_mem) %>
+
+/**
+ * Initialization of the WDI dispatcher
+ */
 void UdsWdiInit(void);
-uint8_t UdsWdiDispatcher(uint16_t ident, uint8_t *buf_data_rx, uint16_t size, t_wdi_resp *resp);
+
+/* Using UDS_GEN_USE_AUTOGEN_WDI definition, the automatically generated 
+   WDI functions will be compiled.  This can be useful at the early stages 
+   before manual code is implemented. */
+#ifndef UDS_GEN_USE_AUTOGEN_WDI
+<%= ret=@code_decl
+    raw(ret) %>
+
+#endif
 
 #endif /* UDS_WDI_H_ */
 

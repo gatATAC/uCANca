@@ -39,8 +39,13 @@ class UdsService < ActiveRecord::Base
   
   children :uds_sub_services
 
-  
   def to_serv_c(index,is_bootloader=false)
+    if (!is_bootloader) then
+      prefix="UDS_"
+    else
+      prefix="UDS_BL_"
+    end
+    
     retinit="\n\t/*  "+self.name+"  */\n"
     ret="\n/*  "+self.name+"  */\n"
     retswitch="\n\t/*  "+self.name+"  */\n"
@@ -49,56 +54,28 @@ class UdsService < ActiveRecord::Base
       ret+="#ifdef "+self.configuration_switch.ident.upcase+"_ENABLED\n"
       retswitch+="#ifdef "+self.configuration_switch.ident.upcase+"_ENABLED\n"
     end
-    if (!is_bootloader) then
-      prefix="UDS_SERV_"
+
+    ret+="static BOOL UDS_"+self.c_name+"(uint8_t *data_buffer, uint16_t index, uint16_t *data_size)\n{\n"
+    
+    if (custom_code && custom_code.size>0)
+      ret+="\t"+custom_code+"\n"
     else
-      prefix="UDS_BL_SERV_"
+      #ret+="\tNVMRead("+prefix+self.c_define_name+"_ADDR, &(data_buffer[index]), "+prefix+self.c_define_name+"_DATA_SIZE);\n"
+      #ret+="\t*data_size="+prefix+self.c_define_name+"_DATA_SIZE;\n\treturn TRUE;\n"
+      ret+="\t/* TODO: fill this */ \n\treturn TRUE;\n"
     end
-
-    if ((!is_bootloader and self.app_session_default) or (is_bootloader and self.boot_session_default)) then
-      retinit+="\tuds_serv_permission_session_default["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if ((!is_bootloader and self.app_session_prog) or (is_bootloader and self.boot_session_prog)) then
-      retinit+="\tuds_serv_permission_session_prog["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if ((!is_bootloader and self.app_session_extended) or (is_bootloader and self.boot_session_extended)) then
-      retinit+="\tuds_serv_permission_session_extended["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if ((!is_bootloader and self.app_session_supplier) or (is_bootloader and self.boot_session_supplier)) then
-      retinit+="\tuds_serv_permission_session_supplier["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.sec_locked) then
-      retinit+="\tuds_serv_permission_security_locked["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.sec_lev1) then
-      retinit+="\tuds_serv_permission_security_level1["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.sec_lev_11) then
-      retinit+="\tuds_serv_permission_security_level11["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.sec_supplier) then
-      retinit+="\tuds_serv_permission_security_supplier["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.addr_phys) then
-      retinit+="\tuds_serv_permission_addressing_physical["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-    if (self.addr_func) then
-      retinit+="\tuds_serv_permission_addressing_functional["+prefix+self.c_define_name+"_NUMBYTE]|="+prefix+self.c_define_name+"_BITMASK;\n"
-    end
-
-    ret+="BOOL UDSServ_"+self.c_name+"(uint8_t *data_buffer, uint8_t index, uint16_t *data_size)\n{\n"
-    ret+="\t/* TODO: fill this */ \n\treturn TRUE;\n"
+    
     ret+="}\n"
     retswitch +="        case "+prefix+self.c_define_name+"_ID: 
-            if (UDSServ_check_permissions("+prefix+self.c_define_name+"_NUMBYTE,"+prefix+self.c_define_name+"_BITMASK ,&response_mode)==TRUE){ 
-                if (UDSServ_"+self.c_name+"(resp->buffer_dades,resp_pos,&data_size)==TRUE){ 
-                    response_mode=ISO15765_3_POSITIVE_RESPONSE; 
-                    Iso15765_3IncrementResponseSize(data_size); 
+            if (UDS_check_permissions("+prefix+self.c_define_name+"_SESSION_ACCESS,"+prefix+self.c_define_name+"_SECURITY_ACCESS ,"+prefix+self.c_define_name+"_ADDRESSING_ACCESS ,&response_mode)==TRUE){ 
+                if (UDS_"+self.c_name+"(data_buffer,resp_pos,&data_size)==TRUE){ 
+                    /* Generate positive response */ 
+                    /* Increment response size in data_size */ 
                 } 
             } 
             break; 
     "
-    if (self.configuration_switch!=nil) then
+    if (configuration_switch!=nil) then
       retinit+="#endif\n"
       ret+="#endif\n"
       retswitch+="#endif\n"
@@ -107,47 +84,92 @@ class UdsService < ActiveRecord::Base
     return ret,retswitch,retinit
   end
   
-  
-  def configuration_switch
-    nil
-  end
-    
   def to_serv_h(prev_serv,is_bootloader=false)
     if (!is_bootloader) then
-      prefix="UDS_SERV_"
+      prefix="UDS_"
     else
-      prefix="UDS_BL_SERV_"
-    end
+      prefix="UDS_BL_"
+      prefix_serv="UDS_"
+    end    
     if (prev_serv==nil) then
       serv_index="((uint8_t)0)"
     else
       serv_index="(uint8_t)("+prefix+prev_serv.c_define_name+"_INDEX+1)"
     end
     ret="\n/*  "+self.name+"  */\n"
-    if (self.configuration_switch!=nil) then
-      ret+="#ifdef "+self.configuration_switch.ident.upcase+"_ENABLED\n"
+    if (configuration_switch!=nil) then
+      ret+="#ifdef "+configuration_switch.ident.upcase+"_ENABLED\n"
     end
-    ret+="#define "+prefix+self.c_define_name+"_ID                 ((uint16_t)0x"+self.ident.upcase+")\n"
+    ret+="#define "+prefix+self.c_define_name+"_ID                 ((uint16_t)0x"+self.ident.upcase+"U)\n"
     ret+="#define "+prefix+self.c_define_name+"_LEN                 ((uint8_t)"+self.length.to_s+")\n"
+    #ret+="#define "+prefix+self.c_define_name+"_DATA_SIZE           ((uint16_t)"+self.data_size.to_s+")\n"
     ret+="#define "+prefix+self.c_define_name+"_INDEX                ("+serv_index+")\n"
-    ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 ((uint8_t)(("+serv_index+")/8))\n"
-    ret+="#define "+prefix+self.c_define_name+"_BITMASK                 ((uint8_t)1<<("+serv_index+"%8))\n"
-    ret+="\nBOOL UDSService_"+self.c_name+"(uint8_t *data_buffer, uint8_t index, uint16_t *data_size);\n"
+    # ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 ((uint8_t)("+prefix+self.c_define_name+"_INDEX/8))\n"
+    # ret+="#define "+prefix+self.c_define_name+"_BITMASK                 ((uint8_t)1<<("+prefix+self.c_define_name+"_INDEX%8))\n"
+    # ret+="\nBOOL UDS_"+self.c_name+"(uint8_t *data_buffer, uint16_t index, uint16_t *data_size);\n"
+        
+    ret+="#define "+prefix+self.c_define_name+"_SESSION_ACCESS     (((uint8_t)0x00)"
+    if ((!is_bootloader and self.app_session_default) or (is_bootloader and self.boot_session_default)) then
+    ret+=" | UDS_DEFAULT_SESSION_MASK"
+    end
+    if ((!is_bootloader and self.app_session_prog) or (is_bootloader and self.boot_session_prog)) then
+    ret+=" | UDS_PROGRAMMING_SESSION_MASK"
+    end
+        if ((!is_bootloader and self.app_session_extended) or (is_bootloader and self.boot_session_extended)) then 
+    ret+=" | UDS_EXT_DIAG_SESSION_MASK"
+    end
+    if ((!is_bootloader and self.app_session_supplier) or (is_bootloader and self.boot_session_supplier)) then
+    ret+=" | UDS_SYSTEM_SUPPLIER_SPECIFIC_SESSION_MASK"
+    end
+    ret+=")\n"
+        
+    ret+="#define "+prefix+self.c_define_name+"_SECURITY_ACCESS     (((uint8_t)0x00)"
+    if (self.sec_locked) then
+    ret+=" | UDS_LOCKED_SECURITY_MASK"
+    end
+    if (self.sec_lev1) then
+    ret+=" | UDS_L1_SECURITY_MASK"
+    end
+    if (self.sec_lev_11) then
+    ret+=" | UDS_L11_SECURITY_MASK"
+    end
+    if (self.sec_supplier) then
+    ret+=" | UDS_SYSTEM_SUPPLIER_SPECIFIC_SECURITY_MASK"
+    end
+    ret+=")\n"
+    
+    ret+="#define "+prefix+self.c_define_name+"_ADDRESSING_ACCESS     (((uint8_t)0x00)"
+    if (self.addr_phys) then
+    ret+=" | UDS_PHYSICAL_ADDRESSING_MASK"
+    end
+    if (self.addr_func) then
+    ret+=" | UDS_FUNCTIONAL_ADDRESSING_MASK"
+    end
+    ret+=")\n"
+
+    
     if (self.configuration_switch!=nil) then
-      ret+="#else\n"
-      if prev_serv!=nil then
-        ret+="#define "+prefix+self.c_define_name+"_INDEX                "+prefix+prev_serv.c_define_name+"_INDEX\n"
-        ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 "+prefix+prev_serv.c_define_name+"_NUMBYTE\n"
-      else
-        ret+="#define "+prefix+self.c_define_name+"_INDEX                ((uint8_t)0)\n"
-        ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 ((uint8_t)0)\n"
-      end
+      #ret+="#else\n"
+      #if prev_serv!=nil then
+      #  ret+="#define "+prefix+self.c_define_name+"_INDEX                "+prefix+prev_serv.c_define_name+"_INDEX\n"
+      #  ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 "+prefix+prev_serv.c_define_name+"_NUMBYTE\n"
+      #else
+      #  ret+="#define "+prefix+self.c_define_name+"_INDEX                ((uint8_t)-1)\n"
+      #  ret+="#define "+prefix+self.c_define_name+"_NUMBYTE                 ((uint8_t)0)\n"
+      #end
       ret+="#endif\n"
     end
-    
-    return ret
+
+    retmem=""
+        
+    return ret,retmem    
+
   end
   
+  def configuration_switch
+    nil
+  end
+    
   def boolean_to_s(value)
     if value==true then
       "TRUE"
@@ -157,7 +179,7 @@ class UdsService < ActiveRecord::Base
   end
 
   def c_name
-    name.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '').gsub('-','_')
+    name.strip.gsub(' ', '').gsub(/[^\w-]/, '').gsub('-','_').camelize
   end
   
   def c_define_name

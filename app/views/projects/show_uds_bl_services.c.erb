@@ -1,43 +1,24 @@
-/********* UDS_bl_services_gen.c ************/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
+/********* UDS_services_gen.c ************/
 ...
-...
-...
-...
-
-*/
-#include "uds_bl_services_gen.h"
-
-uint8_t uds_serv_permission_session_default[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_session_prog[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_session_extended[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_session_supplier[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_security_locked[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_security_level1[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_security_level11[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_security_supplier[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_addressing_physical[UDS_SERV_TABLESIZE];
-uint8_t uds_serv_permission_addressing_functional[UDS_SERV_TABLESIZE];
-
+#include "UdsBlServicesGen.h"
 
 void UdsServicesInit(void){
-  uint8_t cont=0;
-  for (cont=(uint8_t)0;cont<UDS_SERV_TABLESIZE;cont++){
-    uds_serv_permission_session_default[cont]=(uint8_t)0;
-    uds_serv_permission_session_prog[cont]=(uint8_t)0;
-    uds_serv_permission_session_extended[cont]=(uint8_t)0;
-    uds_serv_permission_session_supplier[cont]=(uint8_t)0;
-    uds_serv_permission_security_locked[cont]=(uint8_t)0;
-    uds_serv_permission_security_level1[cont]=(uint8_t)0;
-    uds_serv_permission_security_level11[cont]=(uint8_t)0;
-    uds_serv_permission_security_supplier[cont]=(uint8_t)0;
-    uds_serv_permission_addressing_physical[cont]=(uint8_t)0;
-    uds_serv_permission_addressing_functional[cont]=(uint8_t)0;
-  }
 <%= raw(@code_init) %>
 }
 
 <%= raw(@code) %>
 
+
+/* UDS SERVICE HANDLERS */ 
+uint8_t UdsServices(uint8_t id_h, uint8_t id_l) { 
+...
+    switch (id) { 
+    
+<%= raw(@code_switch) %>
+        default: 
+...
+          break; 
+    } 
+...
+}
 

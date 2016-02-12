@@ -1,44 +1,30 @@
-/************ UDS_wdi_gen.c **********/
-/* TO DO: use a project preference to store this pattern in the BD */
-/* Include here the needed *.h 
 ...
-...
-...
-...
+#include "UdsWdiGen.h"
 
-*/
-#include "UDServices.h"
-
-void UdsWdiInit(void){
-}
+#ifdef UDS_GEN_USE_AUTOGEN_WDI
 
 <%= raw(@code) %>
+#endif
 
-uint8_t UdsWdiDispatcher(uint16_t ident, uint8_t *buf_data_rx, uint16_t size, t_wdi_resp *resp)
+/**
+ * Initialization of the WDI services
+ */
+void UdsWdiInit(void)
 {
-    uint8_t response_mode;
+}
 
-    
-    /* Put here your pre-process 
-    ...
-    ...
-        
-    */    
-    switch (id)
-    {
+/**
+ * Dispatcher of the WDI services
+ */
+void UdsWdiDispatcher(...)
+{
+...
+    switch (id) {
 <%= raw(@code_switch) %>
-        default:
-            response_mode = UDS_ERR_REQUEST_OUT_OF_RANGE;
-            break;
+    default:
+...
+      break;
     }
 
-    /* Put here your post-process 
-    
-      - Fill an ISO3 answer... etc...
-       ...
-       ...
-        
-    */
-        
-    return response_mode;
+...
 }
