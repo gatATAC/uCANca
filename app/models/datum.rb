@@ -79,7 +79,7 @@ class Datum < ActiveRecord::Base
     return @code
   end
   def self.show_parameter_set
-    @code="CANape PAR V3.1: INE_HONDA_DCU.a2l 1 0 CCP_DCU\n"
+    @code="CANape PAR V3.1: gatATAC.a2l 1 0 CCP_GTTC\n"
     @code+=";Parameter file created by DRE code generator\n;\n"
     self.find(:all).each { |r|
       if (r.generate) then
