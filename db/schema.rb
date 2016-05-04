@@ -760,13 +760,13 @@ ActiveRecord::Schema.define(:version => 20150924161851) do
     t.integer  "uds_service_id"
     t.integer  "configuration_switch_id"
     t.text     "custom_code"
-    t.boolean  "generate"
+    t.boolean  "generate",                :default => true
     t.integer  "data_size"
   end
 
-  add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "index_uds_service_fixed_params_on_configuration_switch_id"
+  add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "add_index_to_fixparam_cfgswtch"
   add_index "uds_service_fixed_params", ["uds_service_id"], :name => "index_uds_service_fixed_params_on_uds_service_id"
-  add_index "uds_service_fixed_params", ["uds_sub_service_id"], :name => "index_uds_service_fixed_params_on_uds_sub_service_id"
+  add_index "uds_service_fixed_params", ["uds_sub_service_id"], :name => "add_index_to_fixparam_subserv"
 
   create_table "uds_service_identifiers", :force => true do |t|
     t.string   "ident"

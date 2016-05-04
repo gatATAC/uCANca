@@ -8,7 +8,7 @@
     <field-list: replace>
       <div class="row columns">
         <div class="span6">
-          <single-field-list fields="name,abbrev,description,target"/>
+          <single-field-list fields="name,abbrev,description,target,public"/>
         </div>
         <div class="span3">
           <attached-logo part="logo"/>
