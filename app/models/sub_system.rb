@@ -494,9 +494,10 @@ ret += "
 
     contop=0
     contip=0
+    already_linked = []
     self.connectors.each{|c|
       c.sub_system_flows.each{|f|
-        ret,contop,contip=f.to_xcos_block(ret,contop,contip)
+        ret,contop,contip,already_linked=f.to_xcos_block(ret,contop,contip,already_linked)
       }
     }
 
@@ -1251,7 +1252,7 @@ ret += "
     contip=0
     self.connectors.each{|c|
       c.sub_system_flows.each{|f|
-        ret,contop,contip=f.to_xcos_out(ret,contop,contip)
+        ret,contop,contip=f.to_xcos_out(ret,contop,contip,already_linked)
       }
     }
     ret+="<mxCell connectable=\"0\" id=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}#identifier\" parent=\"#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.full_name}\" style=\"noLabel=0;opacity=0\" value=\"#{self.name}\" vertex=\"1\">"

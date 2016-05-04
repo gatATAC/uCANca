@@ -42,7 +42,7 @@ class SubSystemFlow < ActiveRecord::Base
     return ret
   end
 
-  def to_xcos_block(ret,contip,contop)
+  def to_xcos_block(ret,contip,contop,already_linked)
     op=self.flow
     if (self.flow_direction.name=="output" || self.flow_direction.name=="bidir") then
       contop=contop+1
@@ -81,13 +81,14 @@ class SubSystemFlow < ActiveRecord::Base
       flag_connect=true
       self.sub_system.children.each {|ssc|
         ssc.sub_system_flows.each{|ssf|
-          if (ssf.flow==self.flow)
+          if (ssf.flow==self.flow || already_linked.include?(self))
             flag_connect=false
             break
           end
         }
       }
       if (flag_connect)
+	already_linked += [self]
         ret+="
           <ExplicitLink id=\"link_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}\">
             <mxGeometry as=\"geometry\">
@@ -104,10 +105,10 @@ class SubSystemFlow < ActiveRecord::Base
           </ExplicitLink>"
       end
     end
-    return ret,contip,contop
+    return ret,contip,contop,already_linked
   end
 
-  def to_xcos_out(ret,contip,contop)
+  def to_xcos_out(ret,contip,contop,already_linked)
     op=self.flow
     if (self.flow_direction.name=="output" || self.flow_direction.name=="bidir") then
       contop=contop+1
@@ -118,7 +119,7 @@ class SubSystemFlow < ActiveRecord::Base
       ssp=self.sub_system.parent
       if (ssp!=nil)
         ssp.output_flows.each{|ssf|
-          if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+          if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
             # There is an output flow with same flow, so we have to connect this output to the parent's one:
             ret+="
                             <ExplicitLink id=\"link_out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
@@ -135,6 +136,7 @@ class SubSystemFlow < ActiveRecord::Base
                                 </ExplicitInputPort>
                             </ExplicitLink>
             "
+		already_linked +=  [self]
           end
         }
 
@@ -144,7 +146,7 @@ class SubSystemFlow < ActiveRecord::Base
             contssf=0
             sss.input_flows.each{|ssf|
               contssf+=1
-              if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+              if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
                 # There is an output flow with same flow, so we have to connect this output to the parent's one:
                 ret+="
                                 <ExplicitLink id=\"link_sibout_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
@@ -161,6 +163,7 @@ class SubSystemFlow < ActiveRecord::Base
                                     </ExplicitInputPort>
                                 </ExplicitLink>
                 "
+		already_linked += [self]
               end
             }
           end
@@ -178,7 +181,7 @@ class SubSystemFlow < ActiveRecord::Base
       ssp=self.sub_system.parent
       if (ssp!=nil)
         ssp.input_flows.each{|ssf|
-          if (ssf.flow==self.flow && ssf!=self)# && ssf.flow_direction.name!="bidir")
+          if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
             # There is an input flow with same flow, so we have to connect this output to the parent's one:
             ret+="
                             <ExplicitLink id=\"link_in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
@@ -195,13 +198,14 @@ class SubSystemFlow < ActiveRecord::Base
                                 </ExplicitInputPort>
                             </ExplicitLink>
             "
+	    already_linked += [self]
           end
         }
       end  
       #      end
     end    
 
-    return ret,contip,contop
+    return ret,contip,contop,already_linked
   end
 
   # --- Permissions --- #
