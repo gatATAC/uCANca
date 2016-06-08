@@ -316,11 +316,11 @@ you can place common code in this file. -->
 
     <collection: replace>
       <table-plus with="&@flows" fields="this,project,flow_type">
-        <prepend-header:>
+        <!--prepend-header:>
           <div class="filter">
             Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
           </div>
-        </prepend-header:>
+        </prepend-header:-->
         <empty-message:>No flows match your criteria</empty-message:>
         <page-nav: replace/>
       </table-plus>
@@ -349,11 +349,11 @@ you can place common code in this file. -->
     </field-list:>
     <collection: replace>
       <table-plus with="&@flows" fields="this,flow_type,primary_flow_direction">
-        <prepend-header:>
+        <!--prepend-header:>
           <div class="filter">
             Display by flow_type: <filter-menu param-name="flow_type" options="&FlowType.all"/>
           </div>
-        </prepend-header:>
+        </prepend-header:-->
         <empty-message:>No flows match your criteria</empty-message:>
       </table-plus>
     </collection:>
@@ -552,7 +552,7 @@ you can place common code in this file. -->
             <div class="code-section" if="&can_update?(@project) || @project.public">
               Automatic code generators:
               <ul>
-                <li><%= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' %></li>
+                <!--li>< %= link_to "CodeDesigner state machines", :action => :gen_code, :format => 'cdp' % ></li-->
                 <li><%= link_to "XCos skeleton", :action => :gen_code, :format => 'xcos' %></li>
                 <li><%= link_to "IOX XML I/O description (for LabView, etc.)", :action => :gen_code, :format => 'iox' %></li>
                 <li><%= link_to "IOCSV CSV I/O description", :action => :gen_code, :format => 'iocsv' %></li>

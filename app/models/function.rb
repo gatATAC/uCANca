@@ -15,7 +15,7 @@ class Function < ActiveRecord::Base
 
   has_many :function_sub_systems, :dependent => :destroy, :inverse_of => :function
   has_many :sub_systems, :through => :function_sub_systems
-  has_many :function_tests, :dependent => :destroy, :inverse_of => :function, :order => :position
+  has_many :function_tests, -> { order(:position) }, :dependent => :destroy, :inverse_of => :function
 
   validates :name, :presence => :true
   validates :ident, :presence => :true

@@ -21,16 +21,16 @@ class SubSystem < ActiveRecord::Base
 
   validates :parent_id, confirmation: true, if: "self.parent_id!=self.id"
   
-  has_many :children, :foreign_key => :parent_id, :class_name => 'SubSystem', :order => :position
+  has_many :children, -> { order(:position) }, :foreign_key => :parent_id, :class_name => 'SubSystem'
 
-  has_many :connectors, :order => :position,:dependent => :destroy
+  has_many :connectors, -> { order(:position) },:dependent => :destroy
 
   has_many :sub_system_flows, :through => :connectors
-  has_many :output_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position
-  has_many :input_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [1,4]},:order => :position
-  has_many :nodir_flows,:through => :connectors, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
+  has_many :output_flows, -> { where ({flow_direction_id: [2,4]}).order(:position) },:through => :connectors, :class_name => 'SubSystemFlow'
+  has_many :input_flows, -> { where ({flow_direction_id:  [1,4]}).order(:position) },:through => :connectors, :class_name => 'SubSystemFlow'
+  has_many :nodir_flows, -> { where ({flow_direction_id: 3}).order(:position) },:through => :connectors, :class_name => 'SubSystemFlow'
 
-  has_many :function_sub_systems, :inverse_of => :sub_system, :order => :position
+  has_many :function_sub_systems, -> { order(:position) }, :inverse_of => :sub_system
   has_many :functions, :through => :function_sub_systems
   has_many :state_machines, :through => :function_sub_systems
 

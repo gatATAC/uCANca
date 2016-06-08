@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
   hobo_user_model # Don't put anything above this
 
   fields do
+
+    # NOTE: If you add fields here, you may need to include them in both the attr_accessible list, and
+    # the list of fields passed to 'only_changed?' in the update_permitted? method for them to appear 
+    # on the user#edit form.
+
     name          :string, :required, :unique
     email_address :email_address, :login => true
     administrator :boolean, :default => false

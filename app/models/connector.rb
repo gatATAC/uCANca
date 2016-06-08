@@ -15,10 +15,10 @@ class Connector < ActiveRecord::Base
   acts_as_list :scope => :sub_system
 
 
-  has_many :sub_system_flows, :dependent => :destroy,:order => :position, :inverse_of => :connector
-  has_many :output_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [2,4]},:order => :position
-  has_many :input_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => [1,4]},:order => :position
-  has_many :nodir_flows, :class_name => 'SubSystemFlow', :conditions => {:flow_direction_id => 3},:order => :position
+  has_many :sub_system_flows, -> { order(:position) }, :dependent => :destroy, :inverse_of => :connector
+  has_many :output_flows, -> { where ({flow_direction_id: [2,4]}).order(:position) }, :class_name => 'SubSystemFlow'
+  has_many :input_flows, -> { where ({flow_direction_id: [1,4]}).order(:position) }, :class_name => 'SubSystemFlow'
+  has_many :nodir_flows, -> { where ({flow_direction_id: 3}).order(:position) }, :class_name => 'SubSystemFlow'
 
   children :sub_system_flows,:input_flows
 

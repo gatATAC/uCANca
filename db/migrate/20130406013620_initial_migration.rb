@@ -10,7 +10,7 @@ class InitialMigration < ActiveRecord::Migration
       t.boolean  :administrator, :default => false
       t.datetime :created_at
       t.datetime :updated_at
-      t.string   :state, :default => "inactive"
+      t.string   :state, :default => "active"
       t.datetime :key_timestamp
     end
     add_index :users, [:state]

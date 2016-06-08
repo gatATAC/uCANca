@@ -42,7 +42,7 @@ class Project < ActiveRecord::Base
   
   has_many :faults, :through => :fault_requirements
   
-  has_many :contributor_memberships, :class_name => "ProjectMembership", :conditions => {:contributor => true}
+  has_many :contributor_memberships, -> { where contributor: true }, :class_name => "ProjectMembership"
   has_many :contributors, :through => :contributor_memberships, :source => :user
 
   has_many :datum_conversions, :dependent => :destroy, :inverse_of => :project

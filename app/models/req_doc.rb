@@ -16,7 +16,7 @@ class ReqDoc < ActiveRecord::Base
   validates :project, :presence => :true
   validates :req_doc_type, :presence => :true
 
-  has_many :requirements, :dependent => :destroy, :inverse_of => :req_doc, :order => :object_number
+  has_many :requirements, -> { order(:object_number) }, :dependent => :destroy, :inverse_of => :req_doc
 
   children :requirements
   
