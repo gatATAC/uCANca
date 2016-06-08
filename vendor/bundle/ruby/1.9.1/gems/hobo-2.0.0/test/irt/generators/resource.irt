@@ -1,5 +1,0 @@
-invoke 'hobo:resource' , %w(house alpha:string -q)
-
-eval_file '../partials/_house_controller_tests.rb'
-
-eval_file '../partials/_house_model_tests.rb'

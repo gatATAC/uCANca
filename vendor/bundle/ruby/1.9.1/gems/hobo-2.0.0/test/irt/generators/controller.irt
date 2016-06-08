@@ -1,3 +1,0 @@
-invoke 'hobo:controller' , %w(houses -q)
-
-eval_file '../partials/_house_controller_tests.rb'

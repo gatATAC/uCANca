@@ -1,5 +1,0 @@
-== 0.1
-
-* First release as a separate gem
-
-
