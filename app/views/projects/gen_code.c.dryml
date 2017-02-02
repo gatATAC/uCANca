@@ -1,7 +1,7 @@
 #include "DRE.h"
 
 // --- DRE data structure declaration ---
-//t_dre dre;
+t_dre dre;
 t_diag diag;
 
 // --- DRE flow initialization functions ---
