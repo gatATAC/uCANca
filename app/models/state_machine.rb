@@ -55,7 +55,7 @@ class StateMachine < ActiveRecord::Base
       end
     }
     #ret+=";Counting->Counting[label=&quot;[equal]reset()&quot;];Counting->Counting[label=&quot;[diff]increment()&quot;];Counting->Counting[label=&quot;[expired]copy();reset()&quot;]}&amp;chs=500x500"
-    return ret+"; }"+self.graphviz_size
+    return ret+"}"+self.graphviz_size
   end
 
   def get_tree_data_xml_sm()
