@@ -203,6 +203,7 @@ actions_lib=[]
                                         <%= raw("<property name=\"id\" type=\"long\">#{(60000+smt.id).to_s}</property>") %>
                                         <%= raw("<property name=\"name\" type=\"string\">#{smt.diagram_name}</property>") %>
                                         <%= raw("<property name=\"description\" type=\"string\">#{smt.diagram_description}</property>") %>
+                                        <%= raw("<property name=\"priority\" type=\"long\">#{smt.diagram_priority}</property>") %>
                                 <%
                                 cond_act_str=""
                                 if smt.state_machine_condition then

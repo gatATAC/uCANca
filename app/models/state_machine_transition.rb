@@ -37,6 +37,13 @@ class StateMachineTransition < ActiveRecord::Base
     end
   end
 
+  def diagram_priority
+    if (priority) then
+      return priority
+    else
+      return 255
+    end
+  end
   def condition_name
     if state_machine_condition then
       state_machine_condition.diagram_name
