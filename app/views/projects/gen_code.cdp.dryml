@@ -14,8 +14,8 @@ actions_lib=[]
                     <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
                     <%= raw("<property name=\"Output directory\" type=\"dirname\">/home/txinto/dev/gatATAC/uCANcaTest/uCANcaTestCD/FSM</property>") %>
-                    <%= raw("<property name=\"Base file name\" type=\"string\">#{@project.abbrev}FSM</property>") %>
-                    <%= raw("<property name=\"Code items file name\" type=\"string\">#{@project.abbrev}FSM_CI</property>") %>
+                    <%= raw("<property name=\"Base file name\" type=\"string\">#{@project.get_prefix+@project.abbrev}FSM</property>") %>
+                    <%= raw("<property name=\"Code items file name\" type=\"string\">#{@project.get_prefix+@project.abbrev}FSM_CI</property>") %>
                     <%= raw("<property name=\"Generate code descriptions\" type=\"bool\">1</property>") %>
                     <%= raw("<property name=\"Synchronize before generation\" type=\"bool\">1</property>") %>
                 <%= raw("</object>") %>
@@ -42,7 +42,7 @@ actions_lib=[]
     <%= raw("</project_properties>") %>
     <%= raw("<object type=\"udPackageItem\">") %>
         <%= raw("<property name=\"id\" type=\"long\">#{(20000+@project.id).to_s}</property>") %>
-        <%= raw("<property name=\"name\" type=\"string\">#{@project.name}</property>") %>
+        <%= raw("<property name=\"name\" type=\"string\">#{@project.get_prefix+@project.name}</property>") %>
         <% 
           @project.sub_systems.each { |ss|
         %>
@@ -284,7 +284,7 @@ actions_lib=[]
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">#{cond.name}</property>") %>
             <%= raw("<property name=\"description\" type=\"string\">")+cond.description+raw("</property>") %>
-            <%= raw("<property name=\"code\" type=\"string\">")+cond.implementation+raw("</property>") %>
+            <%= raw("<property name=\"code\" type=\"string\">")+cond.get_implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
             <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{cond.name}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>
@@ -307,7 +307,7 @@ actions_lib=[]
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">#{act.name}</property>") %>
             <%= raw("<property name=\"description\" type=\"string\">")+act.description+raw("</property>") %>
-            <%= raw("<property name=\"code\" type=\"string\">")+act.implementation+raw("</property>") %>
+            <%= raw("<property name=\"code\" type=\"string\">")+act.get_implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
             <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{act.name}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>

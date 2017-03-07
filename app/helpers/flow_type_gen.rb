@@ -3,7 +3,7 @@ module FlowTypeGen
 
   def to_define(f)
     if (!phantom_type) then
-      return "#define "+f.name+" dre."+f.name+"\n"
+      return "#define "+f.name+" dre"+f.project.get_prefix+"."+f.name+"\n"
     else
       return ""
     end
@@ -76,6 +76,7 @@ module FlowTypeGen
       if (c_setup_input_patron) then
         ret=c_setup_input_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
         if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
@@ -95,6 +96,7 @@ module FlowTypeGen
       if (c_input_patron) then
         ret=c_input_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
         if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
@@ -114,6 +116,7 @@ module FlowTypeGen
       if (c_setup_output_patron) then
         ret=c_setup_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
         if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else
@@ -133,6 +136,7 @@ module FlowTypeGen
       if (c_output_patron) then
         ret=c_output_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
         if (arg_by_reference) then
           ret=ret.gsub("%REF%","*")
         else

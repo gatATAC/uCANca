@@ -28,6 +28,10 @@ class StateMachineAction < ActiveRecord::Base
     return ret
   end
 
+  def get_implementation
+    pref=self.function_sub_system.function.project.get_prefix
+    self.implementation.gsub("%PREFIX%",pref)
+  end
   # --- Permissions --- #
 
   def create_permitted?

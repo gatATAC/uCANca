@@ -26,6 +26,10 @@ class StateMachineCondition < ActiveRecord::Base
     end
   end
   
+  def get_implementation
+    pref=self.function_sub_system.function.project.get_prefix
+    self.implementation.gsub("%PREFIX%",pref)
+  end
 
   # --- Permissions --- #
 

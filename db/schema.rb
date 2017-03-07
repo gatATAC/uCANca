@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150924161851) do
+ActiveRecord::Schema.define(:version => 20170307122446) do
 
   create_table "configuration_switches", :force => true do |t|
     t.string   "name"
@@ -457,6 +457,7 @@ ActiveRecord::Schema.define(:version => 20150924161851) do
     t.datetime "logo_updated_at"
     t.integer  "target_id"
     t.string   "abbrev"
+    t.string   "prefix"
   end
 
   add_index "projects", ["owner_id"], :name => "index_projects_on_owner_id"

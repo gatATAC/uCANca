@@ -1,8 +1,8 @@
-#include "DRE.h"
+#include "<%= @project.get_prefix %>DRE.h"
 
 // --- DRE data structure declaration ---
-t_dre dre;
-t_diag diag;
+t_dre<%= @project.get_prefix %> dre<%= @project.get_prefix %>;
+t_diag<%= @project.get_prefix %> diag<%= @project.get_prefix %>;
 
 // --- DRE flow initialization functions ---
 
@@ -15,5 +15,4 @@ t_diag diag;
 <%     @project.flows.find(:all).each{ |f| %>
   <%=f.to_c_io %>
 <%    }    %>
-
 

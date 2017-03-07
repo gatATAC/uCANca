@@ -25,7 +25,8 @@ class StateMachine < ActiveRecord::Base
 
   def to_func_name
     #ret=function_sub_system.to_func_name+"_"+name.to_s
-    ret=name.to_s
+    ret = self.function_sub_system.function.project.get_prefix
+    ret += name.to_s
     return ret
   end
 

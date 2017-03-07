@@ -5,12 +5,13 @@ class Project < ActiveRecord::Base
   fields do
     name :string
     abbrev :string
+    prefix :string
     description :text
     public :boolean
     timestamps
   end
   
-  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target, :abbrev
+  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target, :abbrev, :prefix
 
   has_attached_file :logo,
     :styles => {
@@ -65,6 +66,14 @@ class Project < ActiveRecord::Base
 
   children :flows, :project_memberships, :sub_systems, :functions, :fault_requirements, :fail_safe_commands, :fail_safe_command_times, :fault_detection_moments, :fault_preconditions, :fault_recurrence_times, :fault_rehabilitations,:req_docs, :edi_models
 
+  def get_prefix
+    if (prefix) then
+      prefix
+    else
+      ""
+    end
+  end
+  
   def to_iox
     return self.to_xml(:include =>{
         :sub_systems=>{:include => 

@@ -740,7 +740,7 @@ you can place common code in this file. -->
                   <ul>
                     <li>Destination:<view:destination_state/> </li>
                     <li>Condition: <view:state_machine_condition/>
-                    <% if (this.state_machine_condition) then %><br/><%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:state_machine_condition.implementation/></div><% end %>
+                    <% if (this.state_machine_condition) then %><br/><%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><view:state_machine_condition.get_implementation/></div><% end %>
                     </li>
                     <li>Actions:<collection:actions/></li>
                   </ul>

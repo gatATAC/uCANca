@@ -1,5 +1,13 @@
-#ifndef _DRE_H
-#define _DRE_H
+#ifndef _<%= if(@project.prefix) then 
+  @project.get_prefix+"_"
+else
+  ""
+end %>DRE_H
+#define _<%= if(@project.prefix) then 
+  @project.get_prefix+"_"
+else
+  ""
+end %>DRE_H
 
 #include "ProjectTypes.h"
 #include "ProjectFlows.h"
@@ -9,13 +17,13 @@ typedef struct {
 <%  @project.flows.find(:all).each{ |f|
 #  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
 %><%= f.to_c_decl%><% } %>
-} t_dre;
+} t_dre<%= @project.get_prefix %>;
 
 typedef struct {
 <%  @project.flows.find(:all).each{ |f|
 #  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
 %><%= f.to_diag_c_decl%><% } %>
-} t_diag;
+} t_diag<%= @project.get_prefix %>;
 
 // Initialization functions
 <%  @project.flows.find(:all).each{ |f| %>
@@ -26,5 +34,3 @@ typedef struct {
   <%= f.to_c_io_decl%><% } %>
 
 #endif /* _DRE_H */
-
-

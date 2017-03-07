@@ -7,8 +7,6 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#gem 'sqlite3'
-
 gem "paperclip"
 gem 'hobo_paperclip', :git => "git://github.com/Hobo/hobo_paperclip.git", :branch => "master"
 gem 'nokogiri'
@@ -40,8 +38,8 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-gem 'debugger'
-
+#gem 'debugger'
+gem 'byebug'
 gem "hobo", "= 2.0.1"
 # Hobo has a lot of assets.   Stop cluttering the log in development mode.
 gem "quiet_assets", :group => :development
@@ -59,7 +57,8 @@ gem "dyi_rails"  # add gem of DYI for Rails
 
 
 group :production do
-  gem 'pg'
+#  gem 'pg'
+  gem 'sqlite3'
 end
 group :development, :test do
   gem 'sqlite3'
