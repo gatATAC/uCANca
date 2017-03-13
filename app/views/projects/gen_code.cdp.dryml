@@ -1,4 +1,4 @@
-<% contador=50000
+<% contador=100000
 conditions_lib=[]
 actions_lib=[]
 %>
@@ -72,7 +72,7 @@ actions_lib=[]
                           <% if sms.initial then %>
                             <%= raw("<object type=\"umlInitialItem\">") %>
                                 <%= raw("<property name=\"id\" type=\"long\">#{(sms.id).to_s}</property>") %>
-                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">170.000000,60.000000</property>") %>
+                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">170.00,60.00</property>") %>
                                 <%= raw("<property name=\"halign\" type=\"long\">-12884901888</property>") %>
                                 <%= raw("<property name=\"user_data\" type=\"serializabledynamic\">") %>
                                     <%= raw("<object type=\"udInitialElementItem\">") %>
@@ -81,13 +81,13 @@ actions_lib=[]
                                         <%= raw("<property name=\"description\" type=\"string\">#{sms.description}</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
-                                <%= raw("<property name=\"size\" type=\"realpoint\">20.000000,20.000000</property>") %>
+                                <%= raw("<property name=\"size\" type=\"realpoint\">20.00,20.00</property>") %>
                                 <%= raw("<property name=\"fill\" type=\"brush\">0,0,0,255 100</property>") %>
                                 <%= raw("<property name=\"title\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"uddLabelElement\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000-sms.id).to_s}</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.000000,25.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">36.000000,18.000000</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000+sms.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.00,25.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">36.00,18.00</property>") %>
                                         <%= raw("<property name=\"text\" type=\"string\">#{sms.name}</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">1</property>") %>
                                     <%= raw("</object>") %>
@@ -96,7 +96,7 @@ actions_lib=[]
                             <% else if sms.final then%>
                             <%= raw("<object type=\"umlFinalItem\">") %>
                                 <%= raw("<property name=\"id\" type=\"long\">#{(sms.id).to_s}</property>") %>
-                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">410.000000,300.000000</property>") %>
+                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">410.00,300.00</property>") %>
                                 <%= raw("<property name=\"halign\" type=\"long\">-12884901888</property>") %>
                                 <%= raw("<property name=\"user_data\" type=\"serializabledynamic\">") %>
                                     <%= raw("<object type=\"udFinalElementItem\">") %>
@@ -105,12 +105,12 @@ actions_lib=[]
                                         <%= raw("<property name=\"description\" type=\"string\">#{sms.description}</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
-                                <%= raw("<property name=\"size\" type=\"realpoint\">20.000000,20.000000</property>") %>
+                                <%= raw("<property name=\"size\" type=\"realpoint\">20.00,20.00</property>") %>
                                 <%= raw("<property name=\"title\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"uddLabelElement\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000-sms.id).to_s}</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.000000,25.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">32.000000,18.000000</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000+sms.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.00,25.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">32.00,18.00</property>") %>
                                         <%= raw("<property name=\"text\" type=\"string\">#{sms.name}</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">1</property>") %>
                                     <%= raw("</object>") %>
@@ -119,7 +119,7 @@ actions_lib=[]
                               <% else if sms.sub_machines.size   <=0 then%>
                             <%= raw("<object type=\"umlSimpleStateItem\">") %>
                                 <%= raw("<property name=\"id\" type=\"long\">#{(sms.id).to_s}</property>") %>
-                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">319.000000,150.000000</property>") %>
+                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">319.00,150.00</property>") %>
                                 <%= raw("<property name=\"halign\" type=\"long\">-12884901888</property>") %>
                                 <%= raw("<property name=\"user_data\" type=\"serializabledynamic\">") %>
                                     <%= raw("<object type=\"udSimpleStateElementItem\">") %>
@@ -128,13 +128,13 @@ actions_lib=[]
                                         <%= raw("<property name=\"description\" type=\"string\">#{sms.description}</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
-                                <%= raw("<property name=\"size\" type=\"realpoint\">102.000000,50.000000</property>") %>
+                                <%= raw("<property name=\"size\" type=\"realpoint\">102.00,50.00</property>") %>
                                 <%= raw("<property name=\"fill\" type=\"brush\">254,253,211,255 100</property>") %>
                                 <%= raw("<property name=\"title\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"uddLabelElement\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000-sms.id).to_s}</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">41.000000,5.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">21.000000,18.000000</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000+sms.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">41.00,5.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">21.00,18.00</property>") %>
                                         <%= raw("<property name=\"text\" type=\"string\">#{sms.name}</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">1</property>") %>
                                     <%= raw("</object>") %>
@@ -143,7 +143,7 @@ actions_lib=[]
                                 <% else %>
                             <%= raw("<object type=\"umlSubStateItem\">") %>
                                 <%= raw("<property name=\"id\" type=\"long\">#{(sms.id).to_s}</property>") %>
-                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">198.000000,250.000000</property>") %>
+                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">198.00,250.00</property>") %>
                                 <%= raw("<property name=\"halign\" type=\"long\">-12884901888</property>") %>
                                 <%= raw("<property name=\"user_data\" type=\"serializabledynamic\">") %>
                                     <%= raw("<object type=\"udSCHSubDiagramElementItem\">") %>
@@ -168,24 +168,24 @@ actions_lib=[]
                                         <%= raw("</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
-                                <%= raw("<property name=\"size\" type=\"realpoint\">105.000000,50.000000</property>") %>
+                                <%= raw("<property name=\"size\" type=\"realpoint\">105.00,50.00</property>") %>
                                 <%= raw("<property name=\"fill\" type=\"brush\">254,253,211,255 100</property>") %>
                                 <%= raw("<property name=\"title\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"uddLabelElement\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000-sms.id).to_s}</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">22.000000,5.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">60.000000,18.000000</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000+sms.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">22.00,5.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">60.00,18.00</property>") %>
                                         <%= raw("<property name=\"text\" type=\"string\">SubTask</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">1</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
                                 <%= raw("<property name=\"sign\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"wxSFBitmapShape\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000-sms.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(50000+sms.id).to_s}</property>") %>
                                         <%= raw("<property name=\"active\" type=\"bool\">0</property>") %>
                                         <%= raw("<property name=\"hover_color\" type=\"colour\">128,128,255,255</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">75.000000,30.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">15.000000,5.000000</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">75.00,30.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">15.00,5.00</property>") %>
                                     <%= raw("</object>") %>
                                 <%= raw("</property>") %>
                             <%= raw("</object>") %>
@@ -196,7 +196,7 @@ actions_lib=[]
                             sms.state_machine_transitions.each {|smt| %>
                             <%= raw("<object type=\"umlTransitionItem\">") %>
                                 <%= raw("<property name=\"id\" type=\"long\">#{(60000+smt.id).to_s}</property>") %>
-                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.000000,0.000000</property>") %>
+                                <%= raw("<property name=\"relative_position\" type=\"realpoint\">0.00,0.00</property>") %>
                                 <%= raw("<property name=\"halign\" type=\"long\">-12884901888</property>") %>
                                 <%= raw("<property name=\"user_data\" type=\"serializabledynamic\">") %>
                                     <%= raw("<object type=\"udTransElementItem\">") %>
@@ -216,7 +216,7 @@ actions_lib=[]
                                     <%= raw("<property name=\"id\" type=\"long\">-1</property>") %>
                                     <%= raw("<property name=\"name\" type=\"string\">#{smt.state_machine_condition.name}</property>") %>
                                     <%= raw("<property name=\"description\" type=\"string\">")+smt.state_machine_condition.description+raw("</property>") %>
-                                    <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{smt.state_machine_condition.name}</property>") %>
+                                    <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{smt.state_machine_condition.name}##{80000+conditions_lib.index(smt.state_machine_condition)}</property>") %>
                                     <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
                                 <%= raw("</object>") %>
                                 <% end %>
@@ -231,7 +231,7 @@ actions_lib=[]
                                     <%= raw("<property name=\"id\" type=\"long\">-1</property>") %>
                                     <%= raw("<property name=\"name\" type=\"string\">#{act.action.name}</property>") %>
                                     <%= raw("<property name=\"description\" type=\"string\">")+act.action.description+raw("</property>") %>
-                                    <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{act.action.name}</property>") %>
+                                    <%= raw("<property name=\"original_code\" type=\"string\">&lt;global&gt;::#{act.action.name}##{90000+actions_lib.index(act.action)}</property>") %>
                                     <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
                                 <%= raw("</object>") %>
                                 <% }
@@ -244,16 +244,16 @@ actions_lib=[]
                                 <%= raw("<property name=\"dock_point\" type=\"long\">#{(4294967296*smt.state_machine_state.id)}</property>") %>
                                 <% if smt.state_machine_state==smt.destination_state %>
                         <%= raw("<property name=\"control_points\" type=\"listrealpoint\">") %>
-                            <%= raw("<item>#{640+(control_points_counter*100)}.000000,280.000000</item>") %>
-                            <%= raw("<item>587.000000,#{295+(control_points_counter*100)}.000000</item>") %>
+                            <%= raw("<item>#{640+(control_points_counter*100)}.00,280.00</item>") %>
+                            <%= raw("<item>587.00,#{295+(control_points_counter*100)}.00</item>") %>
                         <%= raw("</property>") %>
                                 <% control_points_counter+=1
                                 end %>
                                 <%= raw("<property name=\"label\" type=\"serializabledynamicnocreate\">") %>
                                     <%= raw("<object type=\"uddLabelElement\">") %>
-                                        <%= raw("<property name=\"id\" type=\"long\">#{(60000-smt.id).to_s}</property>") %>
-                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">-142.000000,#{-40+(40*control_points_counter)}.000000</property>") %>
-                                        <%= raw("<property name=\"size\" type=\"realpoint\">89.000000,18.000000</property>") %>
+                                        <%= raw("<property name=\"id\" type=\"long\">#{(70000+smt.id).to_s}</property>") %>
+                                        <%= raw("<property name=\"relative_position\" type=\"realpoint\">-142.00,#{-40+(40*control_points_counter)}.00</property>") %>
+                                        <%= raw("<property name=\"size\" type=\"realpoint\">89.00,18.00</property>") %>
                                         <%= raw("<property name=\"text\" type=\"string\">&lt;&lt;#{cond_act_str} &gt;&gt;</property>") %>
                                         <%= raw("<property name=\"label_type\" type=\"int\">3</property>") %>
                                     <%= raw("</object>") %>
@@ -274,19 +274,19 @@ actions_lib=[]
             } %>
     <%= raw("</object>") %>
     <%= raw("<object type=\"udCodePackageItem\">") %>
-        <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+        <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Condition functions</property>") %>
         <% 
         conditions_lib.each {|cond| %>
         <%= raw("<object type=\"udConditionItem\">") %>
-            <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+            <%= raw("<property name=\"id\" type=\"long\">#{80000+conditions_lib.index(cond)}</property>") %>
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">#{cond.name}</property>") %>
             <%= raw("<property name=\"description\" type=\"string\">")+cond.description+raw("</property>") %>
             <%= raw("<property name=\"code\" type=\"string\">")+cond.get_implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
-            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{cond.name}</property>") %>
+            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{cond.name}##{80000+conditions_lib.index(cond)}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>
             <%= raw("<property name=\"retval_data_type\" type=\"int\">1</property>") %>
             <%= raw("<property name=\"retval_value_type\" type=\"int\">0</property>") %>
@@ -297,19 +297,19 @@ actions_lib=[]
         <%  } %>
     <%= raw("</object>") %>
     <%= raw("<object type=\"udCodePackageItem\">") %>
-        <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+        <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Action functions</property>") %>
         <%
         actions_lib.each {|act| %>
         <%= raw("<object type=\"udActionItem\">") %>
-            <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+            <%= raw("<property name=\"id\" type=\"long\">#{90000+actions_lib.index(act)}</property>") %>
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">#{act.name}</property>") %>
             <%= raw("<property name=\"description\" type=\"string\">")+act.description+raw("</property>") %>
             <%= raw("<property name=\"code\" type=\"string\">")+act.get_implementation+raw("</property>") %>
             <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
-            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{act.name}</property>") %>
+            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{act.name}##{90000+actions_lib.index(act)}</property>") %>
             <%= raw("<property name=\"inline\" type=\"bool\">1</property>") %>
             <%= raw("<property name=\"retval_data_type\" type=\"int\">10</property>") %>
             <%= raw("<property name=\"retval_value_type\" type=\"int\">0</property>") %>
@@ -320,11 +320,11 @@ actions_lib=[]
         <%  } %>
     <%= raw("</object>") %>
 <%= raw("<object type=\"udCodePackageItem\">") %>
-        <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+        <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Generic functions</property>") %>
         <%= raw("<object type=\"udGenericFunctionItem\">") %>
-            <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+            <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
             <%= raw("<property name=\"name\" type=\"string\">action_subtask_function</property>") %>
             <%= raw("<property name=\"description\" type=\"string\">action_subtask_function_description</property>") %>
@@ -339,7 +339,7 @@ actions_lib=[]
         <%= raw("</object>") %>
     <%= raw("</object>") %>
     <%= raw("<object type=\"udCodePackageItem\">") %>
-        <%= raw("<property name=\"id\" type=\"long\">#{contador}</property>") %>
+        <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
         <%= raw("<property name=\"name\" type=\"string\">Generic variables</property>") %>
                         <% 
