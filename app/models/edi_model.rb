@@ -8,14 +8,7 @@ class EdiModel < ActiveRecord::Base
     abbrev :string
     timestamps
   end
-  has_attached_file :xdi
-  #,        :whiny => false, 
-  #      :path => "#{Rails.root}/files/:id.:extension"
-  #validates_attachment_size :xdi, :less_than => 5.megabytes
-  #validates_attachment_presence :xdi
-  validates_attachment_content_type :xdi, :content_type => /^application\/(xml|octet-stream)/
-  
-  attr_accessible :name, :abbrev, :xdi
+  attr_accessible :name, :abbrev
   
   belongs_to :project, :creator => :true, :inverse_of => :edi_models
   has_many :edi_processes, :dependent => :destroy, :inverse_of => :edi_model

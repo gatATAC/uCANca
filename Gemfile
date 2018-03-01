@@ -7,8 +7,6 @@ gem 'rails', '3.2.22.5'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem "paperclip"
-gem 'hobo_paperclip', :git => "git://github.com/Hobo/hobo_paperclip.git", :branch => "master"
 gem 'nokogiri'
 
 # Gems used only for assets and not required

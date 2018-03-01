@@ -20,6 +20,3 @@ Mime::Type.register "text/plain", :par
 Mime::Type.register "application/xml", :xdi
 Mime::Type.register "text/javascript", :sim
 
-Paperclip.options[:content_type_mappings] = {
-  :xdi => 'application/xml'
-}

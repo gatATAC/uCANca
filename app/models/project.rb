@@ -11,16 +11,8 @@ class Project < ActiveRecord::Base
     timestamps
   end
   
-  attr_accessible :name, :owner, :owner_id, :public, :logo, :logo_file_name, :description, :target_id, :target, :abbrev, :prefix
+  attr_accessible :name, :owner, :owner_id, :public, :description, :target_id, :target, :abbrev, :prefix
 
-  has_attached_file :logo,
-    :styles => {
-    :medium => ["200x138#", :png],
-    :thumb => ["100x100>", :png] },
-    :whiny => false,
-    :path => 'lib/logos/:style/:filename',
-    :url => '/projects/:id?style=:style'  
-  
   belongs_to :owner, :class_name => "User", :creator => true, :inverse_of => :projects
   belongs_to :target
 

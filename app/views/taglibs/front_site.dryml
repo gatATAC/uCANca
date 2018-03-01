@@ -14,8 +14,6 @@
 <include src="taglibs/auto/rapid/pages"/>
 <include src="taglibs/auto/rapid/forms"/>
 
-<include gem='hobo_paperclip'/>
-
 <include src="application"/>
 
 <def tag="ucancafooter">

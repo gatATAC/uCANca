@@ -4,10 +4,6 @@
       <div class="span6">
         <single-field-list fields="name,abbrev,description"/>
       </div>
-      <div class="span3">
-        Project logo:
-        <attached-logo-show part="logo"/>
-      </div>
     </div>
   </field-list:>
   <collection-section: replace>
@@ -61,10 +57,4 @@
     </div>
   </header:>
   </card>
-</def>
-
-<def tag="attached-logo-show">
-  <a href="&this.logo.url(:original)" class="thumbnail">
-    <img src="&this.logo.url(:medium)"/>
-  </a>
 </def>
