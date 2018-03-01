@@ -1,7 +1,0 @@
-invoke 'hobo:user_controller', %w[-q]
-
-eval_file '../partials/_default_users_controller_tests.rb'
-
-invoke 'hobo:user_controller' , %w(accounts -q)
-
-eval_file '../partials/_accounts_users_controller_tests.rb'
