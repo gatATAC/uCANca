@@ -7,12 +7,12 @@ t_diag<%= @project.get_prefix %> diag<%= @project.get_prefix %>;
 // --- DRE flow initialization functions ---
 
 <%     @project.flows.find(:all).each{ |f| %>
-  <%=f.to_c_io_setup %>
+  <%=raw(f.to_c_io_setup) %>
 <%    }    %>
 
 
 // --- DRE flow acquisition and flow synthesis functions ---
 <%     @project.flows.find(:all).each{ |f| %>
-  <%=f.to_c_io %>
+  <%=raw(f.to_c_io) %>
 <%    }    %>
 
