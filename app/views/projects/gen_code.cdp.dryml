@@ -13,7 +13,7 @@ actions_lib=[]
                 <%= raw("<object type=\"udGeneratorCategory\">") %>
                     <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
 <% contador=contador+1 %>
-                    <%= raw("<property name=\"Output directory\" type=\"dirname\">/home/txinto/dev/gatATAC/uCANcaTest/uCANcaTestCD/FSM</property>") %>
+                    <%= raw("<property name=\"Output directory\" type=\"dirname\">.</property>") %>
                     <%= raw("<property name=\"Base file name\" type=\"string\">#{@project.get_prefix+@project.abbrev}FSM</property>") %>
                     <%= raw("<property name=\"Code items file name\" type=\"string\">#{@project.get_prefix+@project.abbrev}FSM_CI</property>") %>
                     <%= raw("<property name=\"Generate code descriptions\" type=\"bool\">1</property>") %>
