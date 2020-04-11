@@ -78,7 +78,7 @@ class SubSystemFlow < ActiveRecord::Base
     end
     if (self.flow_direction.name=="bidir")
       # We will only connect through the subsystem those bidir that have no children ports with same direction & name
-      flag_connect=true
+      flag_connect=false
       self.sub_system.children.each {|ssc|
         ssc.sub_system_flows.each{|ssf|
           if (ssf.flow==self.flow || already_linked.include?(self))
@@ -89,6 +89,8 @@ class SubSystemFlow < ActiveRecord::Base
       }
       if (flag_connect)
 	already_linked += [self]
+	flag_link=false
+	if flag_link then
         ret+="
           <ExplicitLink id=\"link_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"}#{self.connector.name+":"+self.position.to_s}\">
             <mxGeometry as=\"geometry\">
@@ -103,6 +105,7 @@ class SubSystemFlow < ActiveRecord::Base
               <mxGeometry as=\"geometry\" height=\"8.0\" width=\"8.0\" x=\"-8.0\" y=\"6.0\"/>
             </ExplicitInputPort>
           </ExplicitLink>"
+        end
       end
     end
     return ret,contip,contop,already_linked
@@ -120,7 +123,9 @@ class SubSystemFlow < ActiveRecord::Base
       if (ssp!=nil)
         ssp.output_flows.each{|ssf|
           if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
-            # There is an output flow with same flow, so we have to connect this output to the parent's one:
+            flag_link = false
+	    if (flag_link) then
+	    # There is an output flow with same flow, so we have to connect this output to the parent's one:
             ret+="
                             <ExplicitLink id=\"link_out_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
                                 <mxGeometry as=\"geometry\">
@@ -136,6 +141,7 @@ class SubSystemFlow < ActiveRecord::Base
                                 </ExplicitInputPort>
                             </ExplicitLink>
             "
+            end
 		already_linked +=  [self]
           end
         }
@@ -147,7 +153,9 @@ class SubSystemFlow < ActiveRecord::Base
             sss.input_flows.each{|ssf|
               contssf+=1
               if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
-                # There is an output flow with same flow, so we have to connect this output to the parent's one:
+                flag_link=false
+	        if (flag_link) then
+	        # There is an output flow with same flow, so we have to connect this output to the parent's one:
                 ret+="
                                 <ExplicitLink id=\"link_sibout_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
                                     <mxGeometry as=\"geometry\">
@@ -163,6 +171,7 @@ class SubSystemFlow < ActiveRecord::Base
                                     </ExplicitInputPort>
                                 </ExplicitLink>
                 "
+	        end
 		already_linked += [self]
               end
             }
@@ -182,6 +191,8 @@ class SubSystemFlow < ActiveRecord::Base
       if (ssp!=nil)
         ssp.input_flows.each{|ssf|
           if (ssf.flow==self.flow && ssf!=self && !already_linked.include?(self))# && ssf.flow_direction.name!="bidir")
+            flag_link=false
+            if (flag_link) then
             # There is an input flow with same flow, so we have to connect this output to the parent's one:
             ret+="
                             <ExplicitLink id=\"link_in_#{self.project.abbrev+"file:"+self.project.abbrev+"Block:"+self.sub_system.full_name+":"+self.connector.name+":"+self.position.to_s}\" >
@@ -198,6 +209,7 @@ class SubSystemFlow < ActiveRecord::Base
                                 </ExplicitInputPort>
                             </ExplicitLink>
             "
+            end
 	    already_linked += [self]
           end
         }
