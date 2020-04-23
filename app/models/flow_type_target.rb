@@ -10,6 +10,8 @@ class FlowTypeTarget < ActiveRecord::Base
     c_setup_output_patron :text
     c_input_patron :text
     c_output_patron :text
+    c_getter_patron :text
+    c_setter_patron :text
     enable_input :boolean, :default => true
     enable_output :boolean, :default => true
     arg_by_reference :boolean, :default => false

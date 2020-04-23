@@ -11,8 +11,12 @@ class FlowType < ActiveRecord::Base
     c_setup_output_patron :text
     c_input_patron :text
     c_output_patron :text
+    c_getter_patron :text
+    c_setter_patron :text
     enable_input :boolean, :default => true
     enable_output :boolean, :default => true
+    enable_getter :boolean, :default => true
+    enable_setter :boolean, :default => true
     arg_by_reference :boolean, :default => false
     custom_type :boolean, :default => false
     phantom_type :boolean, :default => false
@@ -28,7 +32,8 @@ class FlowType < ActiveRecord::Base
     
     timestamps
   end
-  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron, :c_setup_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type, 
+  attr_accessible :name, :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron, :c_setup_output_patron, :enable_input, 
+    :enable_output, :arg_by_reference, :custom_type, :phantom_type, :c_getter_patron, :c_setter_patron, :enable_getter, :enable_setter
     :size, :A2l_type, :dataset_type, :parameter_set_type, :is_float, :is_symbol, :A2L_symbol_code
   has_many :flows
   has_many :flow_type_targets
