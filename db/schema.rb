@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170307122446) do
+ActiveRecord::Schema.define(:version => 20200423222848) do
 
   create_table "configuration_switches", :force => true do |t|
     t.string   "name"
@@ -304,6 +304,10 @@ ActiveRecord::Schema.define(:version => 20170307122446) do
     t.integer  "target_id"
     t.text     "c_setup_input_patron"
     t.text     "c_setup_output_patron"
+    t.text     "c_getter_patron"
+    t.text     "c_setter_patron"
+    t.boolean  "enable_getter",         :default => true
+    t.boolean  "enable_setter",         :default => true
   end
 
   add_index "flow_type_targets", ["flow_type_id"], :name => "index_flow_type_targets_on_flow_type_id"
@@ -330,6 +334,10 @@ ActiveRecord::Schema.define(:version => 20170307122446) do
     t.boolean  "is_float"
     t.boolean  "is_symbol"
     t.text     "A2L_symbol_code"
+    t.text     "c_getter_patron"
+    t.text     "c_setter_patron"
+    t.boolean  "enable_getter",         :default => true
+    t.boolean  "enable_setter",         :default => true
   end
 
   create_table "flows", :force => true do |t|
@@ -761,13 +769,13 @@ ActiveRecord::Schema.define(:version => 20170307122446) do
     t.integer  "uds_service_id"
     t.integer  "configuration_switch_id"
     t.text     "custom_code"
-    t.boolean  "generate",                :default => true
+    t.boolean  "generate"
     t.integer  "data_size"
   end
 
-  add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "add_index_to_fixparam_cfgswtch"
+  add_index "uds_service_fixed_params", ["configuration_switch_id"], :name => "index_uds_service_fixed_params_on_configuration_switch_id"
   add_index "uds_service_fixed_params", ["uds_service_id"], :name => "index_uds_service_fixed_params_on_uds_service_id"
-  add_index "uds_service_fixed_params", ["uds_sub_service_id"], :name => "add_index_to_fixparam_subserv"
+  add_index "uds_service_fixed_params", ["uds_sub_service_id"], :name => "index_uds_service_fixed_params_on_uds_sub_service_id"
 
   create_table "uds_service_identifiers", :force => true do |t|
     t.string   "ident"
