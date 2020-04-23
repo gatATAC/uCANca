@@ -14,12 +14,16 @@ class FlowTypeTarget < ActiveRecord::Base
     c_setter_patron :text
     enable_input :boolean, :default => true
     enable_output :boolean, :default => true
+    enable_getter :boolean, :default => true
+    enable_setter :boolean, :default => true
     arg_by_reference :boolean, :default => false
     custom_type :boolean, :default => false
     phantom_type :boolean, :default => false
     timestamps
   end
-  attr_accessible :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron,:c_setup_output_patron, :enable_input, :enable_output, :arg_by_reference, :custom_type, :phantom_type, :flow_type_id, :flow_type, :target_id, :target
+  attr_accessible :c_type, :c_input_patron, :c_output_patron, :c_setup_input_patron,:c_setup_output_patron, :enable_input, 
+    :enable_output, :arg_by_reference, :custom_type, :phantom_type, :flow_type_id, :flow_type, :target_id, :target,
+    :enable_getter, :enable_setter, :c_getter_patron, :c_setter_patron
 
   belongs_to :flow_type
   belongs_to :target, :creator => :true
