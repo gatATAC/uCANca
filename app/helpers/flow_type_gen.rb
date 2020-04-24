@@ -196,7 +196,7 @@ module FlowTypeGen
   def to_c_getter(f)
     if (enable_getter) then
       if (c_getter_patron) then
-        ret=c_output_patron.gsub("%FLOW%", f.c_name)
+        ret=c_getter_patron.gsub("%FLOW%", f.c_name)
         ret=ret.gsub("%CTYP%",to_c_type(f))
         ret=ret.gsub("%PREFIX%",f.project.get_prefix)
         if (arg_by_reference) then
