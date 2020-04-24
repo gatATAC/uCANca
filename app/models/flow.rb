@@ -88,6 +88,10 @@ class Flow < ActiveRecord::Base
       ret+=current_pattern.to_c_input_decl(self)
       ret+="\n// "+self.c_name+" flow synthesis\n"
       ret+=current_pattern.to_c_output_decl(self)
+      ret+="\n// "+self.c_name+" getter\n"
+      ret+=current_pattern.to_c_getter_decl(self)
+      ret+="\n// "+self.c_name+" setter\n"
+      ret+=current_pattern.to_c_setter_decl(self)
     else
       ret="// (null)"
       ret+=" "+self.c_name+";\n"
@@ -125,6 +129,10 @@ class Flow < ActiveRecord::Base
       ret+=current_pattern.to_c_input(self)
       ret+="\n// "+self.c_name+" flow synthesis\n"
       ret+=current_pattern.to_c_output(self)
+      ret+="\n// "+self.c_name+" getter\n"
+      ret+=current_pattern.to_c_getter(self)
+      ret+="\n// "+self.c_name+" setter\n"
+      ret+=current_pattern.to_c_setter(self)      
     else
       ret="// (null)"
       ret+=" "+self.c_name+";\n"

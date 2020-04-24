@@ -48,6 +48,27 @@ module FlowTypeGen
     ret
   end
 
+  def to_c_getter_decl(f)
+    op=to_c_getter(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
+
+  def to_c_setter_decl(f)
+    op=to_c_setter(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
 
   def to_c_setup_input_decl(f)
     ip=to_c_setup_input(f)
