@@ -69,7 +69,7 @@ class Flow < ActiveRecord::Base
   end
   def to_cpp_decl
     if (self.current_pattern) then
-      ret=self.current_pattern.to_cpp_type(self).+" "+self.c_name+";\n"
+      ret=self.current_pattern.to_cpp_type(self).+" _"+self.c_name+";\n"
       return ret
     else
       return "// (null) "+self.name+"\n"
@@ -225,7 +225,7 @@ end
     ret="// Types declaration\n"
     ret+=to_cpp_decl
     ret+="...\n\n// Diags declaration\n"
-    ret+=to_diag_c_decl
+    ret+=to_diag_cpp_decl
     ret+="...\n\n// IO Declaration"
     ret+=to_cpp_io_decl
     ret+="\n...\n\n// IO Setup"

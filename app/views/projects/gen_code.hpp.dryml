@@ -54,7 +54,7 @@ class <%= @project.get_prefix %>DIAG
 
         <%  @project.flows.find(:all).each{ |f|
         #  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
-        %><%= f.to_diag_c_decl%><% } %>
+        %><%= f.to_diag_cpp_decl%><% } %>
 
 };
 
