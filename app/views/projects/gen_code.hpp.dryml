@@ -13,24 +13,47 @@ end %>DRE_H
 #include "<%= @project.get_prefix %>core_types.h"
 
 
-typedef struct {
+namespace <%= @project.get_prefix %>core
+{
+
+class <%= @project.get_prefix %>DRE
+{
+    public:
+
+        /**
+         * @brief Construct a new DRE object.
+         */
+        <%= @project.get_prefix %>DRE();
+
+        // Initialization functions
+        <%  @project.flows.find(:all).each{ |f| %>
+          <%= f.to_cpp_io_setup_decl%><% } %>
+
+        // Input / Output functions
+        <%  @project.flows.find(:all).each{ |f| %>
+          <%= f.to_cpp_io_decl%><% } %>
+
+    private:
 <%  @project.flows.find(:all).each{ |f|
 #  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
 %><%= f.to_cpp_decl%><% } %>
-} t_dre<%= @project.get_prefix %>;
 
-typedef struct {
-<%  @project.flows.find(:all).each{ |f|
-#  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
-%><%= f.to_diag_c_decl%><% } %>
-} t_diag<%= @project.get_prefix %>;
+}
 
-// Initialization functions
-<%  @project.flows.find(:all).each{ |f| %>
-  <%= f.to_cpp_io_setup_decl%><% } %>
+class <%= @project.get_prefix %>DIAG
+{
+    public:
 
-// Input / Output functions
-<%  @project.flows.find(:all).each{ |f| %>
-  <%= f.to_cpp_io_decl%><% } %>
+        /**
+         * @brief Construct a new DIAG object.
+         */
+        <%= @project.get_prefix %>DIAG();
 
+        <%  @project.flows.find(:all).each{ |f|
+        #  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
+        %><%= f.to_diag_c_decl%><% } %>
+
+};
+
+}; // namespace reespirator 
 #endif /* _DRE_H */
