@@ -58,6 +58,8 @@ class ProjectsController < ApplicationController
   def gen_code
     @project=find_instance
     respond_to do |format|
+      format.cpp
+      format.hpp    
       format.c
       format.h
       format.xcos

@@ -1,6 +1,6 @@
 #include <<%= @project.get_prefix %>core_cfg.h>
 #include <<%= @project.get_prefix %>core_pinout.h>
-#include <<%= @project.get_prefix %>DRE.h>
+#include <<%= @project.get_prefix %>DRE.hpp>
 
 // --- DRE data structure declaration ---
 t_dre<%= @project.get_prefix %> dre<%= @project.get_prefix %>;
