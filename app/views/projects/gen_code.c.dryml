@@ -1,6 +1,6 @@
-<%= raw("#include <#{@project.get_prefix}core_cfg.h>")
-<%= raw("#include <#{@project.get_prefix}core_pinout.h>")
-<%= raw("#include <#{@project.get_prefix}DRE.h")
+<%= raw("#include <#{@project.get_prefix}core_cfg.h>") %>
+<%= raw("#include <#{@project.get_prefix}core_pinout.h>") %>
+<%= raw("#include <#{@project.get_prefix}DRE.h") %>
 
 // --- DRE data structure declaration ---
 t_dre<%= @project.get_prefix %> dre<%= @project.get_prefix %>;
