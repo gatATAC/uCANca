@@ -125,7 +125,7 @@ you can place common code in this file. -->
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
           <li><%= link_to "DRE IO functions", :action => :gen_code, :format => 'c' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-          <li><%= link_to "DRE header (CPP)", :action => :gen_code, :format => 'hpp' %></li>
+          <li><%= link_to "DRE header (HPP)", :action => :gen_code, :format => 'hpp' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.hpp" type="text/x-c" width="100%" height="auto" border="1px"/></div>
           <li><%= link_to "DRE IO functions (CPP)", :action => :gen_code, :format => 'cpp' %></li>
           <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.cpp" type="text/x-c" width="100%" height="auto" border="1px"/></div>
@@ -556,7 +556,7 @@ you can place common code in this file. -->
                 <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.h" type="text/x-c" width="100%" height="auto" border="1px"/></div>
                 <li><%= link_to "DRE I/O functions", :action => :gen_code, :format => 'c' %></li>
                 <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.c" type="text/x-c" width="100%" height="auto" border="1px"/></div>
-                <li><%= link_to "DRE Header (CPP)", :action => :gen_code, :format => 'hpp' %></li>
+                <li><%= link_to "DRE Header (HPP)", :action => :gen_code, :format => 'hpp' %></li>
                 <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.hpp" type="text/x-c" width="100%" height="auto" border="1px"/></div>
                 <li><%= link_to "DRE I/O functions (CPP)", :action => :gen_code, :format => 'cpp' %></li>
                 <%=  raw("<a onClick=\"toggle(this)\" class=\"folder\"><img src=\"/images/plus.gif\"/>") %><%= raw("</a>") %>Code<div style="display:none"><embed src="./#{this.id}/gen_code.cpp" type="text/x-c" width="100%" height="auto" border="1px"/></div>

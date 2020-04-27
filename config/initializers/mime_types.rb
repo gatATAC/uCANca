@@ -6,6 +6,8 @@
 Mime::Type.register "image/svg+xml", :svg
 Mime::Type.register "text/x-c", :c
 Mime::Type.register "text/x-c", :h
+Mime::Type.register "text/x-c", :cpp
+Mime::Type.register "text/x-c", :hpp
 Mime::Type.register "application/xml", :cdp
 Mime::Type.register "application/xml", :xcos
 Mime::Type.register "application/xml", :iox
