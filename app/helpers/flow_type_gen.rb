@@ -26,6 +26,23 @@ module FlowTypeGen
     return ret
   end
 
+  def to_cpp_type(f)
+    if (phantom_type) then
+      ret="// "+name+" -- Does not need declaration"
+    else
+      ret=""
+      if (!c_type || c_type.size<=0) then
+        ret+="t_"+name.downcase
+      else
+        ret=c_type
+      end
+      if (custom_type) then
+        ret="t_"+f.name.downcase
+      end
+    end
+    return ret
+  end
+
   def to_c_input_decl(f)
     ip=to_c_input(f)
     sp=ip.split("{")[0]
@@ -37,6 +54,17 @@ module FlowTypeGen
     ret
   end
   
+  def to_cpp_input_decl(f)
+    ip=to_cpp_input(f)
+    sp=ip.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=ip
+    end
+    ret
+  end
+
   def to_c_output_decl(f)
     op=to_c_output(f)
     sp=op.split("{")[0]
@@ -48,6 +76,16 @@ module FlowTypeGen
     ret
   end
 
+  def to_cpp_output_decl(f)
+    op=to_cpp_output(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
   def to_c_getter_decl(f)
     op=to_c_getter(f)
     sp=op.split("{")[0]
@@ -58,7 +96,16 @@ module FlowTypeGen
     end
     ret
   end
-
+  def to_cpp_getter_decl(f)
+    op=to_cpp_getter(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
   def to_c_setter_decl(f)
     op=to_c_setter(f)
     sp=op.split("{")[0]
@@ -69,9 +116,28 @@ module FlowTypeGen
     end
     ret
   end
-
+  def to_cpp_setter_decl(f)
+    op=to_cpp_setter(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
   def to_c_setup_input_decl(f)
     ip=to_c_setup_input(f)
+    sp=ip.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=ip
+    end
+    ret
+  end
+  def to_cpp_setup_input_decl(f)
+    ip=to_cpp_setup_input(f)
     sp=ip.split("{")[0]
     if (sp!=nil)
       ret=sp+";"
@@ -91,7 +157,16 @@ module FlowTypeGen
     end
     ret
   end
-
+  def to_cpp_setup_output_decl(f)
+    op=to_cpp_setup_output(f)
+    sp=op.split("{")[0]
+    if (sp!=nil)
+      ret=sp+";"
+    else
+      ret=op
+    end
+    ret
+  end
   def to_c_setup_input(f)
     if (enable_input) then
       if (c_setup_input_patron) then
@@ -111,7 +186,25 @@ module FlowTypeGen
       ret="// (setup input disabled for #{name} type)"
     end
   end  
-  
+  def to_cpp_setup_input(f)
+    if (enable_input) then
+      if (c_setup_input_patron) then
+        ret=c_setup_input_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (setup input not implemented for #{name} type)"
+      end
+    else
+      ret="// (setup input disabled for #{name} type)"
+    end
+  end  
   def to_c_input(f)
     if (enable_input) then
       if (c_input_patron) then
@@ -131,7 +224,25 @@ module FlowTypeGen
       ret="// (input disabled for #{name} type)"
     end
   end
-
+  def to_cpp_input(f)
+    if (enable_input) then
+      if (c_input_patron) then
+        ret=c_input_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (input not implemented for #{name} type)"
+      end
+    else
+      ret="// (input disabled for #{name} type)"
+    end
+  end
   def to_c_setter(f)
     if (enable_setter) then
       if (c_setter_patron) then
@@ -151,7 +262,25 @@ module FlowTypeGen
       ret="// (setter disabled for #{name} type)"
     end
   end
-  
+  def to_cpp_setter(f)
+    if (enable_setter) then
+      if (c_setter_patron) then
+        ret=c_setter_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (setter not implemented for #{name} type)"
+      end
+    else
+      ret="// (setter disabled for #{name} type)"
+    end
+  end
 
   def to_c_setup_output(f)
     if (enable_output) then
@@ -172,7 +301,25 @@ module FlowTypeGen
       ret="// (output disabled for #{name} type)"
     end
   end
-  
+  def to_cpp_setup_output(f)
+    if (enable_output) then
+      if (c_setup_output_patron) then
+        ret=c_setup_output_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (output not implemented for #{name} type)"
+      end
+    else
+      ret="// (output disabled for #{name} type)"
+    end
+  end
   def to_c_output(f)
     if (enable_output) then
       if (c_output_patron) then
@@ -192,7 +339,25 @@ module FlowTypeGen
       ret="// (output disabled for #{name} type)"
     end
   end
-  
+  def to_cpp_output(f)
+    if (enable_output) then
+      if (c_output_patron) then
+        ret=c_output_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (output not implemented for #{name} type)"
+      end
+    else
+      ret="// (output disabled for #{name} type)"
+    end
+  end
   def to_c_getter(f)
     if (enable_getter) then
       if (c_getter_patron) then
@@ -212,6 +377,24 @@ module FlowTypeGen
       ret="// (getter disabled for #{name} type)"
     end
   end
-
+  def to_cpp_getter(f)
+    if (enable_getter) then
+      if (c_getter_patron) then
+        ret=c_getter_patron.gsub("%FLOW%", f.c_name)
+        ret=ret.gsub("%CTYP%",to_cpp_type(f))
+        ret=ret.gsub("%PREFIX%",f.project.get_prefix)
+        if (arg_by_reference) then
+          ret=ret.gsub("%REF%","*")
+        else
+          ret=ret.gsub("%REF%","")
+        end
+        ret=ret.gsub("%TYP%",name)
+      else
+        ret="// (getter not implemented for #{name} type)"
+      end
+    else
+      ret="// (getter disabled for #{name} type)"
+    end
+  end
   
 end

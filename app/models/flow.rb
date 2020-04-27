@@ -67,7 +67,14 @@ class Flow < ActiveRecord::Base
       return "// (null) "+self.name+"\n"
     end
   end
-
+  def to_cpp_decl
+    if (self.current_pattern) then
+      ret=self.current_pattern.to_cpp_type(self).+" "+self.c_name+";\n"
+      return ret
+    else
+      return "// (null) "+self.name+"\n"
+    end
+  end
   def to_diag_c_decl
     ret=""
     if (self.current_pattern) then
@@ -81,7 +88,19 @@ class Flow < ActiveRecord::Base
       return "// (null) No diag variables for "+self.c_name+"\n"
     end
   end
-
+  def to_diag_cpp_decl
+    ret=""
+    if (self.current_pattern) then
+      if (!self.current_pattern.phantom_type) then
+        ret="BOOL enable_"+self.c_name+";\n"
+        ret+=self.current_pattern.to_cpp_type(self).+" "+self.c_name+";\n"
+      else
+             return "// (null) No diag variables for "+self.c_name+"\n"
+      end
+    else
+      return "// (null) No diag variables for "+self.c_name+"\n"
+    end
+  end
   def to_c_io_decl
     if (self.current_pattern) then
       ret="\n// "+self.c_name+" flow acquisition\n"
@@ -97,7 +116,21 @@ class Flow < ActiveRecord::Base
       ret+=" "+self.c_name+";\n"
     end
   end
-
+  def to_cpp_io_decl
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_cpp_input_decl(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_cpp_output_decl(self)
+      ret+="\n// "+self.c_name+" getter\n"
+      ret+=current_pattern.to_cpp_getter_decl(self)
+      ret+="\n// "+self.c_name+" setter\n"
+      ret+=current_pattern.to_cpp_setter_decl(self)
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+  end
   def to_c_io_setup_decl
     if (self.current_pattern) then
       ret="\n// "+self.c_name+" flow acquisition\n"
@@ -109,7 +142,17 @@ class Flow < ActiveRecord::Base
       ret+=" "+self.c_name+";\n"
     end
   end
-
+  def to_cpp_io_setup_decl
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_cpp_setup_input_decl(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_cpp_setup_output_decl(self)
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+  end
   def to_c_io_setup
     if (self.current_pattern) then
       ret="\n// "+self.c_name+" flow acquisition\n"
@@ -121,7 +164,19 @@ class Flow < ActiveRecord::Base
       ret+=" "+self.c_name+";\n"
     end
 
+  end  
+  def to_cpp_io_setup
+  if (self.current_pattern) then
+    ret="\n// "+self.c_name+" flow acquisition\n"
+    ret+=current_pattern.to_cpp_setup_input(self)
+    ret+="\n// "+self.c_name+" flow synthesis\n"
+    ret+=current_pattern.to_cpp_setup_output(self)
+  else
+    ret="// (null)"
+    ret+=" "+self.c_name+";\n"
   end
+
+end
   
   def to_c_io
     if (self.current_pattern) then
@@ -138,7 +193,21 @@ class Flow < ActiveRecord::Base
       ret+=" "+self.c_name+";\n"
     end
   end
-
+  def to_cpp_io
+    if (self.current_pattern) then
+      ret="\n// "+self.c_name+" flow acquisition\n"
+      ret+=current_pattern.to_cpp_input(self)
+      ret+="\n// "+self.c_name+" flow synthesis\n"
+      ret+=current_pattern.to_cpp_output(self)
+      ret+="\n// "+self.c_name+" getter\n"
+      ret+=current_pattern.to_cpp_getter(self)
+      ret+="\n// "+self.c_name+" setter\n"
+      ret+=current_pattern.to_cpp_setter(self)      
+    else
+      ret="// (null)"
+      ret+=" "+self.c_name+";\n"
+    end
+  end
   def to_c_preview
     ret="// Types declaration\n"
     ret+=to_c_decl
@@ -152,7 +221,19 @@ class Flow < ActiveRecord::Base
     ret+=to_c_io
     return ret
   end
-
+  def to_cpp_preview
+    ret="// Types declaration\n"
+    ret+=to_cpp_decl
+    ret+="...\n\n// Diags declaration\n"
+    ret+=to_diag_c_decl
+    ret+="...\n\n// IO Declaration"
+    ret+=to_cpp_io_decl
+    ret+="\n...\n\n// IO Setup"
+    ret+=to_cpp_io_setup
+    ret+="\n...\n\n// IO Functions"
+    ret+=to_cpp_io
+    return ret
+  end
   def self.import_attributes
     ret=Flow.accessible_attributes.clone
     ret.delete("project_id")

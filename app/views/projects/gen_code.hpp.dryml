@@ -15,22 +15,22 @@ end %>DRE_H
 
 typedef struct {
 <%  @project.flows.find(:all).each{ |f|
-#  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
-%><%= f.to_c_decl%><% } %>
+#  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
+%><%= f.to_cpp_decl%><% } %>
 } t_dre<%= @project.get_prefix %>;
 
 typedef struct {
 <%  @project.flows.find(:all).each{ |f|
-#  <!--%= render :partial => 'flows/to_c_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
+#  <!--%= render :partial => 'flows/to_cpp_decl', :collection => @project.flows, :spacer_template => 'flows/separator'  %-->
 %><%= f.to_diag_c_decl%><% } %>
 } t_diag<%= @project.get_prefix %>;
 
 // Initialization functions
 <%  @project.flows.find(:all).each{ |f| %>
-  <%= f.to_c_io_setup_decl%><% } %>
+  <%= f.to_cpp_io_setup_decl%><% } %>
 
 // Input / Output functions
 <%  @project.flows.find(:all).each{ |f| %>
-  <%= f.to_c_io_decl%><% } %>
+  <%= f.to_cpp_io_decl%><% } %>
 
 #endif /* _DRE_H */

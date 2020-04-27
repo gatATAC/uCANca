@@ -338,34 +338,5 @@ actions_lib=[]
             <%= raw("<property name=\"function_modifier\" type=\"int\">0</property>") %>
         <%= raw("</object>") %>
     <%= raw("</object>") %>
-    <%= raw("<object type=\"udCodePackageItem\">") %>
-        <%= raw("<property name=\"id\" type=\"long\">#{contador.to_s}</property>") %>
-<% contador=contador+1 %>
-        <%= raw("<property name=\"name\" type=\"string\">Generic variables</property>") %>
-                        <% 
-                        @project.flows.each{|f| 
-                        if (!f.flow_type.phantom_type) then
-                        %>
-        <%= raw("<object type=\"udGenericVariableItem\">") %>
-            <%= raw("<property name=\"id\" type=\"long\">#{(10000+f.id).to_s}</property>") %>
-            <%= raw("<property name=\"name\" type=\"string\">#{f.name}</property>") %>
-            <%= raw("<property name=\"description\" type=\"string\">#{f.name} description...</property>") %>
-            <%= raw("<property name=\"scope\" type=\"string\">&lt;global&gt;</property>") %>
-            <%= raw("<property name=\"signature\" type=\"string\">&lt;global&gt;::#{f.name}</property>") %>
-<%  if (f.puntero) then
-      valType="1"
-    else
-      valType="0"
-    end %>
-            <%= raw("<property name=\"value_type\" type=\"int\">#{valType}</property>") %>
-            <%= raw("<property name=\"data_type\" type=\"int\">0</property>") %>
-            <%= raw("<property name=\"data_modifier\" type=\"int\">7</property>") %>
-            <%= raw("<property name=\"user_decl_place\" type=\"int\">0</property>") %>
-            <%= raw("<property name=\"user_data_type\" type=\"string\">#{f.flow_type.to_c_type(f)}</property>") %>
-        <%= raw("</object>") %>
-                        <% 
-                        end
-                        } %>
-    <%= raw("</object>") %>
 <%= raw("</project>") %>
              
