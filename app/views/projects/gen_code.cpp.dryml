@@ -2,18 +2,11 @@
 <%= raw("#include <#{@project.get_prefix}core_pinout.h>") %>
 <%= raw("#include <#{@project.get_prefix}DRE.hpp>") %>
 
-// --- DRE data structure declaration ---
-t_dre<%= @project.get_prefix %> dre<%= @project.get_prefix %>;
-t_diag<%= @project.get_prefix %> diag<%= @project.get_prefix %>;
+namespace <%= @project.get_prefix %>core
+{
 
-// --- DRE flow initialization functions ---
-<%     @project.flows.find(:all).each{ |f| %>
-  <%=raw(f.to_cpp_io_setup) %>
-<%    }    %>
+<%= @project.get_prefix %>DRE::<%= @project.get_prefix %>DRE()
+{
+}
 
-
-// --- DRE flow acquisition and flow synthesis functions ---
-<%     @project.flows.find(:all).each{ |f| %>
-  <%=raw(f.to_cpp_io) %>
-<%    }    %>
-
+}; // namespace <%= @project.get_prefix %>core 
