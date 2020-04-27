@@ -7,7 +7,6 @@ t_dre<%= @project.get_prefix %> dre<%= @project.get_prefix %>;
 t_diag<%= @project.get_prefix %> diag<%= @project.get_prefix %>;
 
 // --- DRE flow initialization functions ---
-
 <%     @project.flows.find(:all).each{ |f| %>
   <%=raw(f.to_cpp_io_setup) %>
 <%    }    %>

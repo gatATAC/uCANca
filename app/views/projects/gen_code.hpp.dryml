@@ -25,13 +25,16 @@ class <%= @project.get_prefix %>DRE
          */
         <%= @project.get_prefix %>DRE();
 
-        // Initialization functions
-        <%  @project.flows.find(:all).each{ |f| %>
-          <%= f.to_cpp_io_setup_decl%><% } %>
+        // --- DRE flow initialization functions ---
+        <%     @project.flows.find(:all).each{ |f| %>
+          <%=raw(f.to_cpp_io_setup) %>
+        <%    }    %>
 
-        // Input / Output functions
-        <%  @project.flows.find(:all).each{ |f| %>
-          <%= f.to_cpp_io_decl%><% } %>
+
+        // --- DRE flow acquisition and flow synthesis functions ---
+        <%     @project.flows.find(:all).each{ |f| %>
+          <%=raw(f.to_cpp_io) %>
+        <%    }    %>
 
     private:
 <%  @project.flows.find(:all).each{ |f|
