@@ -62,7 +62,7 @@ GEM
     erubis (2.7.0)
     eventmachine (1.2.5)
     execjs (2.7.0)
-    ffi (1.9.23)
+    ffi (1.12.2)
     hike (1.2.3)
     hobo (2.0.1)
       dryml (= 2.0.1)
