@@ -113,14 +113,16 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.5.1)
     multi_json (1.13.1)
     multi_xml (0.6.0)
-    nokogiri (1.6.8.1)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.11.4)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     polyglot (0.3.5)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
+    racc (1.5.2)
     rack (1.4.7)
     rack-cache (1.7.1)
       rack (>= 0.4)
@@ -208,7 +210,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-themes (~> 0.0.4)
   less-rails-bootstrap
-  nokogiri (< 1.7)
+  nokogiri (< 1.12)
   quiet_assets
   rails (= 3.2.15)
   roo
